@@ -18,10 +18,14 @@ sort, and ``transaction_id`` is monotonic within a timestamp), a transaction can
 see same-day transactions with a *smaller* id but never a larger / later one.
 That is the "``<= T``, id-order tie-break" rule decided on 2026-06-29.
 
-This first increment ships the **cycle** and **fan-in** detectors plus structural
-degrees — the shapes that match IBM AML's labelled frauds (936 cycles, 783
-fan-ins), so the output can be validated against ground truth. Density / rapid
-chain / lapping / real centrality follow in the next increment.
+Ships the **cycle** and **fan-in** detectors plus structural degrees — the shapes
+that match IBM AML's labelled frauds (936 cycles, 783 fan-ins), so the output can
+be validated against ground truth. The cycle detector is *discriminative*, not just
+membership: besides ``in_cycle`` / ``cycle_length`` it reports **amount-conservation**
+(``cycle_amount_ratio``) and **tightness** (``cycle_time_span``) around the closed
+loop, which separate benign reciprocal pairs (a sale + a small refund) from
+laundering / wash trades (the same amount returning fast). Rapid chain / lapping /
+real centrality follow in the next increment.
 
 Output: ``data/processed/<dataset>/features_topology.csv`` — keyed by
 ``transaction_id``, topology columns only, kept separable from ordinary features
@@ -43,12 +47,15 @@ log = logging.getLogger(__name__)
 
 # Topology feature columns this increment produces (besides transaction_id).
 FEATURE_COLS = (
-    "in_cycle",        # 1 if this transaction closes a directed cycle within the window
-    "cycle_length",    # length (edges) of the shortest such cycle, else 0
-    "fan_in",          # distinct accounts that sent to the dest in the window (past only)
-    "fan_out",         # distinct accounts the source sent to in the window (past only)
-    "dest_in_degree",  # total in-edges to the dest in the window (with multiplicity)
-    "src_out_degree",  # total out-edges from the source in the window (with multiplicity)
+    "in_cycle",            # 1 if this transaction closes a directed cycle within the window
+    "cycle_length",        # length (edges) of the shortest such cycle, else 0
+    "in_cycle_ge3",        # 1 if that shortest cycle has length >= 3 (excludes self-loops + reciprocal pairs)
+    "cycle_amount_ratio",  # min/max amount around the loop (~1 => conserved => laundering); NaN if no cycle
+    "cycle_time_span",     # closing ts - earliest loop edge ts (small => tight => suspicious); NaN if no cycle
+    "fan_in",              # distinct accounts that sent to the dest in the window (past only)
+    "fan_out",             # distinct accounts the source sent to in the window (past only)
+    "dest_in_degree",      # total in-edges to the dest in the window (with multiplicity)
+    "src_out_degree",      # total out-edges from the source in the window (with multiplicity)
 )
 
 # Defaults, overridable per dataset via a `topology:` block in datasets.yaml.
@@ -101,6 +108,7 @@ def extract_features(
     src = cat[:n].tolist()
     dst = cat[n:].tolist()
     ts = edges["timestamp"].to_numpy().tolist()
+    amt = edges["amount"].to_numpy(dtype=float).tolist()
     if partition_col and partition_col in edges.columns:
         part = edges[partition_col].to_numpy()
     else:
@@ -108,6 +116,9 @@ def extract_features(
 
     in_cycle = np.zeros(n, dtype=np.int8)
     cycle_length = np.zeros(n, dtype=np.int16)
+    in_cycle_ge3 = np.zeros(n, dtype=np.int8)
+    cycle_amount_ratio = np.full(n, np.nan, dtype=np.float32)  # NaN where no cycle closes
+    cycle_time_span = np.full(n, np.nan, dtype=np.float32)     # NaN where no cycle closes
     fan_in = np.zeros(n, dtype=np.int32)
     fan_out = np.zeros(n, dtype=np.int32)
     dest_in_degree = np.zeros(n, dtype=np.int32)
@@ -122,6 +133,7 @@ def extract_features(
         t = ts[i]
         u = src[i]
         v = dst[i]
+        a = amt[i]
         g.evict(t)
 
         # --- read features from the PAST-ONLY state (before inserting this edge) ---
@@ -129,22 +141,44 @@ def extract_features(
         fan_out[i] = g.fan_out(u)
         dest_in_degree[i] = g.in_degree(v)
         src_out_degree[i] = g.out_degree(u)
-        cl = g.shortest_cycle_len(v, u, max_cycle_len, search_budget)
-        if cl:
+        if u == v:
+            # self-payment: a degenerate length-1 loop. No multi-edge conservation
+            # to measure, and not a "real" (>=3) loop -> leave ratio/span/ge3 alone.
             in_cycle[i] = 1
-            cycle_length[i] = cl
+            cycle_length[i] = 1
+        else:
+            res = g.cycle_features(v, u, max_cycle_len, search_budget)
+            if res is not None:
+                length, p_min_amt, p_max_amt, p_min_ts = res
+                in_cycle[i] = 1
+                cycle_length[i] = length
+                if length >= 3:
+                    in_cycle_ge3[i] = 1
+                lo = a if a < p_min_amt else p_min_amt    # fold in the closing edge
+                hi = a if a > p_max_amt else p_max_amt
+                if hi > 0:
+                    cycle_amount_ratio[i] = lo / hi
+                cycle_time_span[i] = t - p_min_ts          # closing ts is the newest
 
-        g.add(t, u, v)  # the transaction joins the graph only now
+        g.add(t, u, v, a)  # the transaction joins the graph only now
 
     return pd.DataFrame({
         "transaction_id": edges["transaction_id"].to_numpy(),
         "in_cycle": in_cycle,
         "cycle_length": cycle_length,
+        "in_cycle_ge3": in_cycle_ge3,
+        "cycle_amount_ratio": cycle_amount_ratio,
+        "cycle_time_span": cycle_time_span,
         "fan_in": fan_in,
         "fan_out": fan_out,
         "dest_in_degree": dest_in_degree,
         "src_out_degree": src_out_degree,
     })
+
+
+def _round_or_none(x, ndigits: int = 4):
+    """Round for the audit JSON, mapping NaN (e.g. a dataset with no cycles) to None."""
+    return None if x is None or pd.isna(x) else round(float(x), ndigits)
 
 
 def _validate_against_truth(edges: pd.DataFrame, feats: pd.DataFrame) -> dict | None:
@@ -156,21 +190,46 @@ def _validate_against_truth(edges: pd.DataFrame, feats: pd.DataFrame) -> dict | 
     """
     if "alert_type" not in edges.columns:
         return None
+    cols = ["transaction_id", "in_cycle", "in_cycle_ge3",
+            "cycle_amount_ratio", "cycle_time_span"]
     df = edges[["transaction_id", "label", "alert_type"]].merge(
-        feats[["transaction_id", "in_cycle"]], on="transaction_id", how="left"
+        feats[cols], on="transaction_id", how="left"
     )
     is_cycle_fraud = df["alert_type"].astype(str).str.lower().eq("cycle")
     n_cycle_fraud = int(is_cycle_fraud.sum())
     if n_cycle_fraud == 0:
         return None
+    is_bg = ~df["label"].astype(bool)
 
-    bg_rate = float(df.loc[~df["label"].astype(bool), "in_cycle"].mean())
+    bg_rate = float(df.loc[is_bg, "in_cycle"].mean())
     cyc_rate = float(df.loc[is_cycle_fraud, "in_cycle"].mean())
     out = {
         "n_cycle_fraud_txns": n_cycle_fraud,
         "in_cycle_rate_background": round(bg_rate, 6),
         "in_cycle_rate_cycle_fraud": round(cyc_rate, 6),
         "cycle_enrichment_lift": round(cyc_rate / bg_rate, 2) if bg_rate else None,
+    }
+
+    # Do the DISCRIMINATIVE cycle features separate cycle-fraud from *benign* cycles?
+    # Compare only among rows that actually closed a cycle (in_cycle == 1) — this is
+    # the question raw membership couldn't answer (background in_cycle rate is high).
+    icy = df["in_cycle"] == 1
+    bg_cyc = icy & is_bg
+    fr_cyc = icy & is_cycle_fraud
+
+    def _mean(mask, col):
+        s = df.loc[mask, col]
+        return round(float(s.mean()), 4) if len(s) and s.notna().any() else None
+
+    out["among_cycles"] = {
+        "n_background_cycles": int(bg_cyc.sum()),
+        "n_cycle_fraud_cycles": int(fr_cyc.sum()),
+        "amount_ratio_background": _mean(bg_cyc, "cycle_amount_ratio"),
+        "amount_ratio_cycle_fraud": _mean(fr_cyc, "cycle_amount_ratio"),
+        "time_span_background": _mean(bg_cyc, "cycle_time_span"),
+        "time_span_cycle_fraud": _mean(fr_cyc, "cycle_time_span"),
+        "ge3_rate_background": _mean(bg_cyc, "in_cycle_ge3"),
+        "ge3_rate_cycle_fraud": _mean(fr_cyc, "in_cycle_ge3"),
     }
     # Recall over *distinct* cycle alerts: did we flag >=1 closer per alert group?
     if "alert_id" in edges.columns:
@@ -211,8 +270,11 @@ def build_topology(name: str, config_path: str | None = None) -> dict:
         "params": params,
         "n_transactions": int(len(feats)),
         "n_in_cycle": int(feats["in_cycle"].sum()),
+        "n_in_cycle_ge3": int(feats["in_cycle_ge3"].sum()),
         "cycle_length_counts": feats.loc[feats["in_cycle"] == 1, "cycle_length"]
             .value_counts().sort_index().to_dict(),
+        "cycle_amount_ratio_p50": _round_or_none(feats["cycle_amount_ratio"].median()),
+        "cycle_amount_ratio_p90": _round_or_none(feats["cycle_amount_ratio"].quantile(0.90)),
         "fan_in_max": int(feats["fan_in"].max()),
         "fan_in_p99": float(np.percentile(feats["fan_in"], 99)),
         "validation": _validate_against_truth(edges, feats),

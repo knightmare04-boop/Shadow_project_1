@@ -14,8 +14,11 @@ later. The window only ever evicts edges that are too *old*; it never holds a
 future edge. See ``engine.extract_features``.
 
 All node ids are integers (the engine factorizes account strings up front for
-speed). Amounts are deliberately not tracked here yet — the first feature set is
-purely structural; amount-aware cycle features arrive with the later detectors.
+speed). Each directed pair also remembers the ``(amount, timestamp)`` of its
+**most recent** in-window edge (``self.last``), so the cycle search can report
+amount-conservation and tightness around a closed loop. Tracking only the most
+recent edge is correct under FIFO eviction: edges are evicted oldest-first, so the
+remembered "last" edge is always still in the window until the pair empties.
 """
 from __future__ import annotations
 
@@ -33,7 +36,7 @@ class WindowGraph:
         (keep every edge seen so far in the current partition).
     """
 
-    __slots__ = ("window", "_edges", "out", "in_", "indeg", "outdeg")
+    __slots__ = ("window", "_edges", "out", "in_", "indeg", "outdeg", "last")
 
     def __init__(self, window: int | float | None):
         self.window = window
@@ -42,6 +45,8 @@ class WindowGraph:
         self.in_: dict[int, dict[int, int]] = defaultdict(dict)  # in_[v][u] = multiplicity
         self.indeg: dict[int, int] = defaultdict(int)            # total in-edges  (multiplicity)
         self.outdeg: dict[int, int] = defaultdict(int)           # total out-edges (multiplicity)
+        # most-recent (amount, ts) per directed pair; lives exactly as long as out[u][v]
+        self.last: dict[int, dict[int, tuple[float, int | float]]] = defaultdict(dict)
 
     # ---- mutation -----------------------------------------------------------
     def evict(self, now: int | float) -> None:
@@ -50,15 +55,36 @@ class WindowGraph:
             return
         cutoff = now - self.window
         edges = self._edges
+        out = self.out
+        last = self.last
         while edges and edges[0][0] < cutoff:
             ts, u, v = edges.popleft()
-            self._dec(self.out, u, v)
+            # out side: decrement multiplicity; when the pair empties, drop its
+            # remembered last-edge attrs too (kept in lock-step with out[u][v]).
+            ou = out[u]
+            c = ou[v] - 1
+            if c <= 0:
+                del ou[v]
+                if not ou:
+                    del out[u]
+                lu = last.get(u)
+                if lu is not None:
+                    lu.pop(v, None)
+                    if not lu:
+                        del last[u]
+            else:
+                ou[v] = c
             self._dec(self.in_, v, u)
             self.outdeg[u] -= 1
             self.indeg[v] -= 1
 
-    def add(self, ts: int | float, u: int, v: int) -> None:
-        """Insert edge ``u -> v`` stamped ``ts`` (call AFTER reading its features)."""
+    def add(self, ts: int | float, u: int, v: int, amount: float = 0.0) -> None:
+        """Insert edge ``u -> v`` stamped ``ts`` (call AFTER reading its features).
+
+        ``amount`` is remembered as this pair's most-recent edge attributes (used by
+        ``cycle_features`` for amount-conservation / tightness). Adds arrive in
+        non-decreasing ``ts`` order, so the latest write is genuinely the newest edge.
+        """
         self._edges.append((ts, u, v))
         ou = self.out[u]
         ou[v] = ou.get(v, 0) + 1
@@ -66,6 +92,7 @@ class WindowGraph:
         iv[u] = iv.get(u, 0) + 1
         self.outdeg[u] += 1
         self.indeg[v] += 1
+        self.last[u][v] = (amount, ts)
 
     @staticmethod
     def _dec(side: dict[int, dict[int, int]], a: int, b: int) -> None:
@@ -98,30 +125,38 @@ class WindowGraph:
         return self.outdeg.get(u, 0)
 
     # ---- bounded cycle search ----------------------------------------------
-    def shortest_cycle_len(self, v: int, u: int, max_len: int, budget: int) -> int:
-        """Length of the shortest cycle that adding ``u -> v`` would close, or 0.
+    def cycle_features(self, v: int, u: int, max_len: int, budget: int):
+        """Shortest cycle that adding ``u -> v`` would close, with loop attributes.
 
-        Searches for a directed path ``v ⇝ u`` already present in the window using
-        breadth-first search, so the first time ``u`` is reached gives the shortest
-        such path. The closed cycle is ``u -> v ⇝ u``; its length in edges is
-        ``(edges on v ⇝ u) + 1``.
+        Breadth-first search for a directed path ``v ⇝ u`` already present in the
+        window, so the first time ``u`` is reached gives the *shortest* such path.
+        The closed cycle is ``u -> v ⇝ u``. On success the path is reconstructed and
 
-        Bounds keep the per-transaction cost flat on dense/hub-heavy graphs:
+            (length, path_min_amt, path_max_amt, path_min_ts)
+
+        is returned, where ``length`` counts ALL cycle edges (path edges + the
+        closing ``u -> v``) and the ``path_*`` aggregates range over the path edges'
+        most-recent ``(amount, ts)`` attributes. The caller folds in the closing
+        edge's own amount/ts to finish the conservation / tightness features.
+
+        Returns ``None`` if no cycle exists within ``max_len`` / ``budget``. Bounds
+        keep per-transaction cost flat on dense/hub-heavy graphs:
             * ``max_len``  — only cycles up to this many edges are detectable;
-            * ``budget``   — abandon the search after visiting this many nodes
-                             (returns 0; a conservative miss, never a false cycle).
+            * ``budget``   — abandon after visiting this many nodes (conservative
+                             miss: returns ``None``, never a false cycle).
+
+        Precondition: ``v != u`` (self-loops are handled by the engine directly).
         """
-        if v == u:
-            return 1  # self-loop: u -> v(==u) is a length-1 cycle
         out = self.out
         if v not in out:
-            return 0  # v has no outgoing edges -> cannot reach u
-        dist = {v: 0}
+            return None  # v has no outgoing edges -> cannot reach u
+        pred = {v: -1}             # node -> BFS predecessor; -1 marks the root v
         frontier = [v]
         visited = 1
         depth = 0
-        max_path = max_len - 1  # edges allowed on the v ⇝ u path
-        while frontier and depth < max_path:
+        max_path = max_len - 1     # edges allowed on the v ⇝ u path
+        closer = None              # node x whose edge x -> u closes the loop
+        while frontier and depth < max_path and closer is None:
             depth += 1
             nxt: list[int] = []
             for x in frontier:
@@ -130,12 +165,38 @@ class WindowGraph:
                     continue
                 for w in neigh:
                     if w == u:
-                        return depth + 1  # closed cycle: depth edges (v⇝u) + 1 (u->v)
-                    if w not in dist:
-                        dist[w] = depth
+                        closer = x
+                        break
+                    if w not in pred:
+                        pred[w] = x
                         visited += 1
                         if visited > budget:
-                            return 0
+                            return None
                         nxt.append(w)
+                if closer is not None:
+                    break
             frontier = nxt
-        return 0
+        if closer is None:
+            return None
+
+        # Walk the path backwards (closer -> u, then pred links to v), aggregating
+        # the most-recent (amount, ts) of each hop from self.last.
+        last = self.last
+        node = closer
+        succ = u                   # current hop is (node -> succ)
+        p_min_amt = float("inf")
+        p_max_amt = float("-inf")
+        p_min_ts: float = float("inf")
+        hops = 0
+        while node != -1:
+            amt, ts = last[node][succ]
+            if amt < p_min_amt:
+                p_min_amt = amt
+            if amt > p_max_amt:
+                p_max_amt = amt
+            if ts < p_min_ts:
+                p_min_ts = ts
+            hops += 1
+            succ = node
+            node = pred[node]
+        return hops + 1, p_min_amt, p_max_amt, p_min_ts

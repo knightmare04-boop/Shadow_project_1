@@ -51,11 +51,13 @@ def check_no_leakage(edges: pd.DataFrame, params: dict, cut_frac: float = 0.5) -
     n = len(edges)
     k = max(1, int(n * cut_frac))
 
-    full = _features(edges, params)[list(FEATURE_COLS)].to_numpy()
+    # Cast to float so NaN-valued cycle features (cycle_amount_ratio / time_span,
+    # NaN where no cycle closes) compare correctly via equal_nan=True.
+    full = _features(edges, params)[list(FEATURE_COLS)].to_numpy(dtype=float)
 
     # (1) truncation invariance ------------------------------------------------
-    trunc = _features(edges.iloc[:k].copy(), params)[list(FEATURE_COLS)].to_numpy()
-    trunc_ok = bool(np.array_equal(full[:k], trunc))
+    trunc = _features(edges.iloc[:k].copy(), params)[list(FEATURE_COLS)].to_numpy(dtype=float)
+    trunc_ok = bool(np.array_equal(full[:k], trunc, equal_nan=True))
 
     # (2) future-corruption invariance ----------------------------------------
     corrupted = edges.copy()
@@ -69,8 +71,8 @@ def check_no_leakage(edges: pd.DataFrame, params: dict, cut_frac: float = 0.5) -
         rng.permutation(corrupted.loc[corrupted.index[fut], "dest_account"].to_numpy())
     )
     corrupted.loc[corrupted.index[fut], "amount"] = -123456789.0
-    corr = _features(corrupted, params)[list(FEATURE_COLS)].to_numpy()
-    corrupt_ok = bool(np.array_equal(full[:k], corr[:k]))
+    corr = _features(corrupted, params)[list(FEATURE_COLS)].to_numpy(dtype=float)
+    corrupt_ok = bool(np.array_equal(full[:k], corr[:k], equal_nan=True))
 
     report = {
         "n_rows": n,
@@ -80,8 +82,10 @@ def check_no_leakage(edges: pd.DataFrame, params: dict, cut_frac: float = 0.5) -
         "passed": trunc_ok and corrupt_ok,
     }
     if not trunc_ok:
-        # Surface the first offending row to make debugging concrete.
-        diff = np.where(~(full[:k] == trunc).all(axis=1))[0]
+        # Surface the first offending row to make debugging concrete (NaN-aware:
+        # two NaNs count as equal, matching equal_nan=True above).
+        eq = (full[:k] == trunc) | (np.isnan(full[:k]) & np.isnan(trunc))
+        diff = np.where(~eq.all(axis=1))[0]
         report["first_truncation_mismatch_row"] = int(diff[0]) if diff.size else None
     return report
 
