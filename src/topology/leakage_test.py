@@ -40,6 +40,8 @@ def _features(edges: pd.DataFrame, params: dict) -> pd.DataFrame:
         window=params["window"],
         max_cycle_len=params["max_cycle_len"],
         search_budget=params["search_budget"],
+        lap_memory=params["lap_memory"],
+        lap_tol=params["lap_tol"],
         partition_col=params["partition_col"],
     )
 

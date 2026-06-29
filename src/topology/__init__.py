@@ -26,11 +26,13 @@ from topology.engine import (
     extract_features,
     resolve_params,
 )
+from topology.lap_memory import LapMemory
 from topology.leakage_test import check_no_leakage, run_leakage_test
 from topology.window_graph import WindowGraph
 
 __all__ = [
     "FEATURE_COLS",
+    "LapMemory",
     "WindowGraph",
     "build_topology",
     "check_no_leakage",

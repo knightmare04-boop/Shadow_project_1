@@ -24,8 +24,14 @@ be validated against ground truth. The cycle detector is *discriminative*, not j
 membership: besides ``in_cycle`` / ``cycle_length`` it reports **amount-conservation**
 (``cycle_amount_ratio``) and **tightness** (``cycle_time_span``) around the closed
 loop, which separate benign reciprocal pairs (a sale + a small refund) from
-laundering / wash trades (the same amount returning fast). Rapid chain / lapping /
-real centrality follow in the next increment.
+laundering / wash trades (the same amount returning fast).
+
+Also ships a **lapping** detector (``lap_*``): per-account rolling memory of recent
+near-equal amounts and how many *distinct* counterparties they came from — a
+"robbing Peter to pay Paul" signature. Unlike the cycle / fan-in detectors it does
+NOT use the graph window; it uses cheap count-based per-account memory (see
+``lap_memory.LapMemory`` and PROJECT_OVERVIEW A.8 rule 1). Rapid chain / real
+centrality follow in the next increment.
 
 Output: ``data/processed/<dataset>/features_topology.csv`` — keyed by
 ``transaction_id``, topology columns only, kept separable from ordinary features
@@ -41,6 +47,7 @@ import numpy as np
 import pandas as pd
 
 from common.config import get_dataset
+from topology.lap_memory import LapMemory
 from topology.window_graph import WindowGraph
 
 log = logging.getLogger(__name__)
@@ -56,11 +63,30 @@ FEATURE_COLS = (
     "fan_out",             # distinct accounts the source sent to in the window (past only)
     "dest_in_degree",      # total in-edges to the dest in the window (with multiplicity)
     "src_out_degree",      # total out-edges from the source in the window (with multiplicity)
+    # --- lapping (per-account rolling memory; NOT the graph window — A.8 rule 1) ---
+    "lap_in_recur",        # # of dest's recent INCOMING amounts within tol of this amount (past only)
+    "lap_in_payers",       # distinct senders among those near-equal incoming amounts (lapping vs recurring-billing)
+    "lap_out_recur",       # # of source's recent OUTGOING amounts within tol of this amount (past only)
+    "lap_out_payees",      # distinct recipients among those near-equal outgoing amounts
 )
+
+# Which topology features are AMOUNT-derived (computed from transaction amounts) vs
+# pure graph STRUCTURE. This split matters for the ablation: the "amount-blind" probe
+# must EXCLUDE amount-derived features, otherwise it silently re-introduces the amount
+# signal it means to remove — exactly what made lapping look like a topology win when
+# it is really an amount feature (see PROJECT_OVERVIEW A.4d). cycle_time_span is *time*-
+# derived, so it counts as structure, not amount.
+AMOUNT_DERIVED_COLS = (
+    "cycle_amount_ratio",
+    "lap_in_recur", "lap_in_payers", "lap_out_recur", "lap_out_payees",
+)
+STRUCTURE_COLS = tuple(c for c in FEATURE_COLS if c not in AMOUNT_DERIVED_COLS)
 
 # Defaults, overridable per dataset via a `topology:` block in datasets.yaml.
 _DEFAULT_MAX_CYCLE_LEN = 6
 _DEFAULT_SEARCH_BUDGET = 4000
+_DEFAULT_LAP_MEMORY = 25      # per-account rolling history length for the lapping detector
+_DEFAULT_LAP_TOL = 0.01       # relative tolerance for "near-equal" amounts (1%)
 # Default trailing window by time unit (native units). None => unbounded.
 _DEFAULT_WINDOW_BY_UNIT = {
     "day": 7,        # IBM AML / BankSim: a week of trailing history
@@ -78,6 +104,8 @@ def resolve_params(ds: dict) -> dict:
         "window": window,
         "max_cycle_len": int(topo.get("max_cycle_len", _DEFAULT_MAX_CYCLE_LEN)),
         "search_budget": int(topo.get("search_budget", _DEFAULT_SEARCH_BUDGET)),
+        "lap_memory": int(topo.get("lap_memory", _DEFAULT_LAP_MEMORY)),
+        "lap_tol": float(topo.get("lap_tol", _DEFAULT_LAP_TOL)),
         "partition_col": ds.get("partition_col"),  # e.g. "run_id" for sap_wurzburg
     }
 
@@ -88,6 +116,8 @@ def extract_features(
     window: int | float | None,
     max_cycle_len: int = _DEFAULT_MAX_CYCLE_LEN,
     search_budget: int = _DEFAULT_SEARCH_BUDGET,
+    lap_memory: int = _DEFAULT_LAP_MEMORY,
+    lap_tol: float = _DEFAULT_LAP_TOL,
     partition_col: str | None = None,
 ) -> pd.DataFrame:
     """Compute as-of topology features for an already time-sorted edge table.
@@ -123,12 +153,20 @@ def extract_features(
     fan_out = np.zeros(n, dtype=np.int32)
     dest_in_degree = np.zeros(n, dtype=np.int32)
     src_out_degree = np.zeros(n, dtype=np.int32)
+    lap_in_recur = np.zeros(n, dtype=np.int32)
+    lap_in_payers = np.zeros(n, dtype=np.int32)
+    lap_out_recur = np.zeros(n, dtype=np.int32)
+    lap_out_payees = np.zeros(n, dtype=np.int32)
 
     g = WindowGraph(window)
+    in_lap = LapMemory(lap_memory, lap_tol)   # dest's recent INCOMING amounts (per account)
+    out_lap = LapMemory(lap_memory, lap_tol)  # source's recent OUTGOING amounts (per account)
     cur_part = None
     for i in range(n):
         if part is not None and part[i] != cur_part:
             g = WindowGraph(window)          # new partition -> fresh graph (no cross-run leak)
+            in_lap = LapMemory(lap_memory, lap_tol)   # reset per-account memory too (no cross-run leak)
+            out_lap = LapMemory(lap_memory, lap_tol)
             cur_part = part[i]
         t = ts[i]
         u = src[i]
@@ -160,7 +198,13 @@ def extract_features(
                     cycle_amount_ratio[i] = lo / hi
                 cycle_time_span[i] = t - p_min_ts          # closing ts is the newest
 
-        g.add(t, u, v, a)  # the transaction joins the graph only now
+        # --- lapping: recurrence of near-equal amounts in each account's memory ---
+        lap_in_recur[i], lap_in_payers[i] = in_lap.recurrence(v, a)
+        lap_out_recur[i], lap_out_payees[i] = out_lap.recurrence(u, a)
+
+        g.add(t, u, v, a)            # the transaction joins the graph only now
+        in_lap.record(v, a, u)      # ...and its memory (recorded AFTER reading: past-only)
+        out_lap.record(u, a, v)
 
     return pd.DataFrame({
         "transaction_id": edges["transaction_id"].to_numpy(),
@@ -173,12 +217,40 @@ def extract_features(
         "fan_out": fan_out,
         "dest_in_degree": dest_in_degree,
         "src_out_degree": src_out_degree,
+        "lap_in_recur": lap_in_recur,
+        "lap_in_payers": lap_in_payers,
+        "lap_out_recur": lap_out_recur,
+        "lap_out_payees": lap_out_payees,
     })
 
 
 def _round_or_none(x, ndigits: int = 4):
     """Round for the audit JSON, mapping NaN (e.g. a dataset with no cycles) to None."""
     return None if x is None or pd.isna(x) else round(float(x), ndigits)
+
+
+_LAP_COLS = ("lap_in_recur", "lap_in_payers", "lap_out_recur", "lap_out_payees")
+
+
+def _lapping_separation(edges: pd.DataFrame, feats: pd.DataFrame) -> dict | None:
+    """Quick read on the lapping features: mean per fraud vs background. There is no
+    'lapping' ground-truth typology in our datasets, so this is just a directional
+    fraud-vs-benign separation — the ablation is the real test of value."""
+    if "label" not in edges.columns:
+        return None
+    lab = edges[["transaction_id", "label"]].merge(
+        feats[["transaction_id", *_LAP_COLS]], on="transaction_id", how="left"
+    )
+    is_fraud = lab["label"].astype(bool)
+    if not is_fraud.any():
+        return None
+    out = {}
+    for c in _LAP_COLS:
+        out[c] = {
+            "fraud_mean": _round_or_none(lab.loc[is_fraud, c].mean()),
+            "background_mean": _round_or_none(lab.loc[~is_fraud, c].mean()),
+        }
+    return out
 
 
 def _validate_against_truth(edges: pd.DataFrame, feats: pd.DataFrame) -> dict | None:
@@ -261,6 +333,8 @@ def build_topology(name: str, config_path: str | None = None) -> dict:
         window=params["window"],
         max_cycle_len=params["max_cycle_len"],
         search_budget=params["search_budget"],
+        lap_memory=params["lap_memory"],
+        lap_tol=params["lap_tol"],
         partition_col=params["partition_col"],
     )
     feats.to_csv(out_dir / "features_topology.csv", index=False)
@@ -277,6 +351,8 @@ def build_topology(name: str, config_path: str | None = None) -> dict:
         "cycle_amount_ratio_p90": _round_or_none(feats["cycle_amount_ratio"].quantile(0.90)),
         "fan_in_max": int(feats["fan_in"].max()),
         "fan_in_p99": float(np.percentile(feats["fan_in"], 99)),
+        "lap_in_payers_max": int(feats["lap_in_payers"].max()),
+        "lapping_separation": _lapping_separation(edges, feats),
         "validation": _validate_against_truth(edges, feats),
     }
     with open(out_dir / "topology_audit.json", "w", encoding="utf-8") as f:

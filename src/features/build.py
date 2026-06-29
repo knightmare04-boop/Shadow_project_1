@@ -136,8 +136,13 @@ def build_features(name: str, config_path: str | None = None) -> dict:
 
     ordinary_cols = [c for c in feats.columns if c not in _NEVER_FEATURE]
 
-    # --- topology: join the 6 leakage-free columns ---------------------------
+    # --- topology: join the leakage-free columns (count varies as detectors grow) ---
+    from topology.engine import AMOUNT_DERIVED_COLS
     topo_cols = [c for c in topo.columns if c != "transaction_id"]
+    # split structure (pure graph shape) from amount-derived topology, so the ablation
+    # can run a clean "structure-only" amount-blind probe (see PROJECT_OVERVIEW A.4d).
+    topo_amount_cols = [c for c in topo_cols if c in AMOUNT_DERIVED_COLS]
+    topo_structure_cols = [c for c in topo_cols if c not in AMOUNT_DERIVED_COLS]
     feats = feats.merge(topo, on="transaction_id", how="left")
 
     # --- write ----------------------------------------------------------------
@@ -156,6 +161,8 @@ def build_features(name: str, config_path: str | None = None) -> dict:
         "label": "label",
         "ordinary_cols": ordinary_cols,
         "topology_cols": topo_cols,
+        "topology_structure_cols": topo_structure_cols,  # pure graph shape (no amounts)
+        "topology_amount_cols": topo_amount_cols,         # amount-derived topology (cycle ratio, lapping)
         "output": out_path.name,
     }
     with open(proc / "features_manifest.json", "w", encoding="utf-8") as f:
