@@ -1,0 +1,131 @@
+# =============================================================================
+# synthetic.yaml — ALL parameters of the synthetic ERP economy generator.
+# -----------------------------------------------------------------------------
+# Reproducibility contract: (this file, seed, generator code version) fully
+# determines the dataset, byte-for-byte. The generation manifest embeds a copy
+# of this config plus SHA-256 hashes of the outputs.
+#
+# Calibration: parameter choices are anchored to measured statistics of the
+# four REAL datasets (results/synth_erp/calibration_reference.json, produced by
+# `python -m synth.calibrate`). See docs/SYNTHETIC_DATASET.md for the mapping.
+#
+# THE BINDING DESIGN RULE (circularity trap, PROJECT_OVERVIEW §14.12): fraud is
+# defined here ONLY as behavior parameters (who, how often, how much, how
+# evasive) — never as a target graph shape. Nothing in this file or in
+# src/synth/ references the topology detectors.
+# =============================================================================
+
+version: v1
+seed: 20260713
+days: 365                      # simulated calendar length (day 0 = a Monday)
+out_subdir: synthetic_erp_v1   # written under raw_root (external to the repo)
+
+world:
+  n_companies: 40
+  treasury_frac: 0.35          # share of companies with a separate treasury account
+  retail_frac: 0.65            # companies that sell to consumers (rest are B2B-facing)
+  employees_lognorm: {median: 60, sigma: 0.9, min: 12, max: 420}
+  approval_thresholds: [2500, 5000, 10000]   # per-company payment approval limit
+  biweekly_payroll_frac: 0.30  # rest run monthly payroll
+  n_vendors: 1200
+  recurring_vendors_per_company: [8, 14]     # rent / utilities / telecom ...
+  procurement_pool_per_company: [25, 120]    # zipf-weighted supplier pool
+  n_customers0: 24000          # customer base at day 0
+  customer_arrival_per_day: 28 # new customers keep joining (so "new account" != fraud)
+  business_customer_frac: 0.15 # business customers pay invoice-sized amounts
+  salary_lognorm: {median: 3800, sigma: 0.35}
+  price_scale_sigma: 0.5       # per-company lognormal multiplier on ticket sizes
+  preexisting_creation_day: [-3650, -30]     # account opening day for pre-existing entities
+  # RECEIVER-SIDE mid-year onboarding (adversarial-review fix 2a): benign money-
+  # receivers must also appear during the year, or "new account that receives a
+  # payment" becomes a fraud rule. Real economies onboard suppliers and hire
+  # people continuously.
+  vendor_midyear_frac: 0.15    # share of vendors onboarded during the year (day 0-300)
+  hire_midyear_frac: 0.10      # share of employees hired during the year (day 0-330)
+
+activity:
+  # Mon..Sun multipliers (business runs weekdays; consumers shop on weekends too).
+  weekday_weights: [1.0, 1.0, 1.0, 1.0, 1.0, 0.55, 0.45]
+  season_bump: {start_day: 319, end_day: 358, factor: 1.25}   # mid-Nov .. Dec 24
+  monthend_factor: 1.7         # procurement bump on the last 3 business days of a month
+  sales:
+    purchases_per_month: {consumer: 2.1, business: 1.1, employee: 1.2}
+    # consumer tickets calibrated to BankSim (median 26.9, log-std 0.96);
+    # business invoices calibrated to SAP Würzburg (median 1975.8, log-std 1.10).
+    ticket_lognorm: {consumer_median: 28, consumer_sigma: 0.95,
+                     business_median: 1600, business_sigma: 1.1}
+  procurement:
+    per_company_per_year_base: 4500   # scaled by company size -> ~180k txns/yr total
+    amount_sigma: 0.5                 # per-invoice jitter around a vendor's base price
+    vendor_base_lognorm: {median: 2500, sigma: 1.4}   # SAP-like invoice magnitudes
+  refunds: {frac: 0.026, full_frac: 0.7, partial_range: [0.2, 0.9], delay_mean_days: 6}
+  reimbursement: {per_employee_per_year: 4.0, median: 110, sigma: 0.9}
+  recurring_jitter: 0.02       # utilities vary a little month to month
+  sweeps: {per_week: 1.0, amount_range: [10000, 500000]}      # treasury <-> ops
+  intercompany_per_year: 6000  # company-to-company payments (settlements, partnerships)
+  # ordinary person-to-person transfers (rent shares, loans, gifts, settlements):
+  # keeps `transfer` a normal, majority-benign category and puts benign mass in
+  # the same amount band fraud transfers live in (no free lunch from tx_type).
+  # Volume raised 3x after the adversarial review (fix 2b): real ledgers are
+  # transfer-heavy; fraud share within `transfer` must not be an 18x flag.
+  # sale_frac: a slice of person-to-person traffic is private MARKETPLACE sales
+  # (secondhand goods) — added when the tabular-leak probe caught a 128-row
+  # 100%-precision rule ("sale received by a mid-year account"): people who
+  # joined this year must receive benign sales too, not only scam payments.
+  p2p: {per_person_per_year: 3.0, median: 600, sigma: 1.0, sale_frac: 0.25}
+
+fraud:
+  # ~0.4-0.5% of transactions end up labeled — inside the real range 0.12-1.21%.
+  shell_age_days: [5, 120]     # shells are opened this many days before first use
+  max_concurrent_per_company: 2
+  start_day_range: [15, 340]
+
+  laundering_cycle:            # embezzle -> layer through a ring; some rings loop back
+    n_scenarios: 88
+    ring_size: [3, 6]
+    loop_frac: 0.6             # 60% of rings return funds to the entry account; rest exit
+    rounds: [1, 3]
+    skim: [0.01, 0.06]         # each hop keeps a cut => amounts are NOT conserved
+    hop_gap_hours_median: 9
+    hop_gap_sigma: 1.2
+    placement_lognorm: {median: 9000, sigma: 0.8}   # overlaps the procurement tail
+    split_hop_frac: 0.3        # sometimes a hop splits across two intermediaries
+
+  mule_fanin:                  # scam victims pay mules; mules forward to a collector
+    n_scenarios: 48
+    mules: [6, 16]             # recruited from EXISTING customers (keep normal life)
+    payments_per_mule: [1, 3]
+    payment_lognorm: {median: 750, sigma: 0.7}
+    forward_frac: [0.88, 0.96]
+    forward_delay_days: [0.25, 4]
+    campaign_days: [5, 30]     # staggered, not a burst
+    exit_chunks: [2, 5]
+
+  lapping:                     # A/R clerk diverts invoice payments, covers later
+    n_scenarios: 34
+    invoice_lognorm: {median: 1700, sigma: 0.6}
+    divert_gap_days: [3, 10]
+    cover_delay_days: [4, 12]
+    cover_frac: [0.97, 1.0]    # the cover nearly equals the diverted invoice
+    n_cycles: [6, 20]
+    collapse_frac: 0.4         # schemes that end uncovered (clerk caught / flees)
+
+  invoice_kickback:            # colluding vendor overbills; kicks back to the insider
+    n_scenarios: 44
+    rounds: [6, 14]
+    gap_days: [20, 45]
+    threshold_frac: [0.70, 0.96]   # invoices structured just under approval limit
+    kickback_frac: [0.25, 0.50]
+    kickback_delay_days: [4, 18]
+    via_shell_frac: 0.4        # kickback sometimes routed through an intermediary
+    new_vendor_frac: 0.4       # rest corrupt an EXISTING vendor relationship
+
+  larceny:                     # insider transfers company funds out, camouflaged
+    n_scenarios: 54
+    events: [5, 15]
+    gap_days: [8, 30]
+    threshold_frac: [0.55, 0.92]
+    split_frac: 0.35           # structuring: split a theft across 2-4 transfers
+    splits: [2, 4]
+    escalation: [1.03, 1.15]   # thefts grow as confidence grows
+    own_account_frac: 0.3      # rest go to a shell posing as a vendor

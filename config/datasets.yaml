@@ -124,6 +124,36 @@ datasets:
       window: null                         # unbounded WITHIN a run (runs are short, reset each run)
       max_cycle_len: 6
 
+  # ---- Synthetic: our calibrated ERP economy (generator: src/synth/) --------
+  # 1.01M transactions / 365 days / ~39k accounts, produced by the agent-based,
+  # behavior-driven generator (config/synthetic.yaml + seed => byte-identical,
+  # SHA-256 in the raw folder's generation_manifest.json). Fraud (~0.56%) spans
+  # 5 typologies (laundering_cycle, mule_fanin, lapping, invoice_kickback,
+  # larceny), generated as BEHAVIOR with evasion — never as detector patterns
+  # (the circularity-trap rule). Raw layout mirrors IBM AML, so the standard
+  # `transfer` ETL ingests it unchanged. TRAINING/AUGMENTATION USE ONLY: the
+  # project's thesis is only ever proven on the real datasets.
+  synth_erp:
+    kind: transfer
+    raw:
+      transactions: "synthetic_erp_v1/transactions.csv"
+      accounts: "synthetic_erp_v1/accounts.csv"        # role (eval-only) + creation_day
+      alerts: "synthetic_erp_v1/alerts.csv"            # fraud typology (eval only)
+    schema:
+      tx_id: TX_ID
+      source: SOURCE_ACCOUNT
+      dest: DEST_ACCOUNT
+      amount: AMOUNT
+      timestamp: TIMESTAMP               # integer SECONDS, 0 .. 365*86400
+      tx_type: TX_TYPE
+      label: IS_FRAUD
+      alert_id: ALERT_ID
+    time_unit: second
+    expected_fraud_rate: 0.0056          # from generation_manifest.json
+    topology:
+      window: 604800                     # 7 days, in seconds (matches Tier-1 window)
+      max_cycle_len: 6
+
   # ---- Tier 3: FIFAR — DROPPED from Phase 1 (no graph) ---------------------
   # FIFAR / BAF is purely tabular application-fraud (34 features: income,
   # velocities, device_os, ...) with NO counterparty/account structure. There is
