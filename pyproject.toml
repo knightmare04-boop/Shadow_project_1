@@ -18,7 +18,14 @@ dependencies = [
     "matplotlib>=3.7",
     "seaborn>=0.13",
     "plotly>=5.18",
+    "torch>=2.2",
 ]
+
+[project.optional-dependencies]
+# SHAP *plots* only — attribution values are computed with XGBoost's native
+# TreeSHAP (pred_contribs=True), which needs no extra dependency.
+explain = ["shap>=0.45"]
+test = ["pytest>=8.0"]
 
 # Make the modules under src/ (common, etl, graph, topology, features, modeling)
 # importable as top-level packages after `pip install -e .` — no sys.path hacks.

@@ -1,0 +1,494 @@
+<title>Shadow Graph Replay</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Serif:wght@600;700&display=swap">
+<style>
+  :root {
+    --paper:#FAFBF8; --ink:#1B2430; --muted:#5B6674; --line:#DEE4E0;
+    --card:#F1F4F1; --console:#EDF1EE;
+    --accent:#00805F; --accent-soft:#DFEFE9;
+    --alert:#C2492A; --alert-soft:#F7E8E2;
+    --edge:#8A97A0;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper:#131920; --ink:#E5EAE6; --muted:#93A0A8; --line:#2A343C;
+      --card:#1A222B; --console:#0E141A;
+      --accent:#41A98C; --accent-soft:#17352E;
+      --alert:#E06A45; --alert-soft:#392018;
+      --edge:#5E6B75;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper:#131920; --ink:#E5EAE6; --muted:#93A0A8; --line:#2A343C;
+    --card:#1A222B; --console:#0E141A;
+    --accent:#41A98C; --accent-soft:#17352E;
+    --alert:#E06A45; --alert-soft:#392018;
+    --edge:#5E6B75;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink);
+    font-family:"IBM Plex Sans",system-ui,sans-serif; font-size:.92rem; line-height:1.5; }
+  .wrap { max-width: 74rem; margin: 0 auto; padding: 1.2rem 1.2rem 3rem; }
+  header { display:flex; flex-wrap:wrap; align-items:baseline; gap:.4rem 1rem; margin-bottom:.35rem; }
+  h1 { font-family:"IBM Plex Serif",Georgia,serif; font-size:1.5rem; margin:0; }
+  .sub { color:var(--muted); font-size:.85rem; }
+  .controls { display:flex; flex-wrap:wrap; gap:.5rem; align-items:center; margin:.7rem 0 1rem; }
+  button, select {
+    font-family:"IBM Plex Mono",monospace; font-size:.8rem; font-weight:600;
+    background:var(--card); color:var(--ink); border:1px solid var(--line);
+    border-radius:6px; padding:.42rem .9rem; cursor:pointer;
+  }
+  button.primary { background:var(--accent); border-color:var(--accent); color:#fff; }
+  :root[data-theme="dark"] button.primary, body button.primary { color:#fff; }
+  button:hover { filter:brightness(1.05); }
+  :focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+  .clock { font-family:"IBM Plex Mono",monospace; font-size:.8rem; color:var(--muted); margin-left:auto; font-variant-numeric:tabular-nums; }
+  .clock b { color:var(--ink); }
+  .progress { height:4px; background:var(--line); border-radius:2px; margin-bottom:1rem; overflow:hidden; }
+  .progress > div { height:100%; width:0%; background:var(--accent); transition:width .15s linear; }
+
+  .grid { display:grid; grid-template-columns: minmax(0,1.45fr) minmax(0,1fr); gap:1rem; }
+  @media (max-width: 58rem) { .grid { grid-template-columns: 1fr; } }
+  .panel { background:var(--card); border:1px solid var(--line); border-radius:8px; }
+  .panel h2 {
+    font-family:"IBM Plex Mono",monospace; font-size:.68rem; font-weight:600;
+    letter-spacing:.12em; text-transform:uppercase; color:var(--muted);
+    margin:0; padding:.55rem .8rem; border-bottom:1px solid var(--line);
+    display:flex; align-items:center; gap:.5rem;
+  }
+  .live { width:7px; height:7px; border-radius:50%; background:var(--accent); }
+  .running .live { animation: blink 1.1s infinite; }
+  @keyframes blink { 50% { opacity:.25; } }
+  @media (prefers-reduced-motion: reduce) { .running .live { animation:none; } }
+
+  #graphPanel { position:relative; }
+  #cv { display:block; width:100%; height:460px; border-radius:0 0 8px 8px; cursor:crosshair; }
+  .legend { position:absolute; left:.7rem; bottom:.6rem; display:flex; flex-wrap:wrap; gap:.4rem .9rem;
+    font-family:"IBM Plex Mono",monospace; font-size:.68rem; color:var(--muted);
+    background:color-mix(in srgb, var(--card) 82%, transparent); padding:.3rem .55rem; border-radius:6px; }
+  .legend i { display:inline-block; width:14px; height:0; border-top:2px solid var(--edge); margin-right:.35rem; vertical-align:middle; }
+  .legend .lc i { border-top:3px solid var(--accent); }
+  .legend .la i { border-top:3px dashed var(--alert); }
+  #tip { position:absolute; pointer-events:none; display:none; background:var(--ink); color:var(--paper);
+    font-family:"IBM Plex Mono",monospace; font-size:.7rem; padding:.3rem .5rem; border-radius:5px; max-width:16rem; z-index:5; }
+
+  .stages { display:flex; flex-wrap:wrap; gap:.35rem; padding:.6rem .8rem; }
+  .stage { font-family:"IBM Plex Mono",monospace; font-size:.66rem; font-weight:600; letter-spacing:.06em;
+    padding:.22rem .55rem; border-radius:99px; border:1px solid var(--line); color:var(--muted); white-space:nowrap; }
+  .stage.done { border-color:var(--accent); color:var(--accent); }
+  .stage.hot { background:var(--accent); border-color:var(--accent); color:#fff; }
+  .stage.hot-alert { background:var(--alert); border-color:var(--alert); color:#fff; }
+
+  .readout { display:grid; grid-template-columns:repeat(4,1fr); gap:.5rem; padding:.7rem .8rem; }
+  @media (max-width:24rem){ .readout{grid-template-columns:repeat(2,1fr);} }
+  .cell { background:var(--paper); border:1px solid var(--line); border-radius:6px; padding:.4rem .55rem; }
+  .cell .k { font-family:"IBM Plex Mono",monospace; font-size:.6rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); display:block; }
+  .cell .v { font-family:"IBM Plex Mono",monospace; font-size:1.02rem; font-weight:600; font-variant-numeric:tabular-nums; }
+  .cell .v.on { color:var(--accent); }
+  .scorebar { grid-column:1/-1; background:var(--paper); border:1px solid var(--line); border-radius:6px; padding:.45rem .55rem; }
+  .scorebar .k { font-family:"IBM Plex Mono",monospace; font-size:.6rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); display:flex; justify-content:space-between; }
+  .bar { position:relative; height:10px; background:var(--line); border-radius:5px; margin-top:.35rem; overflow:visible; }
+  .bar .fill { position:absolute; left:0; top:0; bottom:0; width:0%; border-radius:5px; background:var(--accent); transition:width .2s; }
+  .bar .fill.over { background:var(--alert); }
+  .bar .thr { position:absolute; top:-3px; bottom:-3px; width:2px; background:var(--ink); opacity:.65; }
+
+  #log { font-family:"IBM Plex Mono",monospace; font-size:.7rem; line-height:1.5; background:var(--console);
+    height:230px; overflow-y:auto; padding:.55rem .7rem; border-radius:0 0 8px 8px; white-space:pre-wrap; }
+  #log .t { color:var(--muted); }
+  #log .ok { color:var(--accent); font-weight:600; }
+  #log .bad { color:var(--alert); font-weight:600; }
+  #alerts { display:flex; flex-direction:column; gap:.7rem; padding:.7rem .8rem; }
+  #alerts .empty { color:var(--muted); font-size:.82rem; }
+  .acard { border:1px solid var(--alert); border-left-width:4px; border-radius:6px; background:var(--alert-soft); padding:.6rem .8rem; font-size:.83rem; }
+  .acard h3 { margin:0 0 .3rem; font-family:"IBM Plex Mono",monospace; font-size:.75rem; color:var(--alert); letter-spacing:.05em; }
+  .acard table { border-collapse:collapse; width:100%; margin-top:.4rem; font-size:.76rem; }
+  .acard td { padding:.15rem .4rem .15rem 0; vertical-align:top; }
+  .acard td.n { font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap; }
+  .acard .fam { color:var(--muted); font-size:.68rem; }
+  .acard .path { font-family:"IBM Plex Mono",monospace; font-size:.72rem; background:var(--paper); border-radius:5px; padding:.3rem .5rem; margin-top:.4rem; overflow-x:auto; }
+  .note { color:var(--muted); font-size:.78rem; padding:0 .8rem .7rem; margin:0; }
+  .explain { color:var(--muted); font-size:.83rem; max-width:60rem; margin:.1rem 0 0; }
+  body:not(.tech) .techonly { display:none !important; }
+  #story { padding:.7rem .9rem; font-size:.92rem; display:flex; flex-direction:column; gap:.35rem; }
+  #story .old { color:var(--muted); font-size:.8rem; }
+  #story .nowline b { font-weight:600; }
+  #story .alarmline { color:var(--alert); font-weight:600; }
+  #story .loopline { color:var(--accent); font-weight:600; }
+</style>
+
+<div class="wrap">
+<header>
+  <h1>Shadow Graph Replay</h1>
+  <span class="sub">Watch a fraud-detection system at work &mdash; 160 real bank transactions, replayed exactly as the system processed them</span>
+</header>
+<p class="explain">Every dot is an account; every arrow is a payment. Press <b>Run</b> and the payment network builds itself, day by day. Payments older than a week fade away. When a new payment <b>completes a loop</b> (money returning to where it started) or <b>too many accounts pay into one place</b>, the system notices, gives the payment a risk score, and raises an alarm &mdash; with its reasons attached. <b>Tip:</b> pick a slow speed, or use <b>Step</b> to follow one payment at a time.</p>
+
+<div class="controls">
+  <button id="btnRun" class="primary">&#9654; Run</button>
+  <button id="btnStep">Step: 1 payment</button>
+  <button id="btnReset">Restart</button>
+  <select id="speed" aria-label="Speed">
+    <option value="1700">0.1&times; (very slow)</option>
+    <option value="680">0.25&times;</option>
+    <option value="340" selected>0.5&times;</option>
+    <option value="170">1&times;</option>
+    <option value="85">2&times;</option>
+    <option value="40">4&times;</option>
+  </select>
+  <button id="btnTech" aria-pressed="false">Technical view: off</button>
+  <span class="clock">day <b id="day">155</b> / 191 &nbsp;&middot;&nbsp; payment <b id="ndone">0</b> / 160 &nbsp;&middot;&nbsp; in view <b id="wsize">0</b></span>
+</div>
+<div class="progress"><div id="pbar"></div></div>
+
+<div class="grid">
+  <div>
+    <div class="panel" id="graphPanel">
+      <h2><span class="live"></span> The payment network &mdash; last 7 days (hover any dot or arrow)</h2>
+      <canvas id="cv"></canvas>
+      <div class="legend">
+        <span><i></i>payment (fades as it gets older)</span>
+        <span class="lc"><i></i>money loop found</span>
+        <span class="la"><i></i>&#9888; flagged payment</span>
+      </div>
+      <div id="tip"></div>
+    </div>
+    <div class="panel" style="margin-top:1rem">
+      <h2>The pipeline &mdash; what happens to each payment</h2>
+      <div class="stages">
+        <span class="stage done" title="Raw data was cleaned into a standard form">CLEAN DATA &#10003;</span>
+        <span class="stage" id="st-evict" title="Payments older than 7 days leave the view">DROP OLD PAYMENTS</span>
+        <span class="stage" id="st-read" title="Count senders, receivers, activity - using only the past">MEASURE THE NETWORK</span>
+        <span class="stage" id="st-bfs" title="Does this payment complete a money loop?">LOOP CHECK</span>
+        <span class="stage" id="st-insert" title="Only now does the payment join the network">ADD PAYMENT</span>
+        <span class="stage" id="st-model" title="The trained model turns the measurements into a risk score">RISK SCORE</span>
+        <span class="stage" id="st-alert" title="Score above the alarm level -> flagged for an auditor">ALARM</span>
+      </div>
+      <p class="note">Each payment is <em>measured first, added after</em> &mdash; so the system can never peek at the future. That one ordering rule is what makes the results trustworthy.</p>
+    </div>
+  </div>
+
+  <div style="display:flex; flex-direction:column; gap:1rem; min-width:0">
+    <div class="panel">
+      <h2><span class="live"></span> What&rsquo;s happening</h2>
+      <div id="story" aria-live="polite"><span class="old">Press <b>Run</b> (or <b>Step</b>) to start the replay.</span></div>
+    </div>
+    <div class="panel">
+      <h2>The current payment, measured</h2>
+      <div class="readout">
+        <div class="cell"><span class="k">from &rarr; to</span><span class="v" id="f-route" style="font-size:.8rem">&ndash;</span></div>
+        <div class="cell"><span class="k">amount</span><span class="v" id="f-amt">&ndash;</span></div>
+        <div class="cell"><span class="k">completes a loop?</span><span class="v" id="f-cyc">&ndash;</span></div>
+        <div class="cell"><span class="k">senders into receiver (7d)</span><span class="v" id="f-fi">&ndash;</span></div>
+        <div class="cell techonly"><span class="k">txn id</span><span class="v" id="f-id">&ndash;</span></div>
+        <div class="cell techonly"><span class="k">fan-out (src)</span><span class="v" id="f-fo">&ndash;</span></div>
+        <div class="cell techonly"><span class="k">dest in-deg</span><span class="v" id="f-di">&ndash;</span></div>
+        <div class="cell techonly"><span class="k">src out-deg</span><span class="v" id="f-do">&ndash;</span></div>
+        <div class="scorebar">
+          <span class="k"><span>risk score &mdash; the mark is the alarm level</span><span id="f-score">&ndash;</span></span>
+          <div class="bar"><div class="fill" id="f-fill"></div><div class="thr" id="f-thr"></div></div>
+        </div>
+      </div>
+      <p class="note techonly">Counts are computed live on this 160-edge slice; alarm cards quote full-pipeline values. Scores/threshold are the real persisted model&rsquo;s.</p>
+    </div>
+    <div class="panel running techonly" id="logPanel">
+      <h2><span class="live"></span> Engine log (technical)</h2>
+      <div id="log" aria-live="polite"></div>
+    </div>
+    <div class="panel">
+      <h2>Alarms &mdash; payments the model flagged</h2>
+      <div id="alerts"><span class="empty">None yet &mdash; the first fires around day 162.</span></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+const DATA = {"dataset": "ibm_aml", "window": 7, "threshold": 0.5161976218223572, "edges": [{"id": "1026725", "t": 155.0, "s": "5647", "d": "9000", "a": 183.19, "y": 0, "score": null}, {"id": "1028188", "t": 155.0, "s": "3734", "d": "9988", "a": 121.29, "y": 0, "score": null}, {"id": "1032601", "t": 156.0, "s": "8051", "d": "3733", "a": 8.8, "y": 0, "score": null}, {"id": "1034246", "t": 156.0, "s": "1129", "d": "9988", "a": 24.03, "y": 0, "score": null}, {"id": "1034686", "t": 156.0, "s": "660", "d": "9819", "a": 168.63, "y": 0, "score": null}, {"id": "1035842", "t": 156.0, "s": "1722", "d": "9988", "a": 108.9, "y": 0, "score": null}, {"id": "1037994", "t": 157.0, "s": "5363", "d": "9988", "a": 5677858.0, "y": 0, "score": null}, {"id": "1038914", "t": 157.0, "s": "9000", "d": "6003", "a": 6.27, "y": 0, "score": null}, {"id": "1039965", "t": 157.0, "s": "7770", "d": "9988", "a": 185.66, "y": 0, "score": null}, {"id": "1040872", "t": 157.0, "s": "8627", "d": "9988", "a": 121.76, "y": 0, "score": null}, {"id": "1045653", "t": 158.0, "s": "7771", "d": "9819", "a": 117.73, "y": 0, "score": null}, {"id": "1046325", "t": 158.0, "s": "9666", "d": "9819", "a": 130.36, "y": 0, "score": null}, {"id": "1048452", "t": 158.0, "s": "5065", "d": "6254", "a": 20.66, "y": 0, "score": null}, {"id": "1048457", "t": 158.0, "s": "5065", "d": "9000", "a": 20.66, "y": 0, "score": null}, {"id": "1051695", "t": 159.0, "s": "3733", "d": "3337", "a": 112.98, "y": 0, "score": null}, {"id": "1051701", "t": 159.0, "s": "3733", "d": "9819", "a": 112.98, "y": 0, "score": null}, {"id": "1051702", "t": 159.0, "s": "3733", "d": "8051", "a": 112.98, "y": 0, "score": null}, {"id": "1053038", "t": 159.0, "s": "9819", "d": "5065", "a": 386.8, "y": 0, "score": null}, {"id": "1056196", "t": 159.0, "s": "5065", "d": "898", "a": 20.66, "y": 0, "score": null}, {"id": "1056199", "t": 159.0, "s": "5065", "d": "9000", "a": 20.66, "y": 0, "score": null}, {"id": "1056401", "t": 159.0, "s": "9000", "d": "7433", "a": 6.27, "y": 0, "score": null}, {"id": "1056404", "t": 159.0, "s": "9000", "d": "6003", "a": 6.27, "y": 0, "score": null}, {"id": "1056409", "t": 159.0, "s": "9000", "d": "2029", "a": 6.27, "y": 0, "score": null}, {"id": "1056415", "t": 159.0, "s": "9000", "d": "9708", "a": 6.27, "y": 0, "score": null}, {"id": "1058626", "t": 160.0, "s": "7631", "d": "9988", "a": 130.13, "y": 0, "score": 0.2718}, {"id": "1059195", "t": 160.0, "s": "7146", "d": "9988", "a": 12.48, "y": 0, "score": 0.2718}, {"id": "1059198", "t": 160.0, "s": "7146", "d": "928", "a": 12.48, "y": 0, "score": 0.2718}, {"id": "1060060", "t": 160.0, "s": "9000", "d": "6003", "a": 6.27, "y": 0, "score": 0.2718}, {"id": "1060068", "t": 160.0, "s": "9000", "d": "8834", "a": 6.27, "y": 0, "score": 0.2718}, {"id": "1061659", "t": 160.0, "s": "9606", "d": "5875", "a": 174.96, "y": 0, "score": 0.2718}, {"id": "1061674", "t": 160.0, "s": "9606", "d": "9988", "a": 174.96, "y": 0, "score": 0.2718}, {"id": "1062218", "t": 160.0, "s": "5714", "d": "9988", "a": 195.27, "y": 0, "score": 0.2718}, {"id": "1062220", "t": 160.0, "s": "5714", "d": "5119", "a": 195.27, "y": 0, "score": 0.2718}, {"id": "1062330", "t": 160.0, "s": "2673", "d": "9697", "a": 167.55, "y": 0, "score": 0.2718}, {"id": "1062334", "t": 160.0, "s": "2673", "d": "9988", "a": 167.55, "y": 0, "score": 0.2718}, {"id": "1062546", "t": 160.0, "s": "9819", "d": "5065", "a": 386.8, "y": 0, "score": 0.2718}, {"id": "1067704", "t": 161.0, "s": "9697", "d": "3681", "a": 124.95, "y": 0, "score": 0.2718}, {"id": "1067731", "t": 161.0, "s": "9697", "d": "9988", "a": 124.95, "y": 0, "score": 0.2718}, {"id": "1068589", "t": 161.0, "s": "3020", "d": "9988", "a": 27.08, "y": 0, "score": 0.2718}, {"id": "1068591", "t": 161.0, "s": "3020", "d": "6316", "a": 27.08, "y": 0, "score": 0.2718}, {"id": "1071938", "t": 162.0, "s": "6003", "d": "8051", "a": 15.3, "y": 1, "score": 0.7283}, {"id": "1072251", "t": 162.0, "s": "7728", "d": "9697", "a": 162.22, "y": 0, "score": 0.2718}, {"id": "1076543", "t": 162.0, "s": "8051", "d": "9847", "a": 15.3, "y": 1, "score": 0.7283}, {"id": "1079690", "t": 163.0, "s": "4153", "d": "9988", "a": 16.59, "y": 0, "score": 0.2718}, {"id": "1084103", "t": 164.0, "s": "8051", "d": "3733", "a": 8.8, "y": 0, "score": 0.2718}, {"id": "1085631", "t": 164.0, "s": "609", "d": "9000", "a": 128.33, "y": 0, "score": 0.2718}, {"id": "1089919", "t": 164.0, "s": "4153", "d": "5739", "a": 16.59, "y": 0, "score": 0.2718}, {"id": "1089921", "t": 164.0, "s": "4153", "d": "9995", "a": 16.59, "y": 0, "score": 0.2718}, {"id": "1089924", "t": 164.0, "s": "4153", "d": "9988", "a": 16.59, "y": 0, "score": 0.2718}, {"id": "1091553", "t": 165.0, "s": "3734", "d": "4753", "a": 121.29, "y": 0, "score": 0.2718}, {"id": "1091554", "t": 165.0, "s": "3734", "d": "9988", "a": 121.29, "y": 0, "score": 0.2718}, {"id": "1091755", "t": 165.0, "s": "9017", "d": "8088", "a": 8.46, "y": 0, "score": 0.2718}, {"id": "1091756", "t": 165.0, "s": "9017", "d": "9566", "a": 8.46, "y": 0, "score": 0.2718}, {"id": "1091764", "t": 165.0, "s": "9017", "d": "9988", "a": 8.46, "y": 0, "score": 0.2718}, {"id": "1093792", "t": 165.0, "s": "2038", "d": "3733", "a": 24.49, "y": 0, "score": 0.2718}, {"id": "1097092", "t": 166.0, "s": "9613", "d": "2673", "a": 141.46, "y": 0, "score": 0.2718}, {"id": "1098192", "t": 166.0, "s": "8015", "d": "9988", "a": 12.1, "y": 0, "score": 0.2718}, {"id": "1107448", "t": 167.0, "s": "8627", "d": "9988", "a": 121.76, "y": 0, "score": 0.2718}, {"id": "1115533", "t": 168.0, "s": "9183", "d": "2673", "a": 6.93, "y": 0, "score": 0.2718}, {"id": "1119686", "t": 169.0, "s": "3733", "d": "9819", "a": 112.98, "y": 0, "score": 0.2718}, {"id": "1119687", "t": 169.0, "s": "3733", "d": "8051", "a": 112.98, "y": 0, "score": 0.2718}, {"id": "1121710", "t": 169.0, "s": "5065", "d": "9000", "a": 20.66, "y": 0, "score": 0.2718}, {"id": "1126712", "t": 170.0, "s": "7146", "d": "896", "a": 12.48, "y": 0, "score": 0.2718}, {"id": "1126716", "t": 170.0, "s": "7146", "d": "9988", "a": 12.48, "y": 0, "score": 0.2718}, {"id": "1127345", "t": 170.0, "s": "2673", "d": "9697", "a": 167.55, "y": 0, "score": 0.2718}, {"id": "1127349", "t": 170.0, "s": "2673", "d": "9988", "a": 167.55, "y": 0, "score": 0.2718}, {"id": "1128571", "t": 170.0, "s": "5714", "d": "9988", "a": 195.27, "y": 0, "score": 0.2718}, {"id": "1129644", "t": 170.0, "s": "9606", "d": "4526", "a": 174.96, "y": 0, "score": 0.2718}, {"id": "1129656", "t": 170.0, "s": "9606", "d": "9988", "a": 174.96, "y": 0, "score": 0.2718}, {"id": "1132445", "t": 171.0, "s": "74", "d": "9988", "a": 49.21, "y": 0, "score": 0.2718}, {"id": "1134333", "t": 171.0, "s": "9819", "d": "5065", "a": 386.8, "y": 0, "score": 0.2718}, {"id": "1135408", "t": 171.0, "s": "9614", "d": "9819", "a": 114.73, "y": 0, "score": 0.2718}, {"id": "1136476", "t": 171.0, "s": "9697", "d": "1065", "a": 124.95, "y": 0, "score": 0.2718}, {"id": "1136483", "t": 171.0, "s": "9697", "d": "8729", "a": 124.95, "y": 0, "score": 0.2718}, {"id": "1136496", "t": 171.0, "s": "9697", "d": "9495", "a": 124.95, "y": 0, "score": 0.2718}, {"id": "1136500", "t": 171.0, "s": "9697", "d": "7326", "a": 124.95, "y": 0, "score": 0.2718}, {"id": "1136501", "t": 171.0, "s": "9697", "d": "9988", "a": 124.95, "y": 0, "score": 0.2718}, {"id": "1138633", "t": 172.0, "s": "726", "d": "9988", "a": 178.66, "y": 0, "score": 0.2718}, {"id": "1138834", "t": 172.0, "s": "4153", "d": "9988", "a": 16.59, "y": 0, "score": 0.2718}, {"id": "1140957", "t": 172.0, "s": "3020", "d": "9988", "a": 27.08, "y": 0, "score": 0.2718}, {"id": "1147640", "t": 173.0, "s": "74", "d": "9988", "a": 49.21, "y": 0, "score": 0.2718}, {"id": "1147803", "t": 173.0, "s": "1716", "d": "9988", "a": 121.94, "y": 0, "score": 0.2718}, {"id": "1151004", "t": 174.0, "s": "3020", "d": "9988", "a": 27.08, "y": 0, "score": 0.2718}, {"id": "1151006", "t": 174.0, "s": "3020", "d": "6316", "a": 27.08, "y": 0, "score": 0.2718}, {"id": "1155608", "t": 174.0, "s": "8051", "d": "3733", "a": 8.8, "y": 0, "score": 0.2718}, {"id": "1156517", "t": 174.0, "s": "9988", "d": "8378", "a": 340.27, "y": 0, "score": 0.2718}, {"id": "1157338", "t": 175.0, "s": "6072", "d": "9988", "a": 15.69, "y": 0, "score": 0.2718}, {"id": "1162851", "t": 175.0, "s": "3734", "d": "4753", "a": 121.29, "y": 0, "score": 0.2718}, {"id": "1162852", "t": 175.0, "s": "3734", "d": "9988", "a": 121.29, "y": 0, "score": 0.2718}, {"id": "1166158", "t": 176.0, "s": "8602", "d": "9697", "a": 174.94, "y": 0, "score": 0.2718}, {"id": "1179285", "t": 178.0, "s": "9000", "d": "6003", "a": 6.27, "y": 0, "score": 0.2718}, {"id": "1179298", "t": 178.0, "s": "9000", "d": "7869", "a": 6.27, "y": 0, "score": 0.2718}, {"id": "1183483", "t": 179.0, "s": "3733", "d": "9819", "a": 112.98, "y": 0, "score": 0.2718}, {"id": "1183484", "t": 179.0, "s": "3733", "d": "8051", "a": 112.98, "y": 0, "score": 0.2718}, {"id": "1190639", "t": 180.0, "s": "7146", "d": "9988", "a": 12.48, "y": 0, "score": 0.2718}, {"id": "1190642", "t": 180.0, "s": "7146", "d": "928", "a": 12.48, "y": 0, "score": 0.2718}, {"id": "1191275", "t": 180.0, "s": "9606", "d": "7043", "a": 174.96, "y": 0, "score": 0.2718}, {"id": "1191290", "t": 180.0, "s": "9606", "d": "6607", "a": 174.96, "y": 0, "score": 0.2718}, {"id": "1191301", "t": 180.0, "s": "9606", "d": "9988", "a": 174.96, "y": 0, "score": 0.2718}, {"id": "1193302", "t": 180.0, "s": "5714", "d": "9924", "a": 195.27, "y": 0, "score": 0.2718}, {"id": "1193305", "t": 180.0, "s": "5714", "d": "9988", "a": 195.27, "y": 0, "score": 0.2718}, {"id": "1193307", "t": 180.0, "s": "5714", "d": "5119", "a": 195.27, "y": 0, "score": 0.2718}, {"id": "1194891", "t": 180.0, "s": "5065", "d": "7609", "a": 20.66, "y": 0, "score": 0.2718}, {"id": "1194897", "t": 180.0, "s": "5065", "d": "9000", "a": 20.66, "y": 0, "score": 0.2718}, {"id": "1195813", "t": 180.0, "s": "2673", "d": "9697", "a": 167.55, "y": 0, "score": 0.2718}, {"id": "1195817", "t": 180.0, "s": "2673", "d": "9988", "a": 167.55, "y": 0, "score": 0.2718}, {"id": "1195818", "t": 180.0, "s": "2673", "d": "5645", "a": 167.55, "y": 0, "score": 0.2718}, {"id": "1198409", "t": 181.0, "s": "9697", "d": "6204", "a": 124.95, "y": 0, "score": 0.2718}, {"id": "1198418", "t": 181.0, "s": "9697", "d": "9931", "a": 124.95, "y": 0, "score": 0.2718}, {"id": "1198429", "t": 181.0, "s": "9697", "d": "9988", "a": 124.95, "y": 0, "score": 0.2718}, {"id": "1198633", "t": 181.0, "s": "5065", "d": "9000", "a": 20.66, "y": 0, "score": 0.2718}, {"id": "1205040", "t": 182.0, "s": "8015", "d": "9988", "a": 12.1, "y": 0, "score": 0.2718}, {"id": "1207119", "t": 182.0, "s": "6003", "d": "8051", "a": 13.12, "y": 0, "score": 0.2718}, {"id": "1208464", "t": 182.0, "s": "7146", "d": "9988", "a": 12.48, "y": 0, "score": 0.2718}, {"id": "1208468", "t": 182.0, "s": "7146", "d": "3901", "a": 12.48, "y": 0, "score": 0.2718}, {"id": "1216444", "t": 183.0, "s": "9819", "d": "5065", "a": 386.8, "y": 0, "score": 0.2718}, {"id": "1218738", "t": 184.0, "s": "4259", "d": "9988", "a": 21474836.47, "y": 0, "score": 0.2718}, {"id": "1223208", "t": 185.0, "s": "4060", "d": "9988", "a": 23.41, "y": 0, "score": 0.2718}, {"id": "1225478", "t": 185.0, "s": "7067", "d": "9017", "a": 14.7, "y": 0, "score": 0.2718}, {"id": "1225650", "t": 185.0, "s": "3734", "d": "4753", "a": 121.29, "y": 0, "score": 0.2718}, {"id": "1225651", "t": 185.0, "s": "3734", "d": "9988", "a": 121.29, "y": 0, "score": 0.2718}, {"id": "1232216", "t": 186.0, "s": "1722", "d": "9988", "a": 108.9, "y": 0, "score": 0.2718}, {"id": "1239477", "t": 187.0, "s": "5065", "d": "898", "a": 20.66, "y": 0, "score": 0.2718}, {"id": "1239480", "t": 187.0, "s": "5065", "d": "9000", "a": 20.66, "y": 0, "score": 0.2718}, {"id": "1243145", "t": 188.0, "s": "8051", "d": "3733", "a": 8.8, "y": 0, "score": 0.2718}, {"id": "1245757", "t": 188.0, "s": "9767", "d": "9988", "a": 127.0, "y": 0, "score": 0.2718}, {"id": "1246186", "t": 188.0, "s": "9651", "d": "9000", "a": 134.69, "y": 0, "score": 0.2718}, {"id": "1246509", "t": 188.0, "s": "5065", "d": "9000", "a": 20.66, "y": 0, "score": 0.2718}, {"id": "1250195", "t": 189.0, "s": "8704", "d": "3020", "a": 147.58, "y": 0, "score": 0.2718}, {"id": "1250808", "t": 189.0, "s": "7146", "d": "9257", "a": 12.48, "y": 0, "score": 0.2719}, {"id": "1250815", "t": 189.0, "s": "7146", "d": "9988", "a": 12.48, "y": 0, "score": 0.2718}, {"id": "1251124", "t": 189.0, "s": "9819", "d": "5065", "a": 386.8, "y": 0, "score": 0.2718}, {"id": "1252106", "t": 189.0, "s": "3733", "d": "3337", "a": 112.98, "y": 0, "score": 0.2718}, {"id": "1252112", "t": 189.0, "s": "3733", "d": "9819", "a": 112.98, "y": 0, "score": 0.2718}, {"id": "1252113", "t": 189.0, "s": "3733", "d": "8051", "a": 112.98, "y": 0, "score": 0.2718}, {"id": "1256384", "t": 190.0, "s": "9606", "d": "8770", "a": 174.96, "y": 0, "score": 0.2718}, {"id": "1256395", "t": 190.0, "s": "9606", "d": "3853", "a": 174.96, "y": 0, "score": 0.2718}, {"id": "1256409", "t": 190.0, "s": "9606", "d": "9988", "a": 174.96, "y": 0, "score": 0.2718}, {"id": "1256850", "t": 190.0, "s": "3630", "d": "2673", "a": 114.54, "y": 0, "score": 0.2718}, {"id": "1257316", "t": 190.0, "s": "1061", "d": "9988", "a": 28.41, "y": 0, "score": 0.2718}, {"id": "1258031", "t": 190.0, "s": "2673", "d": "9697", "a": 167.55, "y": 0, "score": 0.2718}, {"id": "1258035", "t": 190.0, "s": "2673", "d": "9988", "a": 167.55, "y": 0, "score": 0.2718}, {"id": "1258254", "t": 190.0, "s": "5714", "d": "9988", "a": 195.27, "y": 0, "score": 0.2718}, {"id": "1258435", "t": 190.0, "s": "360", "d": "9988", "a": 11036902.0, "y": 0, "score": 0.2718}, {"id": "1258496", "t": 190.0, "s": "9000", "d": "6003", "a": 6.27, "y": 0, "score": 0.2718}, {"id": "1259076", "t": 190.0, "s": "4153", "d": "5739", "a": 16.59, "y": 0, "score": 0.2718}, {"id": "1259081", "t": 190.0, "s": "4153", "d": "9988", "a": 16.59, "y": 0, "score": 0.2718}, {"id": "1262037", "t": 190.0, "s": "3020", "d": "9988", "a": 27.08, "y": 0, "score": 0.2718}, {"id": "1262041", "t": 190.0, "s": "3020", "d": "8518", "a": 27.08, "y": 0, "score": 0.2718}, {"id": "1262391", "t": 190.0, "s": "7146", "d": "896", "a": 12.48, "y": 0, "score": 0.2718}, {"id": "1262395", "t": 190.0, "s": "7146", "d": "9988", "a": 12.48, "y": 0, "score": 0.2718}, {"id": "1262956", "t": 191.0, "s": "9017", "d": "5300", "a": 8.46, "y": 0, "score": 0.2718}, {"id": "1262960", "t": 191.0, "s": "9017", "d": "6645", "a": 8.46, "y": 0, "score": 0.2718}, {"id": "1262961", "t": 191.0, "s": "9017", "d": "9847", "a": 8.46, "y": 0, "score": 0.2718}, {"id": "1262963", "t": 191.0, "s": "9017", "d": "9988", "a": 8.46, "y": 0, "score": 0.2718}, {"id": "1262967", "t": 191.0, "s": "9017", "d": "7539", "a": 8.46, "y": 0, "score": 0.2718}, {"id": "1263542", "t": 191.0, "s": "9697", "d": "9988", "a": 124.95, "y": 0, "score": 0.2718}, {"id": "1265478", "t": 191.0, "s": "3020", "d": "9988", "a": 27.08, "y": 0, "score": 0.2718}, {"id": "1266482", "t": 191.0, "s": "3734", "d": "9988", "a": 4.75, "y": 1, "score": 0.7283}, {"id": "1268830", "t": 191.0, "s": "4042", "d": "9697", "a": 23.02, "y": 0, "score": 0.2718}], "alerts": [{"transaction_id": "1071938", "rank": 6, "score": 0.728302, "t": 162, "src": "6003", "dst": "8051", "amount": 15.3, "type": "cycle", "path_nodes": ["6003", "8051", "3733", "9819", "5065", "9000", "6003"], "path_edges": [{"src": "6003", "dst": "8051", "amount": 15.3, "ts": 162}, {"src": "8051", "dst": "3733", "amount": 8.8, "ts": 156}, {"src": "3733", "dst": "9819", "amount": 112.98, "ts": 159}, {"src": "9819", "dst": "5065", "amount": 386.8, "ts": 160}, {"src": "5065", "dst": "9000", "amount": 20.66, "ts": 159}, {"src": "9000", "dst": "6003", "amount": 6.27, "ts": 160}], "n_senders": null, "drivers": [{"feature": "lap_out_recur", "value": 0.0, "shap": 0.8293, "family": "topology-amount-derived", "gloss": "recurrence of near-equal amounts (lapping signature)"}, {"feature": "src_INIT_BALANCE", "value": 144.43, "shap": 0.1154, "family": "ordinary"}, {"feature": "lap_out_payees", "value": 0.0, "shap": 0.0797, "family": "topology-amount-derived", "gloss": "recurrence of near-equal amounts (lapping signature)"}, {"feature": "amount_zscore_src", "value": 3232744.8, "shap": -0.0793, "family": "ordinary", "gloss": "amount unusualness vs this sender's history"}, {"feature": "log_amount", "value": 2.7912, "shap": 0.0369, "family": "ordinary", "gloss": "transaction amount (log scale)"}], "text": "ALERT 6 [score 0.7283]: 6003 -> 8051 for 15.30 at t=162. Drivers: lap_out_recur=0.0 (SHAP +0.83, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); src_INIT_BALANCE=144.43 (SHAP +0.12, ordinary); lap_out_payees=0.0 (SHAP +0.08, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); amount_zscore_src=3232744.8 (SHAP -0.08, ordinary: amount unusualness vs this sender's history); log_amount=2.7912 (SHAP +0.04, ordinary: transaction amount (log scale)). Evidence: closes a 6-hop cycle 6003 -> 8051 -> 3733 -> 9819 -> 5065 -> 9000 -> 6003, conserving 2% of the amount, within 6 time units."}, {"transaction_id": "1266482", "rank": 19, "score": 0.728267, "t": 191, "src": "3734", "dst": "9988", "amount": 4.75, "type": "fan_in", "path_nodes": null, "path_edges": null, "n_senders": 51, "drivers": [{"feature": "lap_out_recur", "value": 0.0, "shap": 0.842, "family": "topology-amount-derived", "gloss": "recurrence of near-equal amounts (lapping signature)"}, {"feature": "lap_out_payees", "value": 0.0, "shap": 0.0863, "family": "topology-amount-derived", "gloss": "recurrence of near-equal amounts (lapping signature)"}, {"feature": "log_amount", "value": 1.7492, "shap": 0.0376, "family": "ordinary", "gloss": "transaction amount (log scale)"}, {"feature": "src_count_prior", "value": 171.0, "shap": 0.0235, "family": "ordinary"}, {"feature": "time_since_prev_src", "value": 6.0, "shap": 0.0205, "family": "ordinary", "gloss": "time since the sender's previous transaction"}], "text": "ALERT 19 [score 0.7283]: 3734 -> 9988 for 4.75 at t=191. Drivers: lap_out_recur=0.0 (SHAP +0.84, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); lap_out_payees=0.0 (SHAP +0.09, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); log_amount=1.7492 (SHAP +0.04, ordinary: transaction amount (log scale)); src_count_prior=171.0 (SHAP +0.02, ordinary); time_since_prev_src=6.0 (SHAP +0.02, ordinary: time since the sender's previous transaction). Evidence: destination collected from 51 distinct senders inside the window (mule-collection signature)."}]};
+(() => {
+"use strict";
+const W = DATA.window, THR = DATA.threshold;
+const edges = DATA.edges.slice().sort((a,b)=> a.t - b.t || (+a.id) - (+b.id));
+const alertsByTx = Object.fromEntries(DATA.alerts.map(a=>[a.transaction_id, a]));
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ---------- deterministic layout (seeded force sim) ---------- */
+function mulberry32(s){return function(){s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;}}
+const ids=[...new Set(edges.flatMap(e=>[e.s,e.d]))];
+const cyc0=DATA.alerts.find(a=>a.type==="cycle");
+const cycNodes=new Set((cyc0&&cyc0.path_nodes)||[]);
+const rnd=mulberry32(20260827);
+const pos={}; ids.forEach(id=>pos[id]={x:rnd()*2-1,y:rnd()*2-1});
+const links=edges.map(e=>[e.s,e.d]);
+for(let it=0; it<260; it++){
+  const k=0.014;
+  for(const a of ids)for(const b of ids){ if(a>=b)continue;
+    const pa=pos[a],pb=pos[b]; let dx=pa.x-pb.x,dy=pa.y-pb.y;
+    let d2=dx*dx+dy*dy+1e-4, f=k*k/d2*0.5;
+    pa.x+=dx*f; pa.y+=dy*f; pb.x-=dx*f; pb.y-=dy*f; }
+  for(const [s,d] of links){ const pa=pos[s],pb=pos[d];
+    const dx=pb.x-pa.x,dy=pb.y-pa.y,dist=Math.sqrt(dx*dx+dy*dy)+1e-6;
+    const f=(dist-0.18)*0.02/dist;
+    pa.x+=dx*f; pa.y+=dy*f; pb.x-=dx*f; pb.y-=dy*f; }
+  for(const id of ids){ pos[id].x*=0.995; pos[id].y*=0.995; }
+}
+
+/* ---------- window multigraph (mirror of WindowGraph) ---------- */
+let out,inn,lastAttr,q;
+function resetGraph(){ out=new Map(); inn=new Map(); lastAttr=new Map(); q=[]; }
+const key=(u,v)=>u+"|"+v;
+function bump(m,a,b,delta){ let inner=m.get(a); if(!inner){inner=new Map(); m.set(a,inner);}
+  const c=(inner.get(b)||0)+delta;
+  if(c<=0){ inner.delete(b); if(!inner.size)m.delete(a); } else inner.set(b,c); }
+function evict(now){ let n=0;
+  while(q.length && q[0].t < now-W){ const e=q.shift();
+    bump(out,e.s,e.d,-1); bump(inn,e.d,e.s,-1);
+    const oc=out.get(e.s); if(!oc||!oc.get(e.d)) lastAttr.delete(key(e.s,e.d));
+    n++; }
+  return n; }
+function insert(e){ q.push(e); bump(out,e.s,e.d,1); bump(inn,e.d,e.s,1); lastAttr.set(key(e.s,e.d),e); }
+const fanIn=v=>(inn.get(v)||new Map()).size;
+const fanOut=u=>(out.get(u)||new Map()).size;
+const inDeg=v=>{let t=0;(inn.get(v)||new Map()).forEach(c=>t+=c);return t;};
+const outDeg=u=>{let t=0;(out.get(u)||new Map()).forEach(c=>t+=c);return t;};
+function bfsCycle(v,u){ // path v ~> u already in graph => new u->v closes a loop
+  if(!out.has(v)) return null;
+  const pred=new Map([[v,null]]); let frontier=[v], depth=0, closer=null;
+  while(frontier.length && depth<5 && !closer){ depth++;
+    const nxt=[];
+    for(const x of frontier){ const nb=out.get(x); if(!nb)continue;
+      for(const w of nb.keys()){
+        if(w===u){ closer=x; break; }
+        if(!pred.has(w)){ pred.set(w,x); if(pred.size>4000)return null; nxt.push(w); } }
+      if(closer)break; }
+    frontier=nxt; }
+  if(!closer)return null;
+  const hops=[]; let node=closer, succ=u;
+  while(node!==null){ hops.push([node,succ]); succ=node; node=pred.get(node); }
+  hops.reverse(); return hops; // v -> ... -> u
+}
+
+/* ---------- canvas ---------- */
+const cv=document.getElementById("cv"), ctx=cv.getContext("2d"), tip=document.getElementById("tip");
+let CW,CH;
+function resize(){ const r=cv.getBoundingClientRect(); const dpr=devicePixelRatio||1;
+  cv.width=r.width*dpr; cv.height=460*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); CW=r.width; CH=460; }
+addEventListener("resize",()=>{resize();draw();});
+const P=id=>{const p=pos[id];return{x:CW/2+p.x*CW*0.46, y:CH/2+p.y*CH*0.44};};
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+let cycleGlow=[], alertEdges=new Set(), fanStar=null, current=null, now=155;
+function draw(){
+  ctx.clearRect(0,0,CW,CH);
+  const cEdge=css("--edge"), cAcc=css("--accent"), cAl=css("--alert"), cInk=css("--ink"), cMut=css("--muted");
+  // window edges, faded by age
+  for(const e of q){
+    const a=P(e.s), b=P(e.d);
+    const age=(now-e.t)/W;
+    ctx.globalAlpha=Math.max(0.10, 0.75-0.62*age);
+    ctx.strokeStyle=cEdge; ctx.lineWidth=1.1; ctx.setLineDash(alertEdges.has(e.id)?[5,3]:[]);
+    if(alertEdges.has(e.id)){ ctx.strokeStyle=cAl; ctx.lineWidth=2.4; ctx.globalAlpha=0.95; }
+    arrow(a,b);
+  }
+  ctx.setLineDash([]);
+  // fan-in star highlight
+  if(fanStar){ ctx.globalAlpha=0.9; ctx.strokeStyle=cAl; ctx.lineWidth=1.6;
+    for(const s of fanStar.senders){ if(pos[s]) arrow(P(s),P(fanStar.dst)); } }
+  // cycle glow
+  if(cycleGlow.length){ ctx.globalAlpha=1; ctx.strokeStyle=cAcc; ctx.lineWidth=3.2;
+    ctx.shadowColor=cAcc; ctx.shadowBlur=reduced?0:9;
+    for(const [s,d] of cycleGlow) arrow(P(s),P(d));
+    ctx.shadowBlur=0; }
+  // current edge
+  if(current){ ctx.globalAlpha=1; ctx.strokeStyle=cInk; ctx.lineWidth=2.2; arrow(P(current.s),P(current.d)); }
+  // nodes
+  ctx.globalAlpha=1;
+  for(const id of ids){ const p=P(id);
+    const inCyc=cycNodes.has(id)&&cycleGlow.length;
+    const isFan=fanStar&&id===fanStar.dst;
+    ctx.beginPath(); ctx.arc(p.x,p.y,inCyc||isFan?6:3.6,0,7);
+    ctx.fillStyle= inCyc?cAcc : isFan?cAl : cMut; ctx.fill();
+    if(inCyc||isFan||(current&&(id===current.s||id===current.d))){
+      ctx.fillStyle=cInk; ctx.font="600 10px 'IBM Plex Mono',monospace";
+      ctx.fillText(id, p.x+7, p.y-6); } }
+  // chips
+  if(cycleGlow.length){ chip("CYCLE x"+cycleGlow.length, cAcc, 10, 12); }
+  if(fanStar){ chip("⚠ FAN-IN "+fanStar.n+" senders", cAl, 10, cycleGlow.length?34:12); }
+}
+function chip(txt,color,x,y){ ctx.font="600 10px 'IBM Plex Mono',monospace";
+  const w=ctx.measureText(txt).width+12;
+  ctx.fillStyle=color; ctx.globalAlpha=.92; roundRect(x,y-11,w,17,8); ctx.fill();
+  ctx.globalAlpha=1; ctx.fillStyle="#fff"; ctx.fillText(txt,x+6,y+1); }
+function roundRect(x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r);
+  ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+function arrow(a,b){ ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+  const ang=Math.atan2(b.y-a.y,b.x-a.x), hx=b.x-6*Math.cos(ang), hy=b.y-6*Math.sin(ang);
+  ctx.beginPath(); ctx.moveTo(b.x,b.y);
+  ctx.lineTo(hx-4*Math.cos(ang-0.5), hy-4*Math.sin(ang-0.5));
+  ctx.lineTo(hx-4*Math.cos(ang+0.5), hy-4*Math.sin(ang+0.5));
+  ctx.closePath(); ctx.fillStyle=ctx.strokeStyle; ctx.fill(); }
+cv.addEventListener("mousemove",ev=>{
+  const r=cv.getBoundingClientRect(), mx=ev.clientX-r.left, my=ev.clientY-r.top;
+  let best=null,bd=14;
+  for(const id of ids){ const p=P(id); const d=Math.hypot(p.x-mx,p.y-my);
+    if(d<bd){bd=d;best=id;} }
+  if(best){ tip.style.display="block";
+    tip.style.left=Math.min(mx+12, r.width-180)+"px"; tip.style.top=(my+10)+"px";
+    tip.textContent=`account ${best} | fan-in ${fanIn(best)} | fan-out ${fanOut(best)} (in window)`;
+    return; }
+  let bestE=null; bd=8;
+  for(const e of q){ const a=P(e.s),b=P(e.d);
+    const t=Math.max(0,Math.min(1,((mx-a.x)*(b.x-a.x)+(my-a.y)*(b.y-a.y))/((b.x-a.x)**2+(b.y-a.y)**2+1e-6)));
+    const d=Math.hypot(a.x+t*(b.x-a.x)-mx, a.y+t*(b.y-a.y)-my);
+    if(d<bd){bd=d;bestE=e;} }
+  if(bestE){ tip.style.display="block";
+    tip.style.left=Math.min(mx+12,r.width-200)+"px"; tip.style.top=(my+10)+"px";
+    tip.textContent=`txn ${bestE.id} | ${bestE.s} -> ${bestE.d} | $${bestE.a} | day ${bestE.t}`+(bestE.score!=null?` | score ${bestE.score}`:"");
+  } else tip.style.display="none";
+});
+cv.addEventListener("mouseleave",()=>tip.style.display="none");
+
+/* ---------- log + stages ---------- */
+const logEl=document.getElementById("log");
+function log(html){ const line=document.createElement("div"); line.innerHTML=html;
+  logEl.appendChild(line); while(logEl.children.length>220)logEl.firstChild.remove();
+  logEl.scrollTop=logEl.scrollHeight; }
+const stEls=["evict","read","bfs","insert","model","alert"].map(s=>document.getElementById("st-"+s));
+function flashStages(hasAlert){ if(reduced){stEls.forEach(el=>el.classList.add("done"));return;}
+  stEls.forEach(el=>el.classList.remove("hot","hot-alert"));
+  stEls.forEach((el,i)=>setTimeout(()=>{
+    stEls.forEach(x=>x.classList.remove("hot","hot-alert"));
+    if(i<5) el.classList.add("hot");
+    else if(hasAlert) el.classList.add("hot-alert");
+    el.classList.add("done");
+  }, i*(speedMs()/7))); }
+
+/* ---------- readout + narration ---------- */
+const $=id=>document.getElementById(id);
+document.getElementById("f-thr").style.left=(THR*100)+"%";
+function setReadout(e,f){
+  $("f-id").textContent=e.id; $("f-route").textContent=e.s+" → "+e.d;
+  $("f-amt").textContent="$"+e.a; $("f-fi").textContent=f.fi; $("f-fo").textContent=f.fo;
+  $("f-di").textContent=f.di; $("f-do").textContent=f.dout;
+  const c=$("f-cyc"); c.textContent=f.cyc?(f.cyclen>1?("yes — "+f.cyclen+" steps"):"self-pay"):"no";
+  c.classList.toggle("on",!!f.cyc&&f.cyclen>1);
+  const sc=e.score; $("f-score").textContent=sc==null?"not scored (warm-up)":sc.toFixed(3);
+  const fill=$("f-fill"); fill.style.width=(sc==null?0:sc*100)+"%";
+  fill.classList.toggle("over", sc!=null&&sc>=THR); }
+const storyEl=document.getElementById("story");
+let storyLines=[];
+function story(html, cls){
+  storyLines.push({html, cls}); if(storyLines.length>3) storyLines.shift();
+  storyEl.innerHTML = storyLines.map((l,ix)=>{
+    const last = ix===storyLines.length-1;
+    return `<span class="${last?(l.cls||"nowline"):"old"}">${l.html}</span>`;
+  }).join("");
+}
+/* plain-language reasons for the alarm cards */
+function plain(feature){
+  const P={ log_amount:"the payment amount itself",
+    amount_zscore_src:"the amount is unusual for this sender",
+    time_since_prev_src:"how quickly the sender paid again",
+    src_count_prior:"the sender's amount of past activity",
+    dest_count_prior:"the receiver's amount of past activity",
+    src_amt_mean_prior:"the sender's usual payment size",
+    src_INIT_BALANCE:"the sender's starting balance",
+    fan_in:"many different senders paying into this account",
+    dest_in_degree:"heavy recent traffic into this account",
+    fan_out:"payments spraying out to many receivers",
+    src_out_degree:"heavy recent traffic out of the sender",
+    in_cycle:"this payment completes a money loop",
+    cycle_length:"the size of the money loop",
+    tgn_edge_expectedness:"the AI found this sender-receiver pair surprising" };
+  if(P[feature])return P[feature];
+  if(feature.startsWith("lap_"))return "a suspicious pattern in the sender's repeated amounts";
+  if(feature.startsWith("tgn_"))return "the AI's learned sense of this account's behavior";
+  if(feature.startsWith("tx_type")||feature.startsWith("category"))return "the payment's type/category";
+  return feature.replaceAll("_"," "); }
+
+/* ---------- alert cards ---------- */
+const alertsEl=document.getElementById("alerts");
+function fireAlert(a, liveFanIn){
+  if(alertsEl.querySelector(".empty")) alertsEl.innerHTML="";
+  const card=document.createElement("div"); card.className="acard";
+  const drivers=a.drivers.slice(0,4).filter(d=>d.shap>0).map(d=>
+    `<tr><td>${plain(d.feature)} <span class="fam techonly">(${d.feature}, ${d.family})</span></td>
+     <td class="n">+${d.shap.toFixed(2)}</td></tr>`).join("");
+  let ev="";
+  if(a.type==="cycle") ev=`<div class="path">the loop: ${a.path_nodes.join(" → ")} &mdash; money came back to where it started</div>`;
+  else ev=`<div class="path">⚠ ${a.n_senders} different accounts paid into ${a.dst} within a week (${liveFanIn} of them visible in this slice)</div>`;
+  card.innerHTML=`<h3>⚠ ALARM &middot; risk ${a.score.toFixed(2)} (alarm level ${THR.toFixed(2)})</h3>
+    Account <b>${a.src}</b> paid <b>$${a.amount}</b> to <b>${a.dst}</b> on day ${a.t}
+    <span class="fam techonly">&middot; txn ${a.transaction_id} &middot; rank ${a.rank} of the test period</span>
+    <div style="margin-top:.35rem">Why the model flagged it:</div>
+    <table><tbody>${drivers}</tbody></table>${ev}`;
+  alertsEl.prepend(card); }
+
+/* ---------- replay loop ---------- */
+let i=0, timer=null;
+const speedSel=document.getElementById("speed");
+const speedMs=()=>+speedSel.value;
+function step(){
+  if(i>=edges.length){ pause();
+    story("Replay complete — 160 payments processed, 2 alarms raised, and not once did the system look at the future.","loopline");
+    log(`<span class="ok">replay complete - 160 transactions, 2 alerts, 0 leaks (features always read before insert)</span>`); return; }
+  const e=edges[i++]; now=e.t; current=e;
+  const nEv=evict(now);
+  if(nEv) log(`<span class="t">t=${e.t}</span> evict ${nEv} edge${nEv>1?"s":""} older than t-${W}`);
+  const f={fi:fanIn(e.d), fo:fanOut(e.s), di:inDeg(e.d), dout:outDeg(e.s), cyc:0, cyclen:0};
+  let hops=null;
+  if(e.s!==e.d){ hops=bfsCycle(e.d,e.s); if(hops){f.cyc=1; f.cyclen=hops.length+1;} }
+  else { f.cyc=1; f.cyclen=1; }
+  insert(e);
+  setReadout(e,f);
+  const a=alertsByTx[e.id];
+  /* plain narration */
+  let ns=`Day ${e.t}: account <b>${e.s}</b> paid <b>$${e.a}</b> to <b>${e.d}</b>.`;
+  if(nEv) ns+=` (${nEv} old payment${nEv>1?"s":""} faded out of view.)`;
+  let ncls="nowline";
+  if(f.cyc&&f.cyclen>1){ ns+=` It completes a ${f.cyclen}-step money loop!`; ncls="loopline"; }
+  if(e.score!=null&&e.score>=THR){ ns+=` Risk ${e.score.toFixed(2)} — above the alarm level.`; ncls="alarmline"; }
+  else if(e.score!=null) ns+=` Risk ${e.score.toFixed(2)} — normal.`;
+  story(ns,ncls);
+  let line=`<span class="t">t=${e.t}</span> txn ${e.id} ${e.s}→${e.d} $${e.a} | fan_in=${f.fi} deg=${f.di}`;
+  if(f.cyc&&f.cyclen>1) line+=` | <span class="ok">BFS: closes ${f.cyclen}-hop cycle</span>`;
+  if(e.score!=null){ line+=` | score ${e.score.toFixed(3)}`;
+    if(e.score>=THR) line+=` <span class="bad">≥ ${THR.toFixed(3)} → ALERT</span>`; }
+  log(line);
+  if(a){ alertEdges.add(e.id);
+    if(a.type==="cycle"&&hops){ cycleGlow=[[e.s,e.d],...hops];
+      story(`⚠ ALARM: money travelled ${hops.length+1} steps and came back to account ${a.path_nodes[0]} — a classic laundering loop. See the alarm card for the reasons.`,"alarmline"); }
+    if(a.type==="fan_in"){ fanStar={dst:e.d, n:a.n_senders, senders:[...(inn.get(e.d)||new Map()).keys()]};
+      story(`⚠ ALARM: ${a.n_senders} different accounts funneled money into ${e.d} within a week — a collection pattern. See the alarm card for the reasons.`,"alarmline"); }
+    fireAlert(a, f.fi);
+    log(`<span class="bad">⚠ AUDIT ALERT rank ${a.rank}</span> - TreeSHAP drivers attached; evidence ${a.type==="cycle"?"= verified "+(hops.length+1)+"-hop loop":"= fan-in star"}`);
+  }
+  flashStages(!!a);
+  $("day").textContent=e.t; $("ndone").textContent=i; $("wsize").textContent=q.length;
+  document.getElementById("pbar").style.width=(i/edges.length*100)+"%";
+  draw();
+}
+const btnRun=document.getElementById("btnRun");
+function play(){ if(timer)return; btnRun.innerHTML="&#10073;&#10073; Pause";
+  document.getElementById("graphPanel").classList.add("running");
+  timer=setInterval(step, speedMs()); }
+function pause(){ clearInterval(timer); timer=null; btnRun.innerHTML="&#9654; Run";
+  document.getElementById("graphPanel").classList.remove("running"); }
+btnRun.onclick=()=>timer?pause():play();
+speedSel.onchange=()=>{ if(timer){ pause(); play(); } };
+document.getElementById("btnStep").onclick=()=>{ pause(); step(); };
+const btnTech=document.getElementById("btnTech");
+btnTech.onclick=()=>{ const on=document.body.classList.toggle("tech");
+  btnTech.textContent="Technical view: "+(on?"on":"off");
+  btnTech.setAttribute("aria-pressed", on?"true":"false"); };
+document.getElementById("btnReset").onclick=()=>{ pause(); i=0; now=155;
+  resetGraph(); cycleGlow=[]; alertEdges.clear(); fanStar=null; current=null;
+  storyLines=[]; storyEl.innerHTML='<span class="old">Press <b>Run</b> (or <b>Step</b>) to start the replay.</span>';
+  logEl.innerHTML=""; alertsEl.innerHTML='<span class="empty">None yet - the first fires around day 162.</span>';
+  stEls.forEach(x=>x.classList.remove("done","hot","hot-alert"));
+  $("day").textContent=155; $("ndone").textContent=0; $("wsize").textContent=0;
+  document.getElementById("pbar").style.width="0%"; draw();
+  log('<span class="t">ready</span> canonical edges loaded, sorted by (timestamp, id) - press Run'); };
+
+resetGraph(); resize(); draw();
+log('<span class="t">ready</span> 160 canonical edges loaded (IBM AML, days 155-191), sorted by (timestamp, id)');
+log('<span class="t">ready</span> WindowGraph(window=7) initialised empty - press Run');
+})();
+</script>

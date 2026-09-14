@@ -17,11 +17,8 @@ artifacts/*
 results/*
 !results/.gitkeep
 
-# --- Data (raw + intermediate) ---
-data/*
-!data/processed/
-data/processed/*
-!data/processed/.gitkeep
+# --- Data (raw + intermediate datasets; never push) ---
+data/
 
 # --- Serialized models / large binaries ---
 *.pkl
@@ -46,3 +43,6 @@ reference/
 # --- Local-only assistant rulebook & working docs (kept local, not in the repo) ---
 CLAUDE.md
 docs/
+
+# --- Duplicate skills discovery tree (canonical copy lives in skills/) ---
+.agents/

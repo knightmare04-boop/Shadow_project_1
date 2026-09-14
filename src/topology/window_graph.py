@@ -200,3 +200,61 @@ class WindowGraph:
             succ = node
             node = pred[node]
         return hops + 1, p_min_amt, p_max_amt, p_min_ts
+
+    def cycle_path(self, v: int, u: int, max_len: int, budget: int
+                   ) -> list[tuple[int, int, float, int | float]] | None:
+        """The actual hops of the shortest cycle ``cycle_features`` would report.
+
+        Identical BFS (same bounds, same iteration order, same first-hit-wins
+        tie-break), so for the same graph state it reconstructs the SAME shortest
+        path ``v ⇝ u`` that produced the stored cycle features. Returns the path
+        edges in forward order as ``[(src, dst, amount, ts), ...]`` — the caller
+        prepends the closing edge ``u -> v`` (the transaction being explained) to
+        complete the cycle. Returns ``None`` if no cycle is found.
+
+        Used only by the audit-alert evidence layer (topology/paths.py); the
+        streaming feature engine never calls it.
+        """
+        out = self.out
+        if v not in out:
+            return None
+        pred = {v: -1}
+        frontier = [v]
+        visited = 1
+        depth = 0
+        max_path = max_len - 1
+        closer = None
+        while frontier and depth < max_path and closer is None:
+            depth += 1
+            nxt: list[int] = []
+            for x in frontier:
+                neigh = out.get(x)
+                if not neigh:
+                    continue
+                for w in neigh:
+                    if w == u:
+                        closer = x
+                        break
+                    if w not in pred:
+                        pred[w] = x
+                        visited += 1
+                        if visited > budget:
+                            return None
+                        nxt.append(w)
+                if closer is not None:
+                    break
+            frontier = nxt
+        if closer is None:
+            return None
+
+        last = self.last
+        hops: list[tuple[int, int, float, int | float]] = []
+        node = closer
+        succ = u
+        while node != -1:
+            amt, ts = last[node][succ]
+            hops.append((node, succ, amt, ts))
+            succ = node
+            node = pred[node]
+        hops.reverse()             # forward order: v -> ... -> closer -> u
+        return hops
