@@ -1,0 +1,67 @@
+name: shadow-ledger
+
+# Module 8: uptime monitoring + metrics. Merge with the core stack:
+#   docker compose -f infra/docker-compose.yml -f infra/docker-compose.observability.yml up -d
+#
+# GlitchTip (Sentry-compatible error tracking) is NOT included here — it is
+# a full Django app needing its own Postgres database, Redis, and a Celery
+# worker, which is a substantial standalone deployment in its own right, not
+# a docker-compose add-on. Structured JSON logging (app/core/logging.py,
+# live since Module 1 with correlation-id propagation end-to-end) is this
+# project's actual error-logging mechanism; GlitchTip integration point:
+# set GLITCHTIP_DSN in .env and app/core/config.py already reads it — the
+# app just has nothing to send it to in this compose stack yet.
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.55.1
+    container_name: ledger-prometheus
+    restart: unless-stopped
+    volumes:
+      - ./observability/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prom_data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.retention.time=7d"
+    ports:
+      - "${PROMETHEUS_PORT:-9090}:9090"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:9090/-/healthy || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  grafana:
+    image: grafana/grafana:11.3.1
+    container_name: ledger-grafana
+    restart: unless-stopped
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:-admin_dev_password}
+      GF_AUTH_ANONYMOUS_ENABLED: "false"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./observability/grafana/provisioning:/etc/grafana/provisioning:ro
+    ports:
+      - "${GRAFANA_PORT:-3000}:3000"
+    depends_on:
+      prometheus:
+        condition: service_healthy
+
+  uptime-kuma:
+    image: louislam/uptime-kuma:1.23.16
+    container_name: ledger-uptime-kuma
+    restart: unless-stopped
+    volumes:
+      - uptime_kuma_data:/app/data
+    ports:
+      - "${UPTIME_KUMA_PORT:-3001}:3001"
+
+networks:
+  default:
+    name: shadow-ledger-net
+    external: true
+
+volumes:
+  prom_data:
+  grafana_data:
+  uptime_kuma_data:

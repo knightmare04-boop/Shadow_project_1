@@ -12,7 +12,7 @@
 # =============================================================================
 
 # Root of the downloaded raw datasets (external to the repo; data/ is gitignored).
-raw_root: "C:/Users/Aarin Bhatta/OneDrive/Desktop/Projects/erp datasets"
+raw_root: "D:/project 1/project/data/raw"
 
 # Where canonical node/edge files are written (resolved relative to repo root).
 processed_root: "data/processed"
@@ -152,6 +152,34 @@ datasets:
     expected_fraud_rate: 0.0056          # from generation_manifest.json
     topology:
       window: 604800                     # 7 days, in seconds (matches Tier-1 window)
+      max_cycle_len: 6
+
+  # ---- Reproduction check: IBM AML via Kaggle (ealtman2019 HI-Small) -------
+  # NOT the same simulator instance behind the committed results/ibm_aml/
+  # metrics (that was AMLSim's own output: 1,323,234 edges / 10,000 accounts /
+  # 1,719 frauds, integer day-counter timestamps). This is Kaggle's HI-Small
+  # export (~5.08M rows), adapted by tools/adapt_ibm_aml_kaggle.py into the
+  # canonical TX_ID/SENDER_ACCOUNT_ID/... layout with a continuous
+  # seconds-since-start timestamp (not day-bucketed — collapsing 5M+ rows to
+  # day granularity would create massive false ties). Kept as a SEPARATE
+  # dataset key so it is never silently merged into the headline ibm_aml
+  # numbers; report it as a reproduction check only (see docs/BUILD_SPEC.md §3).
+  ibm_aml_kaggle:
+    kind: transfer
+    raw:
+      transactions: "erp_fraud_data_4(ibm_aml_sim)_kaggle/transactions.csv"
+    schema:
+      tx_id: TX_ID
+      source: SENDER_ACCOUNT_ID
+      dest: RECEIVER_ACCOUNT_ID
+      amount: TX_AMOUNT
+      timestamp: TIMESTAMP           # continuous integer seconds since first txn
+      tx_type: TX_TYPE
+      label: IS_FRAUD
+    time_unit: second
+    expected_fraud_rate: 0.001019    # measured directly by tools/adapt_ibm_aml_kaggle.py (5177/5078345)
+    topology:
+      window: 604800                 # 7 days, in seconds (matches Tier-1 window semantics)
       max_cycle_len: 6
 
   # ---- Tier 3: FIFAR — DROPPED from Phase 1 (no graph) ---------------------

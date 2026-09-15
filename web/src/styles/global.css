@@ -1,0 +1,127 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap");
+@import "./tokens.css";
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+h1, h2, h3 { font-family: var(--font-serif); font-weight: 600; margin: 0; }
+code, .mono { font-family: var(--font-mono); }
+
+a { color: var(--accent); }
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ---- layout shell -------------------------------------------------- */
+.app-shell { display: flex; min-height: 100vh; }
+.app-sidebar {
+  width: 220px; flex-shrink: 0; background: var(--card); border-right: 1px solid var(--line);
+  padding: var(--space-3); display: flex; flex-direction: column; gap: var(--space-2);
+}
+.app-main { flex: 1; min-width: 0; padding: var(--space-4); }
+.app-brand { font-family: var(--font-serif); font-size: 1.1rem; margin-bottom: var(--space-3); }
+.nav-link {
+  display: block; padding: var(--space-2) var(--space-2); border-radius: var(--radius-sm);
+  color: var(--muted); text-decoration: none; font-size: 0.88rem;
+}
+.nav-link:hover { background: var(--paper); color: var(--ink); }
+.nav-link.active { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+.nav-section-label {
+  font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted); margin: var(--space-3) 0 var(--space-1); padding: 0 var(--space-2);
+}
+
+@media (max-width: 640px) {
+  .app-shell { flex-direction: column; }
+  .app-sidebar { width: 100%; flex-direction: row; overflow-x: auto; }
+}
+
+/* ---- panel / card ---------------------------------------------------- */
+.panel { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-md); }
+.panel > h2 {
+  font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted); margin: 0; padding: 0.55rem 0.8rem; border-bottom: 1px solid var(--line);
+}
+.panel-body { padding: var(--space-3); }
+
+/* ---- buttons / forms -------------------------------------------------- */
+button, .btn {
+  font-family: var(--font-sans); font-size: 0.85rem; padding: 0.45rem 0.9rem; border-radius: var(--radius-sm);
+  border: 1px solid var(--line); background: var(--card); color: var(--ink); cursor: pointer;
+}
+button:disabled, .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+button.primary, .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+button.danger, .btn.danger { background: var(--alert); border-color: var(--alert); color: #fff; }
+button.ghost { background: transparent; border-color: transparent; }
+
+input, select, textarea {
+  font-family: var(--font-sans); font-size: 0.88rem; padding: 0.45rem 0.6rem; border-radius: var(--radius-sm);
+  border: 1px solid var(--line); background: var(--paper); color: var(--ink); width: 100%;
+}
+label { display: block; font-size: 0.78rem; color: var(--muted); margin-bottom: 0.25rem; }
+.field { margin-bottom: var(--space-3); }
+.field-error { color: var(--alert); font-size: 0.75rem; margin-top: 0.25rem; }
+
+/* ---- table ---------------------------------------------------- */
+.data-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.data-table th {
+  text-align: left; font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--muted); padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--line);
+}
+.data-table td { padding: 0.55rem 0.7rem; border-bottom: 1px solid var(--line); }
+.data-table tbody tr:hover { background: color-mix(in srgb, var(--card) 60%, transparent); }
+.table-scroll { overflow-x: auto; }
+
+/* ---- badges ---------------------------------------------------- */
+.badge {
+  display: inline-block; font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.03em;
+  padding: 0.15rem 0.5rem; border-radius: 99px; border: 1px solid var(--line); color: var(--muted);
+}
+.badge.ok { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+.badge.warn { border-color: var(--alert); color: var(--alert); background: var(--alert-soft); }
+
+/* ---- loading / skeleton -------------------------------------------------- */
+@keyframes skeleton-pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+.skeleton {
+  background: var(--line); border-radius: var(--radius-sm); animation: skeleton-pulse 1.4s ease-in-out infinite;
+}
+.skeleton-line { height: 1em; margin: 0.35rem 0; }
+.skeleton-row { height: 2.4rem; margin-bottom: 2px; }
+@media (prefers-reduced-motion: reduce) { .skeleton { animation: none; opacity: 0.7; } }
+
+.spinner {
+  width: 16px; height: 16px; border: 2px solid var(--line); border-top-color: var(--accent);
+  border-radius: 50%; display: inline-block; animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .spinner { animation-duration: 1.6s; } }
+
+/* ---- empty / error states -------------------------------------------------- */
+.state-block {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: var(--space-4) var(--space-3); text-align: center; color: var(--muted); gap: var(--space-2);
+}
+.state-block .state-icon { font-size: 1.8rem; opacity: 0.6; }
+.state-block .state-title { color: var(--ink); font-weight: 600; }
+.state-block.error .state-icon { color: var(--alert); }
+.state-block .state-action { margin-top: var(--space-1); }
+
+/* ---- misc -------------------------------------------------- */
+.sub { color: var(--muted); font-size: 0.85rem; }
+.stack { display: flex; flex-direction: column; gap: var(--space-3); }
+.row { display: flex; gap: var(--space-3); align-items: center; }
+.row.between { justify-content: space-between; }
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-3); }
+
+/* ---- score bar (forensic console) -------------------------------------------------- */
+.scorebar { position: relative; height: 10px; background: var(--line); border-radius: 5px; margin-top: 0.35rem; }
+.scorebar .fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 5px; background: var(--accent); transition: width 0.2s; }
+.scorebar .fill.over { background: var(--alert); }
+.scorebar .thr { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--ink); opacity: 0.65; }

@@ -1,0 +1,17 @@
+global:
+  scrape_interval: 10s
+  evaluation_interval: 10s
+
+scrape_configs:
+  - job_name: "shadow-ledger-api"
+    metrics_path: /metrics
+    static_configs:
+      # The API runs on the host during dev (uvicorn, not containerized yet).
+      # host.docker.internal resolves the host from inside a container on
+      # Docker Desktop (Windows/Mac). A future containerized API service
+      # would instead be scraped by its compose service name.
+      - targets: ["host.docker.internal:8000"]
+
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]

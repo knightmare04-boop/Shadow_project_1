@@ -1,0 +1,104 @@
+name: shadow-ledger
+
+# Core transactional substrate: Postgres (system of record), Redis (idempotency
+# keys + response cache), Neo4j (optional visualization sink only — see
+# src/graph/db.py; the app must run correctly with this service stopped).
+#
+# Observability (GlitchTip, Uptime Kuma, Prometheus, Grafana) lives in the
+# separate docker-compose.observability.yml, merged with -f, so the core stack
+# stays small for day-to-day dev: `docker compose -f docker-compose.yml up -d`.
+
+services:
+  # One-shot: fresh named volumes are root-owned; the postgres image's own
+  # entrypoint only chowns PGDATA, not extra mounts like wal_archive. Without
+  # this, archive_command fails with "Permission denied" forever.
+  wal-archive-init:
+    image: alpine:3.20
+    command: sh -c "mkdir -p /var/lib/postgresql/wal_archive && chmod 0777 /var/lib/postgresql/wal_archive"
+    volumes:
+      - wal_archive:/var/lib/postgresql/wal_archive
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: ledger-postgres
+    restart: unless-stopped
+    depends_on:
+      wal-archive-init:
+        condition: service_completed_successfully
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-ledger}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ledger_dev_password}
+      POSTGRES_DB: ${POSTGRES_DB:-shadow_ledger}
+      # pg_stat_statements is required by Module 7's before/after query-plan work.
+      POSTGRES_INITDB_ARGS: "--data-checksums"
+    command: >
+      postgres
+      -c shared_preload_libraries=pg_stat_statements
+      -c pg_stat_statements.track=all
+      -c max_connections=200
+      -c wal_level=replica
+      -c archive_mode=on
+      -c archive_command='cp %p /var/lib/postgresql/wal_archive/%f'
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - wal_archive:/var/lib/postgresql/wal_archive
+      - ./init/pg_init.sql:/docker-entrypoint-initdb.d/01_init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-ledger} -d ${POSTGRES_DB:-shadow_ledger}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    shm_size: 256mb
+
+  redis:
+    image: redis:7-alpine
+    container_name: ledger-redis
+    restart: unless-stopped
+    command: >
+      redis-server
+      --appendonly yes
+      --maxmemory 256mb
+      --maxmemory-policy allkeys-lru
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  neo4j:
+    image: neo4j:5-community
+    container_name: ledger-neo4j
+    restart: unless-stopped
+    environment:
+      NEO4J_AUTH: ${NEO4J_USER:-neo4j}/${NEO4J_PASSWORD:-ledger_dev_password}
+      NEO4J_server_memory_pagecache_size: 256m
+      NEO4J_server_memory_heap_max__size: 512m
+    ports:
+      - "${NEO4J_HTTP_PORT:-7474}:7474"
+      - "${NEO4J_BOLT_PORT:-7687}:7687"
+    volumes:
+      - neo4jdata:/data
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:7474 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    # Optional-by-design (see CLAUDE.md — "Python computes, Neo4j shows"):
+    # the app degrades gracefully to canvas-only replay if this is stopped.
+    profiles: ["full", "graph"]
+
+networks:
+  default:
+    name: shadow-ledger-net
+
+volumes:
+  pgdata:
+  wal_archive:
+  redisdata:
+  neo4jdata:

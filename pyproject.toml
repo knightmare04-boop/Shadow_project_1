@@ -19,15 +19,45 @@ dependencies = [
     "seaborn>=0.13",
     "plotly>=5.18",
     "torch>=2.2",
+    "pyarrow>=14.0",
 ]
 
 [project.optional-dependencies]
 # SHAP *plots* only — attribution values are computed with XGBoost's native
 # TreeSHAP (pred_contribs=True), which needs no extra dependency.
 explain = ["shap>=0.45"]
-test = ["pytest>=8.0"]
+test = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.24",
+    "httpx>=0.27",
+    "testcontainers[postgres]>=4.8",
+]
+
+# The ERP + forensic console application (app/) — a separate concern from the
+# research pipeline (src/), sharing this venv and this repo.
+app = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.30",
+    "sqlalchemy[asyncio]>=2.0",
+    "asyncpg>=0.29",
+    "psycopg[binary]>=3.2",       # sync driver, used by Alembic only
+    "alembic>=1.13",
+    "redis>=5.0",
+    "pydantic[email]>=2.8",
+    "pydantic-settings>=2.4",
+    "structlog>=24.4",
+    "python-jose[cryptography]>=3.3",
+    "bcrypt>=4.1",
+    "brotli>=1.1",
+    "python-multipart>=0.0.9",
+    "tenacity>=9.0",              # retry/backoff for outbound calls
+    "prometheus-client>=0.20",
+]
 
 # Make the modules under src/ (common, etl, graph, topology, features, modeling)
 # importable as top-level packages after `pip install -e .` — no sys.path hacks.
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"

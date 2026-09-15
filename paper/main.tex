@@ -1,0 +1,79 @@
+\documentclass[journal]{IEEEtran}
+
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{siunitx}
+\usepackage{hyperref}
+\usepackage{cite}
+\usepackage{xcolor}
+\usepackage{subcaption}
+
+\graphicspath{{figures/}}
+
+\begin{document}
+
+\title{The Self-Auditing Ledger: Leakage-Free Temporal Graph Topology\\
+for ERP Fraud Detection, with a Production Audit Console}
+
+\author{
+Aarin~Bhatta, Himanshu~Ray, and Mohammed~Akif\\
+School of Computer Science and Engineering, Vellore Institute of Technology, Vellore, India
+\thanks{Manuscript prepared September 2026.}
+}
+
+\markboth{}{}
+
+\maketitle
+
+\begin{abstract}
+Graph-based fraud detection methods are frequently proposed without an
+explicit audit of temporal leakage, and rarely evaluated with a controlled,
+same-architecture ablation that isolates the marginal value of graph
+structure from the tabular signal it is layered on top of. This paper
+presents a leakage-free streaming temporal-topology feature engine --
+enforcing a formal read-then-insert invariant so that a transaction's
+features can never depend on information from its own future -- and
+subjects it to a rigorous within-dataset ablation across four
+heterogeneous financial datasets (a bipartite payment simulator, a
+multi-hop transfer network, a real SAP general-ledger export, and a
+calibrated synthetic ERP economy). The central finding is conditional, not
+universal: graph topology adds substantial, leakage-free predictive value
+on two of four datasets (+11.7\% and +246.8\% relative PR-AUC), is
+uninformative on a third whose tabular baseline is already saturated, and
+\emph{actively hurts} on the fourth. We report this honestly, including
+the finding that hand-crafted cycle-detection features -- the project's
+own headline motif -- carry near-zero gain importance on three of four
+datasets, that a learned temporal graph network never beats hand-crafted
+topology on real data, and that naive synthetic-data augmentation
+measurably harms real-dataset performance. Beyond the research question, we
+describe and empirically verify a production system -- a Procure-to-Pay ERP
+with a forensic audit console -- that serves this leakage-free feature
+computation live against real transactions, with database-enforced
+financial-integrity invariants (double-entry balance, period close,
+immutable audit trail, and a five-layer duplicate-payment defence proven
+under concurrent load), closing the gap between a research pipeline and a
+system an auditor could actually use.
+\end{abstract}
+
+\begin{IEEEkeywords}
+fraud detection, temporal graphs, data leakage, anti-money laundering,
+explainable AI, continuous auditing, ERP systems, XGBoost, synthetic data
+\end{IEEEkeywords}
+
+\input{sections/01_intro_related}
+\input{sections/02_problem_datasets}
+\input{sections/03_topology_engine}
+\input{sections/04_protocol_ablation}
+\input{sections/05_modern_study}
+\input{sections/06_synthetic_economy}
+\input{sections/07_explainability}
+\input{sections/08_system}
+\input{sections/09_limitations_conclusion}
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}

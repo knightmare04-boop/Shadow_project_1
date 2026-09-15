@@ -1,0 +1,393 @@
+\section{A Calibrated Synthetic ERP Economy}\label{sec:synthetic}
+
+The four real datasets used elsewhere in this paper give us, at best, a few
+thousand labeled fraud rows each, concentrated in typologies each simulator's
+original authors happened to encode. To probe typologies we do not observe at
+scale in any single real ledger, and to obtain a dataset that is simultaneously
+account-to-account (so that cycles are structurally possible), ERP-flavored
+(payables, payroll, receivables), and large enough in fraud count to support
+per-typology analysis, we built \texttt{synth\_erp}: an agent-based simulation
+of a 40-company economy running for 365 simulated days over $\sim$39k accounts,
+producing 1{,}148{,}503 transactions of which 5{,}609 are labeled fraud
+(a 0.4884\% rate). This section documents how the generator was designed to
+resist the one failure mode that would make it useless for our purposes, what
+an independent realism audit against the four real datasets found — including
+where the synthetic economy does \emph{not} match reality — and what a direct
+adversarial probe for cheap tabular leaks and a downstream training-transfer
+experiment revealed. Throughout, we hold \texttt{synth\_erp} to the same
+evidentiary standard as the real datasets: numbers are reported whether or not
+they are flattering, because the entire purpose of this exercise is to know
+which sanctioned use cases actually survive scrutiny.
+
+\subsection{Design Philosophy: The Circularity Trap}
+\label{sec:synthetic-trap}
+
+A synthetic fraud generator built by the same team that builds the fraud
+\emph{detector} is exposed to an obvious failure mode: if the generator's
+authors hand-encode fraud as ``insert a 3-hop cycle'' or ``make the receiver's
+in-degree spike,'' a topology engine built by the same authors will of course
+find it — not because graph structure is informative about fraud in general,
+but because the two pieces of code were written to fit each other. Grading a
+detector against a generator that shares its assumptions proves nothing about
+the real world; it is closer to checking that a lock opens with its own key.
+\texttt{synth\_erp} was designed against this failure mode by a single binding
+rule, carried in this project's own methodology documentation: fraud is
+injected as \emph{goal-driven behavior with evasion}, never as a
+detector-shaped pattern. The fraud-generation code imports nothing from the
+topology-feature codebase and references no detector's internals; every
+typology is written as an agent pursuing a criminal objective (skim a
+receivable, drain a payables account, collect from recruited mules) under
+realistic constraints (approval thresholds, banking hours, evasion timing),
+and any cycle, fan-in, or amount-recurrence a detector later measures is a
+\emph{consequence} of that behavior, not its specification. The benign
+population mirrors this discipline: ordinary commerce is allowed to produce
+the same raw ingredients fraud produces — busy retailers with heavy fan-in,
+payroll batches that resemble fan-out bursts, subscription billing that
+recurs at a near-equal amount, refunds that close reciprocal pairs, multi-hop
+circulation as salaries fund purchases that fund vendors — since a background
+in which only fraud has structure would reintroduce the same shortcut through
+the back door. Sec.~\ref{sec:synthetic-emergence} reports just how modestly
+enriched the fraud-typology structural traces actually are once this
+constraint is honored — a dataset engineered to make cycles trivially
+separable would show the opposite pattern.
+
+\subsection{Generator Architecture, Scale, and Transaction Composition}
+
+\texttt{synth\_erp} follows the same broad methodology family as two of the
+real datasets used elsewhere in this paper — an agent-based simulation
+calibrated against measured real-world statistics rather than a purely
+hand-tuned generator, the approach behind BankSim~\cite{lopezrojas2014banksim},
+PaySim~\cite{lopezrojas2016paysim}, and the AMLSim lineage behind
+\texttt{ibm\_aml}~\cite{altman2023realistic}. The simulated economy comprises
+40 companies operating alongside their customers, vendors, and employees,
+generating seven ordinary transaction flows
+(\texttt{sale}, \texttt{vendor\_payment}, \texttt{payroll}, \texttt{transfer},
+\texttt{refund}, \texttt{reimbursement}, \texttt{recurring\_bill}) over a full
+simulated year. Table~\ref{tab:synth-flows} gives the exact per-flow
+transaction counts, read directly from the same adversarial tabular-leak audit
+discussed in Sec.~\ref{sec:synthetic-leakprobe} (the per-\texttt{tx\_type}
+support counts there sum exactly to the dataset total, confirming the two are
+consistent measurements of the same underlying table). Retail \texttt{sale}
+traffic dominates by volume (66.2\%), with the ERP-specific payables rail
+(\texttt{vendor\_payment}, 18.1\%) the second-largest flow — a composition
+deliberately closer to an operating company's ledger than to a pure
+consumer-payments simulator.
+
+\begin{table}[t]
+\centering
+\small
+\caption{Transaction volume by flow type, \texttt{synth\_erp} (all 1{,}148{,}503 rows, fraud and benign combined). Source: \texttt{paper/data/synth\_erp\_realism.json}, \texttt{tabular\_leak\_probe.rules} per-\texttt{tx\_type} support.}
+\label{tab:synth-flows}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Flow (\texttt{tx\_type}) & Count & Share \\
+\midrule
+\texttt{sale}            & 760{,}558 & 66.23\% \\
+\texttt{vendor\_payment}  & 208{,}155 & 18.13\% \\
+\texttt{transfer}         &  94{,}781 &  8.25\% \\
+\texttt{payroll}          &  49{,}240 &  4.29\% \\
+\texttt{refund}           &  18{,}396 &  1.60\% \\
+\texttt{reimbursement}    &  12{,}236 &  1.07\% \\
+\texttt{recurring\_bill}  &   5{,}137 &  0.45\% \\
+\midrule
+Total                     & 1{,}148{,}503 & 100.00\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+At the account/graph level, the simulated economy is dense and repeat-heavy:
+39{,}256 accounts transact across 251{,}192 unique sender--receiver pairs,
+with 85.86\% of transactions occurring between a pair that has transacted
+before (\texttt{repeat\_pair\_txn\_frac} = 0.8586) and 94.1\% of accounts
+appearing on both the sending and receiving side of at least one transaction
+(\texttt{namespace\_overlap} = 0.941) — i.e., this is deliberately \emph{not}
+a bipartite consumer-to-merchant graph, since ERP economies circulate money
+(salaries fund purchases, purchases fund vendors, vendors pay employees) in a
+way that pure-payments simulators structurally cannot. Degree is heavy-tailed
+in both directions: median out-degree 18 (p99 = 83, max = 20{,}838) and
+median in-degree 4 (p99 $\approx$ 128, max = 194{,}265), driven by a small
+number of high-volume retailers and payroll-issuing companies. Activity is
+temporally realistic without being explicitly targeted at any metric: 79.06\%
+of transactions fall in business hours and 17.31\% on weekends, at a mean of
+3{,}146.6 transactions/day (p99 = 5{,}308.3) sustained across all 365 simulated
+days — timestamped to the second, a finer time axis than any of the four real
+datasets in our roster provide.
+
+\subsection{Five Fraud Typologies as Emergent Behavior}
+\label{sec:synthetic-emergence}
+
+Fraud is injected as five occupational-fraud typologies, each defined by an
+actor's goal and evasion strategy rather than by a target graph shape:
+\texttt{laundering\_cycle} (embezzled funds layered through a ring of shells
+and, in most scenarios, cycled back toward the entry account), \texttt{mule\_fanin}
+(scam proceeds collected from many recruited mule accounts into one
+collector), \texttt{lapping} (a diverted receivable covered days later by the
+next customer's payment), \texttt{invoice\_kickback} (a colluding vendor
+overbills and returns a cut to an insider), and \texttt{larceny} (direct
+insider diversion of funds, disguised as vendor or reimbursement traffic). The
+resulting typology counts are 1{,}442 (\texttt{laundering\_cycle}), 2{,}327
+(\texttt{mule\_fanin}), 760 (\texttt{lapping}), 625 (\texttt{invoice\_kickback}),
+and 455 (\texttt{larceny}) labeled rows, summing to the reported 5{,}609
+fraud transactions.
+
+Because these behaviors are never specified in terms of detector features, the
+honest question is whether they leave structural traces at all, and at what
+rate. The benign background already contains a nontrivial rate of graph
+cycles — 5.761\% of benign transactions close a cycle in the observed window,
+with 99th-percentile benign fan-in reaching 4{,}197 distinct senders (busy
+retailers and payroll hubs) — so cyclicity and fan-in are not, by
+construction, fraud-exclusive signals. Against that background,
+\texttt{laundering\_cycle} transactions close a cycle 18.45\% of the time (all
+at length $\geq 3$), a $3.2\times$ enrichment over the 5.761\% benign base
+rate — real, but far from deterministic, consistent with a design in which
+60\% of rings loop back to their entry account and 40\% exit linearly, and in
+which the streaming, look-ahead-free topology engine's window will miss some
+closures entirely. \texttt{mule\_fanin} collectors show a 90th-percentile
+in-window fan-in of only 8 distinct senders — far below the benign
+99th-percentile of 4{,}197 — so a raw fan-in threshold offers no free
+discrimination there either. \texttt{lapping} shows the weakest structural
+footprint of the five: its amount-recurrence measure
+(\texttt{lap\_in\_recur}) averages 0.06, swamped by a benign population
+dominated by genuinely recurring payroll and subscription billing. We flag
+this pattern explicitly because it foreshadows a headline finding developed
+later in this paper (Sec.~\ref{sec:ablation}): engineered cycle-shaped
+features carry a surprisingly small share of the detectable signal on real
+data, and this section shows that is not an artifact of an unrealistic
+generator — even in a dataset whose typologies are explicitly designed to
+produce cycles and fan-in, those structural traces are only modestly
+enriched over an already-active benign background, not deterministic
+markers.
+
+\subsection{Realism Audit Against the Real-Data Reference Band}
+\label{sec:synthetic-realism}
+
+For every statistic we report on \texttt{synth\_erp}, we ask one question:
+does it fall inside the range spanned by the four real datasets
+(\texttt{ibm\_aml}, \texttt{banksim}, \texttt{sap\_wurzburg}, \texttt{paysim}),
+measured with identical methodology, or outside it? Table~\ref{tab:synth-realism}
+answers this for six statistics drawn from \texttt{calibration\_reference.json}
+and \texttt{synth\_erp\_realism.json}. The fraud rate, the repeat-pair share
+of transactions, and the sender/receiver namespace overlap all land inside
+the real span. Three do not, and we report them plainly rather than tuning
+them away. Log-amount dispersion (\texttt{log1p\_std} = 2.3256) sits above
+every real dataset (span 0.9551--2.0193): the simulated economy mixes
+cents-scale retail tickets with treasury sweeps of hundreds of thousands of
+dollars in one distribution, a wider mixture than any single-domain real
+dataset exhibits — genuine \emph{over}-dispersion, not a defensible match.
+Benford mean-absolute-deviation (\texttt{benford\_mad} = 0.0047) is
+\emph{lower} than every real dataset (span 0.0142--0.0758): \texttt{synth\_erp}'s
+amounts obey Benford's law more cleanly than any real ledger we measured,
+itself a realism failure in the opposite direction — real accounting data
+carries idiosyncratic roundness and human-entered biases that a mixture of
+lognormal generators does not reproduce. Pair reciprocity
+(\texttt{pair\_reciprocity} = 0.1356) is roughly $3.0\times$ the real maximum
+(0.0446, \texttt{ibm\_aml}): salary-to-purchase circulation and refund/cover
+behavior generate more back-and-forth pairs than any of the four real
+economies structurally permit. None of these three deviations is hidden in
+downstream use: they are why \texttt{synth\_erp} is never treated as evidence
+for this paper's central topology claim, only as training material and a
+stress test, per the usage policy at the top of this section.
+
+%% FIGURE TODO: grouped bar chart with one bar-triplet per calibration metric
+%% (fraud rate, log1p_std, benford_mad, pair_reciprocity, repeat_pair_frac,
+%% namespace_overlap): synth_erp value vs. the real-dataset min-max band
+%% (shown as a shaded range or error bar), so in-range vs. out-of-range
+%% metrics are visually obvious at a glance. Omitted from the body to save
+%% space given Table~\ref{tab:synth-realism} already reports the same numbers.
+
+\begin{table}[t]
+\centering
+\small
+\caption{Realism audit: \texttt{synth\_erp} vs.\ the real-dataset reference band (min--max across \texttt{ibm\_aml}, \texttt{banksim}, \texttt{sap\_wurzburg}, \texttt{paysim}). Source: \texttt{calibration\_reference.json}, \texttt{synth\_erp\_realism.json}.}
+\label{tab:synth-realism}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{}lrrrl@{}}
+\toprule
+Metric & \texttt{synth\_erp} & Real min & Real max & In band? \\
+\midrule
+Fraud rate               & 0.4884\% & 0.1236\% & 1.2108\% & Yes \\
+Repeat-pair txn.\ share  & 0.8586   & 0.0      & 0.9936   & Yes \\
+Namespace overlap        & 0.9410   & 0.0      & 0.9927   & Yes \\
+log1p(amount) std.\      & 2.3256   & 0.9551   & 2.0193   & \textbf{No (above)} \\
+Benford MAD              & 0.0047   & 0.0142   & 0.0758   & \textbf{No (below)} \\
+Pair reciprocity         & 0.1356   & 0.0      & 0.0446   & \textbf{No (3.0$\times$ above)} \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+A more direct realism concern is whether fraud amounts alone give fraud away —
+the specific artifact this project identified in \texttt{ibm\_aml} elsewhere in
+this paper (fraud amounts distinctively \emph{small}, amount-ratio 0.068,
+globally separable at ROC-AUC $\approx 0.91$). On \texttt{synth\_erp}, the
+median fraud amount (\$1{,}692.59) is 23.79$\times$ the median benign amount
+(\$71.14; the equivalent ratio in \texttt{banksim}, from
+\texttt{calibration\_reference.json}, is 11.9$\times$), and a univariate
+log-amount classifier reaches ROC-AUC 0.8078 overall (KS statistic 0.604
+between the fraud and benign log-amount distributions) — at first glance a
+fraud population skewed to B2B-sized amounts in a retail-heavy economy.
+Restricted to the amount band where 93\% of fraud actually lives
+(\$300--\$20{,}000, $n=5{,}228$ fraud rows in band), that same classifier
+collapses to ROC-AUC 0.4911 — indistinguishable from chance. Fraud amounts
+are globally distinguishable only because fraud skews toward a coarser amount
+regime than the bulk of retail traffic; \emph{within} its own regime, amount
+carries essentially no signal, forcing any detector toward behavioral or
+structural evidence rather than a one-column amount rule — the opposite of
+the \texttt{ibm\_aml} artifact, and a deliberate design target corroborated
+here after the fact rather than asserted in advance.
+
+\subsection{Adversarial Tabular-Leak Probe}
+\label{sec:synthetic-leakprobe}
+
+A realistic amount distribution does not rule out a cheap categorical
+shortcut elsewhere in the table — the same class of hidden bias that motivates
+auditing tabular fraud-evaluation datasets for shortcut features before
+trusting them~\cite{jesus2022turning}. We therefore ran an automated probe over 16
+candidate rules — every \texttt{tx\_type} indicator, an account-creation-date
+indicator on each side of the transaction, and pairwise conjunctions of the
+two — scoring each rule's support, precision, recall of fraud, and lift over
+the 0.4884\% base rate. Table~\ref{tab:synth-leakprobe} reports the eight
+highest-lift rules out of the 16 tested. Three flow types
+(\texttt{tx\_type=payroll}, \texttt{tx\_type=recurring\_bill},
+\texttt{tx\_type=refund}) and their conjunctions with a mid-year account
+carry \emph{zero} fraud whatsoever (lift 0.0) — no scenario in the generator
+routes any of the five typologies onto these three rails at all, which is a
+genuine (if narrow) gap in coverage rather than a realism strength.
+
+The rule the probe itself records as worst,
+\texttt{tx\_type=transfer \& dest\_created\_midyear}, reaches a lift of
+$19.0\times$ the base rate, support of 26{,}420 transactions, precision of
+9.29\%, and recovers 43.75\% of all fraud in a single two-clause rule. The
+dataset's own automated gate does not classify this as a leak
+(\texttt{leak\_flag} = \texttt{false}, its precision bar sitting well above
+what this rule reaches), and a rule flagging under 10\% of the transactions it
+fires on as fraud is far from the near-deterministic, one-line shortcuts the
+generator's earlier drafts contained before an adversarial review removed
+them. Still, a rule with 19$\times$ lift and 44\% recall is a real,
+exploitable regularity, not a non-finding, and we report it rather than let a
+binary pass/fail flag stand in for a reader's own judgment of where
+``legitimate risk factor'' ends and ``tabular leak'' begins. A transaction
+moving through the \texttt{transfer} rail toward an account opened within the
+same year is a defensible real-world risk heuristic — mid-year account
+creation correlates with fraud in practice, not only in this simulation — but
+we flag it here precisely so that any model trained on \texttt{synth\_erp}
+can be checked for whether it quietly learned this shortcut instead of the
+intended structural and behavioral signal.
+
+\begin{table}[t]
+\centering
+\scriptsize
+\caption{Adversarial tabular-leak probe, top 8 of 16 rules by lift. Base fraud rate 0.4884\%. Source: \texttt{synth\_erp\_realism.json}, \texttt{tabular\_leak\_probe}.}
+\label{tab:synth-leakprobe}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Rule & Support & Precision & Recall & Lift \\
+\midrule
+\texttt{transfer \& dest\_midyear}$^\dagger$ & 26{,}420 & 0.0929 & 0.4375 & \textbf{19.0} \\
+\texttt{dest\_created\_midyear}         & 67{,}621  & 0.0502 & 0.6049 & 10.3 \\
+\texttt{tx\_type=transfer}              & 94{,}781  & 0.0385 & 0.6500 & 7.9 \\
+\texttt{vendor\_payment \& dest\_midyear}$^\dagger$ & 25{,}781 & 0.0316 & 0.1451 & 6.5 \\
+\texttt{sale \& dest\_midyear}$^\dagger$          & 8{,}131   & 0.0146 & 0.0212 & 3.0 \\
+\texttt{src\_created\_midyear}          & 156{,}550 & 0.0113 & 0.3147 & 2.3 \\
+\texttt{reimbursement \& dest\_midyear}$^\dagger$ & 741       & 0.0081 & 0.0011 & 1.7 \\
+\texttt{tx\_type=reimbursement}         & 12{,}236  & 0.0079 & 0.0173 & 1.6 \\
+\bottomrule
+\end{tabular}%
+}
+\vspace{2pt}
+\raggedright\scriptsize $^\dagger$\texttt{dest\_midyear} abbreviates \texttt{dest\_created\_midyear}.
+\end{table}
+
+\subsection{The Augmentation Transfer Probe}
+\label{sec:synthetic-augmentation}
+
+The realism and leak audits above establish what \texttt{synth\_erp} is
+calibrated well enough to be used \emph{for}. The most direct test of the
+narrower, practical question — does adding \texttt{synth\_erp} rows to a real
+dataset's training split make its fraud model better? — is a paired
+augmentation experiment: for each of three real datasets, train an XGBoost
+model~\cite{chen2016xgboost} three ways (real data only; real data with all
+1{,}148{,}503 \texttt{synth\_erp} rows pooled into the training split; and
+\texttt{synth\_erp} data only, evaluated zero-shot on the real test split),
+each averaged over three seeds, under the same time-aware split, class-weight
+imbalance handling, and validation-tuned threshold used throughout this paper.
+Table~\ref{tab:synth-augmentation} reports the result, and it is unambiguous:
+pooling synthetic rows into training \emph{hurts} test PR-AUC on every one of
+the three real datasets tested. \texttt{banksim} falls from
+$0.8669\pm0.0031$ (real-only) to $0.7610\pm0.0022$ (real+synth), a paired
+per-seed delta of $-0.1059\pm0.0011$; \texttt{ibm\_aml} falls from an
+already-saturated $0.99999\pm0.00001$ to $0.9954\pm0.0013$,
+$\Delta=-0.0046\pm0.0013$ — small in absolute terms, but the baseline leaves
+almost no headroom to fall into, so even this small drop is a consistent,
+same-direction result; and \texttt{sap\_wurzburg} — on only 25 test-set
+frauds, the same small-sample caveat that applies to every
+\texttt{sap\_wurzburg} result in this paper — falls from $0.1366\pm0.0446$ to
+$0.0293\pm0.0033$, $\Delta=-0.1073\pm0.0417$.
+The mechanism is unsurprising in hindsight given Sec.~\ref{sec:synthetic-realism}:
+a single tree ensemble fit jointly over two economies with measurably
+different amount dispersion and reciprocity structure pulls its splits toward
+the pooled distribution, at the real dataset's expense. We report this as a
+clean negative result rather than qualify it away: \emph{naive} pooled
+augmentation with this dataset, under this protocol, does not help, on any
+real dataset we tested it against.
+
+\begin{table}[t]
+\centering
+\small
+\caption{Augmentation transfer probe: XGBoost PR-AUC, 3-seed mean $\pm$ std. \texttt{synth\_only} is zero-shot (trained solely on \texttt{synth\_erp}, evaluated on the real test split). Source: \texttt{augmentation.json}.}
+\label{tab:synth-augmentation}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Dataset & Real-only & Real+synth & $\Delta$ & Synth-only \\
+\midrule
+\texttt{banksim} ($n{=}1320$)      & 0.8669$\pm$0.0031 & 0.7610$\pm$0.0022 & $-$0.1059$\pm$0.0011 & \textbf{0.7243$\pm$0.0079} \\
+\texttt{ibm\_aml} ($n{=}377$)      & 0.99999$\pm$0.00001 & 0.9954$\pm$0.0013 & $-$0.0046$\pm$0.0013 & 0.0017$\pm$0.0006 \\
+\texttt{sap\_wurzburg} ($n{=}25$)  & 0.1366$\pm$0.0446 & 0.0293$\pm$0.0033 & $-$0.1073$\pm$0.0417 & 0.0008$\pm$0.0001 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+There is exactly one genuinely positive number in this experiment, and it is
+a narrower, different claim than ``synthetic data helps supervised
+training'': the \texttt{synth\_only} zero-shot column for \texttt{banksim}.
+A model that has \emph{never seen a single real BankSim row} — trained
+entirely on \texttt{synth\_erp}, evaluated as-is on real, held-out
+\texttt{banksim} test data — scores $0.7243\pm0.0079$ PR-AUC, recovering
+83.6\% of the $0.8669$ real-trained baseline, at precision@100 of
+$0.99\pm0.0082$ against the real-trained baseline's perfect $1.00$; chance at
+this split's 1.21\% fraud rate is on the order of $0.01$--$0.02$ PR-AUC, so
+this is far from a vacuous transfer. The same zero-shot comparison fails on
+\texttt{ibm\_aml} ($0.0017$ PR-AUC against a $0.99999$ real-trained ceiling —
+unsurprising, since \texttt{ibm\_aml}'s giveaway-small fraud amounts are
+inverted relative to \texttt{synth\_erp}'s B2B-skewed fraud) and on
+\texttt{sap\_wurzburg} ($0.0008$ PR-AUC, 25 test frauds, too small to support
+any transfer claim). We read the \texttt{banksim} result as evidence that the
+synthetic economy teaches \emph{transferable structural and behavioral
+discrimination} that generalizes to a real domain it structurally resembles —
+not as evidence that pooling synthetic rows into a real training set is a
+useful augmentation recipe. These are two different claims, only one of which
+this experiment supports; we are careful not to let the positive framing of
+the zero-shot result launder the negative framing of the pooled-augmentation
+result three rows above it.
+
+\subsection{Summary and Scope}
+
+\texttt{synth\_erp} is a large, ERP-flavored, multi-typology synthetic ledger
+built under a binding non-circularity constraint and audited, after the fact,
+against four real datasets on realism, tabular leakage, and downstream
+transfer. It matches the real fraud-rate, repeat-pair, and namespace-overlap
+bands; it is measurably over-dispersed in amount and reciprocity and
+unrealistically Benford-clean relative to every real dataset compared against
+it; its cheapest categorical shortcut reaches 19$\times$ lift and 44\% recall
+without being flagged as a formal leak, a judgment call we surface rather
+than hide; and pooling it into real training data hurts every real dataset's
+PR-AUC we tested, its one positive contribution being a narrower zero-shot
+transfer result on the one real dataset it structurally resembles.
+Consistent with the usage policy stated at the outset, none of this
+section's numbers are used anywhere in this paper as evidence for the
+central topology claim (Sec.~\ref{sec:ablation}); \texttt{synth\_erp}'s role
+is training material, a per-typology stress test, and demo content for the
+audit console (Sec.~\ref{sec:system}), never proof.
