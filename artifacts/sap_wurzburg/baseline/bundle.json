@@ -1,0 +1,27 @@
+{
+  "threshold": 0.8718303442001343,
+  "features": [
+    "log_amount",
+    "src_count_prior",
+    "src_amt_mean_prior",
+    "amount_zscore_src",
+    "time_since_prev_src",
+    "dest_count_prior",
+    "tx_type_Debitorische Gutschrift",
+    "tx_type_Debitorische Rechnung",
+    "tx_type_Kreditorische Gutschrift",
+    "tx_type_Kreditorische Rechnung",
+    "tx_type_Materialabgang",
+    "tx_type_Materialzugang",
+    "tx_type_NA",
+    "tx_type_Sachkontenbuchung",
+    "account_type_D",
+    "account_type_K",
+    "account_type_M",
+    "account_type_S",
+    "dc_indicator_H",
+    "dc_indicator_S"
+  ],
+  "scale_pos_weight": 589.25,
+  "note": "trees need no scaler"
+}

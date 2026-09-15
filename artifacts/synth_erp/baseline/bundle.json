@@ -1,0 +1,22 @@
+{
+  "threshold": 0.6567152738571167,
+  "features": [
+    "log_amount",
+    "src_count_prior",
+    "src_amt_mean_prior",
+    "amount_zscore_src",
+    "time_since_prev_src",
+    "dest_count_prior",
+    "src_creation_day",
+    "dest_creation_day",
+    "tx_type_payroll",
+    "tx_type_recurring_bill",
+    "tx_type_refund",
+    "tx_type_reimbursement",
+    "tx_type_sale",
+    "tx_type_transfer",
+    "tx_type_vendor_payment"
+  ],
+  "scale_pos_weight": 240.95997191011236,
+  "note": "trees need no scaler"
+}

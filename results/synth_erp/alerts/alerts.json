@@ -1,0 +1,2525 @@
+{
+  "generated": "2026-08-26",
+  "dataset": "synth_erp",
+  "artifact": "artifacts\\synth_erp\\final",
+  "threshold": 0.23880967497825623,
+  "k": 20,
+  "n_true_fraud_in_topk": 20,
+  "alerts": [
+    {
+      "alert_id": "SYNTH_ERP-TEST-0001",
+      "rank": 1,
+      "transaction_id": "933276",
+      "score": 0.977509,
+      "decision": "ALERT",
+      "timestamp": 26904497,
+      "source_account": "EMP:11:013",
+      "dest_account": "CO:11:OPS",
+      "amount": 2495.25,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "tx_type_transfer",
+          "value": 1.0,
+          "shap": 2.6394,
+          "family": "ordinary"
+        },
+        {
+          "feature": "src_amt_mean_prior",
+          "value": 777.2962,
+          "shap": 1.1796,
+          "family": "ordinary"
+        },
+        {
+          "feature": "tx_type_sale",
+          "value": 0.0,
+          "shap": 0.7026,
+          "family": "ordinary"
+        },
+        {
+          "feature": "src_out_degree",
+          "value": 1.0,
+          "shap": 0.4487,
+          "family": "topology",
+          "gloss": "recent payment volume out of the source"
+        },
+        {
+          "feature": "log_amount",
+          "value": 7.8225,
+          "shap": 0.2843,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 471,
+        "senders": [
+          {
+            "account": "CUST:07449",
+            "amount": 19.63,
+            "ts": 26903908
+          },
+          {
+            "account": "CUST:11931",
+            "amount": 45.62,
+            "ts": 26902516
+          },
+          {
+            "account": "CUST:01520",
+            "amount": 354.7,
+            "ts": 26899200
+          },
+          {
+            "account": "CUST:18859",
+            "amount": 37.07,
+            "ts": 26899200
+          },
+          {
+            "account": "CUST:23354",
+            "amount": 91.07,
+            "ts": 26899200
+          },
+          {
+            "account": "CUST:31182",
+            "amount": 6875.57,
+            "ts": 26898979
+          },
+          {
+            "account": "CUST:13568",
+            "amount": 71.5,
+            "ts": 26866800
+          },
+          {
+            "account": "CUST:13125",
+            "amount": 20.86,
+            "ts": 26866800
+          },
+          {
+            "account": "CUST:00295",
+            "amount": 95.81,
+            "ts": 26866800
+          },
+          {
+            "account": "EMP:09:015",
+            "amount": 62.91,
+            "ts": 26866326
+          },
+          {
+            "account": "CUST:05717",
+            "amount": 7.99,
+            "ts": 26862891
+          },
+          {
+            "account": "CUST:09145",
+            "amount": 75.02,
+            "ts": 26860076
+          },
+          {
+            "account": "CUST:07570",
+            "amount": 12.23,
+            "ts": 26859836
+          },
+          {
+            "account": "CUST:05570",
+            "amount": 96.29,
+            "ts": 26857176
+          },
+          {
+            "account": "CUST:23584",
+            "amount": 11.69,
+            "ts": 26857064
+          },
+          {
+            "account": "CUST:22341",
+            "amount": 84.01,
+            "ts": 26856379
+          },
+          {
+            "account": "CUST:27403",
+            "amount": 19.82,
+            "ts": 26856082
+          },
+          {
+            "account": "CUST:05948",
+            "amount": 16.66,
+            "ts": 26855999
+          },
+          {
+            "account": "EMP:23:007",
+            "amount": 6.06,
+            "ts": 26855824
+          },
+          {
+            "account": "CUST:18249",
+            "amount": 554.35,
+            "ts": 26855334
+          },
+          {
+            "account": "CUST:31550",
+            "amount": 12.36,
+            "ts": 26855305
+          },
+          {
+            "account": "EMP:04:015",
+            "amount": 179.41,
+            "ts": 26855297
+          },
+          {
+            "account": "CUST:13843",
+            "amount": 12.72,
+            "ts": 26855227
+          },
+          {
+            "account": "CUST:06720",
+            "amount": 13.32,
+            "ts": 26854050
+          },
+          {
+            "account": "CUST:22426",
+            "amount": 47.24,
+            "ts": 26853672
+          }
+        ],
+        "window": 604800
+      },
+      "text": "ALERT 1 [score 0.9775]: EMP:11:013 -> CO:11:OPS for 2495.25 at t=26904497. Drivers: tx_type_transfer=1.0 (SHAP +2.64, ordinary); src_amt_mean_prior=777.2962 (SHAP +1.18, ordinary); tx_type_sale=0.0 (SHAP +0.70, ordinary); src_out_degree=1.0 (SHAP +0.45, topology: recent payment volume out of the source); log_amount=7.8225 (SHAP +0.28, ordinary: transaction amount (log scale)). Evidence: destination collected from 471 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "SYNTH_ERP-TEST-0002",
+      "rank": 2,
+      "transaction_id": "1136951",
+      "score": 0.973457,
+      "decision": "ALERT",
+      "timestamp": 31219840,
+      "source_account": "EMP:28:040",
+      "dest_account": "CO:28:OPS",
+      "amount": 1891.64,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "tx_type_transfer",
+          "value": 1.0,
+          "shap": 2.5654,
+          "family": "ordinary"
+        },
+        {
+          "feature": "src_amt_mean_prior",
+          "value": 787.2703,
+          "shap": 1.1412,
+          "family": "ordinary"
+        },
+        {
+          "feature": "tx_type_sale",
+          "value": 0.0,
+          "shap": 0.6788,
+          "family": "ordinary"
+        },
+        {
+          "feature": "src_out_degree",
+          "value": 3.0,
+          "shap": 0.463,
+          "family": "topology",
+          "gloss": "recent payment volume out of the source"
+        },
+        {
+          "feature": "log_amount",
+          "value": 7.5457,
+          "shap": 0.3048,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        }
+      ],
+      "graph_evidence": {
+        "type": "cycle",
+        "cycle_length": 2,
+        "path_nodes": [
+          "EMP:28:040",
+          "CO:28:OPS",
+          "EMP:28:040"
+        ],
+        "path_edges": [
+          {
+            "src": "EMP:28:040",
+            "dst": "CO:28:OPS",
+            "amount": 1891.64,
+            "ts": 31219840
+          },
+          {
+            "src": "CO:28:OPS",
+            "dst": "EMP:28:040",
+            "amount": 4680.07,
+            "ts": 30872334
+          }
+        ],
+        "amount_conservation": 0.40419053561164686,
+        "time_span": 347506,
+        "window": 604800
+      },
+      "text": "ALERT 2 [score 0.9735]: EMP:28:040 -> CO:28:OPS for 1891.64 at t=31219840. Drivers: tx_type_transfer=1.0 (SHAP +2.57, ordinary); src_amt_mean_prior=787.2703 (SHAP +1.14, ordinary); tx_type_sale=0.0 (SHAP +0.68, ordinary); src_out_degree=3.0 (SHAP +0.46, topology: recent payment volume out of the source); log_amount=7.5457 (SHAP +0.30, ordinary: transaction amount (log scale)). Evidence: closes a 2-hop cycle EMP:28:040 -> CO:28:OPS -> EMP:28:040, conserving 40% of the amount, within 347506 time units."
+    },
+    {
+      "alert_id": "SYNTH_ERP-TEST-0003",
+      "rank": 3,
+      "transaction_id": "945227",
+      "score": 0.973157,
+      "decision": "ALERT",
+      "timestamp": 27253769,
+      "source_account": "EMP:11:013",
+      "dest_account": "CO:11:OPS",
+      "amount": 3493.39,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "tx_type_transfer",
+          "value": 1.0,
+          "shap": 2.6177,
+          "family": "ordinary"
+        },
+        {
+          "feature": "src_amt_mean_prior",
+          "value": 855.385,
+          "shap": 1.1787,
+          "family": "ordinary"
+        },
+        {
+          "feature": "tx_type_sale",
+          "value": 0.0,
+          "shap": 0.6942,
+          "family": "ordinary"
+        },
+        {
+          "feature": "src_out_degree",
+          "value": 2.0,
+          "shap": 0.4616,
+          "family": "topology",
+          "gloss": "recent payment volume out of the source"
+        },
+        {
+          "feature": "log_amount",
+          "value": 8.1589,
+          "shap": 0.281,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 478,
+        "senders": [
+          {
+            "account": "CUST:00187",
+            "amount": 74.64,
+            "ts": 27247995
+          },
+          {
+            "account": "EMP:02:081",
+            "amount": 71.13,
+            "ts": 27245423
+          },
+          {
+            "account": "CUST:08322",
+            "amount": 160.53,
+            "ts": 27245173
+          },
+          {
+            "account": "CUST:21914",
+            "amount": 13.51,
+            "ts": 27244800
+          },
+          {
+            "account": "EMP:03:011",
+            "amount": 11.16,
+            "ts": 27244800
+          },
+          {
+            "account": "CUST:28527",
+            "amount": 145.08,
+            "ts": 27209989
+          },
+          {
+            "account": "EMP:33:210",
+            "amount": 42.15,
+            "ts": 27203739
+          },
+          {
+            "account": "CUST:20682",
+            "amount": 16.44,
+            "ts": 27202982
+          },
+          {
+            "account": "CUST:08939",
+            "amount": 16.01,
+            "ts": 27200885
+          },
+          {
+            "account": "CUST:13570",
+            "amount": 44.2,
+            "ts": 27199858
+          },
+          {
+            "account": "CUST:21285",
+            "amount": 46.3,
+            "ts": 27198778
+          },
+          {
+            "account": "CUST:11064",
+            "amount": 21.91,
+            "ts": 27196567
+          },
+          {
+            "account": "CUST:26927",
+            "amount": 21.08,
+            "ts": 27193360
+          },
+          {
+            "account": "CUST:01054",
+            "amount": 53.06,
+            "ts": 27193126
+          },
+          {
+            "account": "CUST:05296",
+            "amount": 31.48,
+            "ts": 27191850
+          },
+          {
+            "account": "CUST:12461",
+            "amount": 15.87,
+            "ts": 27190270
+          },
+          {
+            "account": "CUST:00051",
+            "amount": 107.79,
+            "ts": 27189345
+          },
+          {
+            "account": "CUST:08803",
+            "amount": 32.28,
+            "ts": 27189214
+          },
+          {
+            "account": "CUST:01870",
+            "amount": 66.5,
+            "ts": 27186546
+          },
+          {
+            "account": "CUST:09299",
+            "amount": 15.01,
+            "ts": 27183769
+          },
+          {
+            "account": "CUST:24484",
+            "amount": 441.55,
+            "ts": 27183549
+          },
+          {
+            "account": "CUST:09284",
+            "amount": 11.88,
+            "ts": 27182529
+          },
+          {
+            "account": "EMP:25:002",
+            "amount": 114.42,
+            "ts": 27182198
+          },
+          {
+            "account": "CUST:22865",
+            "amount": 2445.89,
+            "ts": 27182185
+          },
+          {
+            "account": "CUST:32423",
+            "amount": 157.77,
+            "ts": 27181845
+          }
+        ],
+        "window": 604800
+      },
+      "text": "ALERT 3 [score 0.9732]: EMP:11:013 -> CO:11:OPS for 3493.39 at t=27253769. Drivers: tx_type_transfer=1.0 (SHAP +2.62, ordinary); src_amt_mean_prior=855.385 (SHAP +1.18, ordinary); tx_type_sale=0.0 (SHAP +0.69, ordinary); src_out_degree=2.0 (SHAP +0.46, topology: recent payment volume out of the source); log_amount=8.1589 (SHAP +0.28, ordinary: transaction amount (log scale)). Evidence: destination collected from 478 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "SYNTH_ERP-TEST-0004",
+      "rank": 4,
+      "transaction_id": "943785",
+      "score": 0.972358,
+      "decision": "ALERT",
+      "timestamp": 27185877,
+      "source_account": "CUST:08662",
+      "dest_account": "EXT:00467",
+      "amount": 719.27,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "tx_type_transfer",
+          "value": 1.0,
+          "shap": 1.8333,
+          "family": "ordinary"
+        },
+        {
+          "feature": "fan_in",
+          "value": 7.0,
+          "shap": 0.7115,
+          "family": "topology",
+          "gloss": "distinct recent senders into the destination"
+        },
+        {
+          "feature": "src_amt_mean_prior",
+          "value": 123.2894,
+          "shap": 0.5206,
+          "family": "ordinary"
+        },
+        {
+          "feature": "tgn_edge_expectedness",
+          "value": 0.9501,
+          "shap": 0.3952,
+          "family": "tgn",
+          "gloss": "how expected this sender->receiver pair is to the learned temporal model (low = surprising)"
+        },
+        {
+          "feature": "tx_type_sale",
+          "value": 0.0,
+          "shap": 0.3244,
+          "family": "ordinary"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 7,
+        "senders": [
+          {
+            "account": "CUST:26605",
+            "amount": 1572.2,
+            "ts": 27184172
+          },
+          {
+            "account": "CUST:08662",
+            "amount": 507.72,
+            "ts": 27150908
+          },
+          {
+            "account": "CUST:07266",
+            "amount": 1025.89,
+            "ts": 26967340
+          },
+          {
+            "account": "CUST:15502",
+            "amount": 534.56,
+            "ts": 26939262
+          },
+          {
+            "account": "CUST:13376",
+            "amount": 490.74,
+            "ts": 26865213
+          },
+          {
+            "account": "CUST:14563",
+            "amount": 246.48,
+            "ts": 26843104
+          },
+          {
+            "account": "CUST:25949",
+            "amount": 514.27,
+            "ts": 26802376
+          }
+        ],
+        "window": 604800
+      },
+      "text": "ALERT 4 [score 0.9724]: CUST:08662 -> EXT:00467 for 719.27 at t=27185877. Drivers: tx_type_transfer=1.0 (SHAP +1.83, ordinary); fan_in=7.0 (SHAP +0.71, topology: distinct recent senders into the destination); src_amt_mean_prior=123.2894 (SHAP +0.52, ordinary); tgn_edge_expectedness=0.9501 (SHAP +0.40, tgn: how expected this sender->receiver pair is to the learned temporal model (low = surprising)); tx_type_sale=0.0 (SHAP +0.32, ordinary). Evidence: destination collected from 7 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "SYNTH_ERP-TEST-0005",
+      "rank": 5,
+      "transaction_id": "929010",
+      "score": 0.972353,
+      "decision": "ALERT",
+      "timestamp": 26779083,
+      "source_account": "EXT:00311",
+      "dest_account": "EXT:00312",
+      "amount": 7378.12,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "tx_type_transfer",
+          "value": 1.0,
+          "shap": 0.9619,
+          "family": "ordinary"
+        },
+        {
+          "feature": "log_amount",
+          "value": 8.9064,
+          "shap": 0.8837,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        },
+        {
+          "feature": "tgn_s21",
+          "value": -0.1598,
+          "shap": 0.4564,
+          "family": "tgn",
+          "gloss": "learned temporal-graph embedding component"
+        },
+        {
+          "feature": "dest_creation_day",
+          "value": 177.0,
+          "shap": 0.4009,
+          "family": "ordinary"
+        },
+        {
+          "feature": "tgn_edge_expectedness",
+          "value": 0.5963,
+          "shap": 0.3753,
+          "family": "tgn",
+          "gloss": "how expected this sender->receiver pair is to the learned temporal model (low = surprising)"
+        }
+      ],
+      "graph_evidence": {
+        "type": "none",
+        "note": "no cycle/fan-in structure behind this alert; see risk_drivers"
+      },
+      "text": "ALERT 5 [score 0.9724]: EXT:00311 -> EXT:00312 for 7378.12 at t=26779083. Drivers: tx_type_transfer=1.0 (SHAP +0.96, ordinary); log_amount=8.9064 (SHAP +0.88, ordinary: transaction amount (log scale)); tgn_s21=-0.1598 (SHAP +0.46, tgn: learned temporal-graph embedding component); dest_creation_day=177.0 (SHAP +0.40, ordinary); tgn_edge_expectedness=0.5963 (SHAP +0.38, tgn: how expected this sender->receiver pair is to the learned temporal model (low = surprising)). Evidence: no cycle/fan-in structure behind this alert; see risk_drivers"
+    },
+    {
+      "alert_id": "SYNTH_ERP-TEST-0006",
+      "rank": 6,
+      "transaction_id": "961910",
+      "score": 0.970427,
+      "decision": "ALERT",
+      "timestamp": 27611822,
+      "source_account": "EMP:32:015",
+      "dest_account": "CO:32:OPS",
+      "amount": 2009.66,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "tx_type_transfer",
+          "value": 1.0,
+          "shap": 2.6024,
+          "family": "ordinary"
+        },
+        {
+          "feature": "src_amt_mean_prior",
+          "value": 1142.2224,
+          "shap": 1.1953,
+          "family": "ordinary"
+        },
+        {
+          "feature": "tx_type_sale",
+          "value": 0.0,
+          "shap": 0.6895,
+          "family": "ordinary"
+        },
+        {
+          "feature": "src_out_degree",
+          "value": 0.0,
+          "shap": 0.433,
+          "family": "topology",
+          "gloss": "recent payment volume out of the source"
+        },
+        {
+          "feature": "log_amount",
+          "value": 7.6062,
+          "shap": 0.3261,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 157,
+        "senders": [
+          {
+            "account": "CUST:23845",
+            "amount": 2717.17,
+            "ts": 27611608
+          },
+          {
+            "account": "CUST:05946",
+            "amount": 37.43,
+            "ts": 27611114
+          },
+          {
+            "account": "EMP:13:062",
+            "amount": 28.83,
+            "ts": 27611052
+          },
+          {
+            "account": "CO:11:OPS",
+            "amount": 20536.81,
+            "ts": 27609356
+          },
+          {
+            "account": "CUST:17085",
+            "amount": 17.82,
+            "ts": 27608985
+          },
+          {
+            "account": "CUST:25282",
+            "amount": 85.91,
+            "ts": 27608078
+          },
+          {
+            "account": "CUST:06887",
+            "amount": 25.77,
+            "ts": 27607847
+          },
+          {
+            "account": "CUST:06680",
+            "amount": 87.8,
+            "ts": 27606755
+          },
+          {
+            "account": "CUST:05108",
+            "amount": 29.7,
+            "ts": 27606543
+          },
+          {
+            "account": "CUST:10298",
+            "amount": 60.82,
+            "ts": 27606463
+          },
+          {
+            "account": "CUST:18243",
+            "amount": 59.03,
+            "ts": 27603566
+          },
+          {
+            "account": "CUST:16478",
+            "amount": 41.24,
+            "ts": 27602502
+          },
+          {
+            "account": "CUST:30233",
+            "amount": 25.45,
+            "ts": 27602089
+          },
+          {
+            "account": "EMP:03:009",
+            "amount": 7.67,
+            "ts": 27600372
+          },
+          {
+            "account": "CUST:31482",
+            "amount": 5220.21,
+            "ts": 27596720
+          },
+          {
+            "account": "CUST:06175",
+            "amount": 29.8,
+            "ts": 27595045
+          },
+          {
+            "account": "CUST:31505",
+            "amount": 64.46,
+            "ts": 27593192
+          },
+          {
+            "account": "CUST:08846",
+            "amount": 49.52,
+            "ts": 27590400
+          },
+          {
+            "account": "CUST:30621",
+            "amount": 112.18,
+            "ts": 27590400
+          },
+          {
+            "account": "CUST:13262",
+            "amount": 44.95,
+            "ts": 27553152
+          },
+          {
+            "account": "CUST:13597",
+            "amount": 40.74,
+            "ts": 27551370
+          },
+          {
+            "account": "CUST:05820",
+            "amount": 87.89,
+            "ts": 27547782
+          },
+          {
+            "account": "CUST:05558",
+            "amount": 78.1,
+            "ts": 27543666
+          },
+          {
+            "account": "CUST:07858",
+            "amount": 9.81,
+            "ts": 27538892
+          },
+          {
+            "account": "CUST:31952",
+            "amount": 94.5,
+            "ts": 27537818
+          }
+        ],
+        "window": 604800
+      },
+      "text": "ALERT 6 [score 0.9704]: EMP:32:015 -> CO:32:OPS for 2009.66 at t=27611822. Drivers: tx_type_transfer=1.0 (SHAP +2.60, ordinary); src_amt_mean_prior=1142.2224 (SHAP +1.20, ordinary); tx_type_sale=0.0 (SHAP +0.69, ordinary); src_out_degree=0.0 (SHAP +0.43, topology: recent payment volume out of the source); log_amount=7.6062 (SHAP +0.33, ordinary: transaction amount (log scale)). Evidence: destination collected from 157 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "SYNTH_ERP-TEST-0007",
+      "rank": 7,
+      "transaction_id": "929912",
+      "score": 0.969742,
+      "decision": "ALERT",
+      "timestamp": 26822446,
+      "source_account": "EMP:29:057",
+      "dest_account": "CO:29:OPS",
+      "amount": 3704.37,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "tx_type_transfer",
+          "value": 1.0,
+          "shap": 2.5568,
+          "family": "ordinary"
+        },
+        {
+          "feature": "src_amt_mean_prior",
+          "value": 1131.7494,
+          "shap": 1.2045,
+          "family": "ordinary"
+        },
+        {
+          "feature": "tx_type_sale",
+          "value": 0.0,
+          "shap": 0.6611,
+          "family": "ordinary"
+        },
+        {
+          "feature": "src_out_degree",
+          "value": 0.0,
+          "shap": 0.4376,
+          "family": "topology",
+          "gloss": "recent payment volume out of the source"
+        },
+        {
+          "feature": "log_amount",
+          "value": 8.2175,
+          "shap": 0.2778,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 167,
+        "senders": [
+          {
+            "account": "CUST:01219",
+            "amount": 170.82,
+            "ts": 26822016
+          },
+          {
+            "account": "CUST:31713",
+            "amount": 18.9,
+            "ts": 26820277
+          },
+          {
+            "account": "EMP:33:010",
+            "amount": 20.58,
+            "ts": 26818156
+          },
+          {
+            "account": "CUST:01778",
+            "amount": 41.39,
+            "ts": 26816525
+          },
+          {
+            "account": "CUST:12154",
+            "amount": 11270.74,
+            "ts": 26809458
+          },
+          {
+            "account": "CUST:02864",
+            "amount": 53.75,
+            "ts": 26772653
+          },
+          {
+            "account": "CUST:13513",
+            "amount": 49.73,
+            "ts": 26772092
+          },
+          {
+            "account": "EMP:23:124",
+            "amount": 191.29,
+            "ts": 26771329
+          },
+          {
+            "account": "CUST:18299",
+            "amount": 18.06,
+            "ts": 26769720
+          },
+          {
+            "account": "CUST:21673",
+            "amount": 9.12,
+            "ts": 26769597
+          },
+          {
+            "account": "CUST:28756",
+            "amount": 81.17,
+            "ts": 26768878
+          },
+          {
+            "account": "CUST:08034",
+            "amount": 1874.68,
+            "ts": 26768821
+          },
+          {
+            "account": "CUST:16782",
+            "amount": 30.52,
+            "ts": 26767981
+          },
+          {
+            "account": "CUST:27317",
+            "amount": 30.43,
+            "ts": 26763734
+          },
+          {
+            "account": "CUST:25577",
+            "amount": 86.62,
+            "ts": 26763707
+          },
+          {
+            "account": "CUST:18150",
+            "amount": 18.3,
+            "ts": 26763406
+          },
+          {
+            "account": "EMP:31:092",
+            "amount": 19.03,
+            "ts": 26761368
+          },
+          {
+            "account": "CUST:30796",
+            "amount": 690.74,
+            "ts": 26760547
+          },
+          {
+            "account": "CO:36:OPS",
+            "amount": 596.62,
+            "ts": 26759562
+          },
+          {
+            "account": "EMP:32:043",
+            "amount": 29.42,
+            "ts": 26759145
+          },
+          {
+            "account": "CUST:26530",
+            "amount": 78.26,
+            "ts": 26757955
+          },
+          {
+            "account": "CUST:22875",
+            "amount": 83.45,
+            "ts": 26756406
+          },
+          {
+            "account": "CO:11:OPS",
+            "amount": 29509.81,
+            "ts": 26754623
+          },
+          {
+            "account": "CUST:16481",
+            "amount": 103.87,
+            "ts": 26753842
+          },
+          {
+            "account": "CUST:13815",
+            "amount": 13.9,
+            "ts": 26749552
+          }
+        ],
+        "window": 604800
+      },
+      "text": "ALERT 7 [score 0.9697]: EMP:29:057 -> CO:29:OPS for 3704.37 at t=26822446. Drivers: tx_type_transfer=1.0 (SHAP +2.56, ordinary); src_amt_mean_prior=1131.7494 (SHAP +1.20, ordinary); tx_type_sale=0.0 (SHAP +0.66, ordinary); src_out_degree=0.0 (SHAP +0.44, topology: recent payment volume out of the source); log_amount=8.2175 (SHAP +0.28, ordinary: transaction amount (log scale)). Evidence: destination collected from 167 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "SYNTH_ERP-TEST-0008",
+      "rank": 8,
+      "transaction_id": "1058832",
+      "score": 0.969572,
+      "decision": "ALERT",
+      "timestamp": 29674991,
+      "source_account": "EMP:11:013",
+      "dest_account": "CO:11:OPS",
+      "amount": 2316.4,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "tx_type_transfer",
+          "value": 1.0,
+          "shap": 2.6439,
+          "family": "ordinary"
+        },
+        {
+          "feature": "src_amt_mean_prior",
+          "value": 1310.2842,
+          "shap": 1.2223,
+          "family": "ordinary"
+        },
+        {
+          "feature": "tx_type_sale",
+          "value": 0.0,
+          "shap": 0.6887,
+          "family": "ordinary"
+        },
+        {
+          "feature": "src_out_degree",
+          "value": 0.0,
+          "shap": 0.4583,
+          "family": "topology",
+          "gloss": "recent payment volume out of the source"
+        },
+        {
+          "feature": "fan_out",
+          "value": 0.0,
+          "shap": 0.3013,
+          "family": "topology",
+          "gloss": "distinct recent recipients from the source"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 620,
+        "senders": [
+          {
+            "account": "CUST:16307",
+            "amount": 16.48,
+            "ts": 29674555
+          },
+          {
+            "account": "CUST:06463",
+            "amount": 10.65,
+            "ts": 29674341
+          },
+          {
+            "account": "CUST:04576",
+            "amount": 32.07,
+            "ts": 29672997
+          },
+          {
+            "account": "CUST:30826",
+            "amount": 36.61,
+            "ts": 29672551
+          },
+          {
+            "account": "CUST:30411",
+            "amount": 38.27,
+            "ts": 29672288
+          },
+          {
+            "account": "CUST:33544",
+            "amount": 38.59,
+            "ts": 29671862
+          },
+          {
+            "account": "CUST:25805",
+            "amount": 15.81,
+            "ts": 29671791
+          },
+          {
+            "account": "EMP:39:014",
+            "amount": 51.03,
+            "ts": 29670408
+          },
+          {
+            "account": "CUST:27149",
+            "amount": 34.51,
+            "ts": 29670027
+          },
+          {
+            "account": "CUST:05574",
+            "amount": 11.16,
+            "ts": 29669830
+          },
+          {
+            "account": "CUST:11862",
+            "amount": 22.57,
+            "ts": 29669725
+          },
+          {
+            "account": "CUST:12204",
+            "amount": 83.16,
+            "ts": 29668944
+          },
+          {
+            "account": "CUST:05907",
+            "amount": 68.89,
+            "ts": 29668093
+          },
+          {
+            "account": "EMP:24:180",
+            "amount": 24.07,
+            "ts": 29666830
+          },
+          {
+            "account": "CUST:17135",
+            "amount": 13.85,
+            "ts": 29666684
+          },
+          {
+            "account": "CUST:21645",
+            "amount": 27.44,
+            "ts": 29664000
+          },
+          {
+            "account": "CUST:06934",
+            "amount": 6.44,
+            "ts": 29664000
+          },
+          {
+            "account": "CUST:21752",
+            "amount": 88.07,
+            "ts": 29664000
+          },
+          {
+            "account": "CUST:28890",
+            "amount": 8.19,
+            "ts": 29664000
+          },
+          {
+            "account": "CUST:03001",
+            "amount": 9.79,
+            "ts": 29631600
+          },
+          {
+            "account": "CUST:25764",
+            "amount": 0.75,
+            "ts": 29628995
+          },
+          {
+            "account": "CUST:30621",
+            "amount": 105.94,
+            "ts": 29626342
+          },
+          {
+            "account": "EMP:17:111",
+            "amount": 40.32,
+            "ts": 29626331
+          },
+          {
+            "account": "CUST:14861",
+            "amount": 96.32,
+            "ts": 29626077
+          },
+          {
+            "account": "CUST:31987",
+            "amount": 15.56,
+            "ts": 29625452
+          }
+        ],
+        "window": 604800
+      },
+      "text": "ALERT 8 [score 0.9696]: EMP:11:013 -> CO:11:OPS for 2316.40 at t=29674991. Drivers: tx_type_transfer=1.0 (SHAP +2.64, ordinary); src_amt_mean_prior=1310.2842 (SHAP +1.22, ordinary); tx_type_sale=0.0 (SHAP +0.69, ordinary); src_out_degree=0.0 (SHAP +0.46, topology: recent payment volume out of the source); fan_out=0.0 (SHAP +0.30, topology: distinct recent recipients from the source). Evidence: destination collected from 620 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "SYNTH_ERP-TEST-0009",
+      "rank": 9,
+      "transaction_id": "1006617",
+      "score": 0.968836,
+      "decision": "ALERT",
+      "timestamp": 28556714,
+      "source_account": "EMP:11:013",
+      "dest_account": "CO:11:OPS",
+      "amount": 1379.61,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "tx_type_transfer",
+          "value": 1.0,
+          "shap": 2.6498,
+          "family": "ordinary"
+        },
+        {
+          "feature": "src_amt_mean_prior",
+          "value": 1141.7229,
+          "shap": 1.1984,
+          "family": "ordinary"
+        },
+        {
+          "feature": "tx_type_sale",
+          "value": 0.0,
+          "shap": 0.6961,
+          "family": "ordinary"
+        },
+        {
+          "feature": "src_out_degree",
+          "value": 0.0,
+          "shap": 0.4555,
+          "family": "topology",
+          "gloss": "recent payment volume out of the source"
+        },
+        {
+          "feature": "fan_out",
+          "value": 0.0,
+          "shap": 0.3115,
+          "family": "topology",
+          "gloss": "distinct recent recipients from the source"
+        }
+      ],
+      "graph_evidence": {
+        "type": "cycle",
+        "cycle_length": 2,
+        "path_nodes": [
+          "EMP:11:013",
+          "CO:11:OPS",
+          "EMP:11:013"
+        ],
+        "path_edges": [
+          {
+            "src": "EMP:11:013",
+            "dst": "CO:11:OPS",
+            "amount": 1379.61,
+            "ts": 28556714
+          },
+          {
+            "src": "CO:11:OPS",
+            "dst": "EMP:11:013",
+            "amount": 5430.2,
+            "ts": 28277108
+          }
+        ],
+        "amount_conservation": 0.254062465470885,
+        "time_span": 279606,
+        "window": 604800
+      },
+      "text": "ALERT 9 [score 0.9688]: EMP:11:013 -> CO:11:OPS for 1379.61 at t=28556714. Drivers: tx_type_transfer=1.0 (SHAP +2.65, ordinary); src_amt_mean_prior=1141.7229 (SHAP +1.20, ordinary); tx_type_sale=0.0 (SHAP +0.70, ordinary); src_out_degree=0.0 (SHAP +0.46, topology: recent payment volume out of the source); fan_out=0.0 (SHAP +0.31, topology: distinct recent recipients from the source). Evidence: closes a 2-hop cycle EMP:11:013 -> CO:11:OPS -> EMP:11:013, conserving 25% of the amount, within 279606 time units."
+    },
+    {
+      "alert_id": "SYNTH_ERP-TEST-0010",
+      "rank": 10,
+      "transaction_id": "1044560",
+      "score": 0.968588,
+      "decision": "ALERT",
+      "timestamp": 29331955,
+      "source_account": "EMP:27:007",
+      "dest_account": "CO:27:OPS",
+      "amount": 1099.18,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "tx_type_transfer",
+          "value": 1.0,
+          "shap": 2.5918,
+          "family": "ordinary"
+        },
+        {
+          "feature": "src_amt_mean_prior",
+          "value": 821.4179,
+          "shap": 1.1762,
+          "family": "ordinary"
+        },
+        {
+          "feature": "tx_type_sale",
+          "value": 0.0,
+          "shap": 0.6729,
+          "family": "ordinary"
+        },
+        {
+          "feature": "src_out_degree",
+          "value": 1.0,
+          "shap": 0.4451,
+          "family": "topology",
+          "gloss": "recent payment volume out of the source"
+        },
+        {
+          "feature": "fan_out",
+          "value": 1.0,
+          "shap": 0.2744,
+          "family": "topology",
+          "gloss": "distinct recent recipients from the source"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 220,
+        "senders": [
+          {
+            "account": "EMP:03:048",
+            "amount": 5.77,
+            "ts": 29330437
+          },
+          {
+            "account": "CUST:22980",
+            "amount": 604.36,
+            "ts": 29330430
+          },
+          {
+            "account": "CUST:32682",
+            "amount": 2035.67,
+            "ts": 29328573
+          },
+          {
+            "account": "CUST:21322",
+            "amount": 19.34,
+            "ts": 29327600
+          },
+          {
+            "account": "CUST:02751",
+            "amount": 34.91,
+            "ts": 29327380
+          },
+          {
+            "account": "CUST:05928",
+            "amount": 16.2,
+            "ts": 29326883
+          },
+          {
+            "account": "CUST:20106",
+            "amount": 64.33,
+            "ts": 29326711
+          },
+          {
+            "account": "CUST:14149",
+            "amount": 80.44,
+            "ts": 29326698
+          },
+          {
+            "account": "EMP:18:001",
+            "amount": 11.91,
+            "ts": 29326059
+          },
+          {
+            "account": "EMP:09:033",
+            "amount": 3.76,
+            "ts": 29322122
+          },
+          {
+            "account": "CUST:08955",
+            "amount": 6.19,
+            "ts": 29321735
+          },
+          {
+            "account": "CUST:18774",
+            "amount": 55.97,
+            "ts": 29318400
+          },
+          {
+            "account": "CUST:12727",
+            "amount": 49.63,
+            "ts": 29318400
+          },
+          {
+            "account": "CUST:05782",
+            "amount": 2.17,
+            "ts": 29279406
+          },
+          {
+            "account": "EMP:31:056",
+            "amount": 30.84,
+            "ts": 29279123
+          },
+          {
+            "account": "CUST:00781",
+            "amount": 8.89,
+            "ts": 29277948
+          },
+          {
+            "account": "CUST:03947",
+            "amount": 7.48,
+            "ts": 29275128
+          },
+          {
+            "account": "EMP:28:039",
+            "amount": 35.69,
+            "ts": 29273534
+          },
+          {
+            "account": "CUST:30927",
+            "amount": 45.52,
+            "ts": 29272994
+          },
+          {
+            "account": "CUST:23621",
+            "amount": 23.48,
+            "ts": 29272744
+          },
+          {
+            "account": "CUST:26116",
+            "amount": 49.91,
+            "ts": 29271747
+          },
+          {
+            "account": "CUST:12590",
+            "amount": 17.4,
+            "ts": 29270026
+          },
+          {
+            "account": "CUST:26538",
+            "amount": 18.35,
+            "ts": 29268028
+          },
+          {
+            "account": "CUST:26773",
+            "amount": 15.5,
+            "ts": 29266799
+          },
+          {
+            "account": "CUST:13009",
+            "amount": 7.2,
+            "ts": 29266144
+          }
+        ],
+        "window": 604800
+      },
+      "text": "ALERT 10 [score 0.9686]: EMP:27:007 -> CO:27:OPS for 1099.18 at t=29331955. Drivers: tx_type_transfer=1.0 (SHAP +2.59, ordinary); src_amt_mean_prior=821.4179 (SHAP +1.18, ordinary); tx_type_sale=0.0 (SHAP +0.67, ordinary); src_out_degree=1.0 (SHAP +0.45, topology: recent payment volume out of the source); fan_out=1.0 (SHAP +0.27, topology: distinct recent recipients from the source). Evidence: destination collected from 220 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "SYNTH_ERP-TEST-0011",
+      "rank": 11,
+      "transaction_id": "966958",
+      "score": 0.967661,
+      "decision": "ALERT",
+      "timestamp": 27730342,
+      "source_account": "CUST:18688",
+      "dest_account": "EXT:00445",
+      "amount": 728.93,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "tx_type_transfer",
+          "value": 1.0,
+          "shap": 1.8119,
+          "family": "ordinary"
+        },
+        {
+          "feature": "src_amt_mean_prior",
+          "value": 674.752,
+          "shap": 0.6196,
+          "family": "ordinary"
+        },
+        {
+          "feature": "fan_in",
+          "value": 8.0,
+          "shap": 0.6173,
+          "family": "topology",
+          "gloss": "distinct recent senders into the destination"
+        },
+        {
+          "feature": "tgn_edge_expectedness",
+          "value": 0.9579,
+          "shap": 0.3422,
+          "family": "tgn",
+          "gloss": "how expected this sender->receiver pair is to the learned temporal model (low = surprising)"
+        },
+        {
+          "feature": "tx_type_sale",
+          "value": 0.0,
+          "shap": 0.3395,
+          "family": "ordinary"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 8,
+        "senders": [
+          {
+            "account": "CUST:30739",
+            "amount": 655.55,
+            "ts": 27639630
+          },
+          {
+            "account": "CUST:28677",
+            "amount": 208.52,
+            "ts": 27548414
+          },
+          {
+            "account": "CUST:08101",
+            "amount": 608.46,
+            "ts": 27535171
+          },
+          {
+            "account": "CUST:07507",
+            "amount": 320.74,
+            "ts": 27510749
+          },
+          {
+            "account": "CUST:01662",
+            "amount": 528.26,
+            "ts": 27495428
+          },
+          {
+            "account": "CUST:18688",
+            "amount": 954.39,
+            "ts": 27471575
+          },
+          {
+            "account": "CUST:12175",
+            "amount": 617.12,
+            "ts": 27308441
+          },
+          {
+            "account": "CUST:28808",
+            "amount": 230.65,
+            "ts": 27168349
+          }
+        ],
+        "window": 604800
+      },
+      "text": "ALERT 11 [score 0.9677]: CUST:18688 -> EXT:00445 for 728.93 at t=27730342. Drivers: tx_type_transfer=1.0 (SHAP +1.81, ordinary); src_amt_mean_prior=674.752 (SHAP +0.62, ordinary); fan_in=8.0 (SHAP +0.62, topology: distinct recent senders into the destination); tgn_edge_expectedness=0.9579 (SHAP +0.34, tgn: how expected this sender->receiver pair is to the learned temporal model (low = surprising)); tx_type_sale=0.0 (SHAP +0.34, ordinary). Evidence: destination collected from 8 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "SYNTH_ERP-TEST-0012",
+      "rank": 12,
+      "transaction_id": "965646",
+      "score": 0.967249,
+      "decision": "ALERT",
+      "timestamp": 27698430,
+      "source_account": "EMP:00:016",
+      "dest_account": "CO:00:OPS",
+      "amount": 1211.74,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "tx_type_transfer",
+          "value": 1.0,
+          "shap": 2.6651,
+          "family": "ordinary"
+        },
+        {
+          "feature": "src_amt_mean_prior",
+          "value": 593.0824,
+          "shap": 1.1758,
+          "family": "ordinary"
+        },
+        {
+          "feature": "tx_type_sale",
+          "value": 0.0,
+          "shap": 0.6985,
+          "family": "ordinary"
+        },
+        {
+          "feature": "src_out_degree",
+          "value": 0.0,
+          "shap": 0.4567,
+          "family": "topology",
+          "gloss": "recent payment volume out of the source"
+        },
+        {
+          "feature": "fan_out",
+          "value": 0.0,
+          "shap": 0.3027,
+          "family": "topology",
+          "gloss": "distinct recent recipients from the source"
+        }
+      ],
+      "graph_evidence": {
+        "type": "cycle",
+        "cycle_length": 2,
+        "path_nodes": [
+          "EMP:00:016",
+          "CO:00:OPS",
+          "EMP:00:016"
+        ],
+        "path_edges": [
+          {
+            "src": "EMP:00:016",
+            "dst": "CO:00:OPS",
+            "amount": 1211.74,
+            "ts": 27698430
+          },
+          {
+            "src": "CO:00:OPS",
+            "dst": "EMP:00:016",
+            "amount": 3630.99,
+            "ts": 27419819
+          }
+        ],
+        "amount_conservation": 0.3337216571788961,
+        "time_span": 278611,
+        "window": 604800
+      },
+      "text": "ALERT 12 [score 0.9672]: EMP:00:016 -> CO:00:OPS for 1211.74 at t=27698430. Drivers: tx_type_transfer=1.0 (SHAP +2.67, ordinary); src_amt_mean_prior=593.0824 (SHAP +1.18, ordinary); tx_type_sale=0.0 (SHAP +0.70, ordinary); src_out_degree=0.0 (SHAP +0.46, topology: recent payment volume out of the source); fan_out=0.0 (SHAP +0.30, topology: distinct recent recipients from the source). Evidence: closes a 2-hop cycle EMP:00:016 -> CO:00:OPS -> EMP:00:016, conserving 33% of the amount, within 278611 time units."
+    },
+    {
+      "alert_id": "SYNTH_ERP-TEST-0013",
+      "rank": 13,
+      "transaction_id": "1085086",
+      "score": 0.967169,
+      "decision": "ALERT",
+      "timestamp": 30195392,
+      "source_account": "EMP:27:007",
+      "dest_account": "CO:27:OPS",
+      "amount": 1971.09,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "tx_type_transfer",
+          "value": 1.0,
+          "shap": 2.5636,
+          "family": "ordinary"
+        },
+        {
+          "feature": "src_amt_mean_prior",
+          "value": 896.0732,
+          "shap": 1.1558,
+          "family": "ordinary"
+        },
+        {
+          "feature": "tx_type_sale",
+          "value": 0.0,
+          "shap": 0.6648,
+          "family": "ordinary"
+        },
+        {
+          "feature": "src_out_degree",
+          "value": 0.0,
+          "shap": 0.441,
+          "family": "topology",
+          "gloss": "recent payment volume out of the source"
+        },
+        {
+          "feature": "log_amount",
+          "value": 7.5868,
+          "shap": 0.3234,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 213,
+        "senders": [
+          {
+            "account": "CUST:01748",
+            "amount": 6.83,
+            "ts": 30190282
+          },
+          {
+            "account": "CUST:14149",
+            "amount": 18.29,
+            "ts": 30190254
+          },
+          {
+            "account": "EMP:09:035",
+            "amount": 30.9,
+            "ts": 30189770
+          },
+          {
+            "account": "EMP:17:069",
+            "amount": 44.38,
+            "ts": 30186352
+          },
+          {
+            "account": "CUST:00625",
+            "amount": 10.62,
+            "ts": 30182400
+          },
+          {
+            "account": "EMP:26:011",
+            "amount": 14.7,
+            "ts": 30150000
+          },
+          {
+            "account": "CUST:18972",
+            "amount": 18.49,
+            "ts": 30139593
+          },
+          {
+            "account": "CUST:01980",
+            "amount": 12.33,
+            "ts": 30139457
+          },
+          {
+            "account": "CUST:29612",
+            "amount": 22.36,
+            "ts": 30138980
+          },
+          {
+            "account": "EMP:13:186",
+            "amount": 114.44,
+            "ts": 30137309
+          },
+          {
+            "account": "EMP:25:147",
+            "amount": 44.09,
+            "ts": 30131988
+          },
+          {
+            "account": "EMP:23:065",
+            "amount": 44.27,
+            "ts": 30131975
+          },
+          {
+            "account": "CUST:23292",
+            "amount": 21.48,
+            "ts": 30127165
+          },
+          {
+            "account": "CUST:31062",
+            "amount": 12.16,
+            "ts": 30126213
+          },
+          {
+            "account": "CUST:28598",
+            "amount": 57.77,
+            "ts": 30125682
+          },
+          {
+            "account": "CUST:25412",
+            "amount": 20138.29,
+            "ts": 30124582
+          },
+          {
+            "account": "CUST:26919",
+            "amount": 59.65,
+            "ts": 30123447
+          },
+          {
+            "account": "EMP:37:027",
+            "amount": 106.7,
+            "ts": 30121017
+          },
+          {
+            "account": "CUST:20290",
+            "amount": 26.92,
+            "ts": 30119772
+          },
+          {
+            "account": "CUST:31573",
+            "amount": 27.33,
+            "ts": 30117300
+          },
+          {
+            "account": "CUST:30445",
+            "amount": 75.39,
+            "ts": 30114101
+          },
+          {
+            "account": "CUST:07375",
+            "amount": 37.71,
+            "ts": 30107275
+          },
+          {
+            "account": "EMP:25:159",
+            "amount": 76.14,
+            "ts": 30105999
+          },
+          {
+            "account": "CUST:27296",
+            "amount": 655.22,
+            "ts": 30103916
+          },
+          {
+            "account": "CUST:06818",
+            "amount": 33.62,
+            "ts": 30101762
+          }
+        ],
+        "window": 604800
+      },
+      "text": "ALERT 13 [score 0.9672]: EMP:27:007 -> CO:27:OPS for 1971.09 at t=30195392. Drivers: tx_type_transfer=1.0 (SHAP +2.56, ordinary); src_amt_mean_prior=896.0732 (SHAP +1.16, ordinary); tx_type_sale=0.0 (SHAP +0.66, ordinary); src_out_degree=0.0 (SHAP +0.44, topology: recent payment volume out of the source); log_amount=7.5868 (SHAP +0.32, ordinary: transaction amount (log scale)). Evidence: destination collected from 213 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "SYNTH_ERP-TEST-0014",
+      "rank": 14,
+      "transaction_id": "920961",
+      "score": 0.965377,
+      "decision": "ALERT",
+      "timestamp": 26581986,
+      "source_account": "EMP:00:016",
+      "dest_account": "CO:00:OPS",
+      "amount": 813.91,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "tx_type_transfer",
+          "value": 1.0,
+          "shap": 2.6612,
+          "family": "ordinary"
+        },
+        {
+          "feature": "src_amt_mean_prior",
+          "value": 554.8505,
+          "shap": 1.1914,
+          "family": "ordinary"
+        },
+        {
+          "feature": "tx_type_sale",
+          "value": 0.0,
+          "shap": 0.7048,
+          "family": "ordinary"
+        },
+        {
+          "feature": "src_out_degree",
+          "value": 1.0,
+          "shap": 0.4514,
+          "family": "topology",
+          "gloss": "recent payment volume out of the source"
+        },
+        {
+          "feature": "fan_out",
+          "value": 1.0,
+          "shap": 0.2851,
+          "family": "topology",
+          "gloss": "distinct recent recipients from the source"
+        }
+      ],
+      "graph_evidence": {
+        "type": "cycle",
+        "cycle_length": 2,
+        "path_nodes": [
+          "EMP:00:016",
+          "CO:00:OPS",
+          "EMP:00:016"
+        ],
+        "path_edges": [
+          {
+            "src": "EMP:00:016",
+            "dst": "CO:00:OPS",
+            "amount": 813.91,
+            "ts": 26581986
+          },
+          {
+            "src": "CO:00:OPS",
+            "dst": "EMP:00:016",
+            "amount": 3590.12,
+            "ts": 26207292
+          }
+        ],
+        "amount_conservation": 0.22670829944402973,
+        "time_span": 374694,
+        "window": 604800
+      },
+      "text": "ALERT 14 [score 0.9654]: EMP:00:016 -> CO:00:OPS for 813.91 at t=26581986. Drivers: tx_type_transfer=1.0 (SHAP +2.66, ordinary); src_amt_mean_prior=554.8505 (SHAP +1.19, ordinary); tx_type_sale=0.0 (SHAP +0.70, ordinary); src_out_degree=1.0 (SHAP +0.45, topology: recent payment volume out of the source); fan_out=1.0 (SHAP +0.29, topology: distinct recent recipients from the source). Evidence: closes a 2-hop cycle EMP:00:016 -> CO:00:OPS -> EMP:00:016, conserving 23% of the amount, within 374694 time units."
+    },
+    {
+      "alert_id": "SYNTH_ERP-TEST-0015",
+      "rank": 15,
+      "transaction_id": "924173",
+      "score": 0.965185,
+      "decision": "ALERT",
+      "timestamp": 26670439,
+      "source_account": "EXT:00090",
+      "dest_account": "EXT:00087",
+      "amount": 4079.12,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "tx_type_transfer",
+          "value": 1.0,
+          "shap": 0.9283,
+          "family": "ordinary"
+        },
+        {
+          "feature": "log_amount",
+          "value": 8.3139,
+          "shap": 0.6097,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        },
+        {
+          "feature": "tgn_s21",
+          "value": -0.1397,
+          "shap": 0.3809,
+          "family": "tgn",
+          "gloss": "learned temporal-graph embedding component"
+        },
+        {
+          "feature": "dest_in_degree",
+          "value": 3.0,
+          "shap": 0.3734,
+          "family": "topology",
+          "gloss": "recent payment volume into the destination"
+        },
+        {
+          "feature": "tgn_d16",
+          "value": -0.1148,
+          "shap": 0.3647,
+          "family": "tgn",
+          "gloss": "learned temporal-graph embedding component"
+        }
+      ],
+      "graph_evidence": {
+        "type": "cycle",
+        "cycle_length": 5,
+        "path_nodes": [
+          "EXT:00090",
+          "EXT:00087",
+          "EXT:00088",
+          "CUST:25351",
+          "EXT:00089",
+          "EXT:00090"
+        ],
+        "path_edges": [
+          {
+            "src": "EXT:00090",
+            "dst": "EXT:00087",
+            "amount": 4079.12,
+            "ts": 26670439
+          },
+          {
+            "src": "EXT:00087",
+            "dst": "EXT:00088",
+            "amount": 5001.71,
+            "ts": 26527436
+          },
+          {
+            "src": "EXT:00088",
+            "dst": "CUST:25351",
+            "amount": 4704.93,
+            "ts": 26535065
+          },
+          {
+            "src": "CUST:25351",
+            "dst": "EXT:00089",
+            "amount": 2811.05,
+            "ts": 26606475
+          },
+          {
+            "src": "EXT:00089",
+            "dst": "EXT:00090",
+            "amount": 4319.11,
+            "ts": 26610209
+          }
+        ],
+        "amount_conservation": 0.5620177899158488,
+        "time_span": 143003,
+        "window": 604800
+      },
+      "text": "ALERT 15 [score 0.9652]: EXT:00090 -> EXT:00087 for 4079.12 at t=26670439. Drivers: tx_type_transfer=1.0 (SHAP +0.93, ordinary); log_amount=8.3139 (SHAP +0.61, ordinary: transaction amount (log scale)); tgn_s21=-0.1397 (SHAP +0.38, tgn: learned temporal-graph embedding component); dest_in_degree=3.0 (SHAP +0.37, topology: recent payment volume into the destination); tgn_d16=-0.1148 (SHAP +0.36, tgn: learned temporal-graph embedding component). Evidence: closes a 5-hop cycle EXT:00090 -> EXT:00087 -> EXT:00088 -> CUST:25351 -> EXT:00089 -> EXT:00090, conserving 56% of the amount, within 143003 time units."
+    },
+    {
+      "alert_id": "SYNTH_ERP-TEST-0016",
+      "rank": 16,
+      "transaction_id": "1037376",
+      "score": 0.965157,
+      "decision": "ALERT",
+      "timestamp": 29181054,
+      "source_account": "EMP:16:000",
+      "dest_account": "CO:16:OPS",
+      "amount": 1834.45,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "tx_type_transfer",
+          "value": 1.0,
+          "shap": 2.6387,
+          "family": "ordinary"
+        },
+        {
+          "feature": "src_amt_mean_prior",
+          "value": 641.9212,
+          "shap": 1.1982,
+          "family": "ordinary"
+        },
+        {
+          "feature": "tx_type_sale",
+          "value": 0.0,
+          "shap": 0.6685,
+          "family": "ordinary"
+        },
+        {
+          "feature": "src_out_degree",
+          "value": 1.0,
+          "shap": 0.4463,
+          "family": "topology",
+          "gloss": "recent payment volume out of the source"
+        },
+        {
+          "feature": "log_amount",
+          "value": 7.515,
+          "shap": 0.3056,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 446,
+        "senders": [
+          {
+            "account": "CUST:20403",
+            "amount": 19.93,
+            "ts": 29180567
+          },
+          {
+            "account": "CUST:21744",
+            "amount": 7.29,
+            "ts": 29179241
+          },
+          {
+            "account": "EMP:08:105",
+            "amount": 9.41,
+            "ts": 29178607
+          },
+          {
+            "account": "CUST:01794",
+            "amount": 5.27,
+            "ts": 29178524
+          },
+          {
+            "account": "CUST:20789",
+            "amount": 15.39,
+            "ts": 29177039
+          },
+          {
+            "account": "EMP:31:011",
+            "amount": 8.44,
+            "ts": 29176372
+          },
+          {
+            "account": "CUST:21944",
+            "amount": 3.06,
+            "ts": 29176336
+          },
+          {
+            "account": "CUST:27861",
+            "amount": 2282.88,
+            "ts": 29175851
+          },
+          {
+            "account": "CUST:26663",
+            "amount": 7.11,
+            "ts": 29175729
+          },
+          {
+            "account": "CUST:04544",
+            "amount": 46.4,
+            "ts": 29173719
+          },
+          {
+            "account": "CUST:09673",
+            "amount": 1201.77,
+            "ts": 29173455
+          },
+          {
+            "account": "CUST:09706",
+            "amount": 17.72,
+            "ts": 29172984
+          },
+          {
+            "account": "CUST:01041",
+            "amount": 9.46,
+            "ts": 29172774
+          },
+          {
+            "account": "CUST:18625",
+            "amount": 5.49,
+            "ts": 29171971
+          },
+          {
+            "account": "CUST:06432",
+            "amount": 104.42,
+            "ts": 29171602
+          },
+          {
+            "account": "CUST:29114",
+            "amount": 15.05,
+            "ts": 29171388
+          },
+          {
+            "account": "CO:31:OPS",
+            "amount": 14653.94,
+            "ts": 29170969
+          },
+          {
+            "account": "CUST:15089",
+            "amount": 1.91,
+            "ts": 29170320
+          },
+          {
+            "account": "CUST:27950",
+            "amount": 11.49,
+            "ts": 29170160
+          },
+          {
+            "account": "CUST:00724",
+            "amount": 10.79,
+            "ts": 29170007
+          },
+          {
+            "account": "CUST:07126",
+            "amount": 20.25,
+            "ts": 29169179
+          },
+          {
+            "account": "CUST:01040",
+            "amount": 34.93,
+            "ts": 29168783
+          },
+          {
+            "account": "CUST:00035",
+            "amount": 9.4,
+            "ts": 29168567
+          },
+          {
+            "account": "CO:14:OPS",
+            "amount": 10555.84,
+            "ts": 29168463
+          },
+          {
+            "account": "CUST:05959",
+            "amount": 38.71,
+            "ts": 29168415
+          }
+        ],
+        "window": 604800
+      },
+      "text": "ALERT 16 [score 0.9652]: EMP:16:000 -> CO:16:OPS for 1834.45 at t=29181054. Drivers: tx_type_transfer=1.0 (SHAP +2.64, ordinary); src_amt_mean_prior=641.9212 (SHAP +1.20, ordinary); tx_type_sale=0.0 (SHAP +0.67, ordinary); src_out_degree=1.0 (SHAP +0.45, topology: recent payment volume out of the source); log_amount=7.515 (SHAP +0.31, ordinary: transaction amount (log scale)). Evidence: destination collected from 446 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "SYNTH_ERP-TEST-0017",
+      "rank": 17,
+      "transaction_id": "967054",
+      "score": 0.964432,
+      "decision": "ALERT",
+      "timestamp": 27757413,
+      "source_account": "CUST:02373",
+      "dest_account": "EXT:00445",
+      "amount": 742.0,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "tx_type_transfer",
+          "value": 1.0,
+          "shap": 1.504,
+          "family": "ordinary"
+        },
+        {
+          "feature": "fan_in",
+          "value": 9.0,
+          "shap": 0.7613,
+          "family": "topology",
+          "gloss": "distinct recent senders into the destination"
+        },
+        {
+          "feature": "src_amt_mean_prior",
+          "value": 233.1522,
+          "shap": 0.4695,
+          "family": "ordinary"
+        },
+        {
+          "feature": "tgn_edge_expectedness",
+          "value": 0.4221,
+          "shap": 0.3455,
+          "family": "tgn",
+          "gloss": "how expected this sender->receiver pair is to the learned temporal model (low = surprising)"
+        },
+        {
+          "feature": "tx_type_sale",
+          "value": 0.0,
+          "shap": 0.2978,
+          "family": "ordinary"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 9,
+        "senders": [
+          {
+            "account": "CUST:01662",
+            "amount": 693.33,
+            "ts": 27755016
+          },
+          {
+            "account": "CUST:10768",
+            "amount": 1066.01,
+            "ts": 27744162
+          },
+          {
+            "account": "CUST:18688",
+            "amount": 728.93,
+            "ts": 27730342
+          },
+          {
+            "account": "CUST:30739",
+            "amount": 655.55,
+            "ts": 27639630
+          },
+          {
+            "account": "CUST:28677",
+            "amount": 208.52,
+            "ts": 27548414
+          },
+          {
+            "account": "CUST:08101",
+            "amount": 608.46,
+            "ts": 27535171
+          },
+          {
+            "account": "CUST:07507",
+            "amount": 320.74,
+            "ts": 27510749
+          },
+          {
+            "account": "CUST:12175",
+            "amount": 617.12,
+            "ts": 27308441
+          },
+          {
+            "account": "CUST:28808",
+            "amount": 230.65,
+            "ts": 27168349
+          }
+        ],
+        "window": 604800
+      },
+      "text": "ALERT 17 [score 0.9644]: CUST:02373 -> EXT:00445 for 742.00 at t=27757413. Drivers: tx_type_transfer=1.0 (SHAP +1.50, ordinary); fan_in=9.0 (SHAP +0.76, topology: distinct recent senders into the destination); src_amt_mean_prior=233.1522 (SHAP +0.47, ordinary); tgn_edge_expectedness=0.4221 (SHAP +0.35, tgn: how expected this sender->receiver pair is to the learned temporal model (low = surprising)); tx_type_sale=0.0 (SHAP +0.30, ordinary). Evidence: destination collected from 9 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "SYNTH_ERP-TEST-0018",
+      "rank": 18,
+      "transaction_id": "1028409",
+      "score": 0.964279,
+      "decision": "ALERT",
+      "timestamp": 29004638,
+      "source_account": "EMP:11:013",
+      "dest_account": "CO:11:OPS",
+      "amount": 5286.43,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "tx_type_transfer",
+          "value": 1.0,
+          "shap": 2.5481,
+          "family": "ordinary"
+        },
+        {
+          "feature": "src_amt_mean_prior",
+          "value": 1151.2384,
+          "shap": 1.2344,
+          "family": "ordinary"
+        },
+        {
+          "feature": "tx_type_sale",
+          "value": 0.0,
+          "shap": 0.6719,
+          "family": "ordinary"
+        },
+        {
+          "feature": "src_out_degree",
+          "value": 1.0,
+          "shap": 0.4533,
+          "family": "topology",
+          "gloss": "recent payment volume out of the source"
+        },
+        {
+          "feature": "fan_in",
+          "value": 603.0,
+          "shap": 0.2679,
+          "family": "topology",
+          "gloss": "distinct recent senders into the destination"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 603,
+        "senders": [
+          {
+            "account": "CUST:25111",
+            "amount": 36.64,
+            "ts": 29004312
+          },
+          {
+            "account": "CUST:04683",
+            "amount": 141.38,
+            "ts": 29003938
+          },
+          {
+            "account": "CUST:19150",
+            "amount": 123.58,
+            "ts": 29002547
+          },
+          {
+            "account": "CUST:23547",
+            "amount": 249.52,
+            "ts": 29001775
+          },
+          {
+            "account": "CUST:19548",
+            "amount": 13.0,
+            "ts": 29001653
+          },
+          {
+            "account": "CUST:12013",
+            "amount": 69.68,
+            "ts": 29000367
+          },
+          {
+            "account": "CUST:14543",
+            "amount": 551.98,
+            "ts": 29000156
+          },
+          {
+            "account": "EMP:24:014",
+            "amount": 29.27,
+            "ts": 28999467
+          },
+          {
+            "account": "CUST:01721",
+            "amount": 23.19,
+            "ts": 28999405
+          },
+          {
+            "account": "CUST:24540",
+            "amount": 32.46,
+            "ts": 28997660
+          },
+          {
+            "account": "CUST:13491",
+            "amount": 137.42,
+            "ts": 28997187
+          },
+          {
+            "account": "EMP:17:036",
+            "amount": 41.79,
+            "ts": 28996671
+          },
+          {
+            "account": "CUST:31643",
+            "amount": 17.46,
+            "ts": 28996616
+          },
+          {
+            "account": "CUST:05049",
+            "amount": 62.56,
+            "ts": 28995923
+          },
+          {
+            "account": "EMP:23:148",
+            "amount": 109.05,
+            "ts": 28995803
+          },
+          {
+            "account": "CUST:17711",
+            "amount": 21.83,
+            "ts": 28993838
+          },
+          {
+            "account": "CUST:32655",
+            "amount": 37.05,
+            "ts": 28993140
+          },
+          {
+            "account": "CUST:07838",
+            "amount": 71.07,
+            "ts": 28992817
+          },
+          {
+            "account": "CUST:23677",
+            "amount": 5.05,
+            "ts": 28992163
+          },
+          {
+            "account": "CUST:05809",
+            "amount": 24.14,
+            "ts": 28991686
+          },
+          {
+            "account": "CUST:25514",
+            "amount": 143.47,
+            "ts": 28991128
+          },
+          {
+            "account": "CUST:03279",
+            "amount": 31.95,
+            "ts": 28988960
+          },
+          {
+            "account": "CUST:31194",
+            "amount": 24.42,
+            "ts": 28987999
+          },
+          {
+            "account": "CUST:00207",
+            "amount": 36.13,
+            "ts": 28987031
+          },
+          {
+            "account": "CUST:28934",
+            "amount": 38.95,
+            "ts": 28984789
+          }
+        ],
+        "window": 604800
+      },
+      "text": "ALERT 18 [score 0.9643]: EMP:11:013 -> CO:11:OPS for 5286.43 at t=29004638. Drivers: tx_type_transfer=1.0 (SHAP +2.55, ordinary); src_amt_mean_prior=1151.2384 (SHAP +1.23, ordinary); tx_type_sale=0.0 (SHAP +0.67, ordinary); src_out_degree=1.0 (SHAP +0.45, topology: recent payment volume out of the source); fan_in=603.0 (SHAP +0.27, topology: distinct recent senders into the destination). Evidence: destination collected from 603 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "SYNTH_ERP-TEST-0019",
+      "rank": 19,
+      "transaction_id": "1077978",
+      "score": 0.964184,
+      "decision": "ALERT",
+      "timestamp": 30019787,
+      "source_account": "EMP:00:038",
+      "dest_account": "CO:00:OPS",
+      "amount": 3912.74,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "tx_type_transfer",
+          "value": 1.0,
+          "shap": 2.6227,
+          "family": "ordinary"
+        },
+        {
+          "feature": "src_amt_mean_prior",
+          "value": 508.5963,
+          "shap": 1.1654,
+          "family": "ordinary"
+        },
+        {
+          "feature": "tx_type_sale",
+          "value": 0.0,
+          "shap": 0.6772,
+          "family": "ordinary"
+        },
+        {
+          "feature": "src_out_degree",
+          "value": 0.0,
+          "shap": 0.4448,
+          "family": "topology",
+          "gloss": "recent payment volume out of the source"
+        },
+        {
+          "feature": "fan_out",
+          "value": 0.0,
+          "shap": 0.2851,
+          "family": "topology",
+          "gloss": "distinct recent recipients from the source"
+        }
+      ],
+      "graph_evidence": {
+        "type": "cycle",
+        "cycle_length": 2,
+        "path_nodes": [
+          "EMP:00:038",
+          "CO:00:OPS",
+          "EMP:00:038"
+        ],
+        "path_edges": [
+          {
+            "src": "EMP:00:038",
+            "dst": "CO:00:OPS",
+            "amount": 3912.74,
+            "ts": 30019787
+          },
+          {
+            "src": "CO:00:OPS",
+            "dst": "EMP:00:038",
+            "amount": 3336.3,
+            "ts": 29837625
+          }
+        ],
+        "amount_conservation": 0.8526761297709534,
+        "time_span": 182162,
+        "window": 604800
+      },
+      "text": "ALERT 19 [score 0.9642]: EMP:00:038 -> CO:00:OPS for 3912.74 at t=30019787. Drivers: tx_type_transfer=1.0 (SHAP +2.62, ordinary); src_amt_mean_prior=508.5963 (SHAP +1.17, ordinary); tx_type_sale=0.0 (SHAP +0.68, ordinary); src_out_degree=0.0 (SHAP +0.44, topology: recent payment volume out of the source); fan_out=0.0 (SHAP +0.29, topology: distinct recent recipients from the source). Evidence: closes a 2-hop cycle EMP:00:038 -> CO:00:OPS -> EMP:00:038, conserving 85% of the amount, within 182162 time units."
+    },
+    {
+      "alert_id": "SYNTH_ERP-TEST-0020",
+      "rank": 20,
+      "transaction_id": "995312",
+      "score": 0.963699,
+      "decision": "ALERT",
+      "timestamp": 28288975,
+      "source_account": "CUST:15588",
+      "dest_account": "EXT:00487",
+      "amount": 1170.96,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "tx_type_transfer",
+          "value": 1.0,
+          "shap": 1.6439,
+          "family": "ordinary"
+        },
+        {
+          "feature": "fan_in",
+          "value": 11.0,
+          "shap": 0.7328,
+          "family": "topology",
+          "gloss": "distinct recent senders into the destination"
+        },
+        {
+          "feature": "src_amt_mean_prior",
+          "value": 267.9843,
+          "shap": 0.4362,
+          "family": "ordinary"
+        },
+        {
+          "feature": "tgn_edge_expectedness",
+          "value": 0.8681,
+          "shap": 0.3621,
+          "family": "tgn",
+          "gloss": "how expected this sender->receiver pair is to the learned temporal model (low = surprising)"
+        },
+        {
+          "feature": "tx_type_sale",
+          "value": 0.0,
+          "shap": 0.2818,
+          "family": "ordinary"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 11,
+        "senders": [
+          {
+            "account": "CUST:17425",
+            "amount": 2090.08,
+            "ts": 28271518
+          },
+          {
+            "account": "CUST:23199",
+            "amount": 349.68,
+            "ts": 28268870
+          },
+          {
+            "account": "CUST:20752",
+            "amount": 937.51,
+            "ts": 28249109
+          },
+          {
+            "account": "CUST:18893",
+            "amount": 665.09,
+            "ts": 28205664
+          },
+          {
+            "account": "CUST:15588",
+            "amount": 715.53,
+            "ts": 28164216
+          },
+          {
+            "account": "CUST:08553",
+            "amount": 933.72,
+            "ts": 28093028
+          },
+          {
+            "account": "CUST:24830",
+            "amount": 302.03,
+            "ts": 28046438
+          },
+          {
+            "account": "CUST:01588",
+            "amount": 280.95,
+            "ts": 28027305
+          },
+          {
+            "account": "CUST:20027",
+            "amount": 392.58,
+            "ts": 27886501
+          },
+          {
+            "account": "CUST:18804",
+            "amount": 1034.4,
+            "ts": 27833051
+          },
+          {
+            "account": "CUST:06014",
+            "amount": 374.72,
+            "ts": 27757922
+          }
+        ],
+        "window": 604800
+      },
+      "text": "ALERT 20 [score 0.9637]: CUST:15588 -> EXT:00487 for 1170.96 at t=28288975. Drivers: tx_type_transfer=1.0 (SHAP +1.64, ordinary); fan_in=11.0 (SHAP +0.73, topology: distinct recent senders into the destination); src_amt_mean_prior=267.9843 (SHAP +0.44, ordinary); tgn_edge_expectedness=0.8681 (SHAP +0.36, tgn: how expected this sender->receiver pair is to the learned temporal model (low = surprising)); tx_type_sale=0.0 (SHAP +0.28, ordinary). Evidence: destination collected from 11 distinct senders inside the window (mule-collection signature)."
+    }
+  ]
+}

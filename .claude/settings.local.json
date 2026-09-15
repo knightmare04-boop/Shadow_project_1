@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh --version)",
+      "Bash(gh auth *)",
+      "Bash(git --version)",
+      "Bash(git -C \"c:/Users/Aarin Bhatta/OneDrive/Desktop/Projects/shadowGraphs\" rev-parse --is-inside-work-tree)",
+      "Bash(gh repo *)",
+      "Bash(echo \"=== exit: $? ===\")",
+      "Bash(git -C 'c:/Users/Aarin Bhatta/OneDrive/Desktop/Projects/shadowGraphs' remote -v)",
+      "Bash(git -C 'c:/Users/Aarin Bhatta/OneDrive/Desktop/Projects/shadowGraphs' branch -vv)",
+      "Bash(ls -la \"C:/Users/Aarin Bhatta/OneDrive/Desktop/Projects/erp datasets\")",
+      "Read(//c/Users/Aarin Bhatta/OneDrive/Desktop/Projects/erp datasets/**)",
+      "Skill(update-config)",
+      "Skill(update-config:*)",
+      "Bash(python -m topology.engine paysim)",
+      "Bash(python -c ' *)"
+    ]
+  }
+}

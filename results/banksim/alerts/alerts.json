@@ -1,0 +1,2053 @@
+{
+  "generated": "2026-08-26",
+  "dataset": "banksim",
+  "artifact": "artifacts\\banksim\\final",
+  "threshold": 0.46208053827285767,
+  "k": 15,
+  "n_true_fraud_in_topk": 15,
+  "alerts": [
+    {
+      "alert_id": "BANKSIM-TEST-0001",
+      "rank": 1,
+      "transaction_id": "485619",
+      "score": 0.981441,
+      "decision": "ALERT",
+      "timestamp": 150,
+      "source_account": "C2002713196",
+      "dest_account": "M980657600",
+      "amount": 1078.75,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "log_amount",
+          "value": 6.9845,
+          "shap": 3.353,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        },
+        {
+          "feature": "fan_in",
+          "value": 49.0,
+          "shap": 0.7635,
+          "family": "topology",
+          "gloss": "distinct recent senders into the destination"
+        },
+        {
+          "feature": "dest_in_degree",
+          "value": 52.0,
+          "shap": 0.6334,
+          "family": "topology",
+          "gloss": "recent payment volume into the destination"
+        },
+        {
+          "feature": "time_since_prev_src",
+          "value": 0.0,
+          "shap": 0.4312,
+          "family": "ordinary",
+          "gloss": "time since the sender's previous transaction"
+        },
+        {
+          "feature": "category_es_sportsandtoys",
+          "value": 1.0,
+          "shap": 0.3586,
+          "family": "ordinary"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 49,
+        "senders": [
+          {
+            "account": "C381007057",
+            "amount": 170.09,
+            "ts": 149
+          },
+          {
+            "account": "C2080088206",
+            "amount": 139.08,
+            "ts": 149
+          },
+          {
+            "account": "C1207935724",
+            "amount": 539.54,
+            "ts": 149
+          },
+          {
+            "account": "C1082301057",
+            "amount": 141.97,
+            "ts": 149
+          },
+          {
+            "account": "C2128227866",
+            "amount": 315.79,
+            "ts": 149
+          },
+          {
+            "account": "C1809646275",
+            "amount": 258.29,
+            "ts": 149
+          },
+          {
+            "account": "C1060270098",
+            "amount": 792.48,
+            "ts": 149
+          },
+          {
+            "account": "C744066701",
+            "amount": 74.09,
+            "ts": 149
+          },
+          {
+            "account": "C831378949",
+            "amount": 465.03,
+            "ts": 149
+          },
+          {
+            "account": "C831905583",
+            "amount": 406.58,
+            "ts": 149
+          },
+          {
+            "account": "C806399525",
+            "amount": 260.6,
+            "ts": 147
+          },
+          {
+            "account": "C637831009",
+            "amount": 239.13,
+            "ts": 147
+          },
+          {
+            "account": "C245117318",
+            "amount": 287.69,
+            "ts": 146
+          },
+          {
+            "account": "C483912131",
+            "amount": 385.58,
+            "ts": 146
+          },
+          {
+            "account": "C1548873226",
+            "amount": 421.64,
+            "ts": 146
+          },
+          {
+            "account": "C1472480119",
+            "amount": 60.6,
+            "ts": 146
+          },
+          {
+            "account": "C1361248894",
+            "amount": 328.95,
+            "ts": 146
+          },
+          {
+            "account": "C525850964",
+            "amount": 38.08,
+            "ts": 146
+          },
+          {
+            "account": "C399875163",
+            "amount": 163.79,
+            "ts": 146
+          },
+          {
+            "account": "C1159406873",
+            "amount": 766.41,
+            "ts": 146
+          },
+          {
+            "account": "C217572786",
+            "amount": 200.88,
+            "ts": 146
+          },
+          {
+            "account": "C1545977603",
+            "amount": 44.01,
+            "ts": 146
+          },
+          {
+            "account": "C1454826238",
+            "amount": 64.95,
+            "ts": 146
+          },
+          {
+            "account": "C1817318774",
+            "amount": 419.88,
+            "ts": 146
+          },
+          {
+            "account": "C744859144",
+            "amount": 379.23,
+            "ts": 146
+          }
+        ],
+        "window": 7
+      },
+      "text": "ALERT 1 [score 0.9814]: C2002713196 -> M980657600 for 1078.75 at t=150. Drivers: log_amount=6.9845 (SHAP +3.35, ordinary: transaction amount (log scale)); fan_in=49.0 (SHAP +0.76, topology: distinct recent senders into the destination); dest_in_degree=52.0 (SHAP +0.63, topology: recent payment volume into the destination); time_since_prev_src=0.0 (SHAP +0.43, ordinary: time since the sender's previous transaction); category_es_sportsandtoys=1.0 (SHAP +0.36, ordinary). Evidence: destination collected from 49 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "BANKSIM-TEST-0002",
+      "rank": 2,
+      "transaction_id": "552037",
+      "score": 0.97968,
+      "decision": "ALERT",
+      "timestamp": 168,
+      "source_account": "C1817318774",
+      "dest_account": "M980657600",
+      "amount": 533.9,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "log_amount",
+          "value": 6.2821,
+          "shap": 3.1025,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        },
+        {
+          "feature": "src_amt_mean_prior",
+          "value": 411.0699,
+          "shap": 0.7674,
+          "family": "ordinary"
+        },
+        {
+          "feature": "dest_in_degree",
+          "value": 69.0,
+          "shap": 0.7644,
+          "family": "topology",
+          "gloss": "recent payment volume into the destination"
+        },
+        {
+          "feature": "fan_in",
+          "value": 63.0,
+          "shap": 0.6773,
+          "family": "topology",
+          "gloss": "distinct recent senders into the destination"
+        },
+        {
+          "feature": "time_since_prev_src",
+          "value": 0.0,
+          "shap": 0.3838,
+          "family": "ordinary",
+          "gloss": "time since the sender's previous transaction"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 63,
+        "senders": [
+          {
+            "account": "C330615170",
+            "amount": 658.51,
+            "ts": 168
+          },
+          {
+            "account": "C153962249",
+            "amount": 213.12,
+            "ts": 168
+          },
+          {
+            "account": "C1670516684",
+            "amount": 419.71,
+            "ts": 168
+          },
+          {
+            "account": "C261466841",
+            "amount": 362.97,
+            "ts": 168
+          },
+          {
+            "account": "C2008562542",
+            "amount": 17.37,
+            "ts": 168
+          },
+          {
+            "account": "C57136184",
+            "amount": 368.76,
+            "ts": 168
+          },
+          {
+            "account": "C1903013338",
+            "amount": 422.7,
+            "ts": 168
+          },
+          {
+            "account": "C1978080967",
+            "amount": 522.79,
+            "ts": 168
+          },
+          {
+            "account": "C381007057",
+            "amount": 50.56,
+            "ts": 167
+          },
+          {
+            "account": "C1233360048",
+            "amount": 257.28,
+            "ts": 167
+          },
+          {
+            "account": "C27106217",
+            "amount": 14.98,
+            "ts": 167
+          },
+          {
+            "account": "C1734862058",
+            "amount": 336.29,
+            "ts": 167
+          },
+          {
+            "account": "C540538956",
+            "amount": 153.17,
+            "ts": 167
+          },
+          {
+            "account": "C1084001812",
+            "amount": 371.39,
+            "ts": 167
+          },
+          {
+            "account": "C1464489812",
+            "amount": 439.48,
+            "ts": 167
+          },
+          {
+            "account": "C1906259613",
+            "amount": 620.91,
+            "ts": 167
+          },
+          {
+            "account": "C2004941826",
+            "amount": 1122.35,
+            "ts": 166
+          },
+          {
+            "account": "C1663162700",
+            "amount": 90.46,
+            "ts": 166
+          },
+          {
+            "account": "C910454738",
+            "amount": 428.5,
+            "ts": 166
+          },
+          {
+            "account": "C1490048317",
+            "amount": 403.5,
+            "ts": 166
+          },
+          {
+            "account": "C1332295774",
+            "amount": 140.05,
+            "ts": 166
+          },
+          {
+            "account": "C140648396",
+            "amount": 46.16,
+            "ts": 166
+          },
+          {
+            "account": "C422403315",
+            "amount": 287.34,
+            "ts": 165
+          },
+          {
+            "account": "C421432072",
+            "amount": 269.83,
+            "ts": 165
+          },
+          {
+            "account": "C1593769010",
+            "amount": 47.82,
+            "ts": 165
+          }
+        ],
+        "window": 7
+      },
+      "text": "ALERT 2 [score 0.9797]: C1817318774 -> M980657600 for 533.90 at t=168. Drivers: log_amount=6.2821 (SHAP +3.10, ordinary: transaction amount (log scale)); src_amt_mean_prior=411.0699 (SHAP +0.77, ordinary); dest_in_degree=69.0 (SHAP +0.76, topology: recent payment volume into the destination); fan_in=63.0 (SHAP +0.68, topology: distinct recent senders into the destination); time_since_prev_src=0.0 (SHAP +0.38, ordinary: time since the sender's previous transaction). Evidence: destination collected from 63 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "BANKSIM-TEST-0003",
+      "rank": 3,
+      "transaction_id": "491960",
+      "score": 0.979645,
+      "decision": "ALERT",
+      "timestamp": 152,
+      "source_account": "C173276320",
+      "dest_account": "M980657600",
+      "amount": 732.54,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "log_amount",
+          "value": 6.5979,
+          "shap": 3.2048,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        },
+        {
+          "feature": "fan_in",
+          "value": 47.0,
+          "shap": 0.7536,
+          "family": "topology",
+          "gloss": "distinct recent senders into the destination"
+        },
+        {
+          "feature": "dest_in_degree",
+          "value": 50.0,
+          "shap": 0.5999,
+          "family": "topology",
+          "gloss": "recent payment volume into the destination"
+        },
+        {
+          "feature": "time_since_prev_src",
+          "value": 0.0,
+          "shap": 0.5449,
+          "family": "ordinary",
+          "gloss": "time since the sender's previous transaction"
+        },
+        {
+          "feature": "tgn_s13",
+          "value": 0.3154,
+          "shap": 0.3075,
+          "family": "tgn",
+          "gloss": "learned temporal-graph embedding component"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 47,
+        "senders": [
+          {
+            "account": "C1809646275",
+            "amount": 64.76,
+            "ts": 152
+          },
+          {
+            "account": "C761606185",
+            "amount": 77.48,
+            "ts": 152
+          },
+          {
+            "account": "C1686035763",
+            "amount": 35.39,
+            "ts": 152
+          },
+          {
+            "account": "C1350963410",
+            "amount": 19.88,
+            "ts": 151
+          },
+          {
+            "account": "C616715154",
+            "amount": 170.92,
+            "ts": 151
+          },
+          {
+            "account": "C227356089",
+            "amount": 302.5,
+            "ts": 151
+          },
+          {
+            "account": "C896659218",
+            "amount": 92.84,
+            "ts": 151
+          },
+          {
+            "account": "C764316727",
+            "amount": 293.46,
+            "ts": 151
+          },
+          {
+            "account": "C427983732",
+            "amount": 233.04,
+            "ts": 151
+          },
+          {
+            "account": "C52277164",
+            "amount": 256.96,
+            "ts": 151
+          },
+          {
+            "account": "C1510535804",
+            "amount": 272.97,
+            "ts": 151
+          },
+          {
+            "account": "C2002713196",
+            "amount": 1078.75,
+            "ts": 150
+          },
+          {
+            "account": "C1143401925",
+            "amount": 185.17,
+            "ts": 150
+          },
+          {
+            "account": "C1988407051",
+            "amount": 442.42,
+            "ts": 150
+          },
+          {
+            "account": "C908718101",
+            "amount": 170.95,
+            "ts": 150
+          },
+          {
+            "account": "C611182051",
+            "amount": 236.78,
+            "ts": 150
+          },
+          {
+            "account": "C381007057",
+            "amount": 170.09,
+            "ts": 149
+          },
+          {
+            "account": "C2080088206",
+            "amount": 139.08,
+            "ts": 149
+          },
+          {
+            "account": "C1207935724",
+            "amount": 539.54,
+            "ts": 149
+          },
+          {
+            "account": "C1082301057",
+            "amount": 141.97,
+            "ts": 149
+          },
+          {
+            "account": "C2128227866",
+            "amount": 315.79,
+            "ts": 149
+          },
+          {
+            "account": "C1060270098",
+            "amount": 792.48,
+            "ts": 149
+          },
+          {
+            "account": "C744066701",
+            "amount": 74.09,
+            "ts": 149
+          },
+          {
+            "account": "C831378949",
+            "amount": 465.03,
+            "ts": 149
+          },
+          {
+            "account": "C831905583",
+            "amount": 406.58,
+            "ts": 149
+          }
+        ],
+        "window": 7
+      },
+      "text": "ALERT 3 [score 0.9796]: C173276320 -> M980657600 for 732.54 at t=152. Drivers: log_amount=6.5979 (SHAP +3.20, ordinary: transaction amount (log scale)); fan_in=47.0 (SHAP +0.75, topology: distinct recent senders into the destination); dest_in_degree=50.0 (SHAP +0.60, topology: recent payment volume into the destination); time_since_prev_src=0.0 (SHAP +0.54, ordinary: time since the sender's previous transaction); tgn_s13=0.3154 (SHAP +0.31, tgn: learned temporal-graph embedding component). Evidence: destination collected from 47 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "BANKSIM-TEST-0004",
+      "rank": 4,
+      "transaction_id": "495997",
+      "score": 0.979358,
+      "decision": "ALERT",
+      "timestamp": 153,
+      "source_account": "C437189630",
+      "dest_account": "M980657600",
+      "amount": 664.02,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "log_amount",
+          "value": 6.4998,
+          "shap": 3.4005,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        },
+        {
+          "feature": "fan_in",
+          "value": 52.0,
+          "shap": 0.739,
+          "family": "topology",
+          "gloss": "distinct recent senders into the destination"
+        },
+        {
+          "feature": "time_since_prev_src",
+          "value": 0.0,
+          "shap": 0.6854,
+          "family": "ordinary",
+          "gloss": "time since the sender's previous transaction"
+        },
+        {
+          "feature": "dest_in_degree",
+          "value": 57.0,
+          "shap": 0.6798,
+          "family": "topology",
+          "gloss": "recent payment volume into the destination"
+        },
+        {
+          "feature": "category_es_sportsandtoys",
+          "value": 1.0,
+          "shap": 0.3033,
+          "family": "ordinary"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 52,
+        "senders": [
+          {
+            "account": "C1454826238",
+            "amount": 577.26,
+            "ts": 153
+          },
+          {
+            "account": "C1001065306",
+            "amount": 270.77,
+            "ts": 153
+          },
+          {
+            "account": "C1809646275",
+            "amount": 64.76,
+            "ts": 152
+          },
+          {
+            "account": "C908718101",
+            "amount": 351.83,
+            "ts": 152
+          },
+          {
+            "account": "C761606185",
+            "amount": 77.48,
+            "ts": 152
+          },
+          {
+            "account": "C1686035763",
+            "amount": 35.39,
+            "ts": 152
+          },
+          {
+            "account": "C173276320",
+            "amount": 732.54,
+            "ts": 152
+          },
+          {
+            "account": "C1211514218",
+            "amount": 774.79,
+            "ts": 152
+          },
+          {
+            "account": "C264736518",
+            "amount": 315.18,
+            "ts": 152
+          },
+          {
+            "account": "C1595099029",
+            "amount": 28.34,
+            "ts": 152
+          },
+          {
+            "account": "C1385354747",
+            "amount": 704.12,
+            "ts": 152
+          },
+          {
+            "account": "C1663162700",
+            "amount": 376.0,
+            "ts": 152
+          },
+          {
+            "account": "C194016923",
+            "amount": 1142.23,
+            "ts": 152
+          },
+          {
+            "account": "C1920498287",
+            "amount": 159.82,
+            "ts": 152
+          },
+          {
+            "account": "C1165343027",
+            "amount": 111.27,
+            "ts": 152
+          },
+          {
+            "account": "C1886871597",
+            "amount": 109.18,
+            "ts": 152
+          },
+          {
+            "account": "C1572610482",
+            "amount": 92.69,
+            "ts": 152
+          },
+          {
+            "account": "C1350963410",
+            "amount": 19.88,
+            "ts": 151
+          },
+          {
+            "account": "C616715154",
+            "amount": 170.92,
+            "ts": 151
+          },
+          {
+            "account": "C227356089",
+            "amount": 302.5,
+            "ts": 151
+          },
+          {
+            "account": "C896659218",
+            "amount": 92.84,
+            "ts": 151
+          },
+          {
+            "account": "C764316727",
+            "amount": 293.46,
+            "ts": 151
+          },
+          {
+            "account": "C427983732",
+            "amount": 233.04,
+            "ts": 151
+          },
+          {
+            "account": "C52277164",
+            "amount": 256.96,
+            "ts": 151
+          },
+          {
+            "account": "C1510535804",
+            "amount": 272.97,
+            "ts": 151
+          }
+        ],
+        "window": 7
+      },
+      "text": "ALERT 4 [score 0.9794]: C437189630 -> M980657600 for 664.02 at t=153. Drivers: log_amount=6.4998 (SHAP +3.40, ordinary: transaction amount (log scale)); fan_in=52.0 (SHAP +0.74, topology: distinct recent senders into the destination); time_since_prev_src=0.0 (SHAP +0.69, ordinary: time since the sender's previous transaction); dest_in_degree=57.0 (SHAP +0.68, topology: recent payment volume into the destination); category_es_sportsandtoys=1.0 (SHAP +0.30, ordinary). Evidence: destination collected from 52 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "BANKSIM-TEST-0005",
+      "rank": 5,
+      "transaction_id": "505527",
+      "score": 0.977996,
+      "decision": "ALERT",
+      "timestamp": 155,
+      "source_account": "C1350963410",
+      "dest_account": "M980657600",
+      "amount": 370.86,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "log_amount",
+          "value": 5.9185,
+          "shap": 2.4735,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        },
+        {
+          "feature": "dest_in_degree",
+          "value": 60.0,
+          "shap": 0.7463,
+          "family": "topology",
+          "gloss": "recent payment volume into the destination"
+        },
+        {
+          "feature": "fan_in",
+          "value": 54.0,
+          "shap": 0.735,
+          "family": "topology",
+          "gloss": "distinct recent senders into the destination"
+        },
+        {
+          "feature": "src_amt_mean_prior",
+          "value": 338.6664,
+          "shap": 0.631,
+          "family": "ordinary"
+        },
+        {
+          "feature": "time_since_prev_src",
+          "value": 0.0,
+          "shap": 0.3768,
+          "family": "ordinary",
+          "gloss": "time since the sender's previous transaction"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 54,
+        "senders": [
+          {
+            "account": "C1510535804",
+            "amount": 903.19,
+            "ts": 155
+          },
+          {
+            "account": "C1686035763",
+            "amount": 39.58,
+            "ts": 155
+          },
+          {
+            "account": "C1452053500",
+            "amount": 402.9,
+            "ts": 155
+          },
+          {
+            "account": "C1622016247",
+            "amount": 102.4,
+            "ts": 155
+          },
+          {
+            "account": "C2014915363",
+            "amount": 252.26,
+            "ts": 155
+          },
+          {
+            "account": "C1929167055",
+            "amount": 241.28,
+            "ts": 155
+          },
+          {
+            "account": "C2002713196",
+            "amount": 5.49,
+            "ts": 154
+          },
+          {
+            "account": "C288727438",
+            "amount": 22.27,
+            "ts": 154
+          },
+          {
+            "account": "C751887992",
+            "amount": 487.75,
+            "ts": 154
+          },
+          {
+            "account": "C76313164",
+            "amount": 198.61,
+            "ts": 154
+          },
+          {
+            "account": "C516824110",
+            "amount": 359.3,
+            "ts": 154
+          },
+          {
+            "account": "C1469520420",
+            "amount": 675.58,
+            "ts": 154
+          },
+          {
+            "account": "C1993791093",
+            "amount": 220.32,
+            "ts": 154
+          },
+          {
+            "account": "C2037338028",
+            "amount": 298.37,
+            "ts": 154
+          },
+          {
+            "account": "C1454826238",
+            "amount": 577.26,
+            "ts": 153
+          },
+          {
+            "account": "C1001065306",
+            "amount": 270.77,
+            "ts": 153
+          },
+          {
+            "account": "C437189630",
+            "amount": 664.02,
+            "ts": 153
+          },
+          {
+            "account": "C932908444",
+            "amount": 159.24,
+            "ts": 153
+          },
+          {
+            "account": "C243130666",
+            "amount": 43.64,
+            "ts": 153
+          },
+          {
+            "account": "C748358246",
+            "amount": 717.49,
+            "ts": 153
+          },
+          {
+            "account": "C1475317372",
+            "amount": 75.54,
+            "ts": 153
+          },
+          {
+            "account": "C1809646275",
+            "amount": 64.76,
+            "ts": 152
+          },
+          {
+            "account": "C908718101",
+            "amount": 351.83,
+            "ts": 152
+          },
+          {
+            "account": "C761606185",
+            "amount": 77.48,
+            "ts": 152
+          },
+          {
+            "account": "C173276320",
+            "amount": 732.54,
+            "ts": 152
+          }
+        ],
+        "window": 7
+      },
+      "text": "ALERT 5 [score 0.9780]: C1350963410 -> M980657600 for 370.86 at t=155. Drivers: log_amount=5.9185 (SHAP +2.47, ordinary: transaction amount (log scale)); dest_in_degree=60.0 (SHAP +0.75, topology: recent payment volume into the destination); fan_in=54.0 (SHAP +0.73, topology: distinct recent senders into the destination); src_amt_mean_prior=338.6664 (SHAP +0.63, ordinary); time_since_prev_src=0.0 (SHAP +0.38, ordinary: time since the sender's previous transaction). Evidence: destination collected from 54 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "BANKSIM-TEST-0006",
+      "rank": 6,
+      "transaction_id": "478948",
+      "score": 0.976267,
+      "decision": "ALERT",
+      "timestamp": 148,
+      "source_account": "C2002713196",
+      "dest_account": "M3697346",
+      "amount": 392.87,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "log_amount",
+          "value": 5.976,
+          "shap": 2.9991,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        },
+        {
+          "feature": "fan_in",
+          "value": 8.0,
+          "shap": 0.7447,
+          "family": "topology",
+          "gloss": "distinct recent senders into the destination"
+        },
+        {
+          "feature": "dest_in_degree",
+          "value": 8.0,
+          "shap": 0.6625,
+          "family": "topology",
+          "gloss": "recent payment volume into the destination"
+        },
+        {
+          "feature": "category_es_leisure",
+          "value": 1.0,
+          "shap": 0.5153,
+          "family": "ordinary"
+        },
+        {
+          "feature": "src_amt_mean_prior",
+          "value": 167.4955,
+          "shap": 0.3168,
+          "family": "ordinary"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 8,
+        "senders": [
+          {
+            "account": "C616715154",
+            "amount": 389.82,
+            "ts": 146
+          },
+          {
+            "account": "C2027325203",
+            "amount": 238.86,
+            "ts": 146
+          },
+          {
+            "account": "C231476583",
+            "amount": 308.29,
+            "ts": 145
+          },
+          {
+            "account": "C306641104",
+            "amount": 319.85,
+            "ts": 145
+          },
+          {
+            "account": "C1237248073",
+            "amount": 384.42,
+            "ts": 144
+          },
+          {
+            "account": "C1312615175",
+            "amount": 306.62,
+            "ts": 144
+          },
+          {
+            "account": "C46027917",
+            "amount": 221.03,
+            "ts": 142
+          },
+          {
+            "account": "C2136422351",
+            "amount": 320.21,
+            "ts": 142
+          }
+        ],
+        "window": 7
+      },
+      "text": "ALERT 6 [score 0.9763]: C2002713196 -> M3697346 for 392.87 at t=148. Drivers: log_amount=5.976 (SHAP +3.00, ordinary: transaction amount (log scale)); fan_in=8.0 (SHAP +0.74, topology: distinct recent senders into the destination); dest_in_degree=8.0 (SHAP +0.66, topology: recent payment volume into the destination); category_es_leisure=1.0 (SHAP +0.52, ordinary); src_amt_mean_prior=167.4955 (SHAP +0.32, ordinary). Evidence: destination collected from 8 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "BANKSIM-TEST-0007",
+      "rank": 7,
+      "transaction_id": "590139",
+      "score": 0.974583,
+      "decision": "ALERT",
+      "timestamp": 178,
+      "source_account": "C350034124",
+      "dest_account": "M1353266412",
+      "amount": 567.12,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "log_amount",
+          "value": 6.3423,
+          "shap": 3.0355,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        },
+        {
+          "feature": "fan_in",
+          "value": 7.0,
+          "shap": 0.7562,
+          "family": "topology",
+          "gloss": "distinct recent senders into the destination"
+        },
+        {
+          "feature": "dest_in_degree",
+          "value": 7.0,
+          "shap": 0.6666,
+          "family": "topology",
+          "gloss": "recent payment volume into the destination"
+        },
+        {
+          "feature": "src_amt_mean_prior",
+          "value": 373.6749,
+          "shap": 0.6612,
+          "family": "ordinary"
+        },
+        {
+          "feature": "time_since_prev_src",
+          "value": 0.0,
+          "shap": 0.2335,
+          "family": "ordinary",
+          "gloss": "time since the sender's previous transaction"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 7,
+        "senders": [
+          {
+            "account": "C1350963410",
+            "amount": 0.41,
+            "ts": 178
+          },
+          {
+            "account": "C381007057",
+            "amount": 139.39,
+            "ts": 173
+          },
+          {
+            "account": "C553434543",
+            "amount": 147.49,
+            "ts": 173
+          },
+          {
+            "account": "C1740186506",
+            "amount": 582.45,
+            "ts": 171
+          },
+          {
+            "account": "C1069635670",
+            "amount": 12.28,
+            "ts": 171
+          },
+          {
+            "account": "C1468001998",
+            "amount": 169.64,
+            "ts": 171
+          },
+          {
+            "account": "C1584366693",
+            "amount": 134.23,
+            "ts": 171
+          }
+        ],
+        "window": 7
+      },
+      "text": "ALERT 7 [score 0.9746]: C350034124 -> M1353266412 for 567.12 at t=178. Drivers: log_amount=6.3423 (SHAP +3.04, ordinary: transaction amount (log scale)); fan_in=7.0 (SHAP +0.76, topology: distinct recent senders into the destination); dest_in_degree=7.0 (SHAP +0.67, topology: recent payment volume into the destination); src_amt_mean_prior=373.6749 (SHAP +0.66, ordinary); time_since_prev_src=0.0 (SHAP +0.23, ordinary: time since the sender's previous transaction). Evidence: destination collected from 7 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "BANKSIM-TEST-0008",
+      "rank": 8,
+      "transaction_id": "509197",
+      "score": 0.97455,
+      "decision": "ALERT",
+      "timestamp": 156,
+      "source_account": "C2004941826",
+      "dest_account": "M1294758098",
+      "amount": 328.73,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "log_amount",
+          "value": 5.7983,
+          "shap": 2.7766,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        },
+        {
+          "feature": "fan_in",
+          "value": 11.0,
+          "shap": 0.69,
+          "family": "topology",
+          "gloss": "distinct recent senders into the destination"
+        },
+        {
+          "feature": "src_amt_mean_prior",
+          "value": 523.9572,
+          "shap": 0.679,
+          "family": "ordinary"
+        },
+        {
+          "feature": "dest_in_degree",
+          "value": 12.0,
+          "shap": 0.6628,
+          "family": "topology",
+          "gloss": "recent payment volume into the destination"
+        },
+        {
+          "feature": "category_es_leisure",
+          "value": 1.0,
+          "shap": 0.5274,
+          "family": "ordinary"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 11,
+        "senders": [
+          {
+            "account": "C85388733",
+            "amount": 236.58,
+            "ts": 156
+          },
+          {
+            "account": "C1994736634",
+            "amount": 246.75,
+            "ts": 156
+          },
+          {
+            "account": "C245117318",
+            "amount": 336.22,
+            "ts": 155
+          },
+          {
+            "account": "C944695695",
+            "amount": 366.3,
+            "ts": 155
+          },
+          {
+            "account": "C1372889664",
+            "amount": 474.48,
+            "ts": 155
+          },
+          {
+            "account": "C1685492470",
+            "amount": 314.26,
+            "ts": 155
+          },
+          {
+            "account": "C937166633",
+            "amount": 360.89,
+            "ts": 152
+          },
+          {
+            "account": "C1501124312",
+            "amount": 412.62,
+            "ts": 151
+          },
+          {
+            "account": "C65424442",
+            "amount": 334.12,
+            "ts": 151
+          },
+          {
+            "account": "C715527139",
+            "amount": 296.93,
+            "ts": 150
+          },
+          {
+            "account": "C1817318774",
+            "amount": 168.46,
+            "ts": 150
+          }
+        ],
+        "window": 7
+      },
+      "text": "ALERT 8 [score 0.9746]: C2004941826 -> M1294758098 for 328.73 at t=156. Drivers: log_amount=5.7983 (SHAP +2.78, ordinary: transaction amount (log scale)); fan_in=11.0 (SHAP +0.69, topology: distinct recent senders into the destination); src_amt_mean_prior=523.9572 (SHAP +0.68, ordinary); dest_in_degree=12.0 (SHAP +0.66, topology: recent payment volume into the destination); category_es_leisure=1.0 (SHAP +0.53, ordinary). Evidence: destination collected from 11 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "BANKSIM-TEST-0009",
+      "rank": 9,
+      "transaction_id": "515728",
+      "score": 0.974391,
+      "decision": "ALERT",
+      "timestamp": 158,
+      "source_account": "C1586862598",
+      "dest_account": "M1198415165",
+      "amount": 750.51,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "log_amount",
+          "value": 6.6221,
+          "shap": 3.6623,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        },
+        {
+          "feature": "dest_in_degree",
+          "value": 65.0,
+          "shap": 0.7523,
+          "family": "topology",
+          "gloss": "recent payment volume into the destination"
+        },
+        {
+          "feature": "fan_in",
+          "value": 62.0,
+          "shap": 0.7118,
+          "family": "topology",
+          "gloss": "distinct recent senders into the destination"
+        },
+        {
+          "feature": "time_since_prev_src",
+          "value": 0.0,
+          "shap": 0.3781,
+          "family": "ordinary",
+          "gloss": "time since the sender's previous transaction"
+        },
+        {
+          "feature": "tgn_s13",
+          "value": 0.3195,
+          "shap": 0.3146,
+          "family": "tgn",
+          "gloss": "learned temporal-graph embedding component"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 62,
+        "senders": [
+          {
+            "account": "C525850964",
+            "amount": 12.12,
+            "ts": 158
+          },
+          {
+            "account": "C1590275312",
+            "amount": 63.8,
+            "ts": 158
+          },
+          {
+            "account": "C1337135199",
+            "amount": 45.8,
+            "ts": 158
+          },
+          {
+            "account": "C728864298",
+            "amount": 20.54,
+            "ts": 158
+          },
+          {
+            "account": "C1107580024",
+            "amount": 40.76,
+            "ts": 158
+          },
+          {
+            "account": "C2004941826",
+            "amount": 188.92,
+            "ts": 157
+          },
+          {
+            "account": "C1978250683",
+            "amount": 119.74,
+            "ts": 157
+          },
+          {
+            "account": "C784046647",
+            "amount": 103.03,
+            "ts": 157
+          },
+          {
+            "account": "C1255221015",
+            "amount": 31.8,
+            "ts": 157
+          },
+          {
+            "account": "C1382187685",
+            "amount": 465.11,
+            "ts": 157
+          },
+          {
+            "account": "C100045114",
+            "amount": 48.9,
+            "ts": 157
+          },
+          {
+            "account": "C997029022",
+            "amount": 102.93,
+            "ts": 157
+          },
+          {
+            "account": "C825610448",
+            "amount": 14.65,
+            "ts": 157
+          },
+          {
+            "account": "C2137381129",
+            "amount": 6.7,
+            "ts": 157
+          },
+          {
+            "account": "C744066701",
+            "amount": 96.73,
+            "ts": 156
+          },
+          {
+            "account": "C932908444",
+            "amount": 225.94,
+            "ts": 156
+          },
+          {
+            "account": "C2022102158",
+            "amount": 97.15,
+            "ts": 156
+          },
+          {
+            "account": "C1787239285",
+            "amount": 40.57,
+            "ts": 156
+          },
+          {
+            "account": "C910454738",
+            "amount": 72.47,
+            "ts": 156
+          },
+          {
+            "account": "C909582983",
+            "amount": 153.82,
+            "ts": 156
+          },
+          {
+            "account": "C730733765",
+            "amount": 71.15,
+            "ts": 156
+          },
+          {
+            "account": "C1722275939",
+            "amount": 87.46,
+            "ts": 156
+          },
+          {
+            "account": "C844772824",
+            "amount": 34.7,
+            "ts": 156
+          },
+          {
+            "account": "C1883962820",
+            "amount": 68.35,
+            "ts": 155
+          },
+          {
+            "account": "C1548873226",
+            "amount": 131.27,
+            "ts": 155
+          }
+        ],
+        "window": 7
+      },
+      "text": "ALERT 9 [score 0.9744]: C1586862598 -> M1198415165 for 750.51 at t=158. Drivers: log_amount=6.6221 (SHAP +3.66, ordinary: transaction amount (log scale)); dest_in_degree=65.0 (SHAP +0.75, topology: recent payment volume into the destination); fan_in=62.0 (SHAP +0.71, topology: distinct recent senders into the destination); time_since_prev_src=0.0 (SHAP +0.38, ordinary: time since the sender's previous transaction); tgn_s13=0.3195 (SHAP +0.31, tgn: learned temporal-graph embedding component). Evidence: destination collected from 62 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "BANKSIM-TEST-0010",
+      "rank": 10,
+      "transaction_id": "482135",
+      "score": 0.974264,
+      "decision": "ALERT",
+      "timestamp": 149,
+      "source_account": "C1060270098",
+      "dest_account": "M980657600",
+      "amount": 792.48,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "log_amount",
+          "value": 6.6764,
+          "shap": 3.3208,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        },
+        {
+          "feature": "fan_in",
+          "value": 57.0,
+          "shap": 0.7107,
+          "family": "topology",
+          "gloss": "distinct recent senders into the destination"
+        },
+        {
+          "feature": "dest_in_degree",
+          "value": 61.0,
+          "shap": 0.681,
+          "family": "topology",
+          "gloss": "recent payment volume into the destination"
+        },
+        {
+          "feature": "time_since_prev_src",
+          "value": 0.0,
+          "shap": 0.6345,
+          "family": "ordinary",
+          "gloss": "time since the sender's previous transaction"
+        },
+        {
+          "feature": "category_es_sportsandtoys",
+          "value": 1.0,
+          "shap": 0.2943,
+          "family": "ordinary"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 57,
+        "senders": [
+          {
+            "account": "C381007057",
+            "amount": 170.09,
+            "ts": 149
+          },
+          {
+            "account": "C2080088206",
+            "amount": 139.08,
+            "ts": 149
+          },
+          {
+            "account": "C1207935724",
+            "amount": 539.54,
+            "ts": 149
+          },
+          {
+            "account": "C1082301057",
+            "amount": 141.97,
+            "ts": 149
+          },
+          {
+            "account": "C2128227866",
+            "amount": 315.79,
+            "ts": 149
+          },
+          {
+            "account": "C1809646275",
+            "amount": 258.29,
+            "ts": 149
+          },
+          {
+            "account": "C806399525",
+            "amount": 260.6,
+            "ts": 147
+          },
+          {
+            "account": "C637831009",
+            "amount": 239.13,
+            "ts": 147
+          },
+          {
+            "account": "C245117318",
+            "amount": 287.69,
+            "ts": 146
+          },
+          {
+            "account": "C483912131",
+            "amount": 385.58,
+            "ts": 146
+          },
+          {
+            "account": "C1548873226",
+            "amount": 421.64,
+            "ts": 146
+          },
+          {
+            "account": "C1472480119",
+            "amount": 60.6,
+            "ts": 146
+          },
+          {
+            "account": "C1361248894",
+            "amount": 328.95,
+            "ts": 146
+          },
+          {
+            "account": "C525850964",
+            "amount": 38.08,
+            "ts": 146
+          },
+          {
+            "account": "C399875163",
+            "amount": 163.79,
+            "ts": 146
+          },
+          {
+            "account": "C1159406873",
+            "amount": 766.41,
+            "ts": 146
+          },
+          {
+            "account": "C217572786",
+            "amount": 200.88,
+            "ts": 146
+          },
+          {
+            "account": "C1545977603",
+            "amount": 44.01,
+            "ts": 146
+          },
+          {
+            "account": "C1454826238",
+            "amount": 64.95,
+            "ts": 146
+          },
+          {
+            "account": "C1817318774",
+            "amount": 419.88,
+            "ts": 146
+          },
+          {
+            "account": "C744859144",
+            "amount": 379.23,
+            "ts": 146
+          },
+          {
+            "account": "C180936571",
+            "amount": 249.78,
+            "ts": 145
+          },
+          {
+            "account": "C515668508",
+            "amount": 22.17,
+            "ts": 145
+          },
+          {
+            "account": "C411390898",
+            "amount": 118.2,
+            "ts": 145
+          },
+          {
+            "account": "C1466730207",
+            "amount": 139.11,
+            "ts": 145
+          }
+        ],
+        "window": 7
+      },
+      "text": "ALERT 10 [score 0.9743]: C1060270098 -> M980657600 for 792.48 at t=149. Drivers: log_amount=6.6764 (SHAP +3.32, ordinary: transaction amount (log scale)); fan_in=57.0 (SHAP +0.71, topology: distinct recent senders into the destination); dest_in_degree=61.0 (SHAP +0.68, topology: recent payment volume into the destination); time_since_prev_src=0.0 (SHAP +0.63, ordinary: time since the sender's previous transaction); category_es_sportsandtoys=1.0 (SHAP +0.29, ordinary). Evidence: destination collected from 57 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "BANKSIM-TEST-0011",
+      "rank": 11,
+      "transaction_id": "476507",
+      "score": 0.97407,
+      "decision": "ALERT",
+      "timestamp": 148,
+      "source_account": "C1849046345",
+      "dest_account": "M2011752106",
+      "amount": 696.05,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "log_amount",
+          "value": 6.5469,
+          "shap": 2.9227,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        },
+        {
+          "feature": "fan_in",
+          "value": 9.0,
+          "shap": 0.7769,
+          "family": "topology",
+          "gloss": "distinct recent senders into the destination"
+        },
+        {
+          "feature": "src_amt_mean_prior",
+          "value": 420.7334,
+          "shap": 0.7339,
+          "family": "ordinary"
+        },
+        {
+          "feature": "dest_in_degree",
+          "value": 9.0,
+          "shap": 0.6307,
+          "family": "topology",
+          "gloss": "recent payment volume into the destination"
+        },
+        {
+          "feature": "category_es_hotelservices",
+          "value": 1.0,
+          "shap": 0.2371,
+          "family": "ordinary"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 9,
+        "senders": [
+          {
+            "account": "C1647495093",
+            "amount": 970.79,
+            "ts": 148
+          },
+          {
+            "account": "C2113737065",
+            "amount": 193.83,
+            "ts": 147
+          },
+          {
+            "account": "C907877340",
+            "amount": 733.91,
+            "ts": 147
+          },
+          {
+            "account": "C895561340",
+            "amount": 210.93,
+            "ts": 143
+          },
+          {
+            "account": "C1194290880",
+            "amount": 221.27,
+            "ts": 142
+          },
+          {
+            "account": "C1350963410",
+            "amount": 256.91,
+            "ts": 142
+          },
+          {
+            "account": "C2088631865",
+            "amount": 314.32,
+            "ts": 142
+          },
+          {
+            "account": "C616715154",
+            "amount": 51.99,
+            "ts": 141
+          },
+          {
+            "account": "C611182051",
+            "amount": 89.11,
+            "ts": 141
+          }
+        ],
+        "window": 7
+      },
+      "text": "ALERT 11 [score 0.9741]: C1849046345 -> M2011752106 for 696.05 at t=148. Drivers: log_amount=6.5469 (SHAP +2.92, ordinary: transaction amount (log scale)); fan_in=9.0 (SHAP +0.78, topology: distinct recent senders into the destination); src_amt_mean_prior=420.7334 (SHAP +0.73, ordinary); dest_in_degree=9.0 (SHAP +0.63, topology: recent payment volume into the destination); category_es_hotelservices=1.0 (SHAP +0.24, ordinary). Evidence: destination collected from 9 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "BANKSIM-TEST-0012",
+      "rank": 12,
+      "transaction_id": "489942",
+      "score": 0.974046,
+      "decision": "ALERT",
+      "timestamp": 151,
+      "source_account": "C1501124312",
+      "dest_account": "M1294758098",
+      "amount": 412.62,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "log_amount",
+          "value": 6.0249,
+          "shap": 2.8677,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        },
+        {
+          "feature": "fan_in",
+          "value": 6.0,
+          "shap": 0.6975,
+          "family": "topology",
+          "gloss": "distinct recent senders into the destination"
+        },
+        {
+          "feature": "dest_in_degree",
+          "value": 6.0,
+          "shap": 0.6385,
+          "family": "topology",
+          "gloss": "recent payment volume into the destination"
+        },
+        {
+          "feature": "category_es_leisure",
+          "value": 1.0,
+          "shap": 0.4679,
+          "family": "ordinary"
+        },
+        {
+          "feature": "time_since_prev_src",
+          "value": 0.0,
+          "shap": 0.434,
+          "family": "ordinary",
+          "gloss": "time since the sender's previous transaction"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 6,
+        "senders": [
+          {
+            "account": "C715527139",
+            "amount": 296.93,
+            "ts": 150
+          },
+          {
+            "account": "C1817318774",
+            "amount": 168.46,
+            "ts": 150
+          },
+          {
+            "account": "C910454738",
+            "amount": 276.51,
+            "ts": 148
+          },
+          {
+            "account": "C1214929092",
+            "amount": 430.25,
+            "ts": 148
+          },
+          {
+            "account": "C912671040",
+            "amount": 323.14,
+            "ts": 146
+          },
+          {
+            "account": "C1576250855",
+            "amount": 173.43,
+            "ts": 146
+          }
+        ],
+        "window": 7
+      },
+      "text": "ALERT 12 [score 0.9740]: C1501124312 -> M1294758098 for 412.62 at t=151. Drivers: log_amount=6.0249 (SHAP +2.87, ordinary: transaction amount (log scale)); fan_in=6.0 (SHAP +0.70, topology: distinct recent senders into the destination); dest_in_degree=6.0 (SHAP +0.64, topology: recent payment volume into the destination); category_es_leisure=1.0 (SHAP +0.47, ordinary); time_since_prev_src=0.0 (SHAP +0.43, ordinary: time since the sender's previous transaction). Evidence: destination collected from 6 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "BANKSIM-TEST-0013",
+      "rank": 13,
+      "transaction_id": "488838",
+      "score": 0.973835,
+      "decision": "ALERT",
+      "timestamp": 151,
+      "source_account": "C1468001998",
+      "dest_account": "M2011752106",
+      "amount": 429.84,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "log_amount",
+          "value": 6.0657,
+          "shap": 2.6772,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        },
+        {
+          "feature": "fan_in",
+          "value": 9.0,
+          "shap": 0.702,
+          "family": "topology",
+          "gloss": "distinct recent senders into the destination"
+        },
+        {
+          "feature": "dest_in_degree",
+          "value": 9.0,
+          "shap": 0.6303,
+          "family": "topology",
+          "gloss": "recent payment volume into the destination"
+        },
+        {
+          "feature": "src_amt_mean_prior",
+          "value": 263.0807,
+          "shap": 0.5754,
+          "family": "ordinary"
+        },
+        {
+          "feature": "tgn_s13",
+          "value": 0.3212,
+          "shap": 0.2764,
+          "family": "tgn",
+          "gloss": "learned temporal-graph embedding component"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 9,
+        "senders": [
+          {
+            "account": "C540538956",
+            "amount": 201.0,
+            "ts": 150
+          },
+          {
+            "account": "C788057671",
+            "amount": 101.97,
+            "ts": 150
+          },
+          {
+            "account": "C1305161735",
+            "amount": 478.82,
+            "ts": 150
+          },
+          {
+            "account": "C1929167055",
+            "amount": 278.1,
+            "ts": 150
+          },
+          {
+            "account": "C1647495093",
+            "amount": 970.79,
+            "ts": 148
+          },
+          {
+            "account": "C1849046345",
+            "amount": 696.05,
+            "ts": 148
+          },
+          {
+            "account": "C1475317372",
+            "amount": 34.49,
+            "ts": 148
+          },
+          {
+            "account": "C2113737065",
+            "amount": 193.83,
+            "ts": 147
+          },
+          {
+            "account": "C907877340",
+            "amount": 733.91,
+            "ts": 147
+          }
+        ],
+        "window": 7
+      },
+      "text": "ALERT 13 [score 0.9738]: C1468001998 -> M2011752106 for 429.84 at t=151. Drivers: log_amount=6.0657 (SHAP +2.68, ordinary: transaction amount (log scale)); fan_in=9.0 (SHAP +0.70, topology: distinct recent senders into the destination); dest_in_degree=9.0 (SHAP +0.63, topology: recent payment volume into the destination); src_amt_mean_prior=263.0807 (SHAP +0.58, ordinary); tgn_s13=0.3212 (SHAP +0.28, tgn: learned temporal-graph embedding component). Evidence: destination collected from 9 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "BANKSIM-TEST-0014",
+      "rank": 14,
+      "transaction_id": "504926",
+      "score": 0.973646,
+      "decision": "ALERT",
+      "timestamp": 155,
+      "source_account": "C1372889664",
+      "dest_account": "M1294758098",
+      "amount": 474.48,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "log_amount",
+          "value": 6.1643,
+          "shap": 2.9091,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        },
+        {
+          "feature": "fan_in",
+          "value": 9.0,
+          "shap": 0.6685,
+          "family": "topology",
+          "gloss": "distinct recent senders into the destination"
+        },
+        {
+          "feature": "dest_in_degree",
+          "value": 10.0,
+          "shap": 0.6586,
+          "family": "topology",
+          "gloss": "recent payment volume into the destination"
+        },
+        {
+          "feature": "category_es_leisure",
+          "value": 1.0,
+          "shap": 0.4731,
+          "family": "ordinary"
+        },
+        {
+          "feature": "time_since_prev_src",
+          "value": 0.0,
+          "shap": 0.4687,
+          "family": "ordinary",
+          "gloss": "time since the sender's previous transaction"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 9,
+        "senders": [
+          {
+            "account": "C245117318",
+            "amount": 336.22,
+            "ts": 155
+          },
+          {
+            "account": "C944695695",
+            "amount": 366.3,
+            "ts": 155
+          },
+          {
+            "account": "C937166633",
+            "amount": 360.89,
+            "ts": 152
+          },
+          {
+            "account": "C1501124312",
+            "amount": 412.62,
+            "ts": 151
+          },
+          {
+            "account": "C65424442",
+            "amount": 334.12,
+            "ts": 151
+          },
+          {
+            "account": "C715527139",
+            "amount": 296.93,
+            "ts": 150
+          },
+          {
+            "account": "C1817318774",
+            "amount": 168.46,
+            "ts": 150
+          },
+          {
+            "account": "C910454738",
+            "amount": 276.51,
+            "ts": 148
+          },
+          {
+            "account": "C1214929092",
+            "amount": 430.25,
+            "ts": 148
+          }
+        ],
+        "window": 7
+      },
+      "text": "ALERT 14 [score 0.9736]: C1372889664 -> M1294758098 for 474.48 at t=155. Drivers: log_amount=6.1643 (SHAP +2.91, ordinary: transaction amount (log scale)); fan_in=9.0 (SHAP +0.67, topology: distinct recent senders into the destination); dest_in_degree=10.0 (SHAP +0.66, topology: recent payment volume into the destination); category_es_leisure=1.0 (SHAP +0.47, ordinary); time_since_prev_src=0.0 (SHAP +0.47, ordinary: time since the sender's previous transaction). Evidence: destination collected from 9 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "BANKSIM-TEST-0015",
+      "rank": 15,
+      "transaction_id": "581569",
+      "score": 0.973564,
+      "decision": "ALERT",
+      "timestamp": 176,
+      "source_account": "C381007057",
+      "dest_account": "M1294758098",
+      "amount": 415.42,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "log_amount",
+          "value": 6.0317,
+          "shap": 2.7531,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        },
+        {
+          "feature": "src_amt_mean_prior",
+          "value": 474.6292,
+          "shap": 0.7901,
+          "family": "ordinary"
+        },
+        {
+          "feature": "fan_in",
+          "value": 7.0,
+          "shap": 0.7655,
+          "family": "topology",
+          "gloss": "distinct recent senders into the destination"
+        },
+        {
+          "feature": "dest_in_degree",
+          "value": 7.0,
+          "shap": 0.6269,
+          "family": "topology",
+          "gloss": "recent payment volume into the destination"
+        },
+        {
+          "feature": "category_es_leisure",
+          "value": 1.0,
+          "shap": 0.5624,
+          "family": "ordinary"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 7,
+        "senders": [
+          {
+            "account": "C2002713196",
+            "amount": 247.44,
+            "ts": 176
+          },
+          {
+            "account": "C271457213",
+            "amount": 124.49,
+            "ts": 174
+          },
+          {
+            "account": "C1653588482",
+            "amount": 251.83,
+            "ts": 174
+          },
+          {
+            "account": "C161733249",
+            "amount": 258.74,
+            "ts": 171
+          },
+          {
+            "account": "C195373250",
+            "amount": 361.67,
+            "ts": 171
+          },
+          {
+            "account": "C1284327050",
+            "amount": 274.5,
+            "ts": 170
+          },
+          {
+            "account": "C777971561",
+            "amount": 329.79,
+            "ts": 170
+          }
+        ],
+        "window": 7
+      },
+      "text": "ALERT 15 [score 0.9736]: C381007057 -> M1294758098 for 415.42 at t=176. Drivers: log_amount=6.0317 (SHAP +2.75, ordinary: transaction amount (log scale)); src_amt_mean_prior=474.6292 (SHAP +0.79, ordinary); fan_in=7.0 (SHAP +0.77, topology: distinct recent senders into the destination); dest_in_degree=7.0 (SHAP +0.63, topology: recent payment volume into the destination); category_es_leisure=1.0 (SHAP +0.56, ordinary). Evidence: destination collected from 7 distinct senders inside the window (mule-collection signature)."
+    }
+  ]
+}

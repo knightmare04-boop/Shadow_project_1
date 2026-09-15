@@ -1,0 +1,1777 @@
+{
+  "generated": "2026-08-26",
+  "dataset": "ibm_aml",
+  "artifact": "artifacts\\ibm_aml\\final",
+  "threshold": 0.5161976218223572,
+  "k": 20,
+  "n_true_fraud_in_topk": 20,
+  "alerts": [
+    {
+      "alert_id": "IBM_AML-TEST-0001",
+      "rank": 1,
+      "transaction_id": "1183317",
+      "score": 0.728302,
+      "decision": "ALERT",
+      "timestamp": 179,
+      "source_account": "5025",
+      "dest_account": "1751",
+      "amount": 15.43,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "lap_out_recur",
+          "value": 0.0,
+          "shap": 0.8334,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "src_INIT_BALANCE",
+          "value": 137.16,
+          "shap": 0.1155,
+          "family": "ordinary"
+        },
+        {
+          "feature": "amount_zscore_src",
+          "value": 3400807.8,
+          "shap": -0.0833,
+          "family": "ordinary",
+          "gloss": "amount unusualness vs this sender's history"
+        },
+        {
+          "feature": "lap_out_payees",
+          "value": 0.0,
+          "shap": 0.0803,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "log_amount",
+          "value": 2.7991,
+          "shap": 0.0372,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        }
+      ],
+      "graph_evidence": {
+        "type": "cycle",
+        "cycle_length": 2,
+        "path_nodes": [
+          "5025",
+          "1751",
+          "5025"
+        ],
+        "path_edges": [
+          {
+            "src": "5025",
+            "dst": "1751",
+            "amount": 15.43,
+            "ts": 179
+          },
+          {
+            "src": "1751",
+            "dst": "5025",
+            "amount": 149.55,
+            "ts": 175
+          }
+        ],
+        "amount_conservation": 0.10317619525242393,
+        "time_span": 4,
+        "window": 7
+      },
+      "text": "ALERT 1 [score 0.7283]: 5025 -> 1751 for 15.43 at t=179. Drivers: lap_out_recur=0.0 (SHAP +0.83, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); src_INIT_BALANCE=137.16 (SHAP +0.12, ordinary); amount_zscore_src=3400807.8 (SHAP -0.08, ordinary: amount unusualness vs this sender's history); lap_out_payees=0.0 (SHAP +0.08, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); log_amount=2.7991 (SHAP +0.04, ordinary: transaction amount (log scale)). Evidence: closes a 2-hop cycle 5025 -> 1751 -> 5025, conserving 10% of the amount, within 4 time units."
+    },
+    {
+      "alert_id": "IBM_AML-TEST-0002",
+      "rank": 2,
+      "transaction_id": "1290260",
+      "score": 0.728302,
+      "decision": "ALERT",
+      "timestamp": 195,
+      "source_account": "8079",
+      "dest_account": "9428",
+      "amount": 16.27,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "lap_out_recur",
+          "value": 0.0,
+          "shap": 0.8294,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "src_INIT_BALANCE",
+          "value": 129.28,
+          "shap": 0.1154,
+          "family": "ordinary"
+        },
+        {
+          "feature": "lap_out_payees",
+          "value": 0.0,
+          "shap": 0.0799,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "amount_zscore_src",
+          "value": 15584548.0,
+          "shap": -0.0796,
+          "family": "ordinary",
+          "gloss": "amount unusualness vs this sender's history"
+        },
+        {
+          "feature": "log_amount",
+          "value": 2.849,
+          "shap": 0.037,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 9,
+        "senders": [
+          {
+            "account": "7074",
+            "amount": 15.67,
+            "ts": 193
+          },
+          {
+            "account": "9729",
+            "amount": 103.44,
+            "ts": 193
+          },
+          {
+            "account": "9631",
+            "amount": 137.3,
+            "ts": 193
+          },
+          {
+            "account": "9072",
+            "amount": 7.33,
+            "ts": 192
+          },
+          {
+            "account": "1701",
+            "amount": 141.92,
+            "ts": 191
+          },
+          {
+            "account": "7776",
+            "amount": 178.13,
+            "ts": 190
+          },
+          {
+            "account": "682",
+            "amount": 152.41,
+            "ts": 190
+          },
+          {
+            "account": "9066",
+            "amount": 8.07,
+            "ts": 188
+          },
+          {
+            "account": "6708",
+            "amount": 165.16,
+            "ts": 188
+          }
+        ],
+        "window": 7
+      },
+      "text": "ALERT 2 [score 0.7283]: 8079 -> 9428 for 16.27 at t=195. Drivers: lap_out_recur=0.0 (SHAP +0.83, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); src_INIT_BALANCE=129.28 (SHAP +0.12, ordinary); lap_out_payees=0.0 (SHAP +0.08, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); amount_zscore_src=15584548.0 (SHAP -0.08, ordinary: amount unusualness vs this sender's history); log_amount=2.849 (SHAP +0.04, ordinary: transaction amount (log scale)). Evidence: destination collected from 9 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "IBM_AML-TEST-0003",
+      "rank": 3,
+      "transaction_id": "1188346",
+      "score": 0.728302,
+      "decision": "ALERT",
+      "timestamp": 179,
+      "source_account": "9078",
+      "dest_account": "5353",
+      "amount": 10.48,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "lap_out_recur",
+          "value": 0.0,
+          "shap": 0.8342,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "src_INIT_BALANCE",
+          "value": 134.49,
+          "shap": 0.1154,
+          "family": "ordinary"
+        },
+        {
+          "feature": "amount_zscore_src",
+          "value": 5.1709,
+          "shap": -0.0832,
+          "family": "ordinary",
+          "gloss": "amount unusualness vs this sender's history"
+        },
+        {
+          "feature": "lap_out_payees",
+          "value": 0.0,
+          "shap": 0.0803,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "log_amount",
+          "value": 2.4406,
+          "shap": 0.0375,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        }
+      ],
+      "graph_evidence": {
+        "type": "none",
+        "note": "no cycle/fan-in structure behind this alert; see risk_drivers"
+      },
+      "text": "ALERT 3 [score 0.7283]: 9078 -> 5353 for 10.48 at t=179. Drivers: lap_out_recur=0.0 (SHAP +0.83, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); src_INIT_BALANCE=134.49 (SHAP +0.12, ordinary); amount_zscore_src=5.1709 (SHAP -0.08, ordinary: amount unusualness vs this sender's history); lap_out_payees=0.0 (SHAP +0.08, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); log_amount=2.4406 (SHAP +0.04, ordinary: transaction amount (log scale)). Evidence: no cycle/fan-in structure behind this alert; see risk_drivers"
+    },
+    {
+      "alert_id": "IBM_AML-TEST-0004",
+      "rank": 4,
+      "transaction_id": "1159185",
+      "score": 0.728302,
+      "decision": "ALERT",
+      "timestamp": 175,
+      "source_account": "7089",
+      "dest_account": "9207",
+      "amount": 19.03,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "lap_out_recur",
+          "value": 0.0,
+          "shap": 0.8294,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "src_INIT_BALANCE",
+          "value": 167.76,
+          "shap": 0.1156,
+          "family": "ordinary"
+        },
+        {
+          "feature": "amount_zscore_src",
+          "value": 12120321.0,
+          "shap": -0.0796,
+          "family": "ordinary",
+          "gloss": "amount unusualness vs this sender's history"
+        },
+        {
+          "feature": "lap_out_payees",
+          "value": 0.0,
+          "shap": 0.0402,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "log_amount",
+          "value": 2.9972,
+          "shap": 0.0369,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        }
+      ],
+      "graph_evidence": {
+        "type": "cycle",
+        "cycle_length": 5,
+        "path_nodes": [
+          "7089",
+          "9207",
+          "7465",
+          "9913",
+          "9832",
+          "7089"
+        ],
+        "path_edges": [
+          {
+            "src": "7089",
+            "dst": "9207",
+            "amount": 19.03,
+            "ts": 175
+          },
+          {
+            "src": "9207",
+            "dst": "7465",
+            "amount": 19.03,
+            "ts": 174
+          },
+          {
+            "src": "7465",
+            "dst": "9913",
+            "amount": 19.03,
+            "ts": 169
+          },
+          {
+            "src": "9913",
+            "dst": "9832",
+            "amount": 19.03,
+            "ts": 168
+          },
+          {
+            "src": "9832",
+            "dst": "7089",
+            "amount": 19.03,
+            "ts": 174
+          }
+        ],
+        "amount_conservation": 1.0,
+        "time_span": 7,
+        "window": 7
+      },
+      "text": "ALERT 4 [score 0.7283]: 7089 -> 9207 for 19.03 at t=175. Drivers: lap_out_recur=0.0 (SHAP +0.83, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); src_INIT_BALANCE=167.76 (SHAP +0.12, ordinary); amount_zscore_src=12120321.0 (SHAP -0.08, ordinary: amount unusualness vs this sender's history); lap_out_payees=0.0 (SHAP +0.04, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); log_amount=2.9972 (SHAP +0.04, ordinary: transaction amount (log scale)). Evidence: closes a 5-hop cycle 7089 -> 9207 -> 7465 -> 9913 -> 9832 -> 7089, conserving 100% of the amount, within 7 time units."
+    },
+    {
+      "alert_id": "IBM_AML-TEST-0005",
+      "rank": 5,
+      "transaction_id": "1157542",
+      "score": 0.728302,
+      "decision": "ALERT",
+      "timestamp": 175,
+      "source_account": "4150",
+      "dest_account": "2802",
+      "amount": 16.6,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "lap_out_recur",
+          "value": 0.0,
+          "shap": 0.8336,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "src_INIT_BALANCE",
+          "value": 143.22,
+          "shap": 0.1155,
+          "family": "ordinary"
+        },
+        {
+          "feature": "amount_zscore_src",
+          "value": 672857.56,
+          "shap": -0.0839,
+          "family": "ordinary",
+          "gloss": "amount unusualness vs this sender's history"
+        },
+        {
+          "feature": "lap_out_payees",
+          "value": 0.0,
+          "shap": 0.0803,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "log_amount",
+          "value": 2.8679,
+          "shap": 0.0372,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        }
+      ],
+      "graph_evidence": {
+        "type": "cycle",
+        "cycle_length": 2,
+        "path_nodes": [
+          "4150",
+          "2802",
+          "4150"
+        ],
+        "path_edges": [
+          {
+            "src": "4150",
+            "dst": "2802",
+            "amount": 16.6,
+            "ts": 175
+          },
+          {
+            "src": "2802",
+            "dst": "4150",
+            "amount": 312.14,
+            "ts": 170
+          }
+        ],
+        "amount_conservation": 0.05318126481706927,
+        "time_span": 5,
+        "window": 7
+      },
+      "text": "ALERT 5 [score 0.7283]: 4150 -> 2802 for 16.60 at t=175. Drivers: lap_out_recur=0.0 (SHAP +0.83, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); src_INIT_BALANCE=143.22 (SHAP +0.12, ordinary); amount_zscore_src=672857.56 (SHAP -0.08, ordinary: amount unusualness vs this sender's history); lap_out_payees=0.0 (SHAP +0.08, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); log_amount=2.8679 (SHAP +0.04, ordinary: transaction amount (log scale)). Evidence: closes a 2-hop cycle 4150 -> 2802 -> 4150, conserving 5% of the amount, within 5 time units."
+    },
+    {
+      "alert_id": "IBM_AML-TEST-0006",
+      "rank": 6,
+      "transaction_id": "1071938",
+      "score": 0.728302,
+      "decision": "ALERT",
+      "timestamp": 162,
+      "source_account": "6003",
+      "dest_account": "8051",
+      "amount": 15.3,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "lap_out_recur",
+          "value": 0.0,
+          "shap": 0.8293,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "src_INIT_BALANCE",
+          "value": 144.43,
+          "shap": 0.1154,
+          "family": "ordinary"
+        },
+        {
+          "feature": "lap_out_payees",
+          "value": 0.0,
+          "shap": 0.0797,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "amount_zscore_src",
+          "value": 3232744.8,
+          "shap": -0.0793,
+          "family": "ordinary",
+          "gloss": "amount unusualness vs this sender's history"
+        },
+        {
+          "feature": "log_amount",
+          "value": 2.7912,
+          "shap": 0.0369,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        }
+      ],
+      "graph_evidence": {
+        "type": "cycle",
+        "cycle_length": 6,
+        "path_nodes": [
+          "6003",
+          "8051",
+          "3733",
+          "9819",
+          "5065",
+          "9000",
+          "6003"
+        ],
+        "path_edges": [
+          {
+            "src": "6003",
+            "dst": "8051",
+            "amount": 15.3,
+            "ts": 162
+          },
+          {
+            "src": "8051",
+            "dst": "3733",
+            "amount": 8.8,
+            "ts": 156
+          },
+          {
+            "src": "3733",
+            "dst": "9819",
+            "amount": 112.98,
+            "ts": 159
+          },
+          {
+            "src": "9819",
+            "dst": "5065",
+            "amount": 386.8,
+            "ts": 160
+          },
+          {
+            "src": "5065",
+            "dst": "9000",
+            "amount": 20.66,
+            "ts": 159
+          },
+          {
+            "src": "9000",
+            "dst": "6003",
+            "amount": 6.27,
+            "ts": 160
+          }
+        ],
+        "amount_conservation": 0.016209927611168563,
+        "time_span": 6,
+        "window": 7
+      },
+      "text": "ALERT 6 [score 0.7283]: 6003 -> 8051 for 15.30 at t=162. Drivers: lap_out_recur=0.0 (SHAP +0.83, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); src_INIT_BALANCE=144.43 (SHAP +0.12, ordinary); lap_out_payees=0.0 (SHAP +0.08, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); amount_zscore_src=3232744.8 (SHAP -0.08, ordinary: amount unusualness vs this sender's history); log_amount=2.7912 (SHAP +0.04, ordinary: transaction amount (log scale)). Evidence: closes a 6-hop cycle 6003 -> 8051 -> 3733 -> 9819 -> 5065 -> 9000 -> 6003, conserving 2% of the amount, within 6 time units."
+    },
+    {
+      "alert_id": "IBM_AML-TEST-0007",
+      "rank": 7,
+      "transaction_id": "1195934",
+      "score": 0.728302,
+      "decision": "ALERT",
+      "timestamp": 180,
+      "source_account": "7007",
+      "dest_account": "9611",
+      "amount": 16.7,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "lap_out_recur",
+          "value": 0.0,
+          "shap": 0.8294,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "src_INIT_BALANCE",
+          "value": 100.93,
+          "shap": 0.1154,
+          "family": "ordinary"
+        },
+        {
+          "feature": "lap_out_payees",
+          "value": 0.0,
+          "shap": 0.0799,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "amount_zscore_src",
+          "value": 20967570.0,
+          "shap": -0.0795,
+          "family": "ordinary",
+          "gloss": "amount unusualness vs this sender's history"
+        },
+        {
+          "feature": "log_amount",
+          "value": 2.8736,
+          "shap": 0.037,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        }
+      ],
+      "graph_evidence": {
+        "type": "cycle",
+        "cycle_length": 2,
+        "path_nodes": [
+          "7007",
+          "9611",
+          "7007"
+        ],
+        "path_edges": [
+          {
+            "src": "7007",
+            "dst": "9611",
+            "amount": 16.7,
+            "ts": 180
+          },
+          {
+            "src": "9611",
+            "dst": "7007",
+            "amount": 112.83,
+            "ts": 179
+          }
+        ],
+        "amount_conservation": 0.14801028095364707,
+        "time_span": 1,
+        "window": 7
+      },
+      "text": "ALERT 7 [score 0.7283]: 7007 -> 9611 for 16.70 at t=180. Drivers: lap_out_recur=0.0 (SHAP +0.83, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); src_INIT_BALANCE=100.93 (SHAP +0.12, ordinary); lap_out_payees=0.0 (SHAP +0.08, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); amount_zscore_src=20967570.0 (SHAP -0.08, ordinary: amount unusualness vs this sender's history); log_amount=2.8736 (SHAP +0.04, ordinary: transaction amount (log scale)). Evidence: closes a 2-hop cycle 7007 -> 9611 -> 7007, conserving 15% of the amount, within 1 time units."
+    },
+    {
+      "alert_id": "IBM_AML-TEST-0008",
+      "rank": 8,
+      "transaction_id": "1076543",
+      "score": 0.728302,
+      "decision": "ALERT",
+      "timestamp": 162,
+      "source_account": "8051",
+      "dest_account": "9847",
+      "amount": 15.3,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "lap_out_recur",
+          "value": 0.0,
+          "shap": 0.8259,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "src_INIT_BALANCE",
+          "value": 140.84,
+          "shap": 0.1154,
+          "family": "ordinary"
+        },
+        {
+          "feature": "lap_out_payees",
+          "value": 0.0,
+          "shap": 0.0799,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "amount_zscore_src",
+          "value": 16.3099,
+          "shap": -0.0796,
+          "family": "ordinary",
+          "gloss": "amount unusualness vs this sender's history"
+        },
+        {
+          "feature": "log_amount",
+          "value": 2.7912,
+          "shap": 0.037,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 15,
+        "senders": [
+          {
+            "account": "9122",
+            "amount": 5.51,
+            "ts": 162
+          },
+          {
+            "account": "3166",
+            "amount": 18.73,
+            "ts": 161
+          },
+          {
+            "account": "9769",
+            "amount": 191.19,
+            "ts": 161
+          },
+          {
+            "account": "8045",
+            "amount": 12.48,
+            "ts": 160
+          },
+          {
+            "account": "7071",
+            "amount": 10.34,
+            "ts": 160
+          },
+          {
+            "account": "4752",
+            "amount": 135.77,
+            "ts": 160
+          },
+          {
+            "account": "7218",
+            "amount": 7243284.0,
+            "ts": 160
+          },
+          {
+            "account": "9709",
+            "amount": 176.14,
+            "ts": 158
+          },
+          {
+            "account": "1760",
+            "amount": 106.76,
+            "ts": 157
+          },
+          {
+            "account": "9708",
+            "amount": 161.83,
+            "ts": 157
+          },
+          {
+            "account": "7106",
+            "amount": 11.45,
+            "ts": 156
+          },
+          {
+            "account": "8051",
+            "amount": 8.8,
+            "ts": 156
+          },
+          {
+            "account": "1026",
+            "amount": 23.79,
+            "ts": 156
+          },
+          {
+            "account": "9728",
+            "amount": 172.55,
+            "ts": 155
+          },
+          {
+            "account": "3734",
+            "amount": 121.29,
+            "ts": 155
+          }
+        ],
+        "window": 7
+      },
+      "text": "ALERT 8 [score 0.7283]: 8051 -> 9847 for 15.30 at t=162. Drivers: lap_out_recur=0.0 (SHAP +0.83, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); src_INIT_BALANCE=140.84 (SHAP +0.12, ordinary); lap_out_payees=0.0 (SHAP +0.08, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); amount_zscore_src=16.3099 (SHAP -0.08, ordinary: amount unusualness vs this sender's history); log_amount=2.7912 (SHAP +0.04, ordinary: transaction amount (log scale)). Evidence: destination collected from 15 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "IBM_AML-TEST-0009",
+      "rank": 9,
+      "transaction_id": "1228893",
+      "score": 0.728302,
+      "decision": "ALERT",
+      "timestamp": 185,
+      "source_account": "4035",
+      "dest_account": "7301",
+      "amount": 18.61,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "lap_out_recur",
+          "value": 0.0,
+          "shap": 0.832,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "src_INIT_BALANCE",
+          "value": 134.5,
+          "shap": 0.1155,
+          "family": "ordinary"
+        },
+        {
+          "feature": "amount_zscore_src",
+          "value": 4539176.5,
+          "shap": -0.0828,
+          "family": "ordinary",
+          "gloss": "amount unusualness vs this sender's history"
+        },
+        {
+          "feature": "lap_out_payees",
+          "value": 0.0,
+          "shap": 0.0801,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "log_amount",
+          "value": 2.976,
+          "shap": 0.0371,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 6,
+        "senders": [
+          {
+            "account": "4194",
+            "amount": 23.24,
+            "ts": 185
+          },
+          {
+            "account": "6754",
+            "amount": 133.47,
+            "ts": 184
+          },
+          {
+            "account": "8741",
+            "amount": 151.11,
+            "ts": 183
+          },
+          {
+            "account": "9603",
+            "amount": 109.08,
+            "ts": 179
+          },
+          {
+            "account": "6343",
+            "amount": 21474836.47,
+            "ts": 179
+          },
+          {
+            "account": "3093",
+            "amount": 17.72,
+            "ts": 178
+          }
+        ],
+        "window": 7
+      },
+      "text": "ALERT 9 [score 0.7283]: 4035 -> 7301 for 18.61 at t=185. Drivers: lap_out_recur=0.0 (SHAP +0.83, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); src_INIT_BALANCE=134.5 (SHAP +0.12, ordinary); amount_zscore_src=4539176.5 (SHAP -0.08, ordinary: amount unusualness vs this sender's history); lap_out_payees=0.0 (SHAP +0.08, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); log_amount=2.976 (SHAP +0.04, ordinary: transaction amount (log scale)). Evidence: destination collected from 6 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "IBM_AML-TEST-0010",
+      "rank": 10,
+      "transaction_id": "1307444",
+      "score": 0.728302,
+      "decision": "ALERT",
+      "timestamp": 197,
+      "source_account": "7083",
+      "dest_account": "4303",
+      "amount": 19.45,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "lap_out_recur",
+          "value": 0.0,
+          "shap": 0.8337,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "src_INIT_BALANCE",
+          "value": 129.35,
+          "shap": 0.1155,
+          "family": "ordinary"
+        },
+        {
+          "feature": "amount_zscore_src",
+          "value": 15182585.0,
+          "shap": -0.0832,
+          "family": "ordinary",
+          "gloss": "amount unusualness vs this sender's history"
+        },
+        {
+          "feature": "lap_out_payees",
+          "value": 0.0,
+          "shap": 0.0803,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "log_amount",
+          "value": 3.018,
+          "shap": 0.0373,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        }
+      ],
+      "graph_evidence": {
+        "type": "none",
+        "note": "no cycle/fan-in structure behind this alert; see risk_drivers"
+      },
+      "text": "ALERT 10 [score 0.7283]: 7083 -> 4303 for 19.45 at t=197. Drivers: lap_out_recur=0.0 (SHAP +0.83, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); src_INIT_BALANCE=129.35 (SHAP +0.12, ordinary); amount_zscore_src=15182585.0 (SHAP -0.08, ordinary: amount unusualness vs this sender's history); lap_out_payees=0.0 (SHAP +0.08, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); log_amount=3.018 (SHAP +0.04, ordinary: transaction amount (log scale)). Evidence: no cycle/fan-in structure behind this alert; see risk_drivers"
+    },
+    {
+      "alert_id": "IBM_AML-TEST-0011",
+      "rank": 11,
+      "transaction_id": "1062503",
+      "score": 0.728302,
+      "decision": "ALERT",
+      "timestamp": 160,
+      "source_account": "9053",
+      "dest_account": "5687",
+      "amount": 13.63,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "lap_out_recur",
+          "value": 0.0,
+          "shap": 0.832,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "src_INIT_BALANCE",
+          "value": 182.44,
+          "shap": 0.1156,
+          "family": "ordinary"
+        },
+        {
+          "feature": "amount_zscore_src",
+          "value": 7121240.5,
+          "shap": -0.0827,
+          "family": "ordinary",
+          "gloss": "amount unusualness vs this sender's history"
+        },
+        {
+          "feature": "lap_out_payees",
+          "value": 0.0,
+          "shap": 0.0801,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "log_amount",
+          "value": 2.6831,
+          "shap": 0.037,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 5,
+        "senders": [
+          {
+            "account": "1754",
+            "amount": 133.16,
+            "ts": 160
+          },
+          {
+            "account": "7612",
+            "amount": 110.73,
+            "ts": 160
+          },
+          {
+            "account": "9698",
+            "amount": 126.26,
+            "ts": 159
+          },
+          {
+            "account": "8680",
+            "amount": 139.82,
+            "ts": 157
+          },
+          {
+            "account": "1074",
+            "amount": 20.21,
+            "ts": 156
+          }
+        ],
+        "window": 7
+      },
+      "text": "ALERT 11 [score 0.7283]: 9053 -> 5687 for 13.63 at t=160. Drivers: lap_out_recur=0.0 (SHAP +0.83, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); src_INIT_BALANCE=182.44 (SHAP +0.12, ordinary); amount_zscore_src=7121240.5 (SHAP -0.08, ordinary: amount unusualness vs this sender's history); lap_out_payees=0.0 (SHAP +0.08, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); log_amount=2.6831 (SHAP +0.04, ordinary: transaction amount (log scale)). Evidence: destination collected from 5 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "IBM_AML-TEST-0012",
+      "rank": 12,
+      "transaction_id": "1121783",
+      "score": 0.728302,
+      "decision": "ALERT",
+      "timestamp": 169,
+      "source_account": "9102",
+      "dest_account": "8958",
+      "amount": 18.5,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "lap_out_recur",
+          "value": 0.0,
+          "shap": 0.832,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "src_INIT_BALANCE",
+          "value": 153.53,
+          "shap": 0.1156,
+          "family": "ordinary"
+        },
+        {
+          "feature": "amount_zscore_src",
+          "value": 18613898.0,
+          "shap": -0.0831,
+          "family": "ordinary",
+          "gloss": "amount unusualness vs this sender's history"
+        },
+        {
+          "feature": "lap_out_payees",
+          "value": 0.0,
+          "shap": 0.0803,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "log_amount",
+          "value": 2.9704,
+          "shap": 0.0371,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 3,
+        "senders": [
+          {
+            "account": "4157",
+            "amount": 15.5,
+            "ts": 169
+          },
+          {
+            "account": "4687",
+            "amount": 105.4,
+            "ts": 167
+          },
+          {
+            "account": "8651",
+            "amount": 122.02,
+            "ts": 165
+          }
+        ],
+        "window": 7
+      },
+      "text": "ALERT 12 [score 0.7283]: 9102 -> 8958 for 18.50 at t=169. Drivers: lap_out_recur=0.0 (SHAP +0.83, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); src_INIT_BALANCE=153.53 (SHAP +0.12, ordinary); amount_zscore_src=18613898.0 (SHAP -0.08, ordinary: amount unusualness vs this sender's history); lap_out_payees=0.0 (SHAP +0.08, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); log_amount=2.9704 (SHAP +0.04, ordinary: transaction amount (log scale)). Evidence: destination collected from 3 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "IBM_AML-TEST-0013",
+      "rank": 13,
+      "transaction_id": "1270104",
+      "score": 0.728302,
+      "decision": "ALERT",
+      "timestamp": 192,
+      "source_account": "9143",
+      "dest_account": "8260",
+      "amount": 10.35,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "lap_out_recur",
+          "value": 0.0,
+          "shap": 0.8295,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "src_INIT_BALANCE",
+          "value": 163.51,
+          "shap": 0.1156,
+          "family": "ordinary"
+        },
+        {
+          "feature": "amount_zscore_src",
+          "value": 4472106.5,
+          "shap": -0.0803,
+          "family": "ordinary",
+          "gloss": "amount unusualness vs this sender's history"
+        },
+        {
+          "feature": "lap_out_payees",
+          "value": 0.0,
+          "shap": 0.0801,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "log_amount",
+          "value": 2.4292,
+          "shap": 0.0371,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 4,
+        "senders": [
+          {
+            "account": "5661",
+            "amount": 161.64,
+            "ts": 189
+          },
+          {
+            "account": "6117",
+            "amount": 10.18,
+            "ts": 188
+          },
+          {
+            "account": "5735",
+            "amount": 199.5,
+            "ts": 186
+          },
+          {
+            "account": "768",
+            "amount": 144.05,
+            "ts": 185
+          }
+        ],
+        "window": 7
+      },
+      "text": "ALERT 13 [score 0.7283]: 9143 -> 8260 for 10.35 at t=192. Drivers: lap_out_recur=0.0 (SHAP +0.83, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); src_INIT_BALANCE=163.51 (SHAP +0.12, ordinary); amount_zscore_src=4472106.5 (SHAP -0.08, ordinary: amount unusualness vs this sender's history); lap_out_payees=0.0 (SHAP +0.08, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); log_amount=2.4292 (SHAP +0.04, ordinary: transaction amount (log scale)). Evidence: destination collected from 4 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "IBM_AML-TEST-0014",
+      "rank": 14,
+      "transaction_id": "1322711",
+      "score": 0.728267,
+      "decision": "ALERT",
+      "timestamp": 199,
+      "source_account": "8908",
+      "dest_account": "3629",
+      "amount": 10.98,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "lap_out_recur",
+          "value": 0.0,
+          "shap": 0.8446,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "lap_out_payees",
+          "value": 0.0,
+          "shap": 0.0866,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "log_amount",
+          "value": 2.4832,
+          "shap": 0.0381,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        },
+        {
+          "feature": "src_count_prior",
+          "value": 19.0,
+          "shap": 0.0152,
+          "family": "ordinary"
+        },
+        {
+          "feature": "amount_zscore_src",
+          "value": null,
+          "shap": 0.0122,
+          "family": "ordinary",
+          "gloss": "amount unusualness vs this sender's history"
+        }
+      ],
+      "graph_evidence": {
+        "type": "none",
+        "note": "no cycle/fan-in structure behind this alert; see risk_drivers"
+      },
+      "text": "ALERT 14 [score 0.7283]: 8908 -> 3629 for 10.98 at t=199. Drivers: lap_out_recur=0.0 (SHAP +0.84, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); lap_out_payees=0.0 (SHAP +0.09, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); log_amount=2.4832 (SHAP +0.04, ordinary: transaction amount (log scale)); src_count_prior=19.0 (SHAP +0.02, ordinary); amount_zscore_src=None (SHAP +0.01, ordinary: amount unusualness vs this sender's history). Evidence: no cycle/fan-in structure behind this alert; see risk_drivers"
+    },
+    {
+      "alert_id": "IBM_AML-TEST-0015",
+      "rank": 15,
+      "transaction_id": "1267160",
+      "score": 0.728267,
+      "decision": "ALERT",
+      "timestamp": 191,
+      "source_account": "9032",
+      "dest_account": "7357",
+      "amount": 4.71,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "lap_out_recur",
+          "value": 0.0,
+          "shap": 0.6185,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "amount_zscore_src",
+          "value": -5899987.5,
+          "shap": 0.2679,
+          "family": "ordinary",
+          "gloss": "amount unusualness vs this sender's history"
+        },
+        {
+          "feature": "lap_out_payees",
+          "value": 0.0,
+          "shap": 0.0865,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "log_amount",
+          "value": 1.7422,
+          "shap": 0.0377,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        },
+        {
+          "feature": "time_since_prev_src",
+          "value": 7.0,
+          "shap": 0.0342,
+          "family": "ordinary",
+          "gloss": "time since the sender's previous transaction"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 8,
+        "senders": [
+          {
+            "account": "9106",
+            "amount": 5.37,
+            "ts": 190
+          },
+          {
+            "account": "8320",
+            "amount": 4.03,
+            "ts": 189
+          },
+          {
+            "account": "6777",
+            "amount": 170.13,
+            "ts": 189
+          },
+          {
+            "account": "3698",
+            "amount": 165.5,
+            "ts": 187
+          },
+          {
+            "account": "4683",
+            "amount": 111.8,
+            "ts": 187
+          },
+          {
+            "account": "1711",
+            "amount": 115.33,
+            "ts": 186
+          },
+          {
+            "account": "2738",
+            "amount": 191.35,
+            "ts": 184
+          },
+          {
+            "account": "9032",
+            "amount": 8.93,
+            "ts": 184
+          }
+        ],
+        "window": 7
+      },
+      "text": "ALERT 15 [score 0.7283]: 9032 -> 7357 for 4.71 at t=191. Drivers: lap_out_recur=0.0 (SHAP +0.62, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); amount_zscore_src=-5899987.5 (SHAP +0.27, ordinary: amount unusualness vs this sender's history); lap_out_payees=0.0 (SHAP +0.09, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); log_amount=1.7422 (SHAP +0.04, ordinary: transaction amount (log scale)); time_since_prev_src=7.0 (SHAP +0.03, ordinary: time since the sender's previous transaction). Evidence: destination collected from 8 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "IBM_AML-TEST-0016",
+      "rank": 16,
+      "transaction_id": "1266097",
+      "score": 0.728267,
+      "decision": "ALERT",
+      "timestamp": 191,
+      "source_account": "9773",
+      "dest_account": "6381",
+      "amount": 16.9,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "lap_out_recur",
+          "value": 0.0,
+          "shap": 0.8419,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "lap_out_payees",
+          "value": 0.0,
+          "shap": 0.0873,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "log_amount",
+          "value": 2.8848,
+          "shap": 0.0378,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        },
+        {
+          "feature": "src_count_prior",
+          "value": 836.0,
+          "shap": 0.0193,
+          "family": "ordinary"
+        },
+        {
+          "feature": "tgn_d8",
+          "value": -0.778,
+          "shap": -0.0077,
+          "family": "tgn",
+          "gloss": "learned temporal-graph embedding component"
+        }
+      ],
+      "graph_evidence": {
+        "type": "cycle",
+        "cycle_length": 6,
+        "path_nodes": [
+          "9773",
+          "6381",
+          "6683",
+          "5085",
+          "9688",
+          "8195",
+          "9773"
+        ],
+        "path_edges": [
+          {
+            "src": "9773",
+            "dst": "6381",
+            "amount": 16.9,
+            "ts": 191
+          },
+          {
+            "src": "6381",
+            "dst": "6683",
+            "amount": 19913358.0,
+            "ts": 188
+          },
+          {
+            "src": "6683",
+            "dst": "5085",
+            "amount": 167.0,
+            "ts": 184
+          },
+          {
+            "src": "5085",
+            "dst": "9688",
+            "amount": 13.12,
+            "ts": 191
+          },
+          {
+            "src": "9688",
+            "dst": "8195",
+            "amount": 167.39,
+            "ts": 191
+          },
+          {
+            "src": "8195",
+            "dst": "9773",
+            "amount": 10.64,
+            "ts": 187
+          }
+        ],
+        "amount_conservation": 5.343147047323711e-07,
+        "time_span": 7,
+        "window": 7
+      },
+      "text": "ALERT 16 [score 0.7283]: 9773 -> 6381 for 16.90 at t=191. Drivers: lap_out_recur=0.0 (SHAP +0.84, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); lap_out_payees=0.0 (SHAP +0.09, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); log_amount=2.8848 (SHAP +0.04, ordinary: transaction amount (log scale)); src_count_prior=836.0 (SHAP +0.02, ordinary); tgn_d8=-0.778 (SHAP -0.01, tgn: learned temporal-graph embedding component). Evidence: closes a 6-hop cycle 9773 -> 6381 -> 6683 -> 5085 -> 9688 -> 8195 -> 9773, conserving 0% of the amount, within 7 time units."
+    },
+    {
+      "alert_id": "IBM_AML-TEST-0017",
+      "rank": 17,
+      "transaction_id": "1267249",
+      "score": 0.728267,
+      "decision": "ALERT",
+      "timestamp": 191,
+      "source_account": "9799",
+      "dest_account": "4146",
+      "amount": 3.94,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "lap_out_recur",
+          "value": 0.0,
+          "shap": 0.6315,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "amount_zscore_src",
+          "value": -22.3295,
+          "shap": 0.2621,
+          "family": "ordinary",
+          "gloss": "amount unusualness vs this sender's history"
+        },
+        {
+          "feature": "lap_out_payees",
+          "value": 0.0,
+          "shap": 0.0873,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "log_amount",
+          "value": 1.5974,
+          "shap": 0.0383,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        },
+        {
+          "feature": "src_count_prior",
+          "value": 914.0,
+          "shap": 0.0195,
+          "family": "ordinary"
+        }
+      ],
+      "graph_evidence": {
+        "type": "cycle",
+        "cycle_length": 5,
+        "path_nodes": [
+          "9799",
+          "4146",
+          "9628",
+          "9720",
+          "9218",
+          "9799"
+        ],
+        "path_edges": [
+          {
+            "src": "9799",
+            "dst": "4146",
+            "amount": 3.94,
+            "ts": 191
+          },
+          {
+            "src": "4146",
+            "dst": "9628",
+            "amount": 15.14,
+            "ts": 190
+          },
+          {
+            "src": "9628",
+            "dst": "9720",
+            "amount": 111.52,
+            "ts": 188
+          },
+          {
+            "src": "9720",
+            "dst": "9218",
+            "amount": 114.62,
+            "ts": 191
+          },
+          {
+            "src": "9218",
+            "dst": "9799",
+            "amount": 21474836.47,
+            "ts": 186
+          }
+        ],
+        "amount_conservation": 1.834705472846844e-07,
+        "time_span": 5,
+        "window": 7
+      },
+      "text": "ALERT 17 [score 0.7283]: 9799 -> 4146 for 3.94 at t=191. Drivers: lap_out_recur=0.0 (SHAP +0.63, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); amount_zscore_src=-22.3295 (SHAP +0.26, ordinary: amount unusualness vs this sender's history); lap_out_payees=0.0 (SHAP +0.09, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); log_amount=1.5974 (SHAP +0.04, ordinary: transaction amount (log scale)); src_count_prior=914.0 (SHAP +0.02, ordinary). Evidence: closes a 5-hop cycle 9799 -> 4146 -> 9628 -> 9720 -> 9218 -> 9799, conserving 0% of the amount, within 5 time units."
+    },
+    {
+      "alert_id": "IBM_AML-TEST-0018",
+      "rank": 18,
+      "transaction_id": "1266452",
+      "score": 0.728267,
+      "decision": "ALERT",
+      "timestamp": 191,
+      "source_account": "8122",
+      "dest_account": "4866",
+      "amount": 3.97,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "lap_out_recur",
+          "value": 0.0,
+          "shap": 0.8464,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "lap_out_payees",
+          "value": 0.0,
+          "shap": 0.0871,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "log_amount",
+          "value": 1.6034,
+          "shap": 0.0383,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        },
+        {
+          "feature": "src_count_prior",
+          "value": 345.0,
+          "shap": 0.0159,
+          "family": "ordinary"
+        },
+        {
+          "feature": "tgn_d8",
+          "value": -0.7042,
+          "shap": -0.0078,
+          "family": "tgn",
+          "gloss": "learned temporal-graph embedding component"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 3,
+        "senders": [
+          {
+            "account": "3666",
+            "amount": 180.33,
+            "ts": 189
+          },
+          {
+            "account": "9098",
+            "amount": 6.04,
+            "ts": 187
+          },
+          {
+            "account": "2384",
+            "amount": 3.97,
+            "ts": 187
+          }
+        ],
+        "window": 7
+      },
+      "text": "ALERT 18 [score 0.7283]: 8122 -> 4866 for 3.97 at t=191. Drivers: lap_out_recur=0.0 (SHAP +0.85, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); lap_out_payees=0.0 (SHAP +0.09, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); log_amount=1.6034 (SHAP +0.04, ordinary: transaction amount (log scale)); src_count_prior=345.0 (SHAP +0.02, ordinary); tgn_d8=-0.7042 (SHAP -0.01, tgn: learned temporal-graph embedding component). Evidence: destination collected from 3 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "IBM_AML-TEST-0019",
+      "rank": 19,
+      "transaction_id": "1266482",
+      "score": 0.728267,
+      "decision": "ALERT",
+      "timestamp": 191,
+      "source_account": "3734",
+      "dest_account": "9988",
+      "amount": 4.75,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "lap_out_recur",
+          "value": 0.0,
+          "shap": 0.842,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "lap_out_payees",
+          "value": 0.0,
+          "shap": 0.0863,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "log_amount",
+          "value": 1.7492,
+          "shap": 0.0376,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        },
+        {
+          "feature": "src_count_prior",
+          "value": 171.0,
+          "shap": 0.0235,
+          "family": "ordinary"
+        },
+        {
+          "feature": "time_since_prev_src",
+          "value": 6.0,
+          "shap": 0.0205,
+          "family": "ordinary",
+          "gloss": "time since the sender's previous transaction"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 51,
+        "senders": [
+          {
+            "account": "3020",
+            "amount": 27.08,
+            "ts": 191
+          },
+          {
+            "account": "9017",
+            "amount": 8.46,
+            "ts": 191
+          },
+          {
+            "account": "9697",
+            "amount": 124.95,
+            "ts": 191
+          },
+          {
+            "account": "7146",
+            "amount": 12.48,
+            "ts": 190
+          },
+          {
+            "account": "9606",
+            "amount": 174.96,
+            "ts": 190
+          },
+          {
+            "account": "1061",
+            "amount": 28.41,
+            "ts": 190
+          },
+          {
+            "account": "2673",
+            "amount": 167.55,
+            "ts": 190
+          },
+          {
+            "account": "5714",
+            "amount": 195.27,
+            "ts": 190
+          },
+          {
+            "account": "360",
+            "amount": 11036902.0,
+            "ts": 190
+          },
+          {
+            "account": "4153",
+            "amount": 16.59,
+            "ts": 190
+          },
+          {
+            "account": "9186",
+            "amount": 6.41,
+            "ts": 190
+          },
+          {
+            "account": "7631",
+            "amount": 130.13,
+            "ts": 190
+          },
+          {
+            "account": "4043",
+            "amount": 22.59,
+            "ts": 190
+          },
+          {
+            "account": "797",
+            "amount": 173.61,
+            "ts": 190
+          },
+          {
+            "account": "4060",
+            "amount": 23.41,
+            "ts": 189
+          },
+          {
+            "account": "5776",
+            "amount": 197.52,
+            "ts": 189
+          },
+          {
+            "account": "9611",
+            "amount": 112.83,
+            "ts": 189
+          },
+          {
+            "account": "644",
+            "amount": 147.66,
+            "ts": 189
+          },
+          {
+            "account": "3677",
+            "amount": 124.25,
+            "ts": 189
+          },
+          {
+            "account": "3369",
+            "amount": 5959591.0,
+            "ts": 189
+          },
+          {
+            "account": "9752",
+            "amount": 115.98,
+            "ts": 189
+          },
+          {
+            "account": "9638",
+            "amount": 179.27,
+            "ts": 189
+          },
+          {
+            "account": "8733",
+            "amount": 147.19,
+            "ts": 189
+          },
+          {
+            "account": "9628",
+            "amount": 111.52,
+            "ts": 188
+          },
+          {
+            "account": "5602",
+            "amount": 149.5,
+            "ts": 188
+          }
+        ],
+        "window": 7
+      },
+      "text": "ALERT 19 [score 0.7283]: 3734 -> 9988 for 4.75 at t=191. Drivers: lap_out_recur=0.0 (SHAP +0.84, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); lap_out_payees=0.0 (SHAP +0.09, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); log_amount=1.7492 (SHAP +0.04, ordinary: transaction amount (log scale)); src_count_prior=171.0 (SHAP +0.02, ordinary); time_since_prev_src=6.0 (SHAP +0.02, ordinary: time since the sender's previous transaction). Evidence: destination collected from 51 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "IBM_AML-TEST-0020",
+      "rank": 20,
+      "transaction_id": "1102165",
+      "score": 0.728267,
+      "decision": "ALERT",
+      "timestamp": 166,
+      "source_account": "7806",
+      "dest_account": "9792",
+      "amount": 15.27,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "lap_out_recur",
+          "value": 0.0,
+          "shap": 0.5965,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "amount_zscore_src",
+          "value": -51489384.0,
+          "shap": 0.2868,
+          "family": "ordinary",
+          "gloss": "amount unusualness vs this sender's history"
+        },
+        {
+          "feature": "lap_out_payees",
+          "value": 0.0,
+          "shap": 0.0858,
+          "family": "topology-amount-derived",
+          "gloss": "recurrence of near-equal amounts (lapping signature)"
+        },
+        {
+          "feature": "log_amount",
+          "value": 2.7893,
+          "shap": 0.0274,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        },
+        {
+          "feature": "time_since_prev_src",
+          "value": 2.0,
+          "shap": 0.0231,
+          "family": "ordinary",
+          "gloss": "time since the sender's previous transaction"
+        }
+      ],
+      "graph_evidence": {
+        "type": "cycle",
+        "cycle_length": 4,
+        "path_nodes": [
+          "7806",
+          "9792",
+          "9627",
+          "9657",
+          "7806"
+        ],
+        "path_edges": [
+          {
+            "src": "7806",
+            "dst": "9792",
+            "amount": 15.27,
+            "ts": 166
+          },
+          {
+            "src": "9792",
+            "dst": "9627",
+            "amount": 103.69,
+            "ts": 166
+          },
+          {
+            "src": "9627",
+            "dst": "9657",
+            "amount": 140.52,
+            "ts": 165
+          },
+          {
+            "src": "9657",
+            "dst": "7806",
+            "amount": 197.13,
+            "ts": 166
+          }
+        ],
+        "amount_conservation": 0.0774615735808857,
+        "time_span": 1,
+        "window": 7
+      },
+      "text": "ALERT 20 [score 0.7283]: 7806 -> 9792 for 15.27 at t=166. Drivers: lap_out_recur=0.0 (SHAP +0.60, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); amount_zscore_src=-51489384.0 (SHAP +0.29, ordinary: amount unusualness vs this sender's history); lap_out_payees=0.0 (SHAP +0.09, topology-amount-derived: recurrence of near-equal amounts (lapping signature)); log_amount=2.7893 (SHAP +0.03, ordinary: transaction amount (log scale)); time_since_prev_src=2.0 (SHAP +0.02, ordinary: time since the sender's previous transaction). Evidence: closes a 4-hop cycle 7806 -> 9792 -> 9627 -> 9657 -> 7806, conserving 8% of the amount, within 1 time units."
+    }
+  ]
+}

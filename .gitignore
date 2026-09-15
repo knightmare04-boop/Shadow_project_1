@@ -1,47 +1,13 @@
-# --- Python ---
+# --- Datasets (never push raw or processed datasets; see DATASET_LINKS.md) ---
+data/
+
+# --- Reference directory (historical reference codebase) ---
+reference/
+
+# --- Python temporary cache & build artifacts ---
 __pycache__/
 *.py[cod]
 *.egg-info/
-.eggs/
+.pytest_cache/
 build/
 dist/
-
-# --- Virtual envs ---
-.venv/
-venv/
-env/
-
-# --- Generated artifacts / outputs (keep the dirs via .gitkeep) ---
-artifacts/*
-!artifacts/.gitkeep
-results/*
-!results/.gitkeep
-
-# --- Data (raw + intermediate datasets; never push) ---
-data/
-
-# --- Serialized models / large binaries ---
-*.pkl
-*.joblib
-*.h5
-*.parquet
-
-# --- Neo4j dumps / imports ---
-*.dump
-neo4j_import*/
-
-# --- OS / editor ---
-.DS_Store
-.ipynb_checkpoints/
-
-# --- Old project (read-only reference; never push) ---
-reference/
-
-# --- Claude Code local settings (personal, not shared) ---
-.claude/settings.local.json
-
-# --- Local-only assistant rulebook (kept local, not in the repo) ---
-CLAUDE.md
-
-# --- Duplicate skills discovery tree (canonical copy lives in skills/) ---
-.agents/

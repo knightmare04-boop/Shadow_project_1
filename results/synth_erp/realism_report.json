@@ -1,0 +1,293 @@
+{
+  "dataset": "synth_erp",
+  "volume": {
+    "n_transactions": 1148503,
+    "n_accounts": 39256,
+    "fraud_rate": 0.004884,
+    "fraud_rate_real_range": {
+      "real_min": 0.001236,
+      "real_max": 0.012108,
+      "per_dataset": {
+        "ibm_aml": 0.001299,
+        "banksim": 0.012108,
+        "sap_wurzburg": 0.001236,
+        "paysim": 0.001291
+      }
+    }
+  },
+  "amounts": {
+    "synth": {
+      "n": 1148503,
+      "median": 72.24,
+      "mean": 1817.71,
+      "p90": 4273.96,
+      "p99": 26817.95,
+      "max": 615316.45,
+      "log1p_mean": 4.9392,
+      "log1p_std": 2.3256,
+      "benford_mad": 0.0047,
+      "first_digit_dist": [
+        0.2865,
+        0.1788,
+        0.1343,
+        0.1034,
+        0.0818,
+        0.0662,
+        0.0561,
+        0.0491,
+        0.0438
+      ]
+    },
+    "benford_mad_real": {
+      "real_min": 0.0142,
+      "real_max": 0.0758,
+      "per_dataset": {
+        "ibm_aml": 0.0758,
+        "banksim": 0.0319,
+        "sap_wurzburg": 0.0385,
+        "paysim": 0.0142
+      }
+    },
+    "log1p_std_real": {
+      "real_min": 0.9551,
+      "real_max": 2.0193,
+      "per_dataset": {
+        "ibm_aml": 2.0193,
+        "banksim": 0.9551,
+        "sap_wurzburg": 1.1042,
+        "paysim": 1.8144
+      }
+    }
+  },
+  "fraud_amount_overlap": {
+    "median_fraud": 1692.59,
+    "median_benign": 71.14,
+    "fraud_to_benign_median_ratio": 23.792,
+    "ks_log_amount_fraud_vs_benign": 0.604,
+    "univariate_log_amount_roc": 0.8078,
+    "univariate_log_amount_roc_in_band_300_20k": 0.4911,
+    "n_fraud_in_band": 5228,
+    "ibm_aml_ratio_for_comparison": 0.068,
+    "note": "fraud is B2B-scale in a retail-heavy economy (mixture effect), but INSIDE its band it is amount-camouflaged (in-band ROC ~ 0.5). References: BankSim (real) univariate ROC 0.949; IBM AML 0.086 (i.e. 0.914 flipped) \u2014 the artifact class we designed against."
+  },
+  "graph": {
+    "synth": {
+      "n_transactions": 1148503,
+      "n_accounts": 39256,
+      "namespace_overlap": 0.941,
+      "unique_pairs": 251192,
+      "repeat_pair_txn_frac": 0.8586,
+      "pair_reciprocity": 0.1356,
+      "out_degree": {
+        "p50": 18.0,
+        "p99": 83.0,
+        "max": 20838
+      },
+      "in_degree": {
+        "p50": 4.0,
+        "p99": 127.90999999999622,
+        "max": 194265
+      },
+      "fan_out_distinct": {
+        "p50": 5.0,
+        "p99": 18.0,
+        "max": 4152
+      },
+      "fan_in_distinct": {
+        "p50": 3.0,
+        "p99": 9.0,
+        "max": 21367
+      }
+    },
+    "repeat_pair_real": {
+      "real_min": 0.0,
+      "real_max": 0.9936,
+      "per_dataset": {
+        "ibm_aml": 0.9936,
+        "banksim": 0.9637,
+        "sap_wurzburg": 0.6282,
+        "paysim": 0.0
+      }
+    },
+    "reciprocity_real": {
+      "real_min": 0.0,
+      "real_max": 0.0446,
+      "per_dataset": {
+        "ibm_aml": 0.0446,
+        "banksim": 0.0,
+        "sap_wurzburg": 0.0,
+        "paysim": 0.0
+      }
+    },
+    "namespace_overlap_real": {
+      "real_min": 0.0,
+      "real_max": 0.9927,
+      "per_dataset": {
+        "ibm_aml": 0.9927,
+        "banksim": 0.0,
+        "sap_wurzburg": 0.0,
+        "paysim": 0.0002
+      }
+    }
+  },
+  "temporal": {
+    "business_hours_share": 0.7906,
+    "weekend_share": 0.1731,
+    "txns_per_day_mean": 3146.6,
+    "txns_per_day_p99": 5308.3,
+    "span_days": 365
+  },
+  "tabular_leak_probe": {
+    "base_fraud_rate": 0.004884,
+    "rules": {
+      "dest_created_midyear": {
+        "support": 67621,
+        "precision": 0.0502,
+        "recall_of_fraud": 0.6049,
+        "lift_vs_base": 10.3
+      },
+      "src_created_midyear": {
+        "support": 156550,
+        "precision": 0.0113,
+        "recall_of_fraud": 0.3147,
+        "lift_vs_base": 2.3
+      },
+      "tx_type=sale": {
+        "support": 760558,
+        "precision": 0.0012,
+        "recall_of_fraud": 0.1649,
+        "lift_vs_base": 0.2
+      },
+      "tx_type=sale & dest_created_midyear": {
+        "support": 8131,
+        "precision": 0.0146,
+        "recall_of_fraud": 0.0212,
+        "lift_vs_base": 3.0
+      },
+      "tx_type=transfer": {
+        "support": 94781,
+        "precision": 0.0385,
+        "recall_of_fraud": 0.65,
+        "lift_vs_base": 7.9
+      },
+      "tx_type=transfer & dest_created_midyear": {
+        "support": 26420,
+        "precision": 0.0929,
+        "recall_of_fraud": 0.4375,
+        "lift_vs_base": 19.0
+      },
+      "tx_type=payroll": {
+        "support": 49240,
+        "precision": 0.0,
+        "recall_of_fraud": 0.0,
+        "lift_vs_base": 0.0
+      },
+      "tx_type=payroll & dest_created_midyear": {
+        "support": 3006,
+        "precision": 0.0,
+        "recall_of_fraud": 0.0,
+        "lift_vs_base": 0.0
+      },
+      "tx_type=vendor_payment": {
+        "support": 208155,
+        "precision": 0.0045,
+        "recall_of_fraud": 0.1678,
+        "lift_vs_base": 0.9
+      },
+      "tx_type=vendor_payment & dest_created_midyear": {
+        "support": 25781,
+        "precision": 0.0316,
+        "recall_of_fraud": 0.1451,
+        "lift_vs_base": 6.5
+      },
+      "tx_type=recurring_bill": {
+        "support": 5137,
+        "precision": 0.0,
+        "recall_of_fraud": 0.0,
+        "lift_vs_base": 0.0
+      },
+      "tx_type=recurring_bill & dest_created_midyear": {
+        "support": 507,
+        "precision": 0.0,
+        "recall_of_fraud": 0.0,
+        "lift_vs_base": 0.0
+      },
+      "tx_type=reimbursement": {
+        "support": 12236,
+        "precision": 0.0079,
+        "recall_of_fraud": 0.0173,
+        "lift_vs_base": 1.6
+      },
+      "tx_type=reimbursement & dest_created_midyear": {
+        "support": 741,
+        "precision": 0.0081,
+        "recall_of_fraud": 0.0011,
+        "lift_vs_base": 1.7
+      },
+      "tx_type=refund": {
+        "support": 18396,
+        "precision": 0.0,
+        "recall_of_fraud": 0.0,
+        "lift_vs_base": 0.0
+      },
+      "tx_type=refund & dest_created_midyear": {
+        "support": 3035,
+        "precision": 0.0,
+        "recall_of_fraud": 0.0,
+        "lift_vs_base": 0.0
+      }
+    },
+    "worst_rule": {
+      "rule": "tx_type=transfer & dest_created_midyear",
+      "support": 26420,
+      "precision": 0.0929,
+      "recall_of_fraud": 0.4375,
+      "lift_vs_base": 19.0
+    },
+    "leak_flag": false
+  },
+  "emergence_ground_truth_only": {
+    "benign_in_cycle_rate": 0.05761,
+    "benign_fan_in_p99": 4197.0,
+    "invoice_kickback": {
+      "n": 625,
+      "in_cycle_rate": 0.0368,
+      "in_cycle_ge3_rate": 0.0368,
+      "fan_in_p50": 0.0,
+      "fan_in_p90": 2.0,
+      "lap_in_recur_mean": 0.12
+    },
+    "lapping": {
+      "n": 760,
+      "in_cycle_rate": 0.1684,
+      "in_cycle_ge3_rate": 0.0118,
+      "fan_in_p50": 2.0,
+      "fan_in_p90": 961.2,
+      "lap_in_recur_mean": 0.06
+    },
+    "larceny": {
+      "n": 455,
+      "in_cycle_rate": 0.0549,
+      "in_cycle_ge3_rate": 0.0484,
+      "fan_in_p50": 0.0,
+      "fan_in_p90": 1.0,
+      "lap_in_recur_mean": 0.06
+    },
+    "laundering_cycle": {
+      "n": 1442,
+      "in_cycle_rate": 0.1845,
+      "in_cycle_ge3_rate": 0.1845,
+      "fan_in_p50": 1.0,
+      "fan_in_p90": 2.0,
+      "lap_in_recur_mean": 0.02
+    },
+    "mule_fanin": {
+      "n": 2327,
+      "in_cycle_rate": 0.003,
+      "in_cycle_ge3_rate": 0.003,
+      "fan_in_p50": 1.0,
+      "fan_in_p90": 8.0,
+      "lap_in_recur_mean": 0.05
+    }
+  }
+}

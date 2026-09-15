@@ -1,0 +1,1818 @@
+{
+  "generated": "2026-08-26",
+  "dataset": "sap_wurzburg",
+  "artifact": "artifacts\\sap_wurzburg\\final",
+  "threshold": 0.2566238343715668,
+  "k": 10,
+  "n_true_fraud_in_topk": 2,
+  "alerts": [
+    {
+      "alert_id": "SAP_WURZBURG-TEST-0001",
+      "rank": 1,
+      "transaction_id": "fraud_2:5000000092:3",
+      "score": 0.395107,
+      "decision": "ALERT",
+      "timestamp": 1058348,
+      "source_account": "DOC:fraud_2:5000000092",
+      "dest_account": "GL:300000",
+      "amount": 324.0,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "tx_type_Materialzugang",
+          "value": 1.0,
+          "shap": 1.162,
+          "family": "ordinary"
+        },
+        {
+          "feature": "log_amount",
+          "value": 5.7838,
+          "shap": 0.4837,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        },
+        {
+          "feature": "dest_count_prior",
+          "value": 2777.0,
+          "shap": 0.0919,
+          "family": "ordinary"
+        },
+        {
+          "feature": "fan_in",
+          "value": 271.0,
+          "shap": 0.0899,
+          "family": "topology",
+          "gloss": "distinct recent senders into the destination"
+        },
+        {
+          "feature": "tgn_edge_expectedness",
+          "value": 0.9998,
+          "shap": 0.0599,
+          "family": "tgn",
+          "gloss": "how expected this sender->receiver pair is to the learned temporal model (low = surprising)"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 271,
+        "senders": [
+          {
+            "account": "DOC:fraud_2:5000000092",
+            "amount": 231.0,
+            "ts": 1058348
+          },
+          {
+            "account": "DOC:fraud_2:5000000091",
+            "amount": 26784.0,
+            "ts": 1058301
+          },
+          {
+            "account": "DOC:fraud_2:4900002814",
+            "amount": 4555.51,
+            "ts": 1058028
+          },
+          {
+            "account": "DOC:fraud_2:4900002808",
+            "amount": 6833.26,
+            "ts": 1058000
+          },
+          {
+            "account": "DOC:fraud_2:4900002801",
+            "amount": 6833.26,
+            "ts": 1057972
+          },
+          {
+            "account": "DOC:fraud_2:4900002790",
+            "amount": 2277.75,
+            "ts": 1057063
+          },
+          {
+            "account": "DOC:fraud_2:4900002780",
+            "amount": 6833.26,
+            "ts": 1057035
+          },
+          {
+            "account": "DOC:fraud_2:4900002770",
+            "amount": 4555.51,
+            "ts": 1057010
+          },
+          {
+            "account": "DOC:fraud_2:5000000090",
+            "amount": 8520.0,
+            "ts": 1056984
+          },
+          {
+            "account": "DOC:fraud_2:5000000089",
+            "amount": 17920.0,
+            "ts": 1056903
+          },
+          {
+            "account": "DOC:fraud_2:5000000088",
+            "amount": 20340.0,
+            "ts": 1056817
+          },
+          {
+            "account": "DOC:fraud_2:4900002665",
+            "amount": 1220.22,
+            "ts": 1056723
+          },
+          {
+            "account": "DOC:fraud_2:4900002651",
+            "amount": 5857.08,
+            "ts": 1056682
+          },
+          {
+            "account": "DOC:fraud_2:4900002638",
+            "amount": 3172.58,
+            "ts": 1056526
+          },
+          {
+            "account": "DOC:fraud_2:4900002636",
+            "amount": 2684.49,
+            "ts": 1056524
+          },
+          {
+            "account": "DOC:fraud_2:4900002622",
+            "amount": 5857.08,
+            "ts": 1056465
+          },
+          {
+            "account": "DOC:fraud_2:4900002609",
+            "amount": 2033.71,
+            "ts": 1056427
+          },
+          {
+            "account": "DOC:fraud_2:4900002607",
+            "amount": 2684.49,
+            "ts": 1056426
+          },
+          {
+            "account": "DOC:fraud_2:4900002593",
+            "amount": 9761.8,
+            "ts": 1056400
+          },
+          {
+            "account": "DOC:fraud_2:4900002580",
+            "amount": 6507.87,
+            "ts": 1056377
+          },
+          {
+            "account": "DOC:fraud_2:5000000086",
+            "amount": 37120.0,
+            "ts": 1056147
+          },
+          {
+            "account": "DOC:fraud_2:5000000085",
+            "amount": 34336.0,
+            "ts": 1056116
+          },
+          {
+            "account": "DOC:fraud_2:4900002510",
+            "amount": 9581.15,
+            "ts": 1055788
+          },
+          {
+            "account": "DOC:fraud_2:5000000084",
+            "amount": 5760.0,
+            "ts": 1055785
+          },
+          {
+            "account": "DOC:fraud_2:4900002497",
+            "amount": 7664.92,
+            "ts": 1055766
+          }
+        ],
+        "window": null
+      },
+      "text": "ALERT 1 [score 0.3951]: DOC:fraud_2:5000000092 -> GL:300000 for 324.00 at t=1058348. Drivers: tx_type_Materialzugang=1.0 (SHAP +1.16, ordinary); log_amount=5.7838 (SHAP +0.48, ordinary: transaction amount (log scale)); dest_count_prior=2777.0 (SHAP +0.09, ordinary); fan_in=271.0 (SHAP +0.09, topology: distinct recent senders into the destination); tgn_edge_expectedness=0.9998 (SHAP +0.06, tgn: how expected this sender->receiver pair is to the learned temporal model (low = surprising)). Evidence: destination collected from 271 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "SAP_WURZBURG-TEST-0002",
+      "rank": 2,
+      "transaction_id": "fraud_1:4900004080:2",
+      "score": 0.376193,
+      "decision": "ALERT",
+      "timestamp": 62662,
+      "source_account": "DOC:fraud_1:4900004080",
+      "dest_account": "GL:895000",
+      "amount": 1.23,
+      "ground_truth_label": 0,
+      "risk_drivers": [
+        {
+          "feature": "log_amount",
+          "value": 0.802,
+          "shap": 0.3994,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        },
+        {
+          "feature": "dest_count_prior",
+          "value": 192.0,
+          "shap": 0.3263,
+          "family": "ordinary"
+        },
+        {
+          "feature": "fan_in",
+          "value": 192.0,
+          "shap": 0.2991,
+          "family": "topology",
+          "gloss": "distinct recent senders into the destination"
+        },
+        {
+          "feature": "tgn_d14",
+          "value": 0.9723,
+          "shap": 0.1501,
+          "family": "tgn",
+          "gloss": "learned temporal-graph embedding component"
+        },
+        {
+          "feature": "dest_in_degree",
+          "value": 192.0,
+          "shap": 0.1424,
+          "family": "topology",
+          "gloss": "recent payment volume into the destination"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 192,
+        "senders": [
+          {
+            "account": "DOC:fraud_1:4900004059",
+            "amount": 1.23,
+            "ts": 62602
+          },
+          {
+            "account": "DOC:fraud_1:4900004038",
+            "amount": 1.23,
+            "ts": 62543
+          },
+          {
+            "account": "DOC:fraud_1:4900004016",
+            "amount": 1.23,
+            "ts": 62483
+          },
+          {
+            "account": "DOC:fraud_1:4900003995",
+            "amount": 1.23,
+            "ts": 62424
+          },
+          {
+            "account": "DOC:fraud_1:4900003972",
+            "amount": 1.23,
+            "ts": 62368
+          },
+          {
+            "account": "DOC:fraud_1:4900003954",
+            "amount": 1.23,
+            "ts": 62306
+          },
+          {
+            "account": "DOC:fraud_1:4900003932",
+            "amount": 1.23,
+            "ts": 62247
+          },
+          {
+            "account": "DOC:fraud_1:4900003910",
+            "amount": 1.23,
+            "ts": 62128
+          },
+          {
+            "account": "DOC:fraud_1:4900003887",
+            "amount": 1.23,
+            "ts": 62070
+          },
+          {
+            "account": "DOC:fraud_1:4900003865",
+            "amount": 1.23,
+            "ts": 62011
+          },
+          {
+            "account": "DOC:fraud_1:4900003843",
+            "amount": 1.23,
+            "ts": 61952
+          },
+          {
+            "account": "DOC:fraud_1:4900003823",
+            "amount": 1.23,
+            "ts": 61891
+          },
+          {
+            "account": "DOC:fraud_1:4900003801",
+            "amount": 1.23,
+            "ts": 61832
+          },
+          {
+            "account": "DOC:fraud_1:4900003780",
+            "amount": 1.23,
+            "ts": 61771
+          },
+          {
+            "account": "DOC:fraud_1:4900003758",
+            "amount": 1.23,
+            "ts": 61712
+          },
+          {
+            "account": "DOC:fraud_1:4900003738",
+            "amount": 1.23,
+            "ts": 61652
+          },
+          {
+            "account": "DOC:fraud_1:4900003715",
+            "amount": 1.23,
+            "ts": 61593
+          },
+          {
+            "account": "DOC:fraud_1:4900003694",
+            "amount": 1.23,
+            "ts": 61535
+          },
+          {
+            "account": "DOC:fraud_1:4900003675",
+            "amount": 1.23,
+            "ts": 61479
+          },
+          {
+            "account": "DOC:fraud_1:4900003652",
+            "amount": 1.23,
+            "ts": 61415
+          },
+          {
+            "account": "DOC:fraud_1:4900003630",
+            "amount": 1.23,
+            "ts": 61354
+          },
+          {
+            "account": "DOC:fraud_1:4900003608",
+            "amount": 1.23,
+            "ts": 61297
+          },
+          {
+            "account": "DOC:fraud_1:4900003586",
+            "amount": 1.23,
+            "ts": 61235
+          },
+          {
+            "account": "DOC:fraud_1:4900003563",
+            "amount": 1.23,
+            "ts": 61177
+          },
+          {
+            "account": "DOC:fraud_1:4900003542",
+            "amount": 1.23,
+            "ts": 61117
+          }
+        ],
+        "window": null
+      },
+      "text": "ALERT 2 [score 0.3762]: DOC:fraud_1:4900004080 -> GL:895000 for 1.23 at t=62662. Drivers: log_amount=0.802 (SHAP +0.40, ordinary: transaction amount (log scale)); dest_count_prior=192.0 (SHAP +0.33, ordinary); fan_in=192.0 (SHAP +0.30, topology: distinct recent senders into the destination); tgn_d14=0.9723 (SHAP +0.15, tgn: learned temporal-graph embedding component); dest_in_degree=192.0 (SHAP +0.14, topology: recent payment volume into the destination). Evidence: destination collected from 192 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "SAP_WURZBURG-TEST-0003",
+      "rank": 3,
+      "transaction_id": "fraud_1:4900004110:2",
+      "score": 0.376193,
+      "decision": "ALERT",
+      "timestamp": 62781,
+      "source_account": "DOC:fraud_1:4900004110",
+      "dest_account": "GL:895000",
+      "amount": 1.23,
+      "ground_truth_label": 0,
+      "risk_drivers": [
+        {
+          "feature": "log_amount",
+          "value": 0.802,
+          "shap": 0.3994,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        },
+        {
+          "feature": "dest_count_prior",
+          "value": 194.0,
+          "shap": 0.3263,
+          "family": "ordinary"
+        },
+        {
+          "feature": "fan_in",
+          "value": 194.0,
+          "shap": 0.2991,
+          "family": "topology",
+          "gloss": "distinct recent senders into the destination"
+        },
+        {
+          "feature": "tgn_d14",
+          "value": 0.9723,
+          "shap": 0.1501,
+          "family": "tgn",
+          "gloss": "learned temporal-graph embedding component"
+        },
+        {
+          "feature": "dest_in_degree",
+          "value": 194.0,
+          "shap": 0.1424,
+          "family": "topology",
+          "gloss": "recent payment volume into the destination"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 194,
+        "senders": [
+          {
+            "account": "DOC:fraud_1:4900004102",
+            "amount": 1.23,
+            "ts": 62721
+          },
+          {
+            "account": "DOC:fraud_1:4900004080",
+            "amount": 1.23,
+            "ts": 62662
+          },
+          {
+            "account": "DOC:fraud_1:4900004059",
+            "amount": 1.23,
+            "ts": 62602
+          },
+          {
+            "account": "DOC:fraud_1:4900004038",
+            "amount": 1.23,
+            "ts": 62543
+          },
+          {
+            "account": "DOC:fraud_1:4900004016",
+            "amount": 1.23,
+            "ts": 62483
+          },
+          {
+            "account": "DOC:fraud_1:4900003995",
+            "amount": 1.23,
+            "ts": 62424
+          },
+          {
+            "account": "DOC:fraud_1:4900003972",
+            "amount": 1.23,
+            "ts": 62368
+          },
+          {
+            "account": "DOC:fraud_1:4900003954",
+            "amount": 1.23,
+            "ts": 62306
+          },
+          {
+            "account": "DOC:fraud_1:4900003932",
+            "amount": 1.23,
+            "ts": 62247
+          },
+          {
+            "account": "DOC:fraud_1:4900003910",
+            "amount": 1.23,
+            "ts": 62128
+          },
+          {
+            "account": "DOC:fraud_1:4900003887",
+            "amount": 1.23,
+            "ts": 62070
+          },
+          {
+            "account": "DOC:fraud_1:4900003865",
+            "amount": 1.23,
+            "ts": 62011
+          },
+          {
+            "account": "DOC:fraud_1:4900003843",
+            "amount": 1.23,
+            "ts": 61952
+          },
+          {
+            "account": "DOC:fraud_1:4900003823",
+            "amount": 1.23,
+            "ts": 61891
+          },
+          {
+            "account": "DOC:fraud_1:4900003801",
+            "amount": 1.23,
+            "ts": 61832
+          },
+          {
+            "account": "DOC:fraud_1:4900003780",
+            "amount": 1.23,
+            "ts": 61771
+          },
+          {
+            "account": "DOC:fraud_1:4900003758",
+            "amount": 1.23,
+            "ts": 61712
+          },
+          {
+            "account": "DOC:fraud_1:4900003738",
+            "amount": 1.23,
+            "ts": 61652
+          },
+          {
+            "account": "DOC:fraud_1:4900003715",
+            "amount": 1.23,
+            "ts": 61593
+          },
+          {
+            "account": "DOC:fraud_1:4900003694",
+            "amount": 1.23,
+            "ts": 61535
+          },
+          {
+            "account": "DOC:fraud_1:4900003675",
+            "amount": 1.23,
+            "ts": 61479
+          },
+          {
+            "account": "DOC:fraud_1:4900003652",
+            "amount": 1.23,
+            "ts": 61415
+          },
+          {
+            "account": "DOC:fraud_1:4900003630",
+            "amount": 1.23,
+            "ts": 61354
+          },
+          {
+            "account": "DOC:fraud_1:4900003608",
+            "amount": 1.23,
+            "ts": 61297
+          },
+          {
+            "account": "DOC:fraud_1:4900003586",
+            "amount": 1.23,
+            "ts": 61235
+          }
+        ],
+        "window": null
+      },
+      "text": "ALERT 3 [score 0.3762]: DOC:fraud_1:4900004110 -> GL:895000 for 1.23 at t=62781. Drivers: log_amount=0.802 (SHAP +0.40, ordinary: transaction amount (log scale)); dest_count_prior=194.0 (SHAP +0.33, ordinary); fan_in=194.0 (SHAP +0.30, topology: distinct recent senders into the destination); tgn_d14=0.9723 (SHAP +0.15, tgn: learned temporal-graph embedding component); dest_in_degree=194.0 (SHAP +0.14, topology: recent payment volume into the destination). Evidence: destination collected from 194 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "SAP_WURZBURG-TEST-0004",
+      "rank": 4,
+      "transaction_id": "fraud_1:4900004059:2",
+      "score": 0.376193,
+      "decision": "ALERT",
+      "timestamp": 62602,
+      "source_account": "DOC:fraud_1:4900004059",
+      "dest_account": "GL:895000",
+      "amount": 1.23,
+      "ground_truth_label": 0,
+      "risk_drivers": [
+        {
+          "feature": "log_amount",
+          "value": 0.802,
+          "shap": 0.3994,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        },
+        {
+          "feature": "dest_count_prior",
+          "value": 191.0,
+          "shap": 0.3263,
+          "family": "ordinary"
+        },
+        {
+          "feature": "fan_in",
+          "value": 191.0,
+          "shap": 0.2991,
+          "family": "topology",
+          "gloss": "distinct recent senders into the destination"
+        },
+        {
+          "feature": "tgn_d14",
+          "value": 0.9723,
+          "shap": 0.1501,
+          "family": "tgn",
+          "gloss": "learned temporal-graph embedding component"
+        },
+        {
+          "feature": "dest_in_degree",
+          "value": 191.0,
+          "shap": 0.1424,
+          "family": "topology",
+          "gloss": "recent payment volume into the destination"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 191,
+        "senders": [
+          {
+            "account": "DOC:fraud_1:4900004038",
+            "amount": 1.23,
+            "ts": 62543
+          },
+          {
+            "account": "DOC:fraud_1:4900004016",
+            "amount": 1.23,
+            "ts": 62483
+          },
+          {
+            "account": "DOC:fraud_1:4900003995",
+            "amount": 1.23,
+            "ts": 62424
+          },
+          {
+            "account": "DOC:fraud_1:4900003972",
+            "amount": 1.23,
+            "ts": 62368
+          },
+          {
+            "account": "DOC:fraud_1:4900003954",
+            "amount": 1.23,
+            "ts": 62306
+          },
+          {
+            "account": "DOC:fraud_1:4900003932",
+            "amount": 1.23,
+            "ts": 62247
+          },
+          {
+            "account": "DOC:fraud_1:4900003910",
+            "amount": 1.23,
+            "ts": 62128
+          },
+          {
+            "account": "DOC:fraud_1:4900003887",
+            "amount": 1.23,
+            "ts": 62070
+          },
+          {
+            "account": "DOC:fraud_1:4900003865",
+            "amount": 1.23,
+            "ts": 62011
+          },
+          {
+            "account": "DOC:fraud_1:4900003843",
+            "amount": 1.23,
+            "ts": 61952
+          },
+          {
+            "account": "DOC:fraud_1:4900003823",
+            "amount": 1.23,
+            "ts": 61891
+          },
+          {
+            "account": "DOC:fraud_1:4900003801",
+            "amount": 1.23,
+            "ts": 61832
+          },
+          {
+            "account": "DOC:fraud_1:4900003780",
+            "amount": 1.23,
+            "ts": 61771
+          },
+          {
+            "account": "DOC:fraud_1:4900003758",
+            "amount": 1.23,
+            "ts": 61712
+          },
+          {
+            "account": "DOC:fraud_1:4900003738",
+            "amount": 1.23,
+            "ts": 61652
+          },
+          {
+            "account": "DOC:fraud_1:4900003715",
+            "amount": 1.23,
+            "ts": 61593
+          },
+          {
+            "account": "DOC:fraud_1:4900003694",
+            "amount": 1.23,
+            "ts": 61535
+          },
+          {
+            "account": "DOC:fraud_1:4900003675",
+            "amount": 1.23,
+            "ts": 61479
+          },
+          {
+            "account": "DOC:fraud_1:4900003652",
+            "amount": 1.23,
+            "ts": 61415
+          },
+          {
+            "account": "DOC:fraud_1:4900003630",
+            "amount": 1.23,
+            "ts": 61354
+          },
+          {
+            "account": "DOC:fraud_1:4900003608",
+            "amount": 1.23,
+            "ts": 61297
+          },
+          {
+            "account": "DOC:fraud_1:4900003586",
+            "amount": 1.23,
+            "ts": 61235
+          },
+          {
+            "account": "DOC:fraud_1:4900003563",
+            "amount": 1.23,
+            "ts": 61177
+          },
+          {
+            "account": "DOC:fraud_1:4900003542",
+            "amount": 1.23,
+            "ts": 61117
+          },
+          {
+            "account": "DOC:fraud_1:4900003539",
+            "amount": 1.23,
+            "ts": 61058
+          }
+        ],
+        "window": null
+      },
+      "text": "ALERT 4 [score 0.3762]: DOC:fraud_1:4900004059 -> GL:895000 for 1.23 at t=62602. Drivers: log_amount=0.802 (SHAP +0.40, ordinary: transaction amount (log scale)); dest_count_prior=191.0 (SHAP +0.33, ordinary); fan_in=191.0 (SHAP +0.30, topology: distinct recent senders into the destination); tgn_d14=0.9723 (SHAP +0.15, tgn: learned temporal-graph embedding component); dest_in_degree=191.0 (SHAP +0.14, topology: recent payment volume into the destination). Evidence: destination collected from 191 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "SAP_WURZBURG-TEST-0005",
+      "rank": 5,
+      "transaction_id": "fraud_1:4900004113:2",
+      "score": 0.376193,
+      "decision": "ALERT",
+      "timestamp": 62841,
+      "source_account": "DOC:fraud_1:4900004113",
+      "dest_account": "GL:895000",
+      "amount": 1.23,
+      "ground_truth_label": 0,
+      "risk_drivers": [
+        {
+          "feature": "log_amount",
+          "value": 0.802,
+          "shap": 0.3994,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        },
+        {
+          "feature": "dest_count_prior",
+          "value": 195.0,
+          "shap": 0.3263,
+          "family": "ordinary"
+        },
+        {
+          "feature": "fan_in",
+          "value": 195.0,
+          "shap": 0.2991,
+          "family": "topology",
+          "gloss": "distinct recent senders into the destination"
+        },
+        {
+          "feature": "tgn_d14",
+          "value": 0.9723,
+          "shap": 0.1501,
+          "family": "tgn",
+          "gloss": "learned temporal-graph embedding component"
+        },
+        {
+          "feature": "dest_in_degree",
+          "value": 195.0,
+          "shap": 0.1424,
+          "family": "topology",
+          "gloss": "recent payment volume into the destination"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 195,
+        "senders": [
+          {
+            "account": "DOC:fraud_1:4900004110",
+            "amount": 1.23,
+            "ts": 62781
+          },
+          {
+            "account": "DOC:fraud_1:4900004102",
+            "amount": 1.23,
+            "ts": 62721
+          },
+          {
+            "account": "DOC:fraud_1:4900004080",
+            "amount": 1.23,
+            "ts": 62662
+          },
+          {
+            "account": "DOC:fraud_1:4900004059",
+            "amount": 1.23,
+            "ts": 62602
+          },
+          {
+            "account": "DOC:fraud_1:4900004038",
+            "amount": 1.23,
+            "ts": 62543
+          },
+          {
+            "account": "DOC:fraud_1:4900004016",
+            "amount": 1.23,
+            "ts": 62483
+          },
+          {
+            "account": "DOC:fraud_1:4900003995",
+            "amount": 1.23,
+            "ts": 62424
+          },
+          {
+            "account": "DOC:fraud_1:4900003972",
+            "amount": 1.23,
+            "ts": 62368
+          },
+          {
+            "account": "DOC:fraud_1:4900003954",
+            "amount": 1.23,
+            "ts": 62306
+          },
+          {
+            "account": "DOC:fraud_1:4900003932",
+            "amount": 1.23,
+            "ts": 62247
+          },
+          {
+            "account": "DOC:fraud_1:4900003910",
+            "amount": 1.23,
+            "ts": 62128
+          },
+          {
+            "account": "DOC:fraud_1:4900003887",
+            "amount": 1.23,
+            "ts": 62070
+          },
+          {
+            "account": "DOC:fraud_1:4900003865",
+            "amount": 1.23,
+            "ts": 62011
+          },
+          {
+            "account": "DOC:fraud_1:4900003843",
+            "amount": 1.23,
+            "ts": 61952
+          },
+          {
+            "account": "DOC:fraud_1:4900003823",
+            "amount": 1.23,
+            "ts": 61891
+          },
+          {
+            "account": "DOC:fraud_1:4900003801",
+            "amount": 1.23,
+            "ts": 61832
+          },
+          {
+            "account": "DOC:fraud_1:4900003780",
+            "amount": 1.23,
+            "ts": 61771
+          },
+          {
+            "account": "DOC:fraud_1:4900003758",
+            "amount": 1.23,
+            "ts": 61712
+          },
+          {
+            "account": "DOC:fraud_1:4900003738",
+            "amount": 1.23,
+            "ts": 61652
+          },
+          {
+            "account": "DOC:fraud_1:4900003715",
+            "amount": 1.23,
+            "ts": 61593
+          },
+          {
+            "account": "DOC:fraud_1:4900003694",
+            "amount": 1.23,
+            "ts": 61535
+          },
+          {
+            "account": "DOC:fraud_1:4900003675",
+            "amount": 1.23,
+            "ts": 61479
+          },
+          {
+            "account": "DOC:fraud_1:4900003652",
+            "amount": 1.23,
+            "ts": 61415
+          },
+          {
+            "account": "DOC:fraud_1:4900003630",
+            "amount": 1.23,
+            "ts": 61354
+          },
+          {
+            "account": "DOC:fraud_1:4900003608",
+            "amount": 1.23,
+            "ts": 61297
+          }
+        ],
+        "window": null
+      },
+      "text": "ALERT 5 [score 0.3762]: DOC:fraud_1:4900004113 -> GL:895000 for 1.23 at t=62841. Drivers: log_amount=0.802 (SHAP +0.40, ordinary: transaction amount (log scale)); dest_count_prior=195.0 (SHAP +0.33, ordinary); fan_in=195.0 (SHAP +0.30, topology: distinct recent senders into the destination); tgn_d14=0.9723 (SHAP +0.15, tgn: learned temporal-graph embedding component); dest_in_degree=195.0 (SHAP +0.14, topology: recent payment volume into the destination). Evidence: destination collected from 195 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "SAP_WURZBURG-TEST-0006",
+      "rank": 6,
+      "transaction_id": "fraud_1:4900004102:2",
+      "score": 0.376193,
+      "decision": "ALERT",
+      "timestamp": 62721,
+      "source_account": "DOC:fraud_1:4900004102",
+      "dest_account": "GL:895000",
+      "amount": 1.23,
+      "ground_truth_label": 0,
+      "risk_drivers": [
+        {
+          "feature": "log_amount",
+          "value": 0.802,
+          "shap": 0.3994,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        },
+        {
+          "feature": "dest_count_prior",
+          "value": 193.0,
+          "shap": 0.3263,
+          "family": "ordinary"
+        },
+        {
+          "feature": "fan_in",
+          "value": 193.0,
+          "shap": 0.2991,
+          "family": "topology",
+          "gloss": "distinct recent senders into the destination"
+        },
+        {
+          "feature": "tgn_d14",
+          "value": 0.9723,
+          "shap": 0.1501,
+          "family": "tgn",
+          "gloss": "learned temporal-graph embedding component"
+        },
+        {
+          "feature": "dest_in_degree",
+          "value": 193.0,
+          "shap": 0.1424,
+          "family": "topology",
+          "gloss": "recent payment volume into the destination"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 193,
+        "senders": [
+          {
+            "account": "DOC:fraud_1:4900004080",
+            "amount": 1.23,
+            "ts": 62662
+          },
+          {
+            "account": "DOC:fraud_1:4900004059",
+            "amount": 1.23,
+            "ts": 62602
+          },
+          {
+            "account": "DOC:fraud_1:4900004038",
+            "amount": 1.23,
+            "ts": 62543
+          },
+          {
+            "account": "DOC:fraud_1:4900004016",
+            "amount": 1.23,
+            "ts": 62483
+          },
+          {
+            "account": "DOC:fraud_1:4900003995",
+            "amount": 1.23,
+            "ts": 62424
+          },
+          {
+            "account": "DOC:fraud_1:4900003972",
+            "amount": 1.23,
+            "ts": 62368
+          },
+          {
+            "account": "DOC:fraud_1:4900003954",
+            "amount": 1.23,
+            "ts": 62306
+          },
+          {
+            "account": "DOC:fraud_1:4900003932",
+            "amount": 1.23,
+            "ts": 62247
+          },
+          {
+            "account": "DOC:fraud_1:4900003910",
+            "amount": 1.23,
+            "ts": 62128
+          },
+          {
+            "account": "DOC:fraud_1:4900003887",
+            "amount": 1.23,
+            "ts": 62070
+          },
+          {
+            "account": "DOC:fraud_1:4900003865",
+            "amount": 1.23,
+            "ts": 62011
+          },
+          {
+            "account": "DOC:fraud_1:4900003843",
+            "amount": 1.23,
+            "ts": 61952
+          },
+          {
+            "account": "DOC:fraud_1:4900003823",
+            "amount": 1.23,
+            "ts": 61891
+          },
+          {
+            "account": "DOC:fraud_1:4900003801",
+            "amount": 1.23,
+            "ts": 61832
+          },
+          {
+            "account": "DOC:fraud_1:4900003780",
+            "amount": 1.23,
+            "ts": 61771
+          },
+          {
+            "account": "DOC:fraud_1:4900003758",
+            "amount": 1.23,
+            "ts": 61712
+          },
+          {
+            "account": "DOC:fraud_1:4900003738",
+            "amount": 1.23,
+            "ts": 61652
+          },
+          {
+            "account": "DOC:fraud_1:4900003715",
+            "amount": 1.23,
+            "ts": 61593
+          },
+          {
+            "account": "DOC:fraud_1:4900003694",
+            "amount": 1.23,
+            "ts": 61535
+          },
+          {
+            "account": "DOC:fraud_1:4900003675",
+            "amount": 1.23,
+            "ts": 61479
+          },
+          {
+            "account": "DOC:fraud_1:4900003652",
+            "amount": 1.23,
+            "ts": 61415
+          },
+          {
+            "account": "DOC:fraud_1:4900003630",
+            "amount": 1.23,
+            "ts": 61354
+          },
+          {
+            "account": "DOC:fraud_1:4900003608",
+            "amount": 1.23,
+            "ts": 61297
+          },
+          {
+            "account": "DOC:fraud_1:4900003586",
+            "amount": 1.23,
+            "ts": 61235
+          },
+          {
+            "account": "DOC:fraud_1:4900003563",
+            "amount": 1.23,
+            "ts": 61177
+          }
+        ],
+        "window": null
+      },
+      "text": "ALERT 6 [score 0.3762]: DOC:fraud_1:4900004102 -> GL:895000 for 1.23 at t=62721. Drivers: log_amount=0.802 (SHAP +0.40, ordinary: transaction amount (log scale)); dest_count_prior=193.0 (SHAP +0.33, ordinary); fan_in=193.0 (SHAP +0.30, topology: distinct recent senders into the destination); tgn_d14=0.9723 (SHAP +0.15, tgn: learned temporal-graph embedding component); dest_in_degree=193.0 (SHAP +0.14, topology: recent payment volume into the destination). Evidence: destination collected from 193 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "SAP_WURZBURG-TEST-0007",
+      "rank": 7,
+      "transaction_id": "fraud_2:5000000092:1",
+      "score": 0.367977,
+      "decision": "ALERT",
+      "timestamp": 1058348,
+      "source_account": "DOC:fraud_2:5000000092",
+      "dest_account": "GL:300000",
+      "amount": 231.0,
+      "ground_truth_label": 1,
+      "risk_drivers": [
+        {
+          "feature": "tx_type_Materialzugang",
+          "value": 1.0,
+          "shap": 1.0953,
+          "family": "ordinary"
+        },
+        {
+          "feature": "log_amount",
+          "value": 5.4467,
+          "shap": 0.5129,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        },
+        {
+          "feature": "dest_count_prior",
+          "value": 2776.0,
+          "shap": 0.0893,
+          "family": "ordinary"
+        },
+        {
+          "feature": "fan_in",
+          "value": 270.0,
+          "shap": 0.0883,
+          "family": "topology",
+          "gloss": "distinct recent senders into the destination"
+        },
+        {
+          "feature": "tgn_edge_expectedness",
+          "value": 0.9998,
+          "shap": 0.0591,
+          "family": "tgn",
+          "gloss": "how expected this sender->receiver pair is to the learned temporal model (low = surprising)"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 270,
+        "senders": [
+          {
+            "account": "DOC:fraud_2:5000000091",
+            "amount": 26784.0,
+            "ts": 1058301
+          },
+          {
+            "account": "DOC:fraud_2:4900002814",
+            "amount": 4555.51,
+            "ts": 1058028
+          },
+          {
+            "account": "DOC:fraud_2:4900002808",
+            "amount": 6833.26,
+            "ts": 1058000
+          },
+          {
+            "account": "DOC:fraud_2:4900002801",
+            "amount": 6833.26,
+            "ts": 1057972
+          },
+          {
+            "account": "DOC:fraud_2:4900002790",
+            "amount": 2277.75,
+            "ts": 1057063
+          },
+          {
+            "account": "DOC:fraud_2:4900002780",
+            "amount": 6833.26,
+            "ts": 1057035
+          },
+          {
+            "account": "DOC:fraud_2:4900002770",
+            "amount": 4555.51,
+            "ts": 1057010
+          },
+          {
+            "account": "DOC:fraud_2:5000000090",
+            "amount": 8520.0,
+            "ts": 1056984
+          },
+          {
+            "account": "DOC:fraud_2:5000000089",
+            "amount": 17920.0,
+            "ts": 1056903
+          },
+          {
+            "account": "DOC:fraud_2:5000000088",
+            "amount": 20340.0,
+            "ts": 1056817
+          },
+          {
+            "account": "DOC:fraud_2:4900002665",
+            "amount": 1220.22,
+            "ts": 1056723
+          },
+          {
+            "account": "DOC:fraud_2:4900002651",
+            "amount": 5857.08,
+            "ts": 1056682
+          },
+          {
+            "account": "DOC:fraud_2:4900002638",
+            "amount": 3172.58,
+            "ts": 1056526
+          },
+          {
+            "account": "DOC:fraud_2:4900002636",
+            "amount": 2684.49,
+            "ts": 1056524
+          },
+          {
+            "account": "DOC:fraud_2:4900002622",
+            "amount": 5857.08,
+            "ts": 1056465
+          },
+          {
+            "account": "DOC:fraud_2:4900002609",
+            "amount": 2033.71,
+            "ts": 1056427
+          },
+          {
+            "account": "DOC:fraud_2:4900002607",
+            "amount": 2684.49,
+            "ts": 1056426
+          },
+          {
+            "account": "DOC:fraud_2:4900002593",
+            "amount": 9761.8,
+            "ts": 1056400
+          },
+          {
+            "account": "DOC:fraud_2:4900002580",
+            "amount": 6507.87,
+            "ts": 1056377
+          },
+          {
+            "account": "DOC:fraud_2:5000000086",
+            "amount": 37120.0,
+            "ts": 1056147
+          },
+          {
+            "account": "DOC:fraud_2:5000000085",
+            "amount": 34336.0,
+            "ts": 1056116
+          },
+          {
+            "account": "DOC:fraud_2:4900002510",
+            "amount": 9581.15,
+            "ts": 1055788
+          },
+          {
+            "account": "DOC:fraud_2:5000000084",
+            "amount": 5760.0,
+            "ts": 1055785
+          },
+          {
+            "account": "DOC:fraud_2:4900002497",
+            "amount": 7664.92,
+            "ts": 1055766
+          },
+          {
+            "account": "DOC:fraud_2:5000000083",
+            "amount": 10434.0,
+            "ts": 1055731
+          }
+        ],
+        "window": null
+      },
+      "text": "ALERT 7 [score 0.3680]: DOC:fraud_2:5000000092 -> GL:300000 for 231.00 at t=1058348. Drivers: tx_type_Materialzugang=1.0 (SHAP +1.10, ordinary); log_amount=5.4467 (SHAP +0.51, ordinary: transaction amount (log scale)); dest_count_prior=2776.0 (SHAP +0.09, ordinary); fan_in=270.0 (SHAP +0.09, topology: distinct recent senders into the destination); tgn_edge_expectedness=0.9998 (SHAP +0.06, tgn: how expected this sender->receiver pair is to the learned temporal model (low = surprising)). Evidence: destination collected from 270 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "SAP_WURZBURG-TEST-0008",
+      "rank": 8,
+      "transaction_id": "fraud_1:4900003539:2",
+      "score": 0.343703,
+      "decision": "ALERT",
+      "timestamp": 61058,
+      "source_account": "DOC:fraud_1:4900003539",
+      "dest_account": "GL:895000",
+      "amount": 1.23,
+      "ground_truth_label": 0,
+      "risk_drivers": [
+        {
+          "feature": "log_amount",
+          "value": 0.802,
+          "shap": 0.3818,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        },
+        {
+          "feature": "dest_count_prior",
+          "value": 166.0,
+          "shap": 0.3462,
+          "family": "ordinary"
+        },
+        {
+          "feature": "fan_in",
+          "value": 166.0,
+          "shap": 0.327,
+          "family": "topology",
+          "gloss": "distinct recent senders into the destination"
+        },
+        {
+          "feature": "tgn_d14",
+          "value": 0.9723,
+          "shap": 0.1386,
+          "family": "tgn",
+          "gloss": "learned temporal-graph embedding component"
+        },
+        {
+          "feature": "dest_in_degree",
+          "value": 166.0,
+          "shap": 0.1245,
+          "family": "topology",
+          "gloss": "recent payment volume into the destination"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 166,
+        "senders": [
+          {
+            "account": "DOC:fraud_1:4900003517",
+            "amount": 9840.0,
+            "ts": 56752
+          },
+          {
+            "account": "DOC:fraud_1:4900003515",
+            "amount": 19680.0,
+            "ts": 56749
+          },
+          {
+            "account": "DOC:fraud_1:4900003494",
+            "amount": 29520.0,
+            "ts": 56691
+          },
+          {
+            "account": "DOC:fraud_1:4900003473",
+            "amount": 9840.0,
+            "ts": 56633
+          },
+          {
+            "account": "DOC:fraud_1:4900003471",
+            "amount": 19680.0,
+            "ts": 56629
+          },
+          {
+            "account": "DOC:fraud_1:4900003452",
+            "amount": 29520.0,
+            "ts": 56573
+          },
+          {
+            "account": "DOC:fraud_1:4900003430",
+            "amount": 9840.0,
+            "ts": 56513
+          },
+          {
+            "account": "DOC:fraud_1:4900003428",
+            "amount": 19680.0,
+            "ts": 56510
+          },
+          {
+            "account": "DOC:fraud_1:4900003406",
+            "amount": 29520.0,
+            "ts": 56452
+          },
+          {
+            "account": "DOC:fraud_1:4900003384",
+            "amount": 9840.0,
+            "ts": 56394
+          },
+          {
+            "account": "DOC:fraud_1:4900003382",
+            "amount": 19680.0,
+            "ts": 56391
+          },
+          {
+            "account": "DOC:fraud_1:4900003360",
+            "amount": 29520.0,
+            "ts": 56334
+          },
+          {
+            "account": "DOC:fraud_1:4900003339",
+            "amount": 9840.0,
+            "ts": 56276
+          },
+          {
+            "account": "DOC:fraud_1:4900003337",
+            "amount": 19680.0,
+            "ts": 56272
+          },
+          {
+            "account": "DOC:fraud_1:4900003315",
+            "amount": 29520.0,
+            "ts": 56215
+          },
+          {
+            "account": "DOC:fraud_1:4900003292",
+            "amount": 9840.0,
+            "ts": 56158
+          },
+          {
+            "account": "DOC:fraud_1:4900003290",
+            "amount": 19680.0,
+            "ts": 56153
+          },
+          {
+            "account": "DOC:fraud_1:4900003268",
+            "amount": 29520.0,
+            "ts": 56096
+          },
+          {
+            "account": "DOC:fraud_1:4900003247",
+            "amount": 9840.0,
+            "ts": 56045
+          },
+          {
+            "account": "DOC:fraud_1:4900003245",
+            "amount": 19680.0,
+            "ts": 56036
+          },
+          {
+            "account": "DOC:fraud_1:4900003224",
+            "amount": 29520.0,
+            "ts": 55976
+          },
+          {
+            "account": "DOC:fraud_1:4900003204",
+            "amount": 9840.0,
+            "ts": 55918
+          },
+          {
+            "account": "DOC:fraud_1:4900003202",
+            "amount": 19680.0,
+            "ts": 55915
+          },
+          {
+            "account": "DOC:fraud_1:4900003180",
+            "amount": 29520.0,
+            "ts": 55857
+          },
+          {
+            "account": "DOC:fraud_1:4900003159",
+            "amount": 9840.0,
+            "ts": 55799
+          }
+        ],
+        "window": null
+      },
+      "text": "ALERT 8 [score 0.3437]: DOC:fraud_1:4900003539 -> GL:895000 for 1.23 at t=61058. Drivers: log_amount=0.802 (SHAP +0.38, ordinary: transaction amount (log scale)); dest_count_prior=166.0 (SHAP +0.35, ordinary); fan_in=166.0 (SHAP +0.33, topology: distinct recent senders into the destination); tgn_d14=0.9723 (SHAP +0.14, tgn: learned temporal-graph embedding component); dest_in_degree=166.0 (SHAP +0.12, topology: recent payment volume into the destination). Evidence: destination collected from 166 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "SAP_WURZBURG-TEST-0009",
+      "rank": 9,
+      "transaction_id": "fraud_1:4900003542:2",
+      "score": 0.336454,
+      "decision": "ALERT",
+      "timestamp": 61117,
+      "source_account": "DOC:fraud_1:4900003542",
+      "dest_account": "GL:895000",
+      "amount": 1.23,
+      "ground_truth_label": 0,
+      "risk_drivers": [
+        {
+          "feature": "log_amount",
+          "value": 0.802,
+          "shap": 0.3768,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        },
+        {
+          "feature": "dest_count_prior",
+          "value": 167.0,
+          "shap": 0.3332,
+          "family": "ordinary"
+        },
+        {
+          "feature": "fan_in",
+          "value": 167.0,
+          "shap": 0.317,
+          "family": "topology",
+          "gloss": "distinct recent senders into the destination"
+        },
+        {
+          "feature": "tgn_d14",
+          "value": 0.9723,
+          "shap": 0.1438,
+          "family": "tgn",
+          "gloss": "learned temporal-graph embedding component"
+        },
+        {
+          "feature": "dest_in_degree",
+          "value": 167.0,
+          "shap": 0.1245,
+          "family": "topology",
+          "gloss": "recent payment volume into the destination"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 167,
+        "senders": [
+          {
+            "account": "DOC:fraud_1:4900003539",
+            "amount": 1.23,
+            "ts": 61058
+          },
+          {
+            "account": "DOC:fraud_1:4900003517",
+            "amount": 9840.0,
+            "ts": 56752
+          },
+          {
+            "account": "DOC:fraud_1:4900003515",
+            "amount": 19680.0,
+            "ts": 56749
+          },
+          {
+            "account": "DOC:fraud_1:4900003494",
+            "amount": 29520.0,
+            "ts": 56691
+          },
+          {
+            "account": "DOC:fraud_1:4900003473",
+            "amount": 9840.0,
+            "ts": 56633
+          },
+          {
+            "account": "DOC:fraud_1:4900003471",
+            "amount": 19680.0,
+            "ts": 56629
+          },
+          {
+            "account": "DOC:fraud_1:4900003452",
+            "amount": 29520.0,
+            "ts": 56573
+          },
+          {
+            "account": "DOC:fraud_1:4900003430",
+            "amount": 9840.0,
+            "ts": 56513
+          },
+          {
+            "account": "DOC:fraud_1:4900003428",
+            "amount": 19680.0,
+            "ts": 56510
+          },
+          {
+            "account": "DOC:fraud_1:4900003406",
+            "amount": 29520.0,
+            "ts": 56452
+          },
+          {
+            "account": "DOC:fraud_1:4900003384",
+            "amount": 9840.0,
+            "ts": 56394
+          },
+          {
+            "account": "DOC:fraud_1:4900003382",
+            "amount": 19680.0,
+            "ts": 56391
+          },
+          {
+            "account": "DOC:fraud_1:4900003360",
+            "amount": 29520.0,
+            "ts": 56334
+          },
+          {
+            "account": "DOC:fraud_1:4900003339",
+            "amount": 9840.0,
+            "ts": 56276
+          },
+          {
+            "account": "DOC:fraud_1:4900003337",
+            "amount": 19680.0,
+            "ts": 56272
+          },
+          {
+            "account": "DOC:fraud_1:4900003315",
+            "amount": 29520.0,
+            "ts": 56215
+          },
+          {
+            "account": "DOC:fraud_1:4900003292",
+            "amount": 9840.0,
+            "ts": 56158
+          },
+          {
+            "account": "DOC:fraud_1:4900003290",
+            "amount": 19680.0,
+            "ts": 56153
+          },
+          {
+            "account": "DOC:fraud_1:4900003268",
+            "amount": 29520.0,
+            "ts": 56096
+          },
+          {
+            "account": "DOC:fraud_1:4900003247",
+            "amount": 9840.0,
+            "ts": 56045
+          },
+          {
+            "account": "DOC:fraud_1:4900003245",
+            "amount": 19680.0,
+            "ts": 56036
+          },
+          {
+            "account": "DOC:fraud_1:4900003224",
+            "amount": 29520.0,
+            "ts": 55976
+          },
+          {
+            "account": "DOC:fraud_1:4900003204",
+            "amount": 9840.0,
+            "ts": 55918
+          },
+          {
+            "account": "DOC:fraud_1:4900003202",
+            "amount": 19680.0,
+            "ts": 55915
+          },
+          {
+            "account": "DOC:fraud_1:4900003180",
+            "amount": 29520.0,
+            "ts": 55857
+          }
+        ],
+        "window": null
+      },
+      "text": "ALERT 9 [score 0.3365]: DOC:fraud_1:4900003542 -> GL:895000 for 1.23 at t=61117. Drivers: log_amount=0.802 (SHAP +0.38, ordinary: transaction amount (log scale)); dest_count_prior=167.0 (SHAP +0.33, ordinary); fan_in=167.0 (SHAP +0.32, topology: distinct recent senders into the destination); tgn_d14=0.9723 (SHAP +0.14, tgn: learned temporal-graph embedding component); dest_in_degree=167.0 (SHAP +0.12, topology: recent payment volume into the destination). Evidence: destination collected from 167 distinct senders inside the window (mule-collection signature)."
+    },
+    {
+      "alert_id": "SAP_WURZBURG-TEST-0010",
+      "rank": 10,
+      "transaction_id": "fraud_1:4900003972:2",
+      "score": 0.319243,
+      "decision": "ALERT",
+      "timestamp": 62368,
+      "source_account": "DOC:fraud_1:4900003972",
+      "dest_account": "GL:895000",
+      "amount": 1.23,
+      "ground_truth_label": 0,
+      "risk_drivers": [
+        {
+          "feature": "log_amount",
+          "value": 0.802,
+          "shap": 0.3898,
+          "family": "ordinary",
+          "gloss": "transaction amount (log scale)"
+        },
+        {
+          "feature": "fan_in",
+          "value": 187.0,
+          "shap": 0.2939,
+          "family": "topology",
+          "gloss": "distinct recent senders into the destination"
+        },
+        {
+          "feature": "dest_count_prior",
+          "value": 187.0,
+          "shap": 0.2888,
+          "family": "ordinary"
+        },
+        {
+          "feature": "tgn_d14",
+          "value": 0.9721,
+          "shap": 0.1438,
+          "family": "tgn",
+          "gloss": "learned temporal-graph embedding component"
+        },
+        {
+          "feature": "dest_in_degree",
+          "value": 187.0,
+          "shap": 0.1148,
+          "family": "topology",
+          "gloss": "recent payment volume into the destination"
+        }
+      ],
+      "graph_evidence": {
+        "type": "fan_in",
+        "n_senders": 187,
+        "senders": [
+          {
+            "account": "DOC:fraud_1:4900003954",
+            "amount": 1.23,
+            "ts": 62306
+          },
+          {
+            "account": "DOC:fraud_1:4900003932",
+            "amount": 1.23,
+            "ts": 62247
+          },
+          {
+            "account": "DOC:fraud_1:4900003910",
+            "amount": 1.23,
+            "ts": 62128
+          },
+          {
+            "account": "DOC:fraud_1:4900003887",
+            "amount": 1.23,
+            "ts": 62070
+          },
+          {
+            "account": "DOC:fraud_1:4900003865",
+            "amount": 1.23,
+            "ts": 62011
+          },
+          {
+            "account": "DOC:fraud_1:4900003843",
+            "amount": 1.23,
+            "ts": 61952
+          },
+          {
+            "account": "DOC:fraud_1:4900003823",
+            "amount": 1.23,
+            "ts": 61891
+          },
+          {
+            "account": "DOC:fraud_1:4900003801",
+            "amount": 1.23,
+            "ts": 61832
+          },
+          {
+            "account": "DOC:fraud_1:4900003780",
+            "amount": 1.23,
+            "ts": 61771
+          },
+          {
+            "account": "DOC:fraud_1:4900003758",
+            "amount": 1.23,
+            "ts": 61712
+          },
+          {
+            "account": "DOC:fraud_1:4900003738",
+            "amount": 1.23,
+            "ts": 61652
+          },
+          {
+            "account": "DOC:fraud_1:4900003715",
+            "amount": 1.23,
+            "ts": 61593
+          },
+          {
+            "account": "DOC:fraud_1:4900003694",
+            "amount": 1.23,
+            "ts": 61535
+          },
+          {
+            "account": "DOC:fraud_1:4900003675",
+            "amount": 1.23,
+            "ts": 61479
+          },
+          {
+            "account": "DOC:fraud_1:4900003652",
+            "amount": 1.23,
+            "ts": 61415
+          },
+          {
+            "account": "DOC:fraud_1:4900003630",
+            "amount": 1.23,
+            "ts": 61354
+          },
+          {
+            "account": "DOC:fraud_1:4900003608",
+            "amount": 1.23,
+            "ts": 61297
+          },
+          {
+            "account": "DOC:fraud_1:4900003586",
+            "amount": 1.23,
+            "ts": 61235
+          },
+          {
+            "account": "DOC:fraud_1:4900003563",
+            "amount": 1.23,
+            "ts": 61177
+          },
+          {
+            "account": "DOC:fraud_1:4900003542",
+            "amount": 1.23,
+            "ts": 61117
+          },
+          {
+            "account": "DOC:fraud_1:4900003539",
+            "amount": 1.23,
+            "ts": 61058
+          },
+          {
+            "account": "DOC:fraud_1:4900003517",
+            "amount": 9840.0,
+            "ts": 56752
+          },
+          {
+            "account": "DOC:fraud_1:4900003515",
+            "amount": 19680.0,
+            "ts": 56749
+          },
+          {
+            "account": "DOC:fraud_1:4900003494",
+            "amount": 29520.0,
+            "ts": 56691
+          },
+          {
+            "account": "DOC:fraud_1:4900003473",
+            "amount": 9840.0,
+            "ts": 56633
+          }
+        ],
+        "window": null
+      },
+      "text": "ALERT 10 [score 0.3192]: DOC:fraud_1:4900003972 -> GL:895000 for 1.23 at t=62368. Drivers: log_amount=0.802 (SHAP +0.39, ordinary: transaction amount (log scale)); fan_in=187.0 (SHAP +0.29, topology: distinct recent senders into the destination); dest_count_prior=187.0 (SHAP +0.29, ordinary); tgn_d14=0.9721 (SHAP +0.14, tgn: learned temporal-graph embedding component); dest_in_degree=187.0 (SHAP +0.11, topology: recent payment volume into the destination). Evidence: destination collected from 187 distinct senders inside the window (mule-collection signature)."
+    }
+  ]
+}
