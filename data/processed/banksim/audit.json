@@ -1,0 +1,15 @@
+{
+  "dataset": "banksim",
+  "kind": "bipartite",
+  "n_transactions": 594643,
+  "n_accounts": 4162,
+  "n_fraud": 7200,
+  "observed_fraud_rate": 0.012108,
+  "expected_fraud_rate": 0.0121,
+  "namespace_overlap": 0.0,
+  "timestamp_range": [
+    0,
+    179
+  ],
+  "alert_types": null
+}

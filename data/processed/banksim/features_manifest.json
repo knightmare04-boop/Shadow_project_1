@@ -1,0 +1,66 @@
+{
+  "dataset": "banksim",
+  "n_rows": 594643,
+  "n_fraud": 7200,
+  "keys": [
+    "transaction_id",
+    "timestamp"
+  ],
+  "label": "label",
+  "ordinary_cols": [
+    "log_amount",
+    "src_count_prior",
+    "src_amt_mean_prior",
+    "amount_zscore_src",
+    "time_since_prev_src",
+    "dest_count_prior",
+    "category_es_barsandrestaurants",
+    "category_es_contents",
+    "category_es_fashion",
+    "category_es_food",
+    "category_es_health",
+    "category_es_home",
+    "category_es_hotelservices",
+    "category_es_hyper",
+    "category_es_leisure",
+    "category_es_otherservices",
+    "category_es_sportsandtoys",
+    "category_es_tech",
+    "category_es_transportation",
+    "category_es_travel",
+    "category_es_wellnessandbeauty"
+  ],
+  "topology_cols": [
+    "in_cycle",
+    "cycle_length",
+    "in_cycle_ge3",
+    "cycle_amount_ratio",
+    "cycle_time_span",
+    "fan_in",
+    "fan_out",
+    "dest_in_degree",
+    "src_out_degree",
+    "lap_in_recur",
+    "lap_in_payers",
+    "lap_out_recur",
+    "lap_out_payees"
+  ],
+  "topology_structure_cols": [
+    "in_cycle",
+    "cycle_length",
+    "in_cycle_ge3",
+    "cycle_time_span",
+    "fan_in",
+    "fan_out",
+    "dest_in_degree",
+    "src_out_degree"
+  ],
+  "topology_amount_cols": [
+    "cycle_amount_ratio",
+    "lap_in_recur",
+    "lap_in_payers",
+    "lap_out_recur",
+    "lap_out_payees"
+  ],
+  "output": "features_model.csv"
+}
