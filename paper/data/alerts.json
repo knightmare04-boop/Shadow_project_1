@@ -1,0 +1,58 @@
+{
+  "banksim": {
+    "threshold": 0.46208053827285767,
+    "k": 15,
+    "n_true_fraud_in_topk": 15,
+    "precision_at_k": 1.0,
+    "evidence_type_counts": {
+      "fan_in": 15
+    },
+    "score_range": [
+      0.973564,
+      0.981441
+    ]
+  },
+  "ibm_aml": {
+    "threshold": 0.5161976218223572,
+    "k": 20,
+    "n_true_fraud_in_topk": 20,
+    "precision_at_k": 1.0,
+    "evidence_type_counts": {
+      "cycle": 8,
+      "fan_in": 9,
+      "none": 3
+    },
+    "score_range": [
+      0.728267,
+      0.728302
+    ]
+  },
+  "sap_wurzburg": {
+    "threshold": 0.2566238343715668,
+    "k": 10,
+    "n_true_fraud_in_topk": 2,
+    "precision_at_k": 0.2,
+    "evidence_type_counts": {
+      "fan_in": 10
+    },
+    "score_range": [
+      0.319243,
+      0.395107
+    ]
+  },
+  "synth_erp": {
+    "threshold": 0.23880967497825623,
+    "k": 20,
+    "n_true_fraud_in_topk": 20,
+    "precision_at_k": 1.0,
+    "evidence_type_counts": {
+      "fan_in": 13,
+      "cycle": 6,
+      "none": 1
+    },
+    "score_range": [
+      0.963699,
+      0.977509
+    ]
+  }
+}

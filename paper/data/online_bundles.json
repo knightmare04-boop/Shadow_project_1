@@ -1,0 +1,46 @@
+{
+  "banksim": {
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "n_features": 34,
+    "test_pr_auc_mean": 0.93114,
+    "test_pr_auc_std": 0.00045,
+    "test_precision@100_mean": 1.0
+  },
+  "sap_wurzburg": {
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "n_features": 33,
+    "test_pr_auc_mean": 0.10939,
+    "test_pr_auc_std": 0.01982,
+    "test_precision@100_mean": 0.08333
+  },
+  "synth_erp": {
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "n_features": 28,
+    "test_pr_auc_mean": 0.57018,
+    "test_pr_auc_std": 0.01744,
+    "test_precision@100_mean": 1.0
+  },
+  "ibm_aml_kaggle": {
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "n_features": 26,
+    "test_pr_auc_mean": 0.512,
+    "test_pr_auc_std": 0.06743,
+    "test_precision@100_mean": 0.88333
+  }
+}

@@ -1,0 +1,12 @@
+[
+  "tests/test_bundle_roundtrip.py::test_roundtrip[class_weight]",
+  "tests/test_bundle_roundtrip.py::test_roundtrip[focal]",
+  "tests/test_cycle_path.py::test_cycle_path_mirrors_cycle_features",
+  "tests/test_hpo.py::test_config0_is_locked_defaults",
+  "tests/test_hpo.py::test_low_fraud_guard_skips_search",
+  "tests/test_hpo.py::test_sampling_is_deterministic_and_in_space",
+  "tests/test_matching_service.py::test_three_way_match_scenarios",
+  "tests/test_online_ordinary_parity.py::test_online_ordinary_matches_batch",
+  "tests/test_online_topology_parity.py::test_online_matches_batch_exactly",
+  "tests/test_online_topology_parity.py::test_snapshot_restore_roundtrip_preserves_state"
+]

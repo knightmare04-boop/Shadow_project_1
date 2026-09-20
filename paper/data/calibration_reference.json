@@ -1,0 +1,334 @@
+{
+  "ibm_aml": {
+    "kind": "transfer",
+    "fraud_rate": 0.001299,
+    "n_fraud": 1719,
+    "amounts": {
+      "n": 1323234,
+      "median": 156.71,
+      "mean": 115988.18,
+      "p90": 547.66,
+      "p99": 1854724.69,
+      "max": 21474836.47,
+      "log1p_mean": 4.918,
+      "log1p_std": 2.0193,
+      "benford_mad": 0.0758,
+      "first_digit_dist": [
+        0.5192,
+        0.0713,
+        0.0363,
+        0.1382,
+        0.1608,
+        0.0179,
+        0.018,
+        0.0222,
+        0.0162
+      ]
+    },
+    "amounts_fraud": {
+      "n": 1719,
+      "median": 10.6,
+      "mean": 9.76,
+      "p90": 17.66,
+      "p99": 19.54,
+      "max": 19.92,
+      "log1p_mean": 2.1975,
+      "log1p_std": 0.6194,
+      "benford_mad": 0.094,
+      "first_digit_dist": [
+        0.5445,
+        0.0541,
+        0.242,
+        0.1594,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "graph": {
+      "n_transactions": 1323234,
+      "n_accounts": 9999,
+      "namespace_overlap": 0.9927,
+      "unique_pairs": 68947,
+      "repeat_pair_txn_frac": 0.9936,
+      "pair_reciprocity": 0.0446,
+      "out_degree": {
+        "p50": 132.0,
+        "p99": 740.0,
+        "max": 963
+      },
+      "in_degree": {
+        "p50": 80.0,
+        "p99": 862.0,
+        "max": 4843
+      },
+      "fan_out_distinct": {
+        "p50": 6.0,
+        "p99": 37.0,
+        "max": 49
+      },
+      "fan_in_distinct": {
+        "p50": 5.0,
+        "p99": 38.0,
+        "max": 192
+      }
+    },
+    "temporal": {
+      "time_unit": "day",
+      "span_units": 199.0,
+      "txns_per_unit_mean": 6616.2,
+      "txns_per_unit_p99": 7120.1
+    }
+  },
+  "banksim": {
+    "kind": "bipartite",
+    "fraud_rate": 0.012108,
+    "n_fraud": 7200,
+    "amounts": {
+      "n": 594643,
+      "median": 26.9,
+      "mean": 37.89,
+      "p90": 60.19,
+      "p99": 236.76,
+      "max": 8329.96,
+      "log1p_mean": 3.1765,
+      "log1p_std": 0.9551,
+      "benford_mad": 0.0319,
+      "first_digit_dist": [
+        0.2307,
+        0.2132,
+        0.182,
+        0.1356,
+        0.0897,
+        0.0556,
+        0.0375,
+        0.0295,
+        0.0262
+      ]
+    },
+    "amounts_fraud": {
+      "n": 7200,
+      "median": 319.18,
+      "mean": 530.93,
+      "p90": 901.73,
+      "p99": 4774.79,
+      "max": 8329.96,
+      "log1p_mean": 5.6358,
+      "log1p_std": 1.186,
+      "benford_mad": 0.0269,
+      "first_digit_dist": [
+        0.2075,
+        0.194,
+        0.1783,
+        0.1224,
+        0.0965,
+        0.074,
+        0.0564,
+        0.0389,
+        0.0319
+      ]
+    },
+    "graph": {
+      "n_transactions": 594643,
+      "n_accounts": 4162,
+      "namespace_overlap": 0.0,
+      "unique_pairs": 47132,
+      "repeat_pair_txn_frac": 0.9637,
+      "pair_reciprocity": 0.0,
+      "out_degree": {
+        "p50": 165.0,
+        "p99": 184.0,
+        "max": 265
+      },
+      "in_degree": {
+        "p50": 603.5,
+        "p99": 253502.1699999998,
+        "max": 299693
+      },
+      "fan_out_distinct": {
+        "p50": 11.0,
+        "p99": 21.0,
+        "max": 31
+      },
+      "fan_in_distinct": {
+        "p50": 504.5,
+        "p99": 3754.5599999999995,
+        "max": 3929
+      }
+    },
+    "temporal": {
+      "time_unit": "step",
+      "span_units": 179.0,
+      "txns_per_unit_mean": 3303.6,
+      "txns_per_unit_p99": 3748.5
+    }
+  },
+  "sap_wurzburg": {
+    "kind": "erp_ledger",
+    "fraud_rate": 0.001236,
+    "n_fraud": 248,
+    "amounts": {
+      "n": 200629,
+      "median": 1975.8,
+      "mean": 8354.48,
+      "p90": 5936.49,
+      "p99": 49440.0,
+      "max": 31968000.0,
+      "log1p_mean": 7.4735,
+      "log1p_std": 1.1042,
+      "benford_mad": 0.0385,
+      "first_digit_dist": [
+        0.2296,
+        0.296,
+        0.0705,
+        0.1109,
+        0.0466,
+        0.0662,
+        0.0438,
+        0.0694,
+        0.0671
+      ]
+    },
+    "amounts_fraud": {
+      "n": 248,
+      "median": 1101.75,
+      "mean": 683092.7,
+      "p90": 124544.0,
+      "p99": 31963036.8,
+      "max": 31968000.0,
+      "log1p_mean": 8.3326,
+      "log1p_std": 2.9226,
+      "benford_mad": 0.0408,
+      "first_digit_dist": [
+        0.2782,
+        0.1694,
+        0.0726,
+        0.0282,
+        0.0766,
+        0.0363,
+        0.0847,
+        0.129,
+        0.125
+      ]
+    },
+    "graph": {
+      "n_transactions": 200629,
+      "n_accounts": 59883,
+      "namespace_overlap": 0.0,
+      "unique_pairs": 119766,
+      "repeat_pair_txn_frac": 0.6282,
+      "pair_reciprocity": 0.0,
+      "out_degree": {
+        "p50": 2.0,
+        "p99": 10.0,
+        "max": 30
+      },
+      "in_degree": {
+        "p50": 240.0,
+        "p99": 43706.7,
+        "max": 46554
+      },
+      "fan_out_distinct": {
+        "p50": 2.0,
+        "p99": 2.0,
+        "max": 4
+      },
+      "fan_in_distinct": {
+        "p50": 240.0,
+        "p99": 34265.29999999999,
+        "max": 38771
+      }
+    },
+    "temporal": {
+      "time_unit": "synthetic",
+      "span_units": 4030295.0,
+      "txns_per_unit_mean": 9.4,
+      "txns_per_unit_p99": 34.0
+    }
+  },
+  "paysim": {
+    "kind": "transfer",
+    "fraud_rate": 0.001291,
+    "n_fraud": 8213,
+    "amounts": {
+      "n": 6362620,
+      "median": 74871.94,
+      "mean": 179861.9,
+      "p90": 365423.31,
+      "p99": 1615979.47,
+      "max": 92445516.64,
+      "log1p_mean": 10.8409,
+      "log1p_std": 1.8144,
+      "benford_mad": 0.0142,
+      "first_digit_dist": [
+        0.336,
+        0.2047,
+        0.1255,
+        0.0828,
+        0.0622,
+        0.0525,
+        0.0481,
+        0.0452,
+        0.0431
+      ]
+    },
+    "amounts_fraud": {
+      "n": 8213,
+      "median": 441423.44,
+      "mean": 1467967.3,
+      "p90": 4521723.51,
+      "p99": 10000000.0,
+      "max": 10000000.0,
+      "log1p_mean": 12.9172,
+      "log1p_std": 1.859,
+      "benford_mad": 0.0041,
+      "first_digit_dist": [
+        0.3147,
+        0.1747,
+        0.1203,
+        0.0965,
+        0.0715,
+        0.0625,
+        0.0604,
+        0.0514,
+        0.0481
+      ]
+    },
+    "graph": {
+      "n_transactions": 6362620,
+      "n_accounts": 9073900,
+      "namespace_overlap": 0.0002,
+      "unique_pairs": 6362620,
+      "repeat_pair_txn_frac": 0.0,
+      "pair_reciprocity": 0.0,
+      "out_degree": {
+        "p50": 1.0,
+        "p99": 1.0,
+        "max": 3
+      },
+      "in_degree": {
+        "p50": 1.0,
+        "p99": 25.0,
+        "max": 113
+      },
+      "fan_out_distinct": {
+        "p50": 1.0,
+        "p99": 1.0,
+        "max": 3
+      },
+      "fan_in_distinct": {
+        "p50": 1.0,
+        "p99": 25.0,
+        "max": 113
+      }
+    },
+    "temporal": {
+      "time_unit": "step",
+      "span_units": 742.0,
+      "txns_per_unit_mean": 8563.4,
+      "txns_per_unit_p99": 45115.1
+    }
+  }
+}

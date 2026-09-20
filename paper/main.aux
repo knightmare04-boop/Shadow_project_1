@@ -1,0 +1,383 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\@writefile{toc}{\contentsline {section}{\numberline {I}Introduction}{1}{section.1}\protected@file@percent }
+\newlabel{sec:intro}{{I}{1}{Introduction}{section.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {I-A}}The Scientific Claim}{1}{subsection.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {I-B}}Leakage as a Design Constraint, Not a Post-hoc Check}{2}{subsection.1.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces End-to-end pipeline. Raw ERP transaction feeds are cleaned into a canonical accounts/transactions schema, assembled into a temporal shadow graph, and passed through the streaming topology engine under the read-then-insert invariant, so that a feature is provably a function only of transactions strictly earlier in processing order. The resulting feature table (ordinary + topology, with offline-only TGN embeddings added for the research configuration) feeds a gradient-boosted model; the console layer attaches a TreeSHAP explanation and a re-derived evidence path to every alert. The production/online bundle omits the TGN component, since its learned memory tensor is not persisted for live inference.}}{2}{figure.caption.1}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:pipeline}{{1}{2}{End-to-end pipeline. Raw ERP transaction feeds are cleaned into a canonical accounts/transactions schema, assembled into a temporal shadow graph, and passed through the streaming topology engine under the read-then-insert invariant, so that a feature is provably a function only of transactions strictly earlier in processing order. The resulting feature table (ordinary + topology, with offline-only TGN embeddings added for the research configuration) feeds a gradient-boosted model; the console layer attaches a TreeSHAP explanation and a re-derived evidence path to every alert. The production/online bundle omits the TGN component, since its learned memory tensor is not persisted for live inference}{figure.caption.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {I-C}}Contributions}{2}{subsection.1.3}\protected@file@percent }
+\citation{yuan2025survey}
+\citation{motie2024gnn}
+\citation{devi2025rlgnn}
+\citation{tong2023financial}
+\citation{zhi2025imbalanced}
+\citation{boyapati2025balancer}
+\citation{shi2026uncertainty}
+\citation{innan2024quantum}
+\citation{grossi2022mixed}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {I-D}}Preview of Findings}{3}{subsection.1.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {I-E}}Paper Organization}{3}{subsection.1.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {II}Related Work}{3}{section.2}\protected@file@percent }
+\newlabel{sec:related}{{II}{3}{Related Work}{section.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-A}}Graph-Based Fraud and Anti-Money-Laundering Detection}{3}{subsection.2.1}\protected@file@percent }
+\citation{motie2024gnn}
+\citation{yuan2025survey}
+\citation{innan2024quantum}
+\citation{grossi2022mixed}
+\citation{devi2025rlgnn}
+\citation{tong2023financial}
+\citation{zhi2025imbalanced}
+\citation{boyapati2025balancer}
+\citation{shi2026uncertainty}
+\citation{wang2023reinforced}
+\citation{cheng2025gnnreview}
+\citation{deprez2025continual}
+\citation{lucas2020survey}
+\citation{chen2025slr}
+\citation{weber2019antimoney}
+\citation{li2020flowscope}
+\citation{tariq2023topology}
+\citation{eddin2021amlalert}
+\citation{lin2017focal}
+\citation{zhi2025imbalanced}
+\citation{chawla2002smote}
+\citation{japkowicz2002classimbalance}
+\citation{he2009imbalanced}
+\citation{wu2026vaeinf}
+\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Representative recent graph-based approaches to financial fraud and anti-money-laundering detection cited in this paper.}}{4}{table.caption.2}\protected@file@percent }
+\newlabel{tab:related_gnn}{{I}{4}{Representative recent graph-based approaches to financial fraud and anti-money-laundering detection cited in this paper}{table.caption.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-B}}Money-Laundering Typologies and Cycle-Based Detection}{4}{subsection.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-C}}Class-Imbalance Learning}{4}{subsection.2.3}\protected@file@percent }
+\citation{rossi2020temporal}
+\citation{kingma2015adam}
+\citation{wang2021causal}
+\citation{dileo2023durendal}
+\citation{yu2023unified}
+\citation{lei2026stcmixhop}
+\citation{vasarhelyi2012acceptance}
+\citation{jawad2024erp}
+\citation{mamakou2024postimplementation}
+\citation{tritscher2022openerp}
+\citation{schreyer2019accounting}
+\citation{hemati2021continual}
+\citation{foalem2025logging}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-D}}Temporal Graph Networks}{5}{subsection.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-E}}Continuous Auditing and ERP-Centric Fraud Research}{5}{subsection.2.5}\protected@file@percent }
+\citation{lundberg2017unified}
+\citation{lundberg2020local}
+\citation{wang2023reinforced}
+\citation{dao2025gnnexplainer}
+\citation{almalki2025stacking}
+\citation{faccia2026xaiauditing}
+\citation{uddin2026shapley}
+\citation{ye2026blazingaml}
+\citation{premkumar2026aml}
+\citation{tian2023adaptive}
+\citation{roth2026flare}
+\citation{uddin2026multilingual}
+\citation{vaswani2017attention}
+\citation{wang2025evaluating}
+\citation{wang2023syntheticgan,zhu2024gansfraud,ghahfarokhi2023asexual}
+\citation{giusti2025causal}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-F}}Explainability for Tree and Graph Models}{6}{subsection.2.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-G}}Recent Advances in Graph-Based and Federated Fraud Detection (2025--2026)}{6}{subsection.2.7}\protected@file@percent }
+\citation{rossi2020temporal}
+\citation{lin2017focal}
+\citation{lundberg2020local}
+\citation{rossi2020temporal}
+\citation{motie2024gnn,yuan2025survey}
+\citation{bishop2006pattern}
+\citation{jesus2022turning}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-H}}Positioning of This Work}{7}{subsection.2.8}\protected@file@percent }
+\newlabel{sec:related-gap}{{\mbox  {II-H}}{7}{Positioning of This Work}{subsection.2.8}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {III}Proposed Model and Methodology}{7}{section.3}\protected@file@percent }
+\newlabel{sec:methodology}{{III}{7}{Proposed Model and Methodology}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-A}}Problem Formulation and Leakage Taxonomy}{7}{subsection.3.1}\protected@file@percent }
+\newlabel{sec:problem}{{\mbox  {III-A}}{7}{Problem Formulation and Leakage Taxonomy}{subsection.3.1}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-A}1}Task Definition}{7}{subsubsection.3.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-A}2}Leakage-Free Feature Computation}{7}{subsubsection.3.1.2}\protected@file@percent }
+\citation{altman2023realistic,lopezrojas2014banksim,lopezrojas2016paysim}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-A}3}Leakage Taxonomy: Two Failure Modes in the Predecessor System}{8}{subsubsection.3.1.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Read-then-insert feature computation (top) versus the predecessor system's whole-graph attribution (bottom), which credited a structure's signal back to transactions that occurred before the structure existed.}}{8}{figure.caption.3}\protected@file@percent }
+\newlabel{fig:leakage_timeline}{{2}{8}{Read-then-insert feature computation (top) versus the predecessor system's whole-graph attribution (bottom), which credited a structure's signal back to transactions that occurred before the structure existed}{figure.caption.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}Datasets}{8}{subsection.3.2}\protected@file@percent }
+\newlabel{sec:datasets}{{\mbox  {III-B}}{8}{Datasets}{subsection.3.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-B}1}Overview and the Topology-Richness Spectrum}{8}{subsubsection.3.2.1}\protected@file@percent }
+\citation{altman2023realistic}
+\citation{lopezrojas2014banksim}
+\citation{vasarhelyi2012acceptance}
+\citation{jawad2024erp,mamakou2024postimplementation}
+\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces Graph-topology and scale summary of the four real datasets computationally profiled in this study (source: \texttt  {calibration\_reference.json}). Amounts are in each dataset's native units and are not comparable across datasets.}}{9}{table.caption.4}\protected@file@percent }
+\newlabel{tab:datasets}{{II}{9}{Graph-topology and scale summary of the four real datasets computationally profiled in this study (source: \texttt {calibration\_reference.json}). Amounts are in each dataset's native units and are not comparable across datasets}{table.caption.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-B}2}IBM AML}{9}{subsubsection.3.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-B}3}BankSim}{9}{subsubsection.3.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-B}4}SAP W\"urzburg}{9}{subsubsection.3.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-B}5}IBM AML: Kaggle Reproduction Variant}{9}{subsubsection.3.2.5}\protected@file@percent }
+\citation{lopezrojas2016paysim}
+\citation{motie2024gnn,yuan2025survey,salih2021survey}
+\newlabel{sec:paysim}{{\mbox  {III-B}6}{10}{PaySim: Profiled, Not Modeled}{subsubsection.3.2.6}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-B}6}PaySim: Profiled, Not Modeled}{10}{subsubsection.3.2.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-B}7}The Synthetic Economy: synth\_erp}{10}{subsubsection.3.2.7}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces The five datasets positioned on the two structural axes this study uses to justify the roster: sender/receiver namespace overlap ($x$) and pair reciprocity ($y$), bubble area proportional to transaction count. IBM AML and \texttt  {synth\_erp} anchor the structure-rich end; BankSim, SAP W\"urzburg, and PaySim anchor the structurally sparse end.}}{10}{figure.caption.5}\protected@file@percent }
+\newlabel{fig:topology_spectrum}{{3}{10}{The five datasets positioned on the two structural axes this study uses to justify the roster: sender/receiver namespace overlap ($x$) and pair reciprocity ($y$), bubble area proportional to transaction count. IBM AML and \texttt {synth\_erp} anchor the structure-rich end; BankSim, SAP W\"urzburg, and PaySim anchor the structurally sparse end}{figure.caption.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-C}}Leakage-Free Temporal Topology Engine}{10}{subsection.3.3}\protected@file@percent }
+\newlabel{sec:engine}{{\mbox  {III-C}}{10}{Leakage-Free Temporal Topology Engine}{subsection.3.3}{}}
+\newlabel{sec:engine-invariant}{{\mbox  {III-C}1}{11}{The Leakage Invariant: Read, Then Insert}{subsubsection.3.3.1}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-C}1}The Leakage Invariant: Read, Then Insert}{11}{subsubsection.3.3.1}\protected@file@percent }
+\newlabel{sec:engine-windowgraph}{{\mbox  {III-C}2}{11}{The Trailing-Window Graph}{subsubsection.3.3.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-C}2}The Trailing-Window Graph}{11}{subsubsection.3.3.2}\protected@file@percent }
+\newlabel{sec:engine-lapmemory}{{\mbox  {III-C}3}{11}{Per-Account Lapping Memory}{subsubsection.3.3.3}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-C}3}Per-Account Lapping Memory}{11}{subsubsection.3.3.3}\protected@file@percent }
+\citation{chen2016xgboost}
+\citation{ke2017lightgbm}
+\citation{breiman2001randomforests}
+\citation{kipf2017gcn}
+\citation{velickovic2018gat}
+\citation{hamilton2017graphsage}
+\citation{hamilton2020graph}
+\citation{lei2026stcmixhop}
+\newlabel{sec:engine-features}{{\mbox  {III-C}4}{12}{The Thirteen Topology Features}{subsubsection.3.3.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-C}4}The Thirteen Topology Features}{12}{subsubsection.3.3.4}\protected@file@percent }
+\newlabel{sec:engine-split}{{\mbox  {III-C}5}{12}{Structure vs.\ Amount: Why the Split Matters}{subsubsection.3.3.5}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-C}5}Structure vs.\ Amount: Why the Split Matters}{12}{subsubsection.3.3.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-D}}Modeling and Evaluation Protocol}{12}{subsection.3.4}\protected@file@percent }
+\newlabel{sec:protocol}{{\mbox  {III-D}}{12}{Modeling and Evaluation Protocol}{subsection.3.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-D}1}Model family: gradient-boosted trees, histogram method}{12}{subsubsection.3.4.1}\protected@file@percent }
+\citation{lin2017focal}
+\citation{provost1998case}
+\citation{davis2006relationship}
+\citation{saito2015prauc}
+\citation{vasarhelyi2012acceptance}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-D}2}One imbalance mechanism, never two}{13}{subsubsection.3.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-D}3}Chronological splitting, including a partition-aware variant}{13}{subsubsection.3.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-D}4}Threshold tuning: frozen before the test set is touched}{13}{subsubsection.3.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-D}5}Primary and operational metrics}{13}{subsubsection.3.4.5}\protected@file@percent }
+\citation{lundberg2017unified,lundberg2020local}
+\citation{faccia2026xaiauditing}
+\citation{uddin2026shapley}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-D}6}Attribution: exact TreeSHAP in margin space}{14}{subsubsection.3.4.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-E}}The Ablation: Experimental Design}{14}{subsection.3.5}\protected@file@percent }
+\newlabel{sec:ablation-design}{{\mbox  {III-E}}{14}{The Ablation: Experimental Design}{subsection.3.5}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-E}1}The seven-arm decomposition}{14}{subsubsection.3.5.1}\protected@file@percent }
+\citation{lopezrojas2014banksim}
+\citation{lopezrojas2016paysim}
+\citation{altman2023realistic}
+\citation{wang2023syntheticgan,zhu2024gansfraud}
+\citation{goodfellow2014gan}
+\citation{kingma2014vae}
+\citation{goodfellow2016deep}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-F}}A Calibrated Synthetic ERP Economy: Generator Design}{15}{subsection.3.6}\protected@file@percent }
+\newlabel{sec:synthetic}{{\mbox  {III-F}}{15}{A Calibrated Synthetic ERP Economy: Generator Design}{subsection.3.6}{}}
+\newlabel{sec:synthetic-trap}{{\mbox  {III-F}1}{15}{Design Philosophy: The Circularity Trap}{subsubsection.3.6.1}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-F}1}Design Philosophy: The Circularity Trap}{15}{subsubsection.3.6.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces Transaction volume by flow type, \texttt  {synth\_erp} (all 1{,}148{,}503 rows, fraud and benign combined). Source: \texttt  {paper/data/synth\_erp\_realism.json}, \texttt  {tabular\_leak\_probe.rules} per-\texttt  {tx\_type} support.}}{15}{table.caption.6}\protected@file@percent }
+\newlabel{tab:synth-flows}{{III}{15}{Transaction volume by flow type, \texttt {synth\_erp} (all 1{,}148{,}503 rows, fraud and benign combined). Source: \texttt {paper/data/synth\_erp\_realism.json}, \texttt {tabular\_leak\_probe.rules} per-\texttt {tx\_type} support}{table.caption.6}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-F}2}Generator Architecture, Scale, and Transaction Composition}{15}{subsubsection.3.6.2}\protected@file@percent }
+\citation{wang2023reinforced}
+\citation{lundberg2017unified,lundberg2020local}
+\citation{chen2016xgboost}
+\citation{rossi2020temporal}
+\newlabel{sec:synthetic-emergence}{{\mbox  {III-F}3}{16}{Five Fraud Typologies as Emergent Behavior}{subsubsection.3.6.3}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-F}3}Five Fraud Typologies as Emergent Behavior}{16}{subsubsection.3.6.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-G}}Explainable Audit Alerts: Methodology}{16}{subsection.3.7}\protected@file@percent }
+\newlabel{sec:explain}{{\mbox  {III-G}}{16}{Explainable Audit Alerts: Methodology}{subsection.3.7}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-G}1}Layer 1: Family-Tagged TreeSHAP Attribution}{16}{subsubsection.3.7.1}\protected@file@percent }
+\citation{vasarhelyi2012acceptance}
+\citation{mamakou2024postimplementation}
+\citation{jawad2024erp}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-G}2}Layer 2: Replay-Verified Graph Evidence}{17}{subsubsection.3.7.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces Top-$k$ audit-alert precision by dataset, test period, \texttt  {final} champion bundle (\texttt  {paper/data/alerts.json}).}}{17}{table.caption.7}\protected@file@percent }
+\newlabel{tab:alert_precision}{{IV}{17}{Top-$k$ audit-alert precision by dataset, test period, \texttt {final} champion bundle (\texttt {paper/data/alerts.json})}{table.caption.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Composition of graph evidence behind each dataset's top-$k$ alerts (fan-in vs.\ cycle vs.\ no reconstructable structure), alongside precision@$k$. Every bar sums to $k$ from Table~\ref {tab:alert_precision}.}}{17}{figure.caption.8}\protected@file@percent }
+\newlabel{fig:evidence_mix}{{4}{17}{Composition of graph evidence behind each dataset's top-$k$ alerts (fan-in vs.\ cycle vs.\ no reconstructable structure), alongside precision@$k$. Every bar sums to $k$ from Table~\ref {tab:alert_precision}}{figure.caption.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-H}}System: From Research Pipeline to Production Audit Console}{17}{subsection.3.8}\protected@file@percent }
+\newlabel{sec:system}{{\mbox  {III-H}}{17}{System: From Research Pipeline to Production Audit Console}{subsection.3.8}{}}
+\newlabel{sec:production}{{\mbox  {III-H}}{17}{System: From Research Pipeline to Production Audit Console}{subsection.3.8}{}}
+\newlabel{sec:system-arch}{{\mbox  {III-H}1}{17}{Architecture Overview}{subsubsection.3.8.1}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-H}1}Architecture Overview}{17}{subsubsection.3.8.1}\protected@file@percent }
+\citation{helland2012idempotence}
+\newlabel{sec:system-integrity}{{\mbox  {III-H}2}{18}{Financial Integrity as Database-Enforced Invariants}{subsubsection.3.8.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-H}2}Financial Integrity as Database-Enforced Invariants}{18}{subsubsection.3.8.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Deployed system architecture. The online \texttt  {FraudScoringService} reuses the research pipeline's \texttt  {WindowGraph}/\texttt  {LapMemory} classes directly rather than a reimplementation; the offline TGN training path (Section~V) is not part of the serving runtime.}}{18}{figure.caption.9}\protected@file@percent }
+\newlabel{fig:architecture}{{5}{18}{Deployed system architecture. The online \texttt {FraudScoringService} reuses the research pipeline's \texttt {WindowGraph}/\texttt {LapMemory} classes directly rather than a reimplementation; the offline TGN training path (Section~V) is not part of the serving runtime}{figure.caption.9}{}}
+\citation{chen2016xgboost}
+\citation{altman2023realistic}
+\@writefile{lot}{\contentsline {table}{\numberline {V}{\ignorespaces Topology feature gain importance (fraction of total gain in the topology-augmented model), by dataset. Source: \texttt  {paper/data/ablation.json}, \texttt  {topology\_importance}, single seed, no confidence intervals.}}{19}{table.caption.10}\protected@file@percent }
+\newlabel{tab:topology-importance}{{V}{19}{Topology feature gain importance (fraction of total gain in the topology-augmented model), by dataset. Source: \texttt {paper/data/ablation.json}, \texttt {topology\_importance}, single seed, no confidence intervals}{table.caption.10}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {IV}Results and Analysis}{19}{section.4}\protected@file@percent }
+\newlabel{sec:results}{{IV}{19}{Results and Analysis}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}Feature Importance, and a Result We Do Not Bury}{19}{subsection.4.1}\protected@file@percent }
+\newlabel{sec:engine-finding}{{\mbox  {IV-A}}{19}{Feature Importance, and a Result We Do Not Bury}{subsection.4.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Gain importance of the thirteen topology features, grouped by detector family and faceted by dataset. Cycle-detector bars (leftmost group in each panel) are at or indistinguishable from zero in three of four datasets.}}{19}{figure.caption.11}\protected@file@percent }
+\newlabel{fig:cycle-null}{{6}{19}{Gain importance of the thirteen topology features, grouped by detector family and faceted by dataset. Cycle-detector bars (leftmost group in each panel) are at or indistinguishable from zero in three of four datasets}{figure.caption.11}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}The Ablation: Results Across Four Datasets}{19}{subsection.4.2}\protected@file@percent }
+\newlabel{sec:ablation}{{\mbox  {IV-B}}{19}{The Ablation: Results Across Four Datasets}{subsection.4.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-B}1}Dataset-by-dataset verdict}{19}{subsubsection.4.2.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {VI}{\ignorespaces Test-split PR-AUC (average precision) across the seven ablation arms, by dataset. B = ordinary baseline; T = all topology (incl.\ amount-derived); S = pure structure only (8 of 13 topology features); subscript $\neg a$ = amount columns removed from the ordinary set. Single seed (42); \texttt  {paper/data/ablation.json}.}}{20}{table.caption.12}\protected@file@percent }
+\newlabel{tab:ablation-arms}{{VI}{20}{Test-split PR-AUC (average precision) across the seven ablation arms, by dataset. B = ordinary baseline; T = all topology (incl.\ amount-derived); S = pure structure only (8 of 13 topology features); subscript $\neg a$ = amount columns removed from the ordinary set. Single seed (42); \texttt {paper/data/ablation.json}}{table.caption.12}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {VII}{\ignorespaces The four ablation lift statistics (test-split PR-AUC deltas). Positive = helps; negative = hurts. \texttt  {paper/data/ablation.json}.}}{20}{table.caption.13}\protected@file@percent }
+\newlabel{tab:ablation-lifts}{{VII}{20}{The four ablation lift statistics (test-split PR-AUC deltas). Positive = helps; negative = hurts. \texttt {paper/data/ablation.json}}{table.caption.13}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces The four lift statistics of Table~\ref {tab:ablation-lifts} plotted by dataset, making visually explicit that SAP W\"urzburg is the only dataset where both full-model lifts are negative while its two amount-blind lifts remain (barely) positive.}}{20}{figure.caption.14}\protected@file@percent }
+\newlabel{fig:ablation-lift-by-dataset}{{7}{20}{The four lift statistics of Table~\ref {tab:ablation-lifts} plotted by dataset, making visually explicit that SAP W\"urzburg is the only dataset where both full-model lifts are negative while its two amount-blind lifts remain (barely) positive}{figure.caption.14}{}}
+\newlabel{sec:ablation-stats}{{\mbox  {IV-B}2}{20}{Statistical caveats: one seed, no confidence intervals, and a stated noise floor}{subsubsection.4.2.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-B}2}Statistical caveats: one seed, no confidence intervals, and a stated noise floor}{20}{subsubsection.4.2.2}\protected@file@percent }
+\citation{lin2017focal}
+\citation{chen2016xgboost}
+\citation{rossi2020temporal}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-B}3}The cycle-feature paradox}{21}{subsubsection.4.2.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {VIII}{\ignorespaces Combined gain importance of the five cycle features vs.\ the single highest-importance density feature, within the baseline+topology model. \texttt  {topology\_importance}, \texttt  {paper/data/ablation.json}.}}{21}{table.caption.15}\protected@file@percent }
+\newlabel{tab:cycle-importance}{{VIII}{21}{Combined gain importance of the five cycle features vs.\ the single highest-importance density feature, within the baseline+topology model. \texttt {topology\_importance}, \texttt {paper/data/ablation.json}}{table.caption.15}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}Modernization: Focal Loss and Temporal Graph Networks}{21}{subsection.4.3}\protected@file@percent }
+\newlabel{sec:modern}{{\mbox  {IV-C}}{21}{Modernization: Focal Loss and Temporal Graph Networks}{subsection.4.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Topology feature gain importance by dataset (\texttt  {topology\_importance}, Table~\ref {tab:cycle-importance}'s underlying data), grouping pure-structure against amount-derived features and making visible how consistently the five cycle features sit at or near zero while a small number of density features (in-degree, fan-in) or amount-derived lapping features carry essentially all of the mass.}}{22}{figure.caption.16}\protected@file@percent }
+\newlabel{fig:cycle-heatmap}{{8}{22}{Topology feature gain importance by dataset (\texttt {topology\_importance}, Table~\ref {tab:cycle-importance}'s underlying data), grouping pure-structure against amount-derived features and making visible how consistently the five cycle features sit at or near zero while a small number of density features (in-degree, fan-in) or amount-derived lapping features carry essentially all of the mass}{figure.caption.16}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {IX}{\ignorespaces Three-seed test PR-AUC, class weights vs.\ focal loss ($\gamma {=}2.0$), ordinary-only (A) and ordinary+topology (B) arms. $\Delta $ = focal $-$ class-weight. $^\dagger $synth\_erp is synthetic and never used as thesis evidence.}}{22}{table.caption.17}\protected@file@percent }
+\newlabel{tab:focal-arms}{{IX}{22}{Three-seed test PR-AUC, class weights vs.\ focal loss ($\gamma {=}2.0$), ordinary-only (A) and ordinary+topology (B) arms. $\Delta $ = focal $-$ class-weight. $^\dagger $synth\_erp is synthetic and never used as thesis evidence}{table.caption.17}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-C}1}Focal loss versus class weights}{22}{subsubsection.4.3.1}\protected@file@percent }
+\citation{lei2026stcmixhop}
+\citation{lundberg2017unified,lundberg2020local}
+\@writefile{lot}{\contentsline {table}{\numberline {X}{\ignorespaces Champion validation selection (\texttt  {final\_champions.json}), full feature set (topology+TGN+ordinary). Margin = focal $-$ class-weight on validation. $^\ddagger $selection flagged \texttt  {reliable=false} (SAP Würzburg's HPO was skipped by the small-sample guard). $^\dagger $synth\_erp is non-evidentiary.}}{23}{table.caption.18}\protected@file@percent }
+\newlabel{tab:champion-selection}{{X}{23}{Champion validation selection (\texttt {final\_champions.json}), full feature set (topology+TGN+ordinary). Margin = focal $-$ class-weight on validation. $^\ddagger $selection flagged \texttt {reliable=false} (SAP Würzburg's HPO was skipped by the small-sample guard). $^\dagger $synth\_erp is non-evidentiary}{table.caption.18}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {XI}{\ignorespaces TGN embeddings vs.\ hand-crafted topology, 3-seed test PR-AUC deltas (class-weighted arms only) and TGN's share of total SHAP importance in the champion model. $^\dagger $synth\_erp is non-evidentiary.}}{23}{table.caption.19}\protected@file@percent }
+\newlabel{tab:tgn-lift}{{XI}{23}{TGN embeddings vs.\ hand-crafted topology, 3-seed test PR-AUC deltas (class-weighted arms only) and TGN's share of total SHAP importance in the champion model. $^\dagger $synth\_erp is non-evidentiary}{table.caption.19}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-C}2}Temporal graph network embeddings}{23}{subsubsection.4.3.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces TGN-vs-topology and combined-vs-topology PR-AUC deltas by dataset (\texttt  {modern.json}). The TGN-vs-topology bar is negative on all three real datasets and positive only on the non-evidentiary synth\_erp dataset.}}{24}{figure.caption.20}\protected@file@percent }
+\newlabel{fig:tgn-lift}{{9}{24}{TGN-vs-topology and combined-vs-topology PR-AUC deltas by dataset (\texttt {modern.json}). The TGN-vs-topology bar is negative on all three real datasets and positive only on the non-evidentiary synth\_erp dataset}{figure.caption.20}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-C}3}Implication for the production system}{24}{subsubsection.4.3.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {XII}{\ignorespaces Realism audit: \texttt  {synth\_erp} vs.\ the real-dataset reference band (min--max across \texttt  {ibm\_aml}, \texttt  {banksim}, \texttt  {sap\_wurzburg}, \texttt  {paysim}). Source: \texttt  {calibration\_reference.json}, \texttt  {synth\_erp\_realism.json}.}}{24}{table.caption.21}\protected@file@percent }
+\newlabel{tab:synth-realism}{{XII}{24}{Realism audit: \texttt {synth\_erp} vs.\ the real-dataset reference band (min--max across \texttt {ibm\_aml}, \texttt {banksim}, \texttt {sap\_wurzburg}, \texttt {paysim}). Source: \texttt {calibration\_reference.json}, \texttt {synth\_erp\_realism.json}}{table.caption.21}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-D}}Synthetic Economy: Realism and Augmentation Results}{24}{subsection.4.4}\protected@file@percent }
+\newlabel{sec:synthetic-realism}{{\mbox  {IV-D}}{24}{Synthetic Economy: Realism and Augmentation Results}{subsection.4.4}{}}
+\citation{jesus2022turning}
+\citation{chen2016xgboost}
+\newlabel{sec:synthetic-leakprobe}{{\mbox  {IV-D}1}{25}{Adversarial Tabular-Leak Probe}{subsubsection.4.4.1}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-D}1}Adversarial Tabular-Leak Probe}{25}{subsubsection.4.4.1}\protected@file@percent }
+\newlabel{sec:synthetic-augmentation}{{\mbox  {IV-D}2}{25}{The Augmentation Transfer Probe}{subsubsection.4.4.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-D}2}The Augmentation Transfer Probe}{25}{subsubsection.4.4.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {XIII}{\ignorespaces Adversarial tabular-leak probe, top 8 of 16 rules by lift. Base fraud rate 0.4884\%. Source: \texttt  {synth\_erp\_realism.json}, \texttt  {tabular\_leak\_probe}.}}{25}{table.caption.22}\protected@file@percent }
+\newlabel{tab:synth-leakprobe}{{XIII}{25}{Adversarial tabular-leak probe, top 8 of 16 rules by lift. Base fraud rate 0.4884\%. Source: \texttt {synth\_erp\_realism.json}, \texttt {tabular\_leak\_probe}}{table.caption.22}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {XIV}{\ignorespaces Augmentation transfer probe: XGBoost PR-AUC, 3-seed mean $\pm $ std. \texttt  {synth\_only} is zero-shot (trained solely on \texttt  {synth\_erp}, evaluated on the real test split). Source: \texttt  {augmentation.json}.}}{25}{table.caption.23}\protected@file@percent }
+\newlabel{tab:synth-augmentation}{{XIV}{25}{Augmentation transfer probe: XGBoost PR-AUC, 3-seed mean $\pm $ std. \texttt {synth\_only} is zero-shot (trained solely on \texttt {synth\_erp}, evaluated on the real test split). Source: \texttt {augmentation.json}}{table.caption.23}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-D}3}Summary and Scope}{26}{subsubsection.4.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-E}}Explainable Audit Alerts: Results}{26}{subsection.4.5}\protected@file@percent }
+\newlabel{sec:explain-results}{{\mbox  {IV-E}}{26}{Explainable Audit Alerts: Results}{subsection.4.5}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {XV}{\ignorespaces Top-3 globally attributed features per dataset by mean $|$SHAP$|$ (margin space), with family tag (\texttt  {paper/data/final\_champions.json}).}}{26}{table.caption.24}\protected@file@percent }
+\newlabel{tab:global_shap}{{XV}{26}{Top-3 globally attributed features per dataset by mean $|$SHAP$|$ (margin space), with family tag (\texttt {paper/data/final\_champions.json})}{table.caption.24}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-E}1}Global Attribution Is Dataset-Specific, Not Universal}{26}{subsubsection.4.5.1}\protected@file@percent }
+\citation{rossi2020temporal}
+\citation{chen2016xgboost}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-F}}The Online/Offline Serving Gap}{27}{subsection.4.6}\protected@file@percent }
+\newlabel{sec:system-serving}{{\mbox  {IV-F}}{27}{The Online/Offline Serving Gap}{subsection.4.6}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {XVI}{\ignorespaces Test PR-AUC: offline TGN-inclusive champion vs.\ the deployed online (ordinary+topology only) bundle, same dataset instance, 3 seeds each.}}{27}{table.caption.25}\protected@file@percent }
+\newlabel{tab:online-gap}{{XVI}{27}{Test PR-AUC: offline TGN-inclusive champion vs.\ the deployed online (ordinary+topology only) bundle, same dataset instance, 3 seeds each}{table.caption.25}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {XVII}{\ignorespaces Module 7 query optimization, before/after \texttt  {EXPLAIN (ANALYZE, BUFFERS)} on a bulk-seeded dev database. Row 3 is reported as a genuine non-win, not silently dropped.}}{28}{table.caption.26}\protected@file@percent }
+\newlabel{tab:queries}{{XVII}{28}{Module 7 query optimization, before/after \texttt {EXPLAIN (ANALYZE, BUFFERS)} on a bulk-seeded dev database. Row 3 is reported as a genuine non-win, not silently dropped}{table.caption.26}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-G}}Measured Performance, Concurrency, and Recovery}{28}{subsection.4.7}\protected@file@percent }
+\newlabel{sec:system-performance}{{\mbox  {IV-G}}{28}{Measured Performance, Concurrency, and Recovery}{subsection.4.7}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {XVIII}{\ignorespaces Module 9 concurrency and recovery drills — measured results.}}{28}{table.caption.27}\protected@file@percent }
+\newlabel{tab:reliability}{{XVIII}{28}{Module 9 concurrency and recovery drills — measured results}{table.caption.27}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {XIX}{\ignorespaces Threats to validity, at a glance. Every magnitude is read directly from a named artifact file, never re-derived here.}}{29}{table.caption.28}\protected@file@percent }
+\newlabel{tab:threats-summary}{{XIX}{29}{Threats to validity, at a glance. Every magnitude is read directly from a named artifact file, never re-derived here}{table.caption.28}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-H}}Discussion: Threats to Validity and Limitations}{29}{subsection.4.8}\protected@file@percent }
+\newlabel{sec:limitations}{{\mbox  {IV-H}}{29}{Discussion: Threats to Validity and Limitations}{subsection.4.8}{}}
+\newlabel{sec:threats}{{\mbox  {IV-H}}{29}{Discussion: Threats to Validity and Limitations}{subsection.4.8}{}}
+\newlabel{sec:limitations-stats}{{\mbox  {IV-H}1}{29}{Statistical power: one seed is not an estimate}{subsubsection.4.8.1}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-H}1}Statistical power: one seed is not an estimate}{29}{subsubsection.4.8.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-H}2}Two disclosed non-reproducibilities}{29}{subsubsection.4.8.2}\protected@file@percent }
+\citation{roth2026flare}
+\citation{faccia2026xaiauditing}
+\citation{uddin2026shapley}
+\citation{jesus2022turning}
+\citation{motie2024gnn,yuan2025survey}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-H}3}Synthetic data: barred as evidence, and measurably harmful as augmentation}{30}{subsubsection.4.8.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-H}4}The deployed model is not the evaluated champion}{30}{subsubsection.4.8.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-H}5}System scope: access control and deployment breadth}{30}{subsubsection.4.8.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {\mbox  {IV-H}5a}Regulatory and deployment context.}{30}{paragraph.4.8.5.1}\protected@file@percent }
+\citation{motie2024gnn,yuan2025survey}
+\citation{shi2026uncertainty}
+\@writefile{toc}{\contentsline {section}{\numberline {V}Conclusion}{31}{section.5}\protected@file@percent }
+\newlabel{sec:conclusion}{{V}{31}{Conclusion}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}The claim this paper actually supports}{31}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}A second, independent contribution: production engineering}{31}{subsection.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}Future work}{31}{subsection.5.3}\protected@file@percent }
+\bibstyle{IEEEtran}
+\bibdata{references}
+\bibcite{yuan2025survey}{1}
+\bibcite{motie2024gnn}{2}
+\bibcite{devi2025rlgnn}{3}
+\bibcite{tong2023financial}{4}
+\bibcite{zhi2025imbalanced}{5}
+\bibcite{boyapati2025balancer}{6}
+\bibcite{shi2026uncertainty}{7}
+\bibcite{innan2024quantum}{8}
+\bibcite{grossi2022mixed}{9}
+\bibcite{wang2023reinforced}{10}
+\bibcite{cheng2025gnnreview}{11}
+\bibcite{deprez2025continual}{12}
+\bibcite{lucas2020survey}{13}
+\bibcite{chen2025slr}{14}
+\bibcite{weber2019antimoney}{15}
+\bibcite{li2020flowscope}{16}
+\bibcite{tariq2023topology}{17}
+\bibcite{eddin2021amlalert}{18}
+\bibcite{lin2017focal}{19}
+\bibcite{chawla2002smote}{20}
+\bibcite{japkowicz2002classimbalance}{21}
+\bibcite{he2009imbalanced}{22}
+\bibcite{wu2026vaeinf}{23}
+\bibcite{rossi2020temporal}{24}
+\bibcite{kingma2015adam}{25}
+\bibcite{wang2021causal}{26}
+\bibcite{dileo2023durendal}{27}
+\bibcite{yu2023unified}{28}
+\bibcite{lei2026stcmixhop}{29}
+\bibcite{vasarhelyi2012acceptance}{30}
+\bibcite{jawad2024erp}{31}
+\bibcite{mamakou2024postimplementation}{32}
+\bibcite{tritscher2022openerp}{33}
+\bibcite{schreyer2019accounting}{34}
+\bibcite{hemati2021continual}{35}
+\bibcite{foalem2025logging}{36}
+\bibcite{lundberg2017unified}{37}
+\bibcite{lundberg2020local}{38}
+\bibcite{dao2025gnnexplainer}{39}
+\bibcite{almalki2025stacking}{40}
+\bibcite{faccia2026xaiauditing}{41}
+\@writefile{toc}{\contentsline {section}{References}{32}{section*.29}\protected@file@percent }
+\bibcite{uddin2026shapley}{42}
+\bibcite{ye2026blazingaml}{43}
+\bibcite{premkumar2026aml}{44}
+\bibcite{tian2023adaptive}{45}
+\bibcite{roth2026flare}{46}
+\bibcite{uddin2026multilingual}{47}
+\bibcite{vaswani2017attention}{48}
+\bibcite{wang2025evaluating}{49}
+\bibcite{wang2023syntheticgan}{50}
+\bibcite{zhu2024gansfraud}{51}
+\bibcite{ghahfarokhi2023asexual}{52}
+\bibcite{giusti2025causal}{53}
+\bibcite{bishop2006pattern}{54}
+\bibcite{jesus2022turning}{55}
+\bibcite{altman2023realistic}{56}
+\bibcite{lopezrojas2014banksim}{57}
+\bibcite{lopezrojas2016paysim}{58}
+\bibcite{salih2021survey}{59}
+\bibcite{chen2016xgboost}{60}
+\bibcite{ke2017lightgbm}{61}
+\bibcite{breiman2001randomforests}{62}
+\bibcite{kipf2017gcn}{63}
+\bibcite{velickovic2018gat}{64}
+\bibcite{hamilton2017graphsage}{65}
+\bibcite{hamilton2020graph}{66}
+\bibcite{provost1998case}{67}
+\bibcite{davis2006relationship}{68}
+\bibcite{saito2015prauc}{69}
+\bibcite{goodfellow2014gan}{70}
+\bibcite{kingma2014vae}{71}
+\bibcite{goodfellow2016deep}{72}
+\bibcite{helland2012idempotence}{73}
+\gdef \@abspage@last{33}

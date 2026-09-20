@@ -1,0 +1,118 @@
+\section{Conclusion}\label{sec:conclusion}
+
+\subsection{The claim this paper actually supports}
+This paper set out to answer one question honestly, in either direction:
+does leakage-free graph topology add predictive value over a strong
+transaction-only baseline? The answer, on the evidence gathered across four
+datasets under one shared, leakage-audited protocol, is conditional rather
+than universal, and we state it exactly as measured rather than rounded
+toward a cleaner story. On BankSim, topology helps decisively: a
+$+0.0974$ PR-AUC full-model structure lift ($11.7\%$ relative over a $0.833$
+baseline), independently confirmed by a clean, amount-blind probe that still
+finds $+0.1899$ PR-AUC once every amount feature is stripped from both sides
+of the comparison. On the project's own synth\_erp corpus, topology helps by
+the largest margin measured in this study ($+0.4031$, $246.8\%$ relative) --
+but this number is explicitly barred from standing as thesis evidence by the
+project's own policy, since the corpus was built to contain the structure
+being tested for, and stands only as a demonstration of what topology
+\emph{can} do under favorable conditions. On IBM AML, the comparison that
+matters is uninformative rather than negative: an already-saturated $0.990$
+baseline leaves almost no headroom, the nominal full-model lift
+($+0.00792$) sits below this project's own noise floor, and the only honest
+positive signal is a narrower, amount-blind probe ($+0.0905$) that isolates a
+real but modest structural contribution once the dominant amount signal is
+removed from both arms. On SAP W\"urzburg, topology does not help --
+$-0.08288$ PR-AUC, a genuinely negative result on this project's real
+general-ledger export, reported plainly rather than explained away, with the
+caveat that only 25 test-split frauds make this specific number imprecise
+even as its direction is corroborated by an independent, differently-built
+experiment: a 46\% relative standard deviation on the 3-seed champion PR-AUC
+for the same dataset (\S\ref{sec:limitations-stats}).
+Four datasets, two clear directions and two qualified ones: this is the
+paper's actual result, and it is deliberately not tidier than that.
+
+We regard this qualified answer as more valuable than an inflated universal
+one would have been, for a specific, falsifiable reason: this project's own
+predecessor codebase claimed graph topology as ``the differentiator'' on
+every dataset it touched, and that claim collapsed on inspection into $0.0$
+feature importance and leakage-inflated metrics once anyone checked. A
+four-for-four sweep of positive results, produced by the same team that
+inherited that history, would be the least trustworthy possible outcome of
+this study, not the most impressive one. The graph-based fraud detection
+literature this paper positions itself within has, with some exceptions,
+tended to report uniformly positive results for structural
+features~\cite{motie2024gnn,yuan2025survey}; a controlled, same-architecture,
+leakage-audited ablation that instead finds two positives, one null, and one
+negative result -- and says so, including naming which of its own numbers
+fall inside its own stated noise floor -- is offering a more falsifiable, and
+therefore more useful, claim than a paper that reports success everywhere it
+looked.
+
+\subsection{A second, independent contribution: production engineering}
+The paper's second contribution does not depend on the ablation's outcome at
+all: a Procure-to-Pay ERP core with a forensic audit console was designed,
+built, and \emph{measured}, not merely specified, against the hardening
+requirements a real deployment would need. The online scoring path reuses
+the research pipeline's own \texttt{WindowGraph} and \texttt{LapMemory}
+classes directly rather than reimplementing them, verified by a parity test
+that replays 20{,}000 real transactions through both the batch and online
+computation paths with zero mismatches across all thirteen topology columns
+(\S\ref{sec:system-arch}). Financial-integrity invariants -- double-entry
+balance, fiscal-period close, and audit-log immutability -- are enforced as
+Postgres triggers the application layer cannot bypass, not as conventions a
+future migration could quietly break, and a five-layer duplicate-payment
+defense was proven, not asserted, under genuine concurrency: 30 simultaneous
+identical payment requests against one invoice produced exactly one
+successful payment and 29 correctly rejected duplicates
+(\S\ref{sec:system-integrity}). Performance and failure behavior are reported
+as measured, including where the measurement is unflattering: the mixed
+workload ramp clearly degrades before 500 concurrent users on a single
+dev-mode process (p95 $8.18$s against a 1s target), and an initial
+backup/restore drill correctly surfaced a Postgres MVCC-driven fingerprint
+mismatch under concurrent writes rather than hiding it. None of this is
+contingent on topology winning its ablation anywhere; it is a claim about
+engineering discipline -- that a leakage-free feature computation can be
+carried, unmodified, from a research pipeline into a live scoring path, and
+that the resulting system's integrity guarantees, failure modes, and
+performance ceiling can be demonstrated under real load rather than assumed.
+We consider a genuinely deployed, tested, database-enforced system a
+different and complementary kind of evidence from a PR-AUC number, and this
+paper reports both rather than treating the console as an illustrative demo
+of the research result.
+
+\subsection{Future work}
+Three directions follow directly from specific, named gaps this build
+surfaced, rather than from general aspiration. First, and most concretely
+scoped: persist the TGN's per-account GRU memory tensor as a checkpointed,
+incrementally-updatable artifact, so that a live transaction can update and
+reuse account memory in $O(1)$ rather than requiring a full history replay.
+This is the single change that would let a true online champion -- topology
+plus a learned temporal representation -- be served at all; today it is
+blocked by an engineering gap (no persisted memory), not by an algorithmic
+one, and closing it would also let the online/offline gap quantified in
+Table~\ref{tab:online-gap} ($0.005$--$0.208$ PR-AUC by dataset) be measured
+directly rather than only bounded. Second, extend multi-seed evaluation, and
+ideally formal interval estimation, to the ablation itself rather than only
+to the champion selection step: the seven-arm decomposition that produces
+this paper's headline lift numbers remains single-seed, and work on
+uncertainty-aware evaluation for graph-based fraud
+models~\cite{shi2026uncertainty} points toward replacing this project's
+informal $\sim$0.01 noise-floor heuristic with a proper bootstrap or paired
+confidence interval, particularly for SAP W\"urzburg, where a 46\% relative
+standard deviation in a related multi-seed experiment suggests the ablation's
+point estimate alone should not be over-trusted. Third, resolve the batch
+pipeline's z-score instability upstream rather than leaving it as a disclosed
+but uncorrected defect: replacing the two-pass variance formula with
+Welford's algorithm -- already done in the online engine -- would remove the
+one place in this study where the offline research numbers and the online
+serving numbers are known to diverge by construction, at the cost of
+recomputing every headline PR-AUC this paper reports. We view that
+recomputation, not the current disclosure-only stance, as the right eventual
+resting state, and name it as such rather than treating disclosure as a
+substitute for the fix.
+
+The narrower, more durable claim this paper defends is not that graph
+topology is or is not valuable for fraud detection in general, but that the
+question can be asked honestly, with leakage structurally excluded by
+construction rather than checked for after the fact, and that the answer one
+gets is worth reporting exactly as measured -- including when it says no.

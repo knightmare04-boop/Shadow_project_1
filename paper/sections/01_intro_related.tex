@@ -220,18 +220,29 @@ paper.
 
 \subsection{Paper Organization}
 
+The remainder of this paper is organized into four further sections.
 Section~\ref{sec:related} situates this paper in the graph-based fraud
 detection, class-imbalance, temporal graph network, continuous-auditing, and
 explainability literatures, and argues that this paper's central gap-filling
 contribution is methodological -- an explicit leakage taxonomy and a
 same-architecture, multi-dataset ablation -- rather than a new graph
-architecture. Later sections (not assigned to this document) develop the
-leakage taxonomy and its automated guard in full, describe the four
-evaluation datasets and the synthetic generator's realism audit, detail the
-streaming architecture and the production ERP and forensic console, report
-the ablation and augmentation experiments with complete confidence
-accounting, and close with the explainability layer, limitations, and future
-work.
+architecture. Section~\ref{sec:methodology} (Proposed Model and
+Methodology) develops the leakage taxonomy and its automated guard in full,
+describes the four evaluation datasets and the streaming topology engine,
+specifies the shared modeling and evaluation protocol, details the design of
+the synthetic-economy generator and the two-layer explanation mechanism, and
+closes with the production system's architecture and database-enforced
+financial-integrity invariants. Section~\ref{sec:results} (Results and
+Analysis) reports every empirical outcome those methods produce -- the
+topology feature-importance result, the seven-arm ablation across four
+datasets with full confidence caveats, the focal-loss and temporal-graph-network
+modernization study, the synthetic economy's realism and augmentation
+results, the explainable-alert precision figures, the production system's
+measured online/offline gap and load-test performance -- and a consolidated
+discussion of threats to validity and limitations. Section~\ref{sec:conclusion}
+closes with the claim this paper actually supports, the production-engineering
+contribution independent of that claim, and three specifically scoped
+directions for future work.
 
 \section{Related Work}\label{sec:related}
 
@@ -310,6 +321,45 @@ structure is not distinguishable, from the outside, from a gain produced by
 leakage or by an unmatched baseline. We return to this gap in
 Section~\ref{sec:related-gap}.
 
+More recent surveys corroborate that this is a field-wide, not
+project-specific, gap. Cheng et al.~\cite{cheng2025gnnreview} review the GNN-for-financial-fraud
+literature and find that leakage auditing and matched-baseline ablations
+remain the exception rather than the norm across the papers they survey, a
+conclusion echoed from the anti-money-laundering side by Deprez et
+al.~\cite{deprez2025continual}, whose comprehensive review of continual graph
+learning for AML systems catalogs architectures and training regimes in
+detail but likewise finds few works that isolate structure's marginal
+contribution under an explicit temporal-leakage guarantee. Lucas and
+Jurgovsky~\cite{lucas2020survey} and Chen et al.~\cite{chen2025slr}, surveying
+credit-card and broader financial fraud detection respectively, both note
+the same recurring pattern from the modeling side: papers report a single
+headline accuracy figure for a graph- or deep-learning-based detector far
+more often than they report the ablation needed to attribute that figure to
+structure specifically.
+
+\subsection{Money-Laundering Typologies and Cycle-Based Detection}
+
+A narrower thread within the graph-fraud literature targets the specific
+structural motifs -- cycles, fan-in collection points, layered chains -- this
+paper's topology engine also detects. Weber et al.~\cite{weber2019antimoney}
+released the Elliptic Bitcoin dataset and benchmarked graph convolutional
+networks against classical baselines for illicit-transaction classification,
+establishing graph topology as a first-class signal for cryptocurrency
+laundering detection, though on a dataset with a coarser, node-level
+(rather than this paper's transaction-level) label. Li et
+al.~\cite{li2020flowscope} propose FlowScope, a dense-subgraph algorithm that
+explicitly targets multi-hop laundering flows through chains of accounts, and
+Tariq and Hassani~\cite{tariq2023topology} extend this line of work to
+billion-scale transaction graphs with a topology-agnostic detector aimed at
+temporal money-laundering flows specifically -- both address the same class of
+structural motif this paper's cycle and lapping detectors target, but neither
+reports a leakage-controlled, same-architecture comparison against a tabular
+baseline of matched capacity. Eddin et al.~\cite{eddin2021amlalert} instead
+target a downstream, operational problem this paper shares: reducing false
+positives in AML alert queues using graph-derived features, motivated by
+precisely the same auditor-facing constraint (a bounded daily review budget)
+that motivates this paper's precision@$k$ reporting.
+
 \subsection{Class-Imbalance Learning}
 
 Fraud labels are rare by construction -- across the four datasets used later
@@ -329,7 +379,24 @@ minority class within a graph-aware embedding space -- a resampling family we
 deliberately avoid for structural (as opposed to purely tabular) features,
 since interpolating between two graph-derived feature vectors can produce a
 combination -- for instance, half of a cycle -- with no physical
-transaction-graph realization.
+transaction-graph realization. Chawla et al.'s original
+SMOTE~\cite{chawla2002smote} is the ancestor of essentially every
+resampling-based imbalance technique used in this literature, including the
+generative variants surveyed above; Japkowicz and Stephen~\cite{japkowicz2002classimbalance}
+and He and Garcia~\cite{he2009imbalanced} independently document, across a broad
+range of classifiers and domains, that a resampling mechanism's benefit is
+highly dataset- and feature-dependent rather than uniformly positive -- the
+same caution this paper's own methodology rule (one imbalance mechanism,
+never two, chosen and logged per experiment) is designed to operationalize
+rather than merely state. A 2026 alternative to resampling entirely is Wu et
+al.'s VAE-Inf~\cite{wu2026vaeinf}, a statistically interpretable generative
+model for imbalanced classification that models the minority class's
+distribution directly rather than interpolating between observed points;
+its motivation -- that naive interpolation-based oversampling can manufacture
+statistically implausible synthetic examples -- is structurally the same
+concern that leads this paper to exclude SMOTE from topology features
+specifically, applied there to a fully generative rather than
+nearest-neighbor-interpolation setting.
 
 \subsection{Temporal Graph Networks}
 
@@ -337,7 +404,8 @@ Rossi et al.~\cite{rossi2020temporal} introduce Temporal Graph Networks (TGNs): 
 memory-augmented architecture that maintains a compact, continuously-updated
 state vector per node, updated via a recurrent cell as each new edge (here, a
 transaction) is observed, and trained with a self-supervised link-prediction
-objective rather than direct supervision on any downstream label. This paper
+objective, via Adam~\cite{kingma2015adam}, rather than direct supervision on
+any downstream label. This paper
 adopts a TGN, trained self-supervised and hence label-free, as the learned
 counterpart to the hand-crafted topology detectors in its offline research
 configuration: an account's TGN embedding is read \emph{before} the
@@ -353,7 +421,26 @@ retrained on the same, fixed random seed but on a different machine are not
 bit-reproducible against a previously committed model, and the memory state
 itself is not persisted for streaming inference -- both properties that keep
 the TGN a research-arm-only component in this paper's accounting, never part
-of the production-served model.
+of the production-served model. Related dynamic-graph architectures explore
+the same continuous-time setting from different angles: Wang et
+al.~\cite{wang2021causal} learn inductive temporal representations via causal
+anonymous walks rather than a memory module, Dileo et al.~\cite{dileo2023durendal}
+target temporal \emph{heterogeneous} networks with a dedicated update-then-aggregate
+framework, and Yu et al.~\cite{yu2023unified} propose a unified architecture
+and benchmarking library spanning several dynamic-graph-learning families --
+none of which this paper adopts directly, but all of which represent the
+same design space (a learned, continuously-updated node representation)
+that TGN occupies in this paper's own ablation. A 2026 paper directly
+relevant to this design space is Lei et al.'s
+STC-MixHop~\cite{lei2026stcmixhop}, a multi-scale graph-learning framework
+with an explicit temporal-consistency constraint for fraud detection in
+non-stationary transaction networks; notably, Lei et al.\ report the same
+qualitative finding this paper's own ablation arrives at independently --
+that ``when node attributes are highly informative, tabular baselines
+remain difficult to outperform,'' and that graph structure earns its keep
+specifically where relational patterns are operationally significant rather
+than universally. We return to this convergence when interpreting this
+paper's own TGN-versus-topology comparison later in this paper.
 
 \subsection{Continuous Auditing and ERP-Centric Fraud Research}
 
@@ -382,6 +469,26 @@ number does not, by itself, satisfy. Together, this literature motivates why
 this paper treats the explanation and evidence-reconstruction layer as a
 first-class deliverable rather than an add-on to a scoring model.
 
+Closer to the specific mechanics of ERP-native fraud detection, Tritscher et
+al.~\cite{tritscher2022openerp} release an open, simulated ERP dataset built
+specifically to enable reproducible occupational-fraud-detection research --
+addressing the same raw-data-availability gap that motivated this paper's own
+\texttt{synth\_erp} generator, though via a different game-based data-collection
+methodology. Schreyer et al.~\cite{schreyer2019accounting} detect accounting
+anomalies in a learned latent space via adversarial autoencoders, and Hemati
+et al.~\cite{hemati2021continual} extend this line of work with a continual-learning
+framework for unsupervised anomaly detection under the specific
+distribution shift that continuous, always-on auditing of real accounting
+data exhibits over time -- both representative of an unsupervised,
+label-free alternative to this paper's supervised approach, appropriate
+when confirmed fraud labels (as opposed to accounting irregularities more
+broadly) are not available. Foalem et al.~\cite{foalem2025logging} study logging
+requirements for continuous auditing of ML-based applications specifically,
+a systems-level concern this paper's own structured-logging and
+correlation-id design (documented in the system section of this paper)
+independently arrives at from a production-engineering rather than an
+audit-research starting point.
+
 \subsection{Explainability for Tree and Graph Models}
 
 An accuracy figure, however well validated, does not on its own justify
@@ -398,16 +505,80 @@ of a gradient-boosted tree ensemble as the final classifier head over an
 end-to-end neural alternative: exact, cheap attribution is available for
 trees in a way it is not for most deep architectures. On the graph side,
 Wang et al.~\cite{wang2023reinforced} propose a reinforcement-learning-based causal
-explainer for GNN predictions, targeting a complementary explainability
+explainer for GNN predictions, and Dao~\cite{dao2025gnnexplainer} more recently
+combines GNNExplainer with Shapley values for the same graph-native
+explanation problem, targeting a complementary explainability
 problem -- explaining which subgraph structure drove a graph model's own
 decision, rather than which tabular feature drove a downstream classifier's
-decision. This paper's design deliberately sidesteps needing a GNN-native
+decision. Almalki and Masud~\cite{almalki2025stacking} instead stack SHAP,
+LIME, and permutation feature importance atop a gradient-boosted ensemble
+for fraud detection, an explainability-method combination closer in spirit
+to this paper's own tree-native TreeSHAP choice than to the graph-native
+explainers above. This paper's design deliberately sidesteps needing a GNN-native
 explainer of that kind for its production scoring path, feeding learned graph
 signal into TreeSHAP-explainable tree features rather than explaining a graph
 model's decision directly; the graph itself is instead re-rendered for the
 auditor as the literal evidence path (the reconstructed cycle or fan-in
 structure a given alert is attributed to), verified independently at display
 time against the same stored feature state the score was computed from.
+
+Two 2026 papers make the regulatory stakes of this design choice explicit.
+Faccia~\cite{faccia2026xaiauditing} audits whether a high-performing
+fraud-detection model can simultaneously satisfy auditability,
+documentation, and regulatory-transparency requirements, comparing a
+weighted logistic-regression baseline against XGBoost with SHAP attribution
+under severe class imbalance and finding that exact, tree-native
+explanation is what actually closes the gap between predictive performance
+and audit-readiness -- the same tradeoff this paper's own choice of
+gradient-boosted trees over an end-to-end neural architecture is built
+around. Uddin and Aziz~\cite{uddin2026shapley} evaluate explanation
+\emph{reliability and consistency} across model families for fraud
+detection specifically because raw predictive accuracy is not, on its own,
+sufficient for regulatory sign-off, finding that XGBoost with TreeExplainer
+produces materially more stable explanations across repeated runs than
+LSTM-based alternatives -- direct, independent corroboration of this
+paper's own reliance on exact TreeSHAP rather than a sampled or
+model-agnostic approximation for every alert the production console
+surfaces.
+
+\subsection{Recent Advances in Graph-Based and Federated Fraud Detection (2025--2026)}
+
+Several works published in the twelve months preceding this paper extend
+the graph-fraud and financial-ML literature along directions adjacent to,
+but distinct from, this paper's own leakage/ablation focus. On the
+throughput side, Ye et al.'s BlazingAML~\cite{ye2026blazingaml} compiles
+high-level laundering-pattern descriptions into optimized CPU/GPU code,
+reporting two- to three-hundred-fold speedups on the same IBM AML benchmark
+family used in this paper -- a scalability contribution complementary to
+this paper's own streaming, $O(1)$-per-feature engine, targeting throughput
+rather than the leakage question this paper is built around. Premkumar et
+al.~\cite{premkumar2026aml} survey AI-enhanced anti-money-laundering
+practice across financial institutions broadly, and Tian et
+al.~\cite{tian2023adaptive} propose an adaptive GNN specifically for
+transaction fraud, both representative of the wider architecture space this
+paper deliberately narrows itself against (Section~\ref{sec:related-gap}).
+On the privacy and deployment side, Roth et al.~\cite{roth2026flare} report
+an industry-scale evaluation of federated learning for cross-institution
+payment-fraud detection using NVIDIA FLARE, achieving federated performance
+that substantially closes the gap to a fully centralized model without
+sharing raw transaction data across institutions -- directly relevant to
+this paper's own single-tenant deployment scope, discussed explicitly as
+unevaluated future work later in this paper. Uddin et
+al.~\cite{uddin2026multilingual} extend financial fraud detection to a
+multilingual, Bangla-English setting using transformer models built on the
+self-attention mechanism of Vaswani et al.~\cite{vaswani2017attention}, a
+generalizability axis (language and locale, rather than dataset topology)
+this paper does not attempt to address but that is a natural complement to
+the dataset-diversity argument this paper's own four-dataset roster makes. Finally, a broad base of
+applied credit-card and transaction-fraud studies -- evaluating classical
+and deep architectures on imbalanced data~\cite{wang2025evaluating},
+synthetic-data generation via GANs for training augmentation
+\cite{wang2023syntheticgan,zhu2024gansfraud,ghahfarokhi2023asexual}, and
+causal, prototype-based approaches to realistic oversampling
+\cite{giusti2025causal} -- collectively motivate this paper's own decision
+to treat synthetic-data augmentation as an empirical question to be tested
+rather than assumed beneficial, a question this paper answers directly,
+and largely negatively, later in this paper.
 
 \subsection{Positioning of This Work}\label{sec:related-gap}
 

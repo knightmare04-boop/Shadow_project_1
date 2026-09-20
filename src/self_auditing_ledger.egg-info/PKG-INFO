@@ -1,0 +1,41 @@
+Metadata-Version: 2.4
+Name: self-auditing-ledger
+Version: 0.1.0
+Summary: Two-phase ERP fraud detection: temporal Neo4j Shadow Graph + ML modeling.
+Requires-Python: >=3.10
+Requires-Dist: pandas>=2.0
+Requires-Dist: numpy>=1.24
+Requires-Dist: scikit-learn>=1.3
+Requires-Dist: xgboost>=2.0
+Requires-Dist: lightgbm>=4.0
+Requires-Dist: neo4j>=5.0
+Requires-Dist: pyyaml>=6.0
+Requires-Dist: matplotlib>=3.7
+Requires-Dist: seaborn>=0.13
+Requires-Dist: plotly>=5.18
+Requires-Dist: torch>=2.2
+Requires-Dist: pyarrow>=14.0
+Provides-Extra: explain
+Requires-Dist: shap>=0.45; extra == "explain"
+Provides-Extra: test
+Requires-Dist: pytest>=8.0; extra == "test"
+Requires-Dist: pytest-asyncio>=0.24; extra == "test"
+Requires-Dist: httpx>=0.27; extra == "test"
+Requires-Dist: testcontainers[postgres]>=4.8; extra == "test"
+Provides-Extra: app
+Requires-Dist: fastapi>=0.115; extra == "app"
+Requires-Dist: uvicorn[standard]>=0.30; extra == "app"
+Requires-Dist: sqlalchemy[asyncio]>=2.0; extra == "app"
+Requires-Dist: asyncpg>=0.29; extra == "app"
+Requires-Dist: psycopg[binary]>=3.2; extra == "app"
+Requires-Dist: alembic>=1.13; extra == "app"
+Requires-Dist: redis>=5.0; extra == "app"
+Requires-Dist: pydantic[email]>=2.8; extra == "app"
+Requires-Dist: pydantic-settings>=2.4; extra == "app"
+Requires-Dist: structlog>=24.4; extra == "app"
+Requires-Dist: python-jose[cryptography]>=3.3; extra == "app"
+Requires-Dist: bcrypt>=4.1; extra == "app"
+Requires-Dist: brotli>=1.1; extra == "app"
+Requires-Dist: python-multipart>=0.0.9; extra == "app"
+Requires-Dist: tenacity>=9.0; extra == "app"
+Requires-Dist: prometheus-client>=0.20; extra == "app"

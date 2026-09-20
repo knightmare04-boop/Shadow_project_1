@@ -14,7 +14,9 @@
       "Skill(update-config)",
       "Skill(update-config:*)",
       "Bash(python -m topology.engine paysim)",
-      "Bash(python -c ' *)"
+      "Bash(python -c ' *)",
+      "Bash(bash \"C:/Users/akifm/AppData/Local/Temp/claude/D--project-1-project/43dc5aac-6181-49cf-9b50-6fbd1511b341/scratchpad/push_all.sh\")",
+      "Bash(echo \"SCRIPT EXIT: $?\")"
     ]
   }
 }

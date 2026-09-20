@@ -1,0 +1,203 @@
+{
+  "banksim": {
+    "donor": "synth_erp",
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "split_sizes": {
+      "train": 353638,
+      "val": 118727,
+      "test": 122278,
+      "synth_added_to_train": 1148503
+    },
+    "test_frauds": 1320,
+    "pr_auc": {
+      "real_only": {
+        "mean": 0.86691,
+        "std": 0.00305
+      },
+      "real_plus_synth": {
+        "mean": 0.76101,
+        "std": 0.00215
+      },
+      "synth_only": {
+        "mean": 0.72429,
+        "std": 0.00786
+      }
+    },
+    "precision_at_100": {
+      "real_only": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "real_plus_synth": {
+        "mean": 0.99667,
+        "std": 0.00471
+      },
+      "synth_only": {
+        "mean": 0.99,
+        "std": 0.00816
+      }
+    },
+    "recall_at_1000": {
+      "real_only": {
+        "mean": 0.68157,
+        "std": 0.00179
+      },
+      "real_plus_synth": {
+        "mean": 0.61087,
+        "std": 0.00413
+      },
+      "synth_only": {
+        "mean": 0.57903,
+        "std": 0.00838
+      }
+    },
+    "augmentation_delta_pr_auc": {
+      "mean": -0.1059,
+      "std": 0.00107,
+      "per_seed": [
+        -0.1065,
+        -0.10681,
+        -0.1044
+      ]
+    },
+    "verdict": "AUGMENTATION HURTS: -0.1059 PR-AUC (paired over seeds, std 0.0011); real-only baseline 0.8669\u00b10.0031; synth-only zero-shot 0.7243 (transfer probe)."
+  },
+  "ibm_aml": {
+    "donor": "synth_erp",
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "split_sizes": {
+      "train": 790442,
+      "val": 266593,
+      "test": 266199,
+      "synth_added_to_train": 1148503
+    },
+    "test_frauds": 377,
+    "pr_auc": {
+      "real_only": {
+        "mean": 0.99999,
+        "std": 1e-05
+      },
+      "real_plus_synth": {
+        "mean": 0.99544,
+        "std": 0.00127
+      },
+      "synth_only": {
+        "mean": 0.00165,
+        "std": 0.00058
+      }
+    },
+    "precision_at_100": {
+      "real_only": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "real_plus_synth": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "synth_only": {
+        "mean": 0.01333,
+        "std": 0.01886
+      }
+    },
+    "recall_at_1000": {
+      "real_only": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "real_plus_synth": {
+        "mean": 0.99643,
+        "std": 0.00123
+      },
+      "synth_only": {
+        "mean": 0.0115,
+        "std": 0.0111
+      }
+    },
+    "augmentation_delta_pr_auc": {
+      "mean": -0.00455,
+      "std": 0.00128,
+      "per_seed": [
+        -0.00635,
+        -0.00385,
+        -0.00346
+      ]
+    },
+    "verdict": "AUGMENTATION HURTS: -0.0046 PR-AUC (paired over seeds, std 0.0013); real-only baseline 1.0000\u00b10.0000; synth-only zero-shot 0.0016 (transfer probe)."
+  },
+  "sap_wurzburg": {
+    "donor": "synth_erp",
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "split_sizes": {
+      "train": 120411,
+      "val": 40137,
+      "test": 40139,
+      "synth_added_to_train": 1148503
+    },
+    "test_frauds": 25,
+    "pr_auc": {
+      "real_only": {
+        "mean": 0.13657,
+        "std": 0.04463
+      },
+      "real_plus_synth": {
+        "mean": 0.02932,
+        "std": 0.00326
+      },
+      "synth_only": {
+        "mean": 0.00078,
+        "std": 0.00012
+      }
+    },
+    "precision_at_100": {
+      "real_only": {
+        "mean": 0.10667,
+        "std": 0.00471
+      },
+      "real_plus_synth": {
+        "mean": 0.06333,
+        "std": 0.00471
+      },
+      "synth_only": {
+        "mean": 0.0,
+        "std": 0.0
+      }
+    },
+    "recall_at_1000": {
+      "real_only": {
+        "mean": 0.65333,
+        "std": 0.04989
+      },
+      "real_plus_synth": {
+        "mean": 0.57333,
+        "std": 0.01886
+      },
+      "synth_only": {
+        "mean": 0.02667,
+        "std": 0.01886
+      }
+    },
+    "augmentation_delta_pr_auc": {
+      "mean": -0.10725,
+      "std": 0.04166,
+      "per_seed": [
+        -0.0996,
+        -0.06049,
+        -0.16167
+      ]
+    },
+    "verdict": "AUGMENTATION HURTS: -0.1073 PR-AUC (paired over seeds, std 0.0417); real-only baseline 0.1366\u00b10.0446; synth-only zero-shot 0.0008 (transfer probe)."
+  }
+}

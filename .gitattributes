@@ -1,0 +1,5 @@
+# Store data, chunks and vendored trees byte-for-byte: no line-ending conversion.
+large_file_parts/** -text
+data/** -text
+.venv/** -text
+web/node_modules/** -text

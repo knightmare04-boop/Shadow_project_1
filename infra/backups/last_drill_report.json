@@ -1,0 +1,45 @@
+{
+  "started_at": "20260915T123617Z",
+  "before": {
+    "row_counts": {
+      "vendors": 5001,
+      "ap_invoices": 45284,
+      "ap_invoice_lines": 45284,
+      "payments": 23930,
+      "gl_accounts": 13,
+      "journal_entries": 0,
+      "journal_lines": 0,
+      "audit_alerts": 5001,
+      "audit_log": 5304
+    },
+    "total_payment_amount": "60370370.20"
+  },
+  "dump": {
+    "path": "D:\\project 1\\project\\infra\\backups\\shadow_ledger_20260915T123617Z.dump",
+    "seconds": 0.95,
+    "size_mb": 6.99
+  },
+  "restore": {
+    "seconds": 2.12,
+    "returncode": 0,
+    "stderr_tail": ""
+  },
+  "after": {
+    "row_counts": {
+      "vendors": 5001,
+      "ap_invoices": 45284,
+      "ap_invoice_lines": 45284,
+      "payments": 23930,
+      "gl_accounts": 13,
+      "journal_entries": 0,
+      "journal_lines": 0,
+      "audit_alerts": 5001,
+      "audit_log": 5304
+    },
+    "total_payment_amount": "60370370.20"
+  },
+  "match": true,
+  "rto_seconds": 3.07,
+  "rpo_note": "This drill's RPO is 0 (dump taken immediately before comparison). A SCHEDULED nightly pg_dump (cron/Module 8) has an RPO of up to 24h \u2014 use continuous WAL archiving (infra/docker-compose.yml already enables archive_mode) + PITR for a tighter RPO than daily dumps allow.",
+  "finished_at": "2026-09-15T12:36:27.130665+00:00"
+}
