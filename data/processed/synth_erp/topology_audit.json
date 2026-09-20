@@ -1,0 +1,45 @@
+{
+  "dataset": "synth_erp",
+  "params": {
+    "window": 604800,
+    "max_cycle_len": 6,
+    "search_budget": 4000,
+    "lap_memory": 25,
+    "lap_tol": 0.01,
+    "partition_col": null
+  },
+  "n_transactions": 1148503,
+  "n_in_cycle": 66294,
+  "n_in_cycle_ge3": 43999,
+  "cycle_length_counts": {
+    "2": 22295,
+    "3": 4530,
+    "4": 17424,
+    "5": 15328,
+    "6": 6717
+  },
+  "cycle_amount_ratio_p50": 0.007,
+  "cycle_amount_ratio_p90": 1.0,
+  "fan_in_max": 4277,
+  "fan_in_p99": 4197.0,
+  "lap_in_payers_max": 4,
+  "lapping_separation": {
+    "lap_in_recur": {
+      "fraud_mean": 0.0521,
+      "background_mean": 0.3115
+    },
+    "lap_in_payers": {
+      "fraud_mean": 0.049,
+      "background_mean": 0.1579
+    },
+    "lap_out_recur": {
+      "fraud_mean": 0.0412,
+      "background_mean": 0.085
+    },
+    "lap_out_payees": {
+      "fraud_mean": 0.0406,
+      "background_mean": 0.0832
+    }
+  },
+  "validation": null
+}
