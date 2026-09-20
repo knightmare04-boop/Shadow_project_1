@@ -1,0 +1,142 @@
+{
+  "chunk_bytes": 94371840,
+  "files": [
+    {
+      "path": ".venv/Lib/site-packages/llvmlite/binding/llvmlite.dll",
+      "size": 120369664,
+      "sha256": "1939db0e806d6a10980c107baa309cb0fea9b9d83802ce6b403a243c26f980a5",
+      "parts": [
+        "part-0000",
+        "part-0001"
+      ]
+    },
+    {
+      "path": ".venv/Lib/site-packages/torch/lib/torch_cpu.dll",
+      "size": 305887744,
+      "sha256": "bbd2e6a6e1e124938c831cb588f70b7de35df71fbae880a3dc3cf1b60f177440",
+      "parts": [
+        "part-0000",
+        "part-0001",
+        "part-0002",
+        "part-0003"
+      ]
+    },
+    {
+      "path": "data/processed/banksim/features_tgn.parquet",
+      "size": 112510531,
+      "sha256": "46bfeed44cb220bd19509a9db1f06bf1d761f2fbe0cb7cec24144defacb6b1c1",
+      "parts": [
+        "part-0000",
+        "part-0001"
+      ]
+    },
+    {
+      "path": "data/processed/ibm_aml_kaggle/edges_transactions.csv",
+      "size": 340032371,
+      "sha256": "92dd0c62bcb379c739267a7d17c6d4b8421c76812aea23f26fc629d88a3717cd",
+      "parts": [
+        "part-0000",
+        "part-0001",
+        "part-0002",
+        "part-0003"
+      ]
+    },
+    {
+      "path": "data/processed/ibm_aml_kaggle/features_model.csv",
+      "size": 584135887,
+      "sha256": "cddc0b2cdd820d4ee5f5fcdfb4ccf1f174086305d3393cd722a53a82ac3bb73a",
+      "parts": [
+        "part-0000",
+        "part-0001",
+        "part-0002",
+        "part-0003",
+        "part-0004",
+        "part-0005",
+        "part-0006"
+      ]
+    },
+    {
+      "path": "data/processed/ibm_aml_kaggle/features_tgn.parquet",
+      "size": 1245500273,
+      "sha256": "9734f126325875bb7802fd851aaf73c3d00ae333e98d320d211b4459ee372a79",
+      "parts": [
+        "part-0000",
+        "part-0001",
+        "part-0002",
+        "part-0003",
+        "part-0004",
+        "part-0005",
+        "part-0006",
+        "part-0007",
+        "part-0008",
+        "part-0009",
+        "part-0010",
+        "part-0011",
+        "part-0012",
+        "part-0013"
+      ]
+    },
+    {
+      "path": "data/processed/ibm_aml_kaggle/features_topology.csv",
+      "size": 175384909,
+      "sha256": "b28fd6b053315774131a7f53d3a83290b9cb793086af47c6e69a08e67ebfefb2",
+      "parts": [
+        "part-0000",
+        "part-0001"
+      ]
+    },
+    {
+      "path": "data/processed/synth_erp/features_model.csv",
+      "size": 161732392,
+      "sha256": "a38e8bf65c4e9c36415219174d30f532778c7a710b0ed2277300b322ee32b285",
+      "parts": [
+        "part-0000",
+        "part-0001"
+      ]
+    },
+    {
+      "path": "data/processed/synth_erp/features_tgn.parquet",
+      "size": 272481597,
+      "sha256": "0e468b449d2f3244f3257a24bb15ab22cc5462e696d8b59ec127dd201fa4cc42",
+      "parts": [
+        "part-0000",
+        "part-0001",
+        "part-0002"
+      ]
+    },
+    {
+      "path": "data/raw/erp_fraud_data_1(wurzburg)/erp_fraud_data.zip",
+      "size": 199649380,
+      "sha256": "63541679ce87dc6240a73f8e91e8c8cab0111c015e8e6545e912d2d672e0f53b",
+      "parts": [
+        "part-0000",
+        "part-0001",
+        "part-0002"
+      ]
+    },
+    {
+      "path": "data/raw/erp_fraud_data_4(ibm_aml_sim)_kaggle/transactions.csv",
+      "size": 340032378,
+      "sha256": "25848a8f4041471d40aca63f647b4989772fdf369dfde8fc6ebe41f2e6459423",
+      "parts": [
+        "part-0000",
+        "part-0001",
+        "part-0002",
+        "part-0003"
+      ]
+    },
+    {
+      "path": "data/raw/erp_fraud_data_4(ibm_aml_sim)_kaggle_raw/HI-Small_Trans.csv",
+      "size": 475664283,
+      "sha256": "b19d39f515523373f991b689c07e11e7b0b95c17a2c27a87d91584ae16c5b040",
+      "parts": [
+        "part-0000",
+        "part-0001",
+        "part-0002",
+        "part-0003",
+        "part-0004",
+        "part-0005"
+      ]
+    }
+  ]
+}
