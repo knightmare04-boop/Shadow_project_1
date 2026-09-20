@@ -1,0 +1,4274 @@
+[
+  {
+    "id": "LAUN-0001",
+    "typology": "laundering_cycle",
+    "victim": "CO:23:OPS",
+    "accounts": [
+      "EXT:00001",
+      "EXT:00002",
+      "EXT:00003",
+      "EXT:00004"
+    ],
+    "loops_back": true,
+    "start_day": 329,
+    "end_day": 337.3,
+    "n_txns": 7
+  },
+  {
+    "id": "LAUN-0002",
+    "typology": "laundering_cycle",
+    "victim": "CO:28:OPS",
+    "accounts": [
+      "EXT:00005",
+      "EXT:00006",
+      "EXT:00007",
+      "EXT:00008"
+    ],
+    "loops_back": false,
+    "start_day": 209,
+    "end_day": 223.0,
+    "n_txns": 11
+  },
+  {
+    "id": "LAUN-0003",
+    "typology": "laundering_cycle",
+    "victim": "CO:17:OPS",
+    "accounts": [
+      "EXT:00009",
+      "EXT:00010",
+      "EXT:00011",
+      "EXT:00012",
+      "EXT:00013",
+      "EXT:00014",
+      "EXT:00015"
+    ],
+    "loops_back": true,
+    "start_day": 338,
+    "end_day": 343.9,
+    "n_txns": 12
+  },
+  {
+    "id": "LAUN-0004",
+    "typology": "laundering_cycle",
+    "victim": "CO:25:OPS",
+    "accounts": [
+      "EXT:00016",
+      "EXT:00017",
+      "EXT:00018",
+      "EXT:00019",
+      "EXT:00020",
+      "EXT:00021"
+    ],
+    "loops_back": true,
+    "start_day": 297,
+    "end_day": 301.8,
+    "n_txns": 11
+  },
+  {
+    "id": "LAUN-0005",
+    "typology": "laundering_cycle",
+    "victim": "CO:03:OPS",
+    "accounts": [
+      "EXT:00022",
+      "EXT:00023",
+      "CUST:06573",
+      "EXT:00024"
+    ],
+    "loops_back": false,
+    "start_day": 141,
+    "end_day": 147.4,
+    "n_txns": 8
+  },
+  {
+    "id": "LAUN-0006",
+    "typology": "laundering_cycle",
+    "victim": "CO:24:OPS",
+    "accounts": [
+      "EXT:00025",
+      "EXT:00026",
+      "EXT:00027",
+      "EXT:00028",
+      "EXT:00029",
+      "EXT:00030"
+    ],
+    "loops_back": false,
+    "start_day": 68,
+    "end_day": 95.6,
+    "n_txns": 27
+  },
+  {
+    "id": "LAUN-0007",
+    "typology": "laundering_cycle",
+    "victim": "CO:06:OPS",
+    "accounts": [
+      "EXT:00031",
+      "EXT:00032",
+      "EXT:00033",
+      "EXT:00034",
+      "EXT:00035"
+    ],
+    "loops_back": false,
+    "start_day": 24,
+    "end_day": 31.2,
+    "n_txns": 10
+  },
+  {
+    "id": "LAUN-0008",
+    "typology": "laundering_cycle",
+    "victim": "CO:13:OPS",
+    "accounts": [
+      "EXT:00036",
+      "EXT:00037",
+      "EXT:00038",
+      "CUST:18384",
+      "EXT:00039"
+    ],
+    "loops_back": true,
+    "start_day": 278,
+    "end_day": 302.2,
+    "n_txns": 27
+  },
+  {
+    "id": "LAUN-0009",
+    "typology": "laundering_cycle",
+    "victim": "CO:39:OPS",
+    "accounts": [
+      "EXT:00040",
+      "CUST:05313",
+      "EXT:00041",
+      "EXT:00042"
+    ],
+    "loops_back": false,
+    "start_day": 298,
+    "end_day": 316.7,
+    "n_txns": 17
+  },
+  {
+    "id": "LAUN-0010",
+    "typology": "laundering_cycle",
+    "victim": "CO:25:OPS",
+    "accounts": [
+      "EXT:00043",
+      "EXT:00044",
+      "EXT:00045",
+      "EXT:00046"
+    ],
+    "loops_back": true,
+    "start_day": 154,
+    "end_day": 160.1,
+    "n_txns": 8
+  },
+  {
+    "id": "LAUN-0011",
+    "typology": "laundering_cycle",
+    "victim": "CO:17:OPS",
+    "accounts": [
+      "EXT:00047",
+      "EXT:00048",
+      "EXT:00049",
+      "EXT:00050",
+      "CUST:30490",
+      "EXT:00051"
+    ],
+    "loops_back": true,
+    "start_day": 267,
+    "end_day": 285.9,
+    "n_txns": 23
+  },
+  {
+    "id": "LAUN-0012",
+    "typology": "laundering_cycle",
+    "victim": "CO:02:OPS",
+    "accounts": [
+      "EXT:00052",
+      "EXT:00053",
+      "EXT:00054",
+      "EXT:00055",
+      "EXT:00056"
+    ],
+    "loops_back": false,
+    "start_day": 118,
+    "end_day": 136.2,
+    "n_txns": 15
+  },
+  {
+    "id": "LAUN-0013",
+    "typology": "laundering_cycle",
+    "victim": "CO:32:OPS",
+    "accounts": [
+      "EXT:00057",
+      "EXT:00058",
+      "EXT:00059",
+      "EXT:00060",
+      "EXT:00061",
+      "EXT:00062"
+    ],
+    "loops_back": false,
+    "start_day": 223,
+    "end_day": 232.8,
+    "n_txns": 7
+  },
+  {
+    "id": "LAUN-0014",
+    "typology": "laundering_cycle",
+    "victim": "CO:24:OPS",
+    "accounts": [
+      "EXT:00063",
+      "EXT:00064",
+      "EXT:00065",
+      "EXT:00066"
+    ],
+    "loops_back": true,
+    "start_day": 148,
+    "end_day": 154.3,
+    "n_txns": 6
+  },
+  {
+    "id": "LAUN-0015",
+    "typology": "laundering_cycle",
+    "victim": "CO:03:OPS",
+    "accounts": [
+      "EXT:00067",
+      "EXT:00068",
+      "CUST:10152",
+      "EXT:00069"
+    ],
+    "loops_back": true,
+    "start_day": 102,
+    "end_day": 107.3,
+    "n_txns": 8
+  },
+  {
+    "id": "LAUN-0016",
+    "typology": "laundering_cycle",
+    "victim": "CO:30:OPS",
+    "accounts": [
+      "EXT:00070",
+      "EXT:00071",
+      "EXT:00072",
+      "EXT:00073",
+      "EXT:00074",
+      "EXT:00075",
+      "EXT:00076"
+    ],
+    "loops_back": false,
+    "start_day": 249,
+    "end_day": 256.8,
+    "n_txns": 11
+  },
+  {
+    "id": "LAUN-0017",
+    "typology": "laundering_cycle",
+    "victim": "CO:17:OPS",
+    "accounts": [
+      "EXT:00077",
+      "CUST:10305",
+      "EXT:00078",
+      "EXT:00079",
+      "EXT:00080",
+      "EXT:00081",
+      "EXT:00082"
+    ],
+    "loops_back": false,
+    "start_day": 232,
+    "end_day": 259.6,
+    "n_txns": 27
+  },
+  {
+    "id": "LAUN-0018",
+    "typology": "laundering_cycle",
+    "victim": "CO:31:OPS",
+    "accounts": [
+      "EXT:00083",
+      "EXT:00084",
+      "EXT:00085",
+      "EXT:00086"
+    ],
+    "loops_back": false,
+    "start_day": 135,
+    "end_day": 152.8,
+    "n_txns": 14
+  },
+  {
+    "id": "LAUN-0019",
+    "typology": "laundering_cycle",
+    "victim": "CO:34:OPS",
+    "accounts": [
+      "EXT:00087",
+      "EXT:00088",
+      "CUST:25351",
+      "EXT:00089",
+      "EXT:00090",
+      "EXT:00091"
+    ],
+    "loops_back": true,
+    "start_day": 294,
+    "end_day": 311.6,
+    "n_txns": 20
+  },
+  {
+    "id": "LAUN-0020",
+    "typology": "laundering_cycle",
+    "victim": "CO:30:OPS",
+    "accounts": [
+      "EXT:00092",
+      "EXT:00093",
+      "CUST:16004",
+      "EXT:00094",
+      "CUST:18582",
+      "EXT:00095"
+    ],
+    "loops_back": true,
+    "start_day": 318,
+    "end_day": 338.9,
+    "n_txns": 28
+  },
+  {
+    "id": "LAUN-0021",
+    "typology": "laundering_cycle",
+    "victim": "CO:33:OPS",
+    "accounts": [
+      "EXT:00096",
+      "CUST:22111",
+      "EXT:00097",
+      "EXT:00098",
+      "EXT:00099",
+      "EXT:00100",
+      "EXT:00101"
+    ],
+    "loops_back": false,
+    "start_day": 29,
+    "end_day": 53.5,
+    "n_txns": 28
+  },
+  {
+    "id": "LAUN-0022",
+    "typology": "laundering_cycle",
+    "victim": "CO:18:OPS",
+    "accounts": [
+      "EXT:00102",
+      "EXT:00103",
+      "EXT:00104",
+      "EXT:00105"
+    ],
+    "loops_back": true,
+    "start_day": 153,
+    "end_day": 159.7,
+    "n_txns": 6
+  },
+  {
+    "id": "LAUN-0023",
+    "typology": "laundering_cycle",
+    "victim": "CO:36:OPS",
+    "accounts": [
+      "EXT:00106",
+      "EXT:00107",
+      "CUST:14950",
+      "EXT:00108",
+      "EXT:00109",
+      "EXT:00110"
+    ],
+    "loops_back": true,
+    "start_day": 45,
+    "end_day": 77.7,
+    "n_txns": 30
+  },
+  {
+    "id": "LAUN-0024",
+    "typology": "laundering_cycle",
+    "victim": "CO:14:OPS",
+    "accounts": [
+      "EXT:00111",
+      "EXT:00112",
+      "EXT:00113",
+      "EXT:00114"
+    ],
+    "loops_back": false,
+    "start_day": 181,
+    "end_day": 189.4,
+    "n_txns": 7
+  },
+  {
+    "id": "LAUN-0025",
+    "typology": "laundering_cycle",
+    "victim": "CO:10:OPS",
+    "accounts": [
+      "EXT:00115",
+      "EXT:00116",
+      "CUST:27511",
+      "CUST:14425",
+      "EXT:00117"
+    ],
+    "loops_back": true,
+    "start_day": 285,
+    "end_day": 299.3,
+    "n_txns": 13
+  },
+  {
+    "id": "LAUN-0026",
+    "typology": "laundering_cycle",
+    "victim": "CO:03:OPS",
+    "accounts": [
+      "EXT:00118",
+      "EXT:00119",
+      "CUST:18675",
+      "EXT:00120",
+      "EXT:00121",
+      "EXT:00122",
+      "EXT:00123"
+    ],
+    "loops_back": true,
+    "start_day": 30,
+    "end_day": 58.7,
+    "n_txns": 30
+  },
+  {
+    "id": "LAUN-0027",
+    "typology": "laundering_cycle",
+    "victim": "CO:05:OPS",
+    "accounts": [
+      "EXT:00124",
+      "EXT:00125",
+      "EXT:00126",
+      "EXT:00127",
+      "EXT:00128",
+      "EXT:00129"
+    ],
+    "loops_back": true,
+    "start_day": 293,
+    "end_day": 310.9,
+    "n_txns": 8
+  },
+  {
+    "id": "LAUN-0028",
+    "typology": "laundering_cycle",
+    "victim": "CO:25:OPS",
+    "accounts": [
+      "EXT:00130",
+      "CUST:06945",
+      "EXT:00131",
+      "EXT:00132",
+      "EXT:00133"
+    ],
+    "loops_back": true,
+    "start_day": 170,
+    "end_day": 181.1,
+    "n_txns": 9
+  },
+  {
+    "id": "LAUN-0029",
+    "typology": "laundering_cycle",
+    "victim": "CO:13:OPS",
+    "accounts": [
+      "EXT:00134",
+      "EXT:00135",
+      "EXT:00136",
+      "CUST:27553",
+      "EXT:00137"
+    ],
+    "loops_back": false,
+    "start_day": 218,
+    "end_day": 241.2,
+    "n_txns": 23
+  },
+  {
+    "id": "LAUN-0030",
+    "typology": "laundering_cycle",
+    "victim": "CO:09:OPS",
+    "accounts": [
+      "EXT:00138",
+      "EXT:00139",
+      "CUST:10129",
+      "EXT:00140",
+      "EXT:00141"
+    ],
+    "loops_back": true,
+    "start_day": 32,
+    "end_day": 47.5,
+    "n_txns": 11
+  },
+  {
+    "id": "LAUN-0031",
+    "typology": "laundering_cycle",
+    "victim": "CO:05:OPS",
+    "accounts": [
+      "EXT:00142",
+      "EXT:00143",
+      "EXT:00144",
+      "EXT:00145"
+    ],
+    "loops_back": true,
+    "start_day": 177,
+    "end_day": 185.2,
+    "n_txns": 8
+  },
+  {
+    "id": "LAUN-0032",
+    "typology": "laundering_cycle",
+    "victim": "CO:12:OPS",
+    "accounts": [
+      "EXT:00146",
+      "EXT:00147",
+      "CUST:18096",
+      "EXT:00148",
+      "EXT:00149"
+    ],
+    "loops_back": false,
+    "start_day": 243,
+    "end_day": 257.2,
+    "n_txns": 15
+  },
+  {
+    "id": "LAUN-0033",
+    "typology": "laundering_cycle",
+    "victim": "CO:33:OPS",
+    "accounts": [
+      "EXT:00150",
+      "EXT:00151",
+      "EXT:00152",
+      "EXT:00153"
+    ],
+    "loops_back": false,
+    "start_day": 197,
+    "end_day": 213.1,
+    "n_txns": 16
+  },
+  {
+    "id": "LAUN-0034",
+    "typology": "laundering_cycle",
+    "victim": "CO:31:OPS",
+    "accounts": [
+      "EXT:00154",
+      "EXT:00155",
+      "EXT:00156",
+      "EXT:00157",
+      "EXT:00158"
+    ],
+    "loops_back": true,
+    "start_day": 255,
+    "end_day": 271.7,
+    "n_txns": 16
+  },
+  {
+    "id": "LAUN-0035",
+    "typology": "laundering_cycle",
+    "victim": "CO:23:OPS",
+    "accounts": [
+      "EXT:00159",
+      "EXT:00160",
+      "EXT:00161",
+      "EXT:00162",
+      "EXT:00163",
+      "EXT:00164"
+    ],
+    "loops_back": true,
+    "start_day": 92,
+    "end_day": 117.4,
+    "n_txns": 20
+  },
+  {
+    "id": "LAUN-0036",
+    "typology": "laundering_cycle",
+    "victim": "CO:14:OPS",
+    "accounts": [
+      "EXT:00165",
+      "CUST:08335",
+      "EXT:00166",
+      "EXT:00167",
+      "CUST:20101",
+      "EXT:00168",
+      "EXT:00169"
+    ],
+    "loops_back": true,
+    "start_day": 178,
+    "end_day": 186.7,
+    "n_txns": 19
+  },
+  {
+    "id": "LAUN-0037",
+    "typology": "laundering_cycle",
+    "victim": "CO:24:OPS",
+    "accounts": [
+      "EXT:00170",
+      "EXT:00171",
+      "EXT:00172",
+      "EXT:00173",
+      "EXT:00174"
+    ],
+    "loops_back": false,
+    "start_day": 26,
+    "end_day": 43.9,
+    "n_txns": 23
+  },
+  {
+    "id": "LAUN-0038",
+    "typology": "laundering_cycle",
+    "victim": "CO:06:OPS",
+    "accounts": [
+      "EXT:00175",
+      "EXT:00176",
+      "EXT:00177",
+      "EXT:00178",
+      "EXT:00179",
+      "EXT:00180",
+      "EXT:00181"
+    ],
+    "loops_back": false,
+    "start_day": 259,
+    "end_day": 278.7,
+    "n_txns": 20
+  },
+  {
+    "id": "LAUN-0039",
+    "typology": "laundering_cycle",
+    "victim": "CO:03:OPS",
+    "accounts": [
+      "EXT:00182",
+      "EXT:00183",
+      "EXT:00184",
+      "EXT:00185",
+      "EXT:00186",
+      "EXT:00187",
+      "EXT:00188"
+    ],
+    "loops_back": true,
+    "start_day": 27,
+    "end_day": 65.7,
+    "n_txns": 27
+  },
+  {
+    "id": "LAUN-0040",
+    "typology": "laundering_cycle",
+    "victim": "CO:25:OPS",
+    "accounts": [
+      "EXT:00189",
+      "EXT:00190",
+      "EXT:00191",
+      "EXT:00192",
+      "EXT:00193"
+    ],
+    "loops_back": true,
+    "start_day": 240,
+    "end_day": 249.0,
+    "n_txns": 10
+  },
+  {
+    "id": "LAUN-0041",
+    "typology": "laundering_cycle",
+    "victim": "CO:11:OPS",
+    "accounts": [
+      "EXT:00194",
+      "EXT:00195",
+      "EXT:00196",
+      "EXT:00197",
+      "EXT:00198",
+      "EXT:00199"
+    ],
+    "loops_back": true,
+    "start_day": 270,
+    "end_day": 282.0,
+    "n_txns": 7
+  },
+  {
+    "id": "LAUN-0042",
+    "typology": "laundering_cycle",
+    "victim": "CO:34:OPS",
+    "accounts": [
+      "EXT:00200",
+      "EXT:00201",
+      "EXT:00202",
+      "EXT:00203",
+      "CUST:29158",
+      "EXT:00204",
+      "EXT:00205"
+    ],
+    "loops_back": true,
+    "start_day": 323,
+    "end_day": 341.8,
+    "n_txns": 24
+  },
+  {
+    "id": "LAUN-0043",
+    "typology": "laundering_cycle",
+    "victim": "CO:23:OPS",
+    "accounts": [
+      "EXT:00206",
+      "EXT:00207",
+      "CUST:13319",
+      "EXT:00208"
+    ],
+    "loops_back": true,
+    "start_day": 63,
+    "end_day": 70.1,
+    "n_txns": 8
+  },
+  {
+    "id": "LAUN-0044",
+    "typology": "laundering_cycle",
+    "victim": "CO:17:OPS",
+    "accounts": [
+      "EXT:00209",
+      "EXT:00210",
+      "EXT:00211",
+      "EXT:00212",
+      "EXT:00213"
+    ],
+    "loops_back": false,
+    "start_day": 313,
+    "end_day": 330.3,
+    "n_txns": 19
+  },
+  {
+    "id": "LAUN-0045",
+    "typology": "laundering_cycle",
+    "victim": "CO:38:OPS",
+    "accounts": [
+      "EXT:00214",
+      "EXT:00215",
+      "EXT:00216",
+      "EXT:00217",
+      "EXT:00218"
+    ],
+    "loops_back": true,
+    "start_day": 126,
+    "end_day": 131.1,
+    "n_txns": 7
+  },
+  {
+    "id": "LAUN-0046",
+    "typology": "laundering_cycle",
+    "victim": "CO:02:OPS",
+    "accounts": [
+      "EXT:00219",
+      "EXT:00220",
+      "EXT:00221",
+      "EXT:00222"
+    ],
+    "loops_back": true,
+    "start_day": 281,
+    "end_day": 306.2,
+    "n_txns": 16
+  },
+  {
+    "id": "LAUN-0047",
+    "typology": "laundering_cycle",
+    "victim": "CO:02:OPS",
+    "accounts": [
+      "EXT:00223",
+      "EXT:00224",
+      "EXT:00225",
+      "EXT:00226",
+      "EXT:00227",
+      "EXT:00228"
+    ],
+    "loops_back": true,
+    "start_day": 167,
+    "end_day": 181.5,
+    "n_txns": 10
+  },
+  {
+    "id": "LAUN-0048",
+    "typology": "laundering_cycle",
+    "victim": "CO:31:OPS",
+    "accounts": [
+      "EXT:00229",
+      "EXT:00230",
+      "EXT:00231",
+      "EXT:00232",
+      "EXT:00233"
+    ],
+    "loops_back": true,
+    "start_day": 186,
+    "end_day": 202.9,
+    "n_txns": 25
+  },
+  {
+    "id": "LAUN-0049",
+    "typology": "laundering_cycle",
+    "victim": "CO:17:OPS",
+    "accounts": [
+      "EXT:00234",
+      "EXT:00235",
+      "EXT:00236",
+      "EXT:00237",
+      "EXT:00238"
+    ],
+    "loops_back": false,
+    "start_day": 97,
+    "end_day": 113.3,
+    "n_txns": 13
+  },
+  {
+    "id": "LAUN-0050",
+    "typology": "laundering_cycle",
+    "victim": "CO:13:OPS",
+    "accounts": [
+      "EXT:00239",
+      "CUST:31495",
+      "CUST:08453",
+      "EXT:00240",
+      "EXT:00241",
+      "EXT:00242",
+      "EXT:00243"
+    ],
+    "loops_back": true,
+    "start_day": 178,
+    "end_day": 184.6,
+    "n_txns": 11
+  },
+  {
+    "id": "LAUN-0051",
+    "typology": "laundering_cycle",
+    "victim": "CO:25:OPS",
+    "accounts": [
+      "EXT:00244",
+      "EXT:00245",
+      "EXT:00246",
+      "EXT:00247",
+      "EXT:00248",
+      "EXT:00249"
+    ],
+    "loops_back": true,
+    "start_day": 242,
+    "end_day": 264.3,
+    "n_txns": 19
+  },
+  {
+    "id": "LAUN-0052",
+    "typology": "laundering_cycle",
+    "victim": "CO:21:OPS",
+    "accounts": [
+      "EXT:00250",
+      "CUST:28722",
+      "EXT:00251",
+      "EXT:00252",
+      "CUST:19899",
+      "EXT:00253"
+    ],
+    "loops_back": true,
+    "start_day": 238,
+    "end_day": 247.2,
+    "n_txns": 7
+  },
+  {
+    "id": "LAUN-0053",
+    "typology": "laundering_cycle",
+    "victim": "CO:05:OPS",
+    "accounts": [
+      "EXT:00254",
+      "CUST:18481",
+      "EXT:00255",
+      "EXT:00256",
+      "EXT:00257",
+      "EXT:00258",
+      "EXT:00259"
+    ],
+    "loops_back": true,
+    "start_day": 318,
+    "end_day": 324.7,
+    "n_txns": 11
+  },
+  {
+    "id": "LAUN-0054",
+    "typology": "laundering_cycle",
+    "victim": "CO:02:OPS",
+    "accounts": [
+      "EXT:00260",
+      "EXT:00261",
+      "EXT:00262",
+      "EXT:00263"
+    ],
+    "loops_back": true,
+    "start_day": 40,
+    "end_day": 64.7,
+    "n_txns": 22
+  },
+  {
+    "id": "LAUN-0055",
+    "typology": "laundering_cycle",
+    "victim": "CO:24:OPS",
+    "accounts": [
+      "EXT:00264",
+      "EXT:00265",
+      "EXT:00266",
+      "CUST:12822",
+      "EXT:00267"
+    ],
+    "loops_back": true,
+    "start_day": 323,
+    "end_day": 343.9,
+    "n_txns": 27
+  },
+  {
+    "id": "LAUN-0056",
+    "typology": "laundering_cycle",
+    "victim": "CO:38:OPS",
+    "accounts": [
+      "EXT:00268",
+      "CUST:00751",
+      "CUST:12491",
+      "EXT:00269"
+    ],
+    "loops_back": true,
+    "start_day": 122,
+    "end_day": 126.3,
+    "n_txns": 6
+  },
+  {
+    "id": "LAUN-0057",
+    "typology": "laundering_cycle",
+    "victim": "CO:33:OPS",
+    "accounts": [
+      "EXT:00270",
+      "EXT:00271",
+      "EXT:00272",
+      "CUST:00282",
+      "EXT:00273",
+      "EXT:00274"
+    ],
+    "loops_back": true,
+    "start_day": 244,
+    "end_day": 260.0,
+    "n_txns": 18
+  },
+  {
+    "id": "LAUN-0058",
+    "typology": "laundering_cycle",
+    "victim": "CO:28:OPS",
+    "accounts": [
+      "EXT:00275",
+      "EXT:00276",
+      "EXT:00277",
+      "EXT:00278",
+      "EXT:00279",
+      "EXT:00280"
+    ],
+    "loops_back": false,
+    "start_day": 178,
+    "end_day": 197.7,
+    "n_txns": 19
+  },
+  {
+    "id": "LAUN-0059",
+    "typology": "laundering_cycle",
+    "victim": "CO:23:OPS",
+    "accounts": [
+      "EXT:00281",
+      "CUST:02510",
+      "CUST:12201",
+      "EXT:00282"
+    ],
+    "loops_back": true,
+    "start_day": 207,
+    "end_day": 213.7,
+    "n_txns": 5
+  },
+  {
+    "id": "LAUN-0060",
+    "typology": "laundering_cycle",
+    "victim": "CO:02:OPS",
+    "accounts": [
+      "EXT:00283",
+      "EXT:00284",
+      "EXT:00285",
+      "EXT:00286"
+    ],
+    "loops_back": true,
+    "start_day": 243,
+    "end_day": 262.4,
+    "n_txns": 21
+  },
+  {
+    "id": "LAUN-0061",
+    "typology": "laundering_cycle",
+    "victim": "CO:31:OPS",
+    "accounts": [
+      "EXT:00287",
+      "EXT:00288",
+      "EXT:00289",
+      "EXT:00290",
+      "EXT:00291",
+      "EXT:00292",
+      "EXT:00293"
+    ],
+    "loops_back": true,
+    "start_day": 51,
+    "end_day": 68.7,
+    "n_txns": 19
+  },
+  {
+    "id": "LAUN-0062",
+    "typology": "laundering_cycle",
+    "victim": "CO:26:OPS",
+    "accounts": [
+      "EXT:00294",
+      "EXT:00295",
+      "EXT:00296",
+      "EXT:00297",
+      "CUST:10711",
+      "CUST:08046",
+      "EXT:00298"
+    ],
+    "loops_back": true,
+    "start_day": 230,
+    "end_day": 253.1,
+    "n_txns": 18
+  },
+  {
+    "id": "LAUN-0063",
+    "typology": "laundering_cycle",
+    "victim": "CO:05:OPS",
+    "accounts": [
+      "EXT:00299",
+      "EXT:00300",
+      "EXT:00301",
+      "EXT:00302"
+    ],
+    "loops_back": false,
+    "start_day": 21,
+    "end_day": 44.8,
+    "n_txns": 20
+  },
+  {
+    "id": "LAUN-0064",
+    "typology": "laundering_cycle",
+    "victim": "CO:25:OPS",
+    "accounts": [
+      "EXT:00303",
+      "CUST:31284",
+      "EXT:00304",
+      "CUST:24543",
+      "EXT:00305",
+      "CUST:34234",
+      "EXT:00306"
+    ],
+    "loops_back": true,
+    "start_day": 107,
+    "end_day": 131.1,
+    "n_txns": 23
+  },
+  {
+    "id": "LAUN-0065",
+    "typology": "laundering_cycle",
+    "victim": "CO:33:OPS",
+    "accounts": [
+      "EXT:00307",
+      "EXT:00308",
+      "EXT:00309",
+      "CUST:07226",
+      "EXT:00310",
+      "EXT:00311",
+      "EXT:00312"
+    ],
+    "loops_back": false,
+    "start_day": 291,
+    "end_day": 312.9,
+    "n_txns": 20
+  },
+  {
+    "id": "LAUN-0066",
+    "typology": "laundering_cycle",
+    "victim": "CO:18:OPS",
+    "accounts": [
+      "EXT:00313",
+      "EXT:00314",
+      "EXT:00315",
+      "EXT:00316"
+    ],
+    "loops_back": true,
+    "start_day": 216,
+    "end_day": 228.3,
+    "n_txns": 13
+  },
+  {
+    "id": "LAUN-0067",
+    "typology": "laundering_cycle",
+    "victim": "CO:35:OPS",
+    "accounts": [
+      "EXT:00317",
+      "EXT:00318",
+      "EXT:00319",
+      "EXT:00320",
+      "EXT:00321"
+    ],
+    "loops_back": true,
+    "start_day": 310,
+    "end_day": 320.9,
+    "n_txns": 17
+  },
+  {
+    "id": "LAUN-0068",
+    "typology": "laundering_cycle",
+    "victim": "CO:01:OPS",
+    "accounts": [
+      "EXT:00322",
+      "EXT:00323",
+      "EXT:00324",
+      "EXT:00325",
+      "EXT:00326"
+    ],
+    "loops_back": true,
+    "start_day": 252,
+    "end_day": 258.0,
+    "n_txns": 7
+  },
+  {
+    "id": "LAUN-0069",
+    "typology": "laundering_cycle",
+    "victim": "CO:00:OPS",
+    "accounts": [
+      "EXT:00327",
+      "EXT:00328",
+      "EXT:00329",
+      "CUST:04273",
+      "EXT:00330",
+      "EXT:00331"
+    ],
+    "loops_back": false,
+    "start_day": 49,
+    "end_day": 75.5,
+    "n_txns": 14
+  },
+  {
+    "id": "LAUN-0070",
+    "typology": "laundering_cycle",
+    "victim": "CO:29:OPS",
+    "accounts": [
+      "EXT:00332",
+      "EXT:00333",
+      "EXT:00334",
+      "CUST:22063",
+      "EXT:00335"
+    ],
+    "loops_back": false,
+    "start_day": 110,
+    "end_day": 148.3,
+    "n_txns": 25
+  },
+  {
+    "id": "LAUN-0071",
+    "typology": "laundering_cycle",
+    "victim": "CO:24:OPS",
+    "accounts": [
+      "EXT:00336",
+      "CUST:29370",
+      "EXT:00337",
+      "CUST:19242",
+      "EXT:00338",
+      "EXT:00339"
+    ],
+    "loops_back": true,
+    "start_day": 75,
+    "end_day": 99.9,
+    "n_txns": 28
+  },
+  {
+    "id": "LAUN-0072",
+    "typology": "laundering_cycle",
+    "victim": "CO:37:OPS",
+    "accounts": [
+      "EXT:00340",
+      "EXT:00341",
+      "EXT:00342",
+      "EXT:00343",
+      "EXT:00344",
+      "EXT:00345",
+      "EXT:00346"
+    ],
+    "loops_back": false,
+    "start_day": 114,
+    "end_day": 144.1,
+    "n_txns": 36
+  },
+  {
+    "id": "LAUN-0073",
+    "typology": "laundering_cycle",
+    "victim": "CO:04:OPS",
+    "accounts": [
+      "EXT:00347",
+      "EXT:00348",
+      "EXT:00349",
+      "EXT:00350",
+      "EXT:00351",
+      "CUST:02220",
+      "EXT:00352"
+    ],
+    "loops_back": true,
+    "start_day": 124,
+    "end_day": 136.0,
+    "n_txns": 20
+  },
+  {
+    "id": "LAUN-0074",
+    "typology": "laundering_cycle",
+    "victim": "CO:01:OPS",
+    "accounts": [
+      "EXT:00353",
+      "EXT:00354",
+      "EXT:00355",
+      "EXT:00356",
+      "EXT:00357"
+    ],
+    "loops_back": true,
+    "start_day": 239,
+    "end_day": 251.4,
+    "n_txns": 7
+  },
+  {
+    "id": "LAUN-0075",
+    "typology": "laundering_cycle",
+    "victim": "CO:35:OPS",
+    "accounts": [
+      "EXT:00358",
+      "EXT:00359",
+      "EXT:00360",
+      "CUST:01840",
+      "EXT:00361",
+      "EXT:00362",
+      "EXT:00363"
+    ],
+    "loops_back": false,
+    "start_day": 242,
+    "end_day": 265.3,
+    "n_txns": 32
+  },
+  {
+    "id": "LAUN-0076",
+    "typology": "laundering_cycle",
+    "victim": "CO:12:OPS",
+    "accounts": [
+      "EXT:00364",
+      "EXT:00365",
+      "CUST:19944",
+      "CUST:32908",
+      "EXT:00366"
+    ],
+    "loops_back": false,
+    "start_day": 290,
+    "end_day": 303.5,
+    "n_txns": 16
+  },
+  {
+    "id": "LAUN-0077",
+    "typology": "laundering_cycle",
+    "victim": "CO:16:OPS",
+    "accounts": [
+      "EXT:00367",
+      "EXT:00368",
+      "CUST:06440",
+      "EXT:00369"
+    ],
+    "loops_back": false,
+    "start_day": 95,
+    "end_day": 110.2,
+    "n_txns": 13
+  },
+  {
+    "id": "LAUN-0078",
+    "typology": "laundering_cycle",
+    "victim": "CO:31:OPS",
+    "accounts": [
+      "EXT:00370",
+      "EXT:00371",
+      "EXT:00372",
+      "EXT:00373"
+    ],
+    "loops_back": true,
+    "start_day": 281,
+    "end_day": 292.4,
+    "n_txns": 12
+  },
+  {
+    "id": "LAUN-0079",
+    "typology": "laundering_cycle",
+    "victim": "CO:00:OPS",
+    "accounts": [
+      "EXT:00374",
+      "EXT:00375",
+      "EXT:00376",
+      "EXT:00377",
+      "EXT:00378",
+      "EXT:00379",
+      "EXT:00380"
+    ],
+    "loops_back": true,
+    "start_day": 35,
+    "end_day": 45.6,
+    "n_txns": 12
+  },
+  {
+    "id": "LAUN-0080",
+    "typology": "laundering_cycle",
+    "victim": "CO:25:OPS",
+    "accounts": [
+      "EXT:00381",
+      "EXT:00382",
+      "CUST:21924",
+      "EXT:00383",
+      "EXT:00384"
+    ],
+    "loops_back": true,
+    "start_day": 97,
+    "end_day": 113.7,
+    "n_txns": 22
+  },
+  {
+    "id": "LAUN-0081",
+    "typology": "laundering_cycle",
+    "victim": "CO:24:OPS",
+    "accounts": [
+      "EXT:00385",
+      "EXT:00386",
+      "EXT:00387",
+      "CUST:15191",
+      "EXT:00388"
+    ],
+    "loops_back": false,
+    "start_day": 299,
+    "end_day": 325.2,
+    "n_txns": 19
+  },
+  {
+    "id": "LAUN-0082",
+    "typology": "laundering_cycle",
+    "victim": "CO:20:OPS",
+    "accounts": [
+      "EXT:00389",
+      "EXT:00390",
+      "CUST:31012",
+      "EXT:00391",
+      "EXT:00392",
+      "EXT:00393",
+      "EXT:00394"
+    ],
+    "loops_back": true,
+    "start_day": 35,
+    "end_day": 58.3,
+    "n_txns": 35
+  },
+  {
+    "id": "LAUN-0083",
+    "typology": "laundering_cycle",
+    "victim": "CO:13:OPS",
+    "accounts": [
+      "EXT:00395",
+      "EXT:00396",
+      "EXT:00397",
+      "EXT:00398",
+      "EXT:00399",
+      "EXT:00400"
+    ],
+    "loops_back": true,
+    "start_day": 42,
+    "end_day": 46.7,
+    "n_txns": 7
+  },
+  {
+    "id": "LAUN-0084",
+    "typology": "laundering_cycle",
+    "victim": "CO:24:OPS",
+    "accounts": [
+      "EXT:00401",
+      "EXT:00402",
+      "EXT:00403",
+      "CUST:14476",
+      "EXT:00404",
+      "EXT:00405"
+    ],
+    "loops_back": true,
+    "start_day": 134,
+    "end_day": 148.1,
+    "n_txns": 22
+  },
+  {
+    "id": "LAUN-0085",
+    "typology": "laundering_cycle",
+    "victim": "CO:34:OPS",
+    "accounts": [
+      "EXT:00406",
+      "EXT:00407",
+      "EXT:00408",
+      "EXT:00409",
+      "EXT:00410"
+    ],
+    "loops_back": true,
+    "start_day": 98,
+    "end_day": 114.8,
+    "n_txns": 18
+  },
+  {
+    "id": "LAUN-0086",
+    "typology": "laundering_cycle",
+    "victim": "CO:13:OPS",
+    "accounts": [
+      "EXT:00411",
+      "EXT:00412",
+      "EXT:00413",
+      "EXT:00414",
+      "CUST:04114",
+      "EXT:00415"
+    ],
+    "loops_back": true,
+    "start_day": 299,
+    "end_day": 332.3,
+    "n_txns": 26
+  },
+  {
+    "id": "LAUN-0087",
+    "typology": "laundering_cycle",
+    "victim": "CO:13:OPS",
+    "accounts": [
+      "EXT:00416",
+      "CUST:00413",
+      "CUST:21249",
+      "EXT:00417"
+    ],
+    "loops_back": true,
+    "start_day": 103,
+    "end_day": 111.0,
+    "n_txns": 5
+  },
+  {
+    "id": "LAUN-0088",
+    "typology": "laundering_cycle",
+    "victim": "CO:23:OPS",
+    "accounts": [
+      "EXT:00418",
+      "EXT:00419",
+      "CUST:10589",
+      "EXT:00420"
+    ],
+    "loops_back": true,
+    "start_day": 228,
+    "end_day": 232.4,
+    "n_txns": 5
+  },
+  {
+    "id": "MULE-0089",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00421",
+      "EXT:00422",
+      "CUST:17607",
+      "CUST:19878",
+      "CUST:12032",
+      "CUST:04128",
+      "CUST:13444",
+      "CUST:03367"
+    ],
+    "n_mules": 6,
+    "start_day": 16,
+    "end_day": 46.7,
+    "n_txns": 34
+  },
+  {
+    "id": "MULE-0090",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00423",
+      "EXT:00424",
+      "CUST:18240",
+      "CUST:15677",
+      "CUST:11862",
+      "CUST:01504",
+      "CUST:18399",
+      "CUST:26489",
+      "CUST:12409",
+      "CUST:19859",
+      "CUST:21221",
+      "CUST:17731",
+      "CUST:18598",
+      "CUST:02178",
+      "CUST:25601",
+      "CUST:17501"
+    ],
+    "n_mules": 14,
+    "start_day": 198,
+    "end_day": 224.3,
+    "n_txns": 58
+  },
+  {
+    "id": "MULE-0091",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00425",
+      "EXT:00426",
+      "CUST:00046",
+      "CUST:17657",
+      "CUST:19596",
+      "CUST:15650",
+      "CUST:14536",
+      "CUST:23951",
+      "CUST:01224",
+      "CUST:11375",
+      "CUST:04136"
+    ],
+    "n_mules": 9,
+    "start_day": 111,
+    "end_day": 154.6,
+    "n_txns": 41
+  },
+  {
+    "id": "MULE-0092",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00427",
+      "EXT:00428",
+      "CUST:21916",
+      "CUST:11873",
+      "CUST:13035",
+      "CUST:07458",
+      "CUST:21586",
+      "CUST:17068",
+      "CUST:22223",
+      "CUST:15213",
+      "CUST:12424",
+      "CUST:14455",
+      "CUST:17096",
+      "CUST:03164",
+      "CUST:20493",
+      "CUST:23214",
+      "CUST:08521",
+      "CUST:22569"
+    ],
+    "n_mules": 16,
+    "start_day": 70,
+    "end_day": 98.9,
+    "n_txns": 69
+  },
+  {
+    "id": "MULE-0093",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00429",
+      "EXT:00430",
+      "CUST:01785",
+      "CUST:00466",
+      "CUST:18819",
+      "CUST:24922",
+      "CUST:13670",
+      "CUST:18458",
+      "CUST:29996",
+      "CUST:30816"
+    ],
+    "n_mules": 8,
+    "start_day": 297,
+    "end_day": 331.8,
+    "n_txns": 33
+  },
+  {
+    "id": "MULE-0094",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00431",
+      "EXT:00432",
+      "CUST:30568",
+      "CUST:05726",
+      "CUST:28117",
+      "CUST:00118",
+      "CUST:28772",
+      "CUST:08229",
+      "CUST:25122",
+      "CUST:28534"
+    ],
+    "n_mules": 8,
+    "start_day": 332,
+    "end_day": 364.7,
+    "n_txns": 34
+  },
+  {
+    "id": "MULE-0095",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00433",
+      "EXT:00434",
+      "CUST:11762",
+      "CUST:29044",
+      "CUST:00852",
+      "CUST:21324",
+      "CUST:10593",
+      "CUST:21809",
+      "CUST:07637",
+      "CUST:17717",
+      "CUST:10999",
+      "CUST:13127",
+      "CUST:26088",
+      "CUST:11010",
+      "CUST:17046",
+      "CUST:11316",
+      "CUST:24454",
+      "CUST:28668"
+    ],
+    "n_mules": 16,
+    "start_day": 284,
+    "end_day": 316.9,
+    "n_txns": 63
+  },
+  {
+    "id": "MULE-0096",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00435",
+      "EXT:00436",
+      "CUST:10214",
+      "CUST:10314",
+      "CUST:14461",
+      "CUST:21724",
+      "CUST:00808",
+      "CUST:15891",
+      "CUST:27879"
+    ],
+    "n_mules": 7,
+    "start_day": 173,
+    "end_day": 216.3,
+    "n_txns": 30
+  },
+  {
+    "id": "MULE-0097",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00437",
+      "EXT:00438",
+      "CUST:28798",
+      "CUST:18541",
+      "CUST:24274",
+      "CUST:00415",
+      "CUST:28594",
+      "CUST:06596",
+      "CUST:08155",
+      "CUST:12785",
+      "CUST:20125",
+      "CUST:21703"
+    ],
+    "n_mules": 10,
+    "start_day": 243,
+    "end_day": 290.2,
+    "n_txns": 43
+  },
+  {
+    "id": "MULE-0098",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00439",
+      "EXT:00440",
+      "CUST:19545",
+      "CUST:07111",
+      "CUST:05476",
+      "CUST:21479",
+      "CUST:03873",
+      "CUST:00780",
+      "CUST:23908",
+      "CUST:14843",
+      "CUST:23528",
+      "CUST:15080",
+      "CUST:10483"
+    ],
+    "n_mules": 11,
+    "start_day": 50,
+    "end_day": 87.3,
+    "n_txns": 52
+  },
+  {
+    "id": "MULE-0099",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00441",
+      "EXT:00442",
+      "CUST:22426",
+      "CUST:22162",
+      "CUST:03497",
+      "CUST:12163",
+      "CUST:10466",
+      "CUST:15772",
+      "CUST:22439",
+      "CUST:07251",
+      "CUST:20640",
+      "CUST:03138",
+      "CUST:11343",
+      "CUST:21739",
+      "CUST:15271"
+    ],
+    "n_mules": 13,
+    "start_day": 73,
+    "end_day": 104.2,
+    "n_txns": 60
+  },
+  {
+    "id": "MULE-0100",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00443",
+      "EXT:00444",
+      "CUST:00524",
+      "CUST:18082",
+      "CUST:14068",
+      "CUST:01611",
+      "CUST:17630",
+      "CUST:01447",
+      "CUST:01570",
+      "CUST:15617",
+      "CUST:22971"
+    ],
+    "n_mules": 9,
+    "start_day": 16,
+    "end_day": 37.5,
+    "n_txns": 40
+  },
+  {
+    "id": "MULE-0101",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00445",
+      "EXT:00446",
+      "CUST:07507",
+      "CUST:14590",
+      "CUST:12175",
+      "CUST:11722",
+      "CUST:26515",
+      "CUST:02373",
+      "CUST:01662",
+      "CUST:30739",
+      "CUST:10685",
+      "CUST:08101",
+      "CUST:28677",
+      "CUST:18688",
+      "CUST:10768",
+      "CUST:28808"
+    ],
+    "n_mules": 14,
+    "start_day": 307,
+    "end_day": 343.7,
+    "n_txns": 63
+  },
+  {
+    "id": "MULE-0102",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00447",
+      "EXT:00448",
+      "CUST:22676",
+      "CUST:23141",
+      "CUST:23191",
+      "CUST:16289",
+      "CUST:02986",
+      "CUST:31115",
+      "CUST:12008",
+      "CUST:13925"
+    ],
+    "n_mules": 8,
+    "start_day": 332,
+    "end_day": 364.7,
+    "n_txns": 38
+  },
+  {
+    "id": "MULE-0103",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00449",
+      "EXT:00450",
+      "CUST:06653",
+      "CUST:14315",
+      "CUST:10360",
+      "CUST:03432",
+      "CUST:17568",
+      "CUST:25039",
+      "CUST:03640"
+    ],
+    "n_mules": 7,
+    "start_day": 79,
+    "end_day": 123.4,
+    "n_txns": 31
+  },
+  {
+    "id": "MULE-0104",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00451",
+      "EXT:00452",
+      "CUST:06619",
+      "CUST:06138",
+      "CUST:09520",
+      "CUST:11565",
+      "CUST:19615",
+      "CUST:23560",
+      "CUST:21101",
+      "CUST:14174",
+      "CUST:22242",
+      "CUST:23326",
+      "CUST:01696"
+    ],
+    "n_mules": 11,
+    "start_day": 23,
+    "end_day": 56.6,
+    "n_txns": 44
+  },
+  {
+    "id": "MULE-0105",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00453",
+      "EXT:00454",
+      "CUST:18363",
+      "CUST:20778",
+      "CUST:09089",
+      "CUST:18284",
+      "CUST:02560",
+      "CUST:15380",
+      "CUST:10171",
+      "CUST:17855",
+      "CUST:17055",
+      "CUST:00132",
+      "CUST:14896",
+      "CUST:04881",
+      "CUST:09080",
+      "CUST:03491",
+      "CUST:07449"
+    ],
+    "n_mules": 15,
+    "start_day": 65,
+    "end_day": 94.8,
+    "n_txns": 69
+  },
+  {
+    "id": "MULE-0106",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00455",
+      "EXT:00456",
+      "CUST:09303",
+      "CUST:03414",
+      "CUST:03930",
+      "CUST:04777",
+      "CUST:19983",
+      "CUST:10271",
+      "CUST:14422"
+    ],
+    "n_mules": 7,
+    "start_day": 132,
+    "end_day": 164.0,
+    "n_txns": 28
+  },
+  {
+    "id": "MULE-0107",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00457",
+      "EXT:00458",
+      "CUST:12820",
+      "CUST:00429",
+      "CUST:16697",
+      "CUST:01018",
+      "CUST:01422",
+      "CUST:02484",
+      "CUST:15377",
+      "CUST:06477",
+      "CUST:21888",
+      "CUST:26011"
+    ],
+    "n_mules": 10,
+    "start_day": 128,
+    "end_day": 149.8,
+    "n_txns": 36
+  },
+  {
+    "id": "MULE-0108",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00459",
+      "EXT:00460",
+      "CUST:29535",
+      "CUST:18205",
+      "CUST:06750",
+      "CUST:18187",
+      "CUST:28610",
+      "CUST:00285",
+      "CUST:16702",
+      "CUST:05491",
+      "CUST:00386"
+    ],
+    "n_mules": 9,
+    "start_day": 246,
+    "end_day": 284.5,
+    "n_txns": 43
+  },
+  {
+    "id": "MULE-0109",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00461",
+      "EXT:00462",
+      "CUST:00641",
+      "CUST:07075",
+      "CUST:23212",
+      "CUST:08364",
+      "CUST:19465",
+      "CUST:02918",
+      "CUST:24876",
+      "CUST:26708",
+      "CUST:15648",
+      "CUST:10586",
+      "CUST:05029",
+      "CUST:17241",
+      "CUST:12700",
+      "CUST:13050",
+      "CUST:19636"
+    ],
+    "n_mules": 15,
+    "start_day": 191,
+    "end_day": 231.0,
+    "n_txns": 58
+  },
+  {
+    "id": "MULE-0110",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00463",
+      "EXT:00464",
+      "CUST:07740",
+      "CUST:01141",
+      "CUST:27421",
+      "CUST:24471",
+      "CUST:27077",
+      "CUST:07697",
+      "CUST:17388",
+      "CUST:24743",
+      "CUST:08252",
+      "CUST:04396",
+      "CUST:04817",
+      "CUST:26141"
+    ],
+    "n_mules": 12,
+    "start_day": 223,
+    "end_day": 254.7,
+    "n_txns": 53
+  },
+  {
+    "id": "MULE-0111",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00465",
+      "EXT:00466",
+      "CUST:05966",
+      "CUST:13811",
+      "CUST:19903",
+      "CUST:18356",
+      "CUST:14358",
+      "CUST:11480",
+      "CUST:27454",
+      "CUST:13848",
+      "CUST:00205",
+      "CUST:00779",
+      "CUST:15159",
+      "CUST:07626",
+      "CUST:28395",
+      "CUST:12830",
+      "CUST:06781",
+      "CUST:26225"
+    ],
+    "n_mules": 16,
+    "start_day": 261,
+    "end_day": 275.4,
+    "n_txns": 69
+  },
+  {
+    "id": "MULE-0112",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00467",
+      "EXT:00468",
+      "CUST:13376",
+      "CUST:14563",
+      "CUST:07266",
+      "CUST:24974",
+      "CUST:25949",
+      "CUST:26605",
+      "CUST:15502",
+      "CUST:08662",
+      "CUST:22022"
+    ],
+    "n_mules": 9,
+    "start_day": 299,
+    "end_day": 331.6,
+    "n_txns": 45
+  },
+  {
+    "id": "MULE-0113",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00469",
+      "EXT:00470",
+      "CUST:16329",
+      "CUST:18602",
+      "CUST:17848",
+      "CUST:24787",
+      "CUST:27636",
+      "CUST:05092",
+      "CUST:09602",
+      "CUST:16944",
+      "CUST:22580",
+      "CUST:20236",
+      "CUST:26232",
+      "CUST:13517",
+      "CUST:00119",
+      "CUST:09411",
+      "CUST:29145"
+    ],
+    "n_mules": 15,
+    "start_day": 275,
+    "end_day": 319.4,
+    "n_txns": 73
+  },
+  {
+    "id": "MULE-0114",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00471",
+      "EXT:00472",
+      "CUST:04596",
+      "CUST:15993",
+      "CUST:22299",
+      "CUST:23471",
+      "CUST:19076",
+      "CUST:04233",
+      "CUST:14659",
+      "CUST:16814",
+      "CUST:21725",
+      "CUST:12406"
+    ],
+    "n_mules": 10,
+    "start_day": 33,
+    "end_day": 60.3,
+    "n_txns": 36
+  },
+  {
+    "id": "MULE-0115",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00473",
+      "EXT:00474",
+      "CUST:21528",
+      "CUST:15494",
+      "CUST:02637",
+      "CUST:19626",
+      "CUST:12052",
+      "CUST:19630",
+      "CUST:13424"
+    ],
+    "n_mules": 7,
+    "start_day": 275,
+    "end_day": 324.1,
+    "n_txns": 37
+  },
+  {
+    "id": "MULE-0116",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00475",
+      "EXT:00476",
+      "CUST:21733",
+      "CUST:06826",
+      "CUST:18600",
+      "CUST:16001",
+      "CUST:02087",
+      "CUST:22912",
+      "CUST:21607",
+      "CUST:04135",
+      "CUST:17997",
+      "CUST:14762",
+      "CUST:05522",
+      "CUST:00881",
+      "CUST:20791",
+      "CUST:21846"
+    ],
+    "n_mules": 14,
+    "start_day": 42,
+    "end_day": 80.4,
+    "n_txns": 53
+  },
+  {
+    "id": "MULE-0117",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00477",
+      "EXT:00478",
+      "CUST:29871",
+      "CUST:22621",
+      "CUST:01045",
+      "CUST:07022",
+      "CUST:13079",
+      "CUST:20417",
+      "CUST:20871",
+      "CUST:08603",
+      "CUST:05524",
+      "CUST:19354"
+    ],
+    "n_mules": 10,
+    "start_day": 244,
+    "end_day": 290.5,
+    "n_txns": 50
+  },
+  {
+    "id": "MULE-0118",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00479",
+      "EXT:00480",
+      "CUST:01419",
+      "CUST:02336",
+      "CUST:09798",
+      "CUST:25157",
+      "CUST:07649",
+      "CUST:15809",
+      "CUST:09891",
+      "CUST:26022",
+      "CUST:06369",
+      "CUST:06016",
+      "CUST:04874",
+      "CUST:20275",
+      "CUST:14466",
+      "CUST:01763"
+    ],
+    "n_mules": 14,
+    "start_day": 102,
+    "end_day": 129.8,
+    "n_txns": 67
+  },
+  {
+    "id": "MULE-0119",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00481",
+      "EXT:00482",
+      "CUST:17641",
+      "CUST:19876",
+      "CUST:26348",
+      "CUST:18450",
+      "CUST:11180",
+      "CUST:12336",
+      "CUST:22023",
+      "CUST:23864",
+      "CUST:15055"
+    ],
+    "n_mules": 9,
+    "start_day": 118,
+    "end_day": 145.3,
+    "n_txns": 37
+  },
+  {
+    "id": "MULE-0120",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00483",
+      "EXT:00484",
+      "CUST:17885",
+      "CUST:27565",
+      "CUST:19765",
+      "CUST:19317",
+      "CUST:19157",
+      "CUST:21435",
+      "CUST:21762",
+      "CUST:11611",
+      "CUST:24367",
+      "CUST:08727",
+      "CUST:09477"
+    ],
+    "n_mules": 11,
+    "start_day": 262,
+    "end_day": 290.1,
+    "n_txns": 46
+  },
+  {
+    "id": "MULE-0121",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00485",
+      "EXT:00486",
+      "CUST:04225",
+      "CUST:07306",
+      "CUST:04822",
+      "CUST:01979",
+      "CUST:16484",
+      "CUST:10328",
+      "CUST:02715",
+      "CUST:01251",
+      "CUST:08114",
+      "CUST:20906"
+    ],
+    "n_mules": 10,
+    "start_day": 23,
+    "end_day": 56.1,
+    "n_txns": 56
+  },
+  {
+    "id": "MULE-0122",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00487",
+      "EXT:00488",
+      "CUST:24830",
+      "CUST:01588",
+      "CUST:06014",
+      "CUST:23199",
+      "CUST:18893",
+      "CUST:20752",
+      "CUST:31971",
+      "CUST:20027",
+      "CUST:08553",
+      "CUST:18804",
+      "CUST:15588",
+      "CUST:17425"
+    ],
+    "n_mules": 12,
+    "start_day": 318,
+    "end_day": 348.2,
+    "n_txns": 49
+  },
+  {
+    "id": "MULE-0123",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00489",
+      "EXT:00490",
+      "CUST:01805",
+      "CUST:03305",
+      "CUST:17999",
+      "CUST:29516",
+      "CUST:10706",
+      "CUST:06758",
+      "CUST:09679",
+      "CUST:18010",
+      "CUST:01680",
+      "CUST:06956",
+      "CUST:08853",
+      "CUST:16540",
+      "CUST:04159"
+    ],
+    "n_mules": 13,
+    "start_day": 295,
+    "end_day": 327.6,
+    "n_txns": 53
+  },
+  {
+    "id": "MULE-0124",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00491",
+      "EXT:00492",
+      "CUST:16007",
+      "CUST:04029",
+      "CUST:02985",
+      "CUST:19020",
+      "CUST:24525",
+      "CUST:01858"
+    ],
+    "n_mules": 6,
+    "start_day": 295,
+    "end_day": 313.6,
+    "n_txns": 24
+  },
+  {
+    "id": "MULE-0125",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00493",
+      "EXT:00494",
+      "CUST:04185",
+      "CUST:19338",
+      "CUST:13510",
+      "CUST:16069",
+      "CUST:19730",
+      "CUST:18651",
+      "CUST:16881",
+      "CUST:04334",
+      "CUST:04049",
+      "CUST:14933",
+      "CUST:18353",
+      "CUST:21711"
+    ],
+    "n_mules": 12,
+    "start_day": 228,
+    "end_day": 255.2,
+    "n_txns": 52
+  },
+  {
+    "id": "MULE-0126",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00495",
+      "EXT:00496",
+      "CUST:18834",
+      "CUST:06811",
+      "CUST:10567",
+      "CUST:05718",
+      "CUST:11444",
+      "CUST:19182",
+      "CUST:20496",
+      "CUST:23359",
+      "CUST:12312",
+      "CUST:22432",
+      "CUST:00810",
+      "CUST:12847"
+    ],
+    "n_mules": 12,
+    "start_day": 77,
+    "end_day": 106.1,
+    "n_txns": 50
+  },
+  {
+    "id": "MULE-0127",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00497",
+      "EXT:00498",
+      "CUST:06786",
+      "CUST:12857",
+      "CUST:24125",
+      "CUST:05877",
+      "CUST:01373",
+      "CUST:22118",
+      "CUST:31853",
+      "CUST:08236",
+      "CUST:23194",
+      "CUST:28828",
+      "CUST:29894",
+      "CUST:18865",
+      "CUST:21827"
+    ],
+    "n_mules": 13,
+    "start_day": 337,
+    "end_day": 364.0,
+    "n_txns": 47
+  },
+  {
+    "id": "MULE-0128",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00499",
+      "EXT:00500",
+      "CUST:14510",
+      "CUST:14288",
+      "CUST:25071",
+      "CUST:31909",
+      "CUST:11481",
+      "CUST:02172",
+      "CUST:16773",
+      "CUST:02106",
+      "CUST:18374",
+      "CUST:09951",
+      "CUST:12177",
+      "CUST:24287",
+      "CUST:22868",
+      "CUST:28606"
+    ],
+    "n_mules": 14,
+    "start_day": 318,
+    "end_day": 337.3,
+    "n_txns": 65
+  },
+  {
+    "id": "MULE-0129",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00501",
+      "EXT:00502",
+      "CUST:07156",
+      "CUST:12745",
+      "CUST:25705",
+      "CUST:18943",
+      "CUST:28649",
+      "CUST:29221",
+      "CUST:09842",
+      "CUST:18417",
+      "CUST:07483",
+      "CUST:17529",
+      "CUST:05999",
+      "CUST:01871",
+      "CUST:16368"
+    ],
+    "n_mules": 13,
+    "start_day": 220,
+    "end_day": 259.1,
+    "n_txns": 61
+  },
+  {
+    "id": "MULE-0130",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00503",
+      "EXT:00504",
+      "CUST:29983",
+      "CUST:23313",
+      "CUST:17357",
+      "CUST:14391",
+      "CUST:06382",
+      "CUST:12350",
+      "CUST:15675",
+      "CUST:02965"
+    ],
+    "n_mules": 8,
+    "start_day": 277,
+    "end_day": 312.0,
+    "n_txns": 35
+  },
+  {
+    "id": "MULE-0131",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00505",
+      "EXT:00506",
+      "CUST:07044",
+      "CUST:08036",
+      "CUST:15365",
+      "CUST:04684",
+      "CUST:00198",
+      "CUST:22601",
+      "CUST:16764",
+      "CUST:09320",
+      "CUST:13910",
+      "CUST:18145",
+      "CUST:02072",
+      "CUST:04693",
+      "CUST:11195",
+      "CUST:22090",
+      "CUST:22132"
+    ],
+    "n_mules": 15,
+    "start_day": 80,
+    "end_day": 124.7,
+    "n_txns": 61
+  },
+  {
+    "id": "MULE-0132",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00507",
+      "EXT:00508",
+      "CUST:05018",
+      "CUST:29202",
+      "CUST:21615",
+      "CUST:07941",
+      "CUST:24014",
+      "CUST:14908",
+      "CUST:30692",
+      "CUST:19314",
+      "CUST:27651"
+    ],
+    "n_mules": 9,
+    "start_day": 307,
+    "end_day": 329.8,
+    "n_txns": 48
+  },
+  {
+    "id": "MULE-0133",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00509",
+      "EXT:00510",
+      "CUST:05003",
+      "CUST:03890",
+      "CUST:24929",
+      "CUST:17114",
+      "CUST:20322",
+      "CUST:19054",
+      "CUST:02348",
+      "CUST:17348",
+      "CUST:16849",
+      "CUST:01130",
+      "CUST:09710",
+      "CUST:18162"
+    ],
+    "n_mules": 12,
+    "start_day": 282,
+    "end_day": 306.9,
+    "n_txns": 53
+  },
+  {
+    "id": "MULE-0134",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00511",
+      "EXT:00512",
+      "CUST:14115",
+      "CUST:12111",
+      "CUST:04155",
+      "CUST:17924",
+      "CUST:01439",
+      "CUST:05021",
+      "CUST:13870",
+      "CUST:22584",
+      "CUST:13076",
+      "CUST:04068",
+      "CUST:01848",
+      "CUST:20383",
+      "CUST:05490",
+      "CUST:08836",
+      "CUST:02543",
+      "CUST:15504"
+    ],
+    "n_mules": 16,
+    "start_day": 152,
+    "end_day": 191.0,
+    "n_txns": 56
+  },
+  {
+    "id": "MULE-0135",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00513",
+      "EXT:00514",
+      "CUST:28081",
+      "CUST:22195",
+      "CUST:11069",
+      "CUST:15023",
+      "CUST:12314",
+      "CUST:13721",
+      "CUST:17033",
+      "CUST:09875",
+      "CUST:26062",
+      "CUST:29041"
+    ],
+    "n_mules": 10,
+    "start_day": 251,
+    "end_day": 294.2,
+    "n_txns": 56
+  },
+  {
+    "id": "MULE-0136",
+    "typology": "mule_fanin",
+    "victim": null,
+    "accounts": [
+      "EXT:00515",
+      "EXT:00516",
+      "CUST:12607",
+      "CUST:22259",
+      "CUST:24296",
+      "CUST:21764",
+      "CUST:17352",
+      "CUST:19245",
+      "CUST:30937"
+    ],
+    "n_mules": 7,
+    "start_day": 291,
+    "end_day": 309.6,
+    "n_txns": 28
+  },
+  {
+    "id": "LAPP-0137",
+    "typology": "lapping",
+    "victim": "CO:08:OPS",
+    "accounts": [
+      "EMP:08:013"
+    ],
+    "collapsed": true,
+    "start_day": 194,
+    "end_day": 323.9,
+    "n_txns": 39
+  },
+  {
+    "id": "LAPP-0138",
+    "typology": "lapping",
+    "victim": "CO:00:OPS",
+    "accounts": [
+      "EMP:00:003"
+    ],
+    "collapsed": false,
+    "start_day": 138,
+    "end_day": 187.1,
+    "n_txns": 14
+  },
+  {
+    "id": "LAPP-0139",
+    "typology": "lapping",
+    "victim": "CO:30:OPS",
+    "accounts": [
+      "EMP:30:024"
+    ],
+    "collapsed": true,
+    "start_day": 188,
+    "end_day": 236.1,
+    "n_txns": 13
+  },
+  {
+    "id": "LAPP-0140",
+    "typology": "lapping",
+    "victim": "CO:00:OPS",
+    "accounts": [
+      "EMP:00:038"
+    ],
+    "collapsed": false,
+    "start_day": 286,
+    "end_day": 359.5,
+    "n_txns": 23
+  },
+  {
+    "id": "LAPP-0141",
+    "typology": "lapping",
+    "victim": "CO:05:OPS",
+    "accounts": [
+      "EMP:05:084"
+    ],
+    "collapsed": false,
+    "start_day": 160,
+    "end_day": 301.3,
+    "n_txns": 40
+  },
+  {
+    "id": "LAPP-0142",
+    "typology": "lapping",
+    "victim": "CO:32:OPS",
+    "accounts": [
+      "EMP:32:015"
+    ],
+    "collapsed": true,
+    "start_day": 265,
+    "end_day": 332.9,
+    "n_txns": 15
+  },
+  {
+    "id": "LAPP-0143",
+    "typology": "lapping",
+    "victim": "CO:33:OPS",
+    "accounts": [
+      "EMP:33:071"
+    ],
+    "collapsed": false,
+    "start_day": 115,
+    "end_day": 228.6,
+    "n_txns": 34
+  },
+  {
+    "id": "LAPP-0144",
+    "typology": "lapping",
+    "victim": "CO:35:OPS",
+    "accounts": [
+      "EMP:35:030"
+    ],
+    "collapsed": false,
+    "start_day": 64,
+    "end_day": 94.5,
+    "n_txns": 12
+  },
+  {
+    "id": "LAPP-0145",
+    "typology": "lapping",
+    "victim": "CO:15:OPS",
+    "accounts": [
+      "EMP:15:004"
+    ],
+    "collapsed": false,
+    "start_day": 44,
+    "end_day": 84.4,
+    "n_txns": 14
+  },
+  {
+    "id": "LAPP-0146",
+    "typology": "lapping",
+    "victim": "CO:29:OPS",
+    "accounts": [
+      "EMP:29:057"
+    ],
+    "collapsed": true,
+    "start_day": 265,
+    "end_day": 325.9,
+    "n_txns": 19
+  },
+  {
+    "id": "LAPP-0147",
+    "typology": "lapping",
+    "victim": "CO:28:OPS",
+    "accounts": [
+      "EMP:28:024"
+    ],
+    "collapsed": false,
+    "start_day": 272,
+    "end_day": 351.8,
+    "n_txns": 22
+  },
+  {
+    "id": "LAPP-0148",
+    "typology": "lapping",
+    "victim": "CO:00:OPS",
+    "accounts": [
+      "EMP:00:016"
+    ],
+    "collapsed": false,
+    "start_day": 262,
+    "end_day": 364.5,
+    "n_txns": 28
+  },
+  {
+    "id": "LAPP-0149",
+    "typology": "lapping",
+    "victim": "CO:05:OPS",
+    "accounts": [
+      "EMP:05:149"
+    ],
+    "collapsed": true,
+    "start_day": 20,
+    "end_day": 105.7,
+    "n_txns": 23
+  },
+  {
+    "id": "LAPP-0150",
+    "typology": "lapping",
+    "victim": "CO:27:OPS",
+    "accounts": [
+      "EMP:27:007"
+    ],
+    "collapsed": true,
+    "start_day": 259,
+    "end_day": 364.4,
+    "n_txns": 33
+  },
+  {
+    "id": "LAPP-0151",
+    "typology": "lapping",
+    "victim": "CO:34:OPS",
+    "accounts": [
+      "EMP:34:040"
+    ],
+    "collapsed": false,
+    "start_day": 112,
+    "end_day": 160.4,
+    "n_txns": 14
+  },
+  {
+    "id": "LAPP-0152",
+    "typology": "lapping",
+    "victim": "CO:00:OPS",
+    "accounts": [
+      "EMP:00:064"
+    ],
+    "collapsed": true,
+    "start_day": 127,
+    "end_day": 233.7,
+    "n_txns": 34
+  },
+  {
+    "id": "LAPP-0153",
+    "typology": "lapping",
+    "victim": "CO:08:OPS",
+    "accounts": [
+      "EMP:08:090"
+    ],
+    "collapsed": false,
+    "start_day": 276,
+    "end_day": 331.4,
+    "n_txns": 22
+  },
+  {
+    "id": "LAPP-0154",
+    "typology": "lapping",
+    "victim": "CO:27:OPS",
+    "accounts": [
+      "EMP:27:016"
+    ],
+    "collapsed": true,
+    "start_day": 34,
+    "end_day": 132.8,
+    "n_txns": 25
+  },
+  {
+    "id": "LAPP-0155",
+    "typology": "lapping",
+    "victim": "CO:29:OPS",
+    "accounts": [
+      "EMP:29:038"
+    ],
+    "collapsed": false,
+    "start_day": 201,
+    "end_day": 263.3,
+    "n_txns": 18
+  },
+  {
+    "id": "LAPP-0156",
+    "typology": "lapping",
+    "victim": "CO:18:OPS",
+    "accounts": [
+      "EMP:18:004"
+    ],
+    "collapsed": true,
+    "start_day": 331,
+    "end_day": 370.9,
+    "n_txns": 8
+  },
+  {
+    "id": "LAPP-0157",
+    "typology": "lapping",
+    "victim": "CO:27:OPS",
+    "accounts": [
+      "EMP:27:055"
+    ],
+    "collapsed": false,
+    "start_day": 210,
+    "end_day": 250.0,
+    "n_txns": 14
+  },
+  {
+    "id": "LAPP-0158",
+    "typology": "lapping",
+    "victim": "CO:09:OPS",
+    "accounts": [
+      "EMP:09:030"
+    ],
+    "collapsed": true,
+    "start_day": 159,
+    "end_day": 239.5,
+    "n_txns": 21
+  },
+  {
+    "id": "LAPP-0159",
+    "typology": "lapping",
+    "victim": "CO:15:OPS",
+    "accounts": [
+      "EMP:15:037"
+    ],
+    "collapsed": false,
+    "start_day": 123,
+    "end_day": 227.1,
+    "n_txns": 30
+  },
+  {
+    "id": "LAPP-0160",
+    "typology": "lapping",
+    "victim": "CO:15:OPS",
+    "accounts": [
+      "EMP:15:004"
+    ],
+    "collapsed": true,
+    "start_day": 174,
+    "end_day": 306.7,
+    "n_txns": 37
+  },
+  {
+    "id": "LAPP-0161",
+    "typology": "lapping",
+    "victim": "CO:17:OPS",
+    "accounts": [
+      "EMP:17:015"
+    ],
+    "collapsed": true,
+    "start_day": 51,
+    "end_day": 107.4,
+    "n_txns": 17
+  },
+  {
+    "id": "LAPP-0162",
+    "typology": "lapping",
+    "victim": "CO:09:OPS",
+    "accounts": [
+      "EMP:09:000"
+    ],
+    "collapsed": false,
+    "start_day": 213,
+    "end_day": 296.5,
+    "n_txns": 26
+  },
+  {
+    "id": "LAPP-0163",
+    "typology": "lapping",
+    "victim": "CO:29:OPS",
+    "accounts": [
+      "EMP:29:032"
+    ],
+    "collapsed": false,
+    "start_day": 78,
+    "end_day": 153.7,
+    "n_txns": 22
+  },
+  {
+    "id": "LAPP-0164",
+    "typology": "lapping",
+    "victim": "CO:16:OPS",
+    "accounts": [
+      "EMP:16:054"
+    ],
+    "collapsed": true,
+    "start_day": 237,
+    "end_day": 277.6,
+    "n_txns": 9
+  },
+  {
+    "id": "LAPP-0165",
+    "typology": "lapping",
+    "victim": "CO:35:OPS",
+    "accounts": [
+      "EMP:35:015"
+    ],
+    "collapsed": false,
+    "start_day": 231,
+    "end_day": 301.5,
+    "n_txns": 18
+  },
+  {
+    "id": "LAPP-0166",
+    "typology": "lapping",
+    "victim": "CO:28:OPS",
+    "accounts": [
+      "EMP:28:040"
+    ],
+    "collapsed": false,
+    "start_day": 318,
+    "end_day": 366.5,
+    "n_txns": 13
+  },
+  {
+    "id": "LAPP-0167",
+    "typology": "lapping",
+    "victim": "CO:11:OPS",
+    "accounts": [
+      "EMP:11:013"
+    ],
+    "collapsed": false,
+    "start_day": 250,
+    "end_day": 344.8,
+    "n_txns": 30
+  },
+  {
+    "id": "LAPP-0168",
+    "typology": "lapping",
+    "victim": "CO:08:OPS",
+    "accounts": [
+      "EMP:08:109"
+    ],
+    "collapsed": true,
+    "start_day": 141,
+    "end_day": 204.2,
+    "n_txns": 15
+  },
+  {
+    "id": "LAPP-0169",
+    "typology": "lapping",
+    "victim": "CO:18:OPS",
+    "accounts": [
+      "EMP:18:011"
+    ],
+    "collapsed": false,
+    "start_day": 53,
+    "end_day": 161.1,
+    "n_txns": 30
+  },
+  {
+    "id": "LAPP-0170",
+    "typology": "lapping",
+    "victim": "CO:16:OPS",
+    "accounts": [
+      "EMP:16:000"
+    ],
+    "collapsed": true,
+    "start_day": 241,
+    "end_day": 338.7,
+    "n_txns": 28
+  },
+  {
+    "id": "INVO-0171",
+    "typology": "invoice_kickback",
+    "victim": "CO:39:OPS",
+    "accounts": [
+      "VEND:0187",
+      "EMP:39:006",
+      "EXT:00517"
+    ],
+    "corrupted_existing": true,
+    "start_day": 171,
+    "end_day": 376.1,
+    "n_txns": 14
+  },
+  {
+    "id": "INVO-0172",
+    "typology": "invoice_kickback",
+    "victim": "CO:21:OPS",
+    "accounts": [
+      "VEND:1031",
+      "EMP:21:009",
+      "EXT:00518"
+    ],
+    "corrupted_existing": true,
+    "start_day": 72,
+    "end_day": 394.0,
+    "n_txns": 20
+  },
+  {
+    "id": "INVO-0173",
+    "typology": "invoice_kickback",
+    "victim": "CO:08:OPS",
+    "accounts": [
+      "VEND:0395",
+      "EMP:08:016",
+      "EXT:00519"
+    ],
+    "corrupted_existing": true,
+    "start_day": 22,
+    "end_day": 258.1,
+    "n_txns": 15
+  },
+  {
+    "id": "INVO-0174",
+    "typology": "invoice_kickback",
+    "victim": "CO:36:OPS",
+    "accounts": [
+      "VEND:1200",
+      "EMP:36:041",
+      "EXT:00520"
+    ],
+    "corrupted_existing": false,
+    "start_day": 31,
+    "end_day": 382.3,
+    "n_txns": 28
+  },
+  {
+    "id": "INVO-0175",
+    "typology": "invoice_kickback",
+    "victim": "CO:04:OPS",
+    "accounts": [
+      "VEND:0472",
+      "EMP:04:016",
+      "EXT:00521"
+    ],
+    "corrupted_existing": true,
+    "start_day": 63,
+    "end_day": 388.4,
+    "n_txns": 20
+  },
+  {
+    "id": "INVO-0176",
+    "typology": "invoice_kickback",
+    "victim": "CO:10:OPS",
+    "accounts": [
+      "VEND:1201",
+      "EMP:10:010",
+      "EXT:00522"
+    ],
+    "corrupted_existing": false,
+    "start_day": 58,
+    "end_day": 380.6,
+    "n_txns": 19
+  },
+  {
+    "id": "INVO-0177",
+    "typology": "invoice_kickback",
+    "victim": "CO:20:OPS",
+    "accounts": [
+      "VEND:1202",
+      "EMP:20:003",
+      "EXT:00523"
+    ],
+    "corrupted_existing": false,
+    "start_day": 174,
+    "end_day": 366.5,
+    "n_txns": 12
+  },
+  {
+    "id": "INVO-0178",
+    "typology": "invoice_kickback",
+    "victim": "CO:36:OPS",
+    "accounts": [
+      "VEND:1135",
+      "EMP:36:054",
+      "EXT:00524"
+    ],
+    "corrupted_existing": true,
+    "start_day": 140,
+    "end_day": 372.5,
+    "n_txns": 15
+  },
+  {
+    "id": "INVO-0179",
+    "typology": "invoice_kickback",
+    "victim": "CO:25:OPS",
+    "accounts": [
+      "VEND:1203",
+      "EMP:25:035",
+      "EXT:00525"
+    ],
+    "corrupted_existing": false,
+    "start_day": 188,
+    "end_day": 381.6,
+    "n_txns": 12
+  },
+  {
+    "id": "INVO-0180",
+    "typology": "invoice_kickback",
+    "victim": "CO:18:OPS",
+    "accounts": [
+      "VEND:1155",
+      "EMP:18:000",
+      "EXT:00526"
+    ],
+    "corrupted_existing": true,
+    "start_day": 266,
+    "end_day": 375.7,
+    "n_txns": 5
+  },
+  {
+    "id": "INVO-0181",
+    "typology": "invoice_kickback",
+    "victim": "CO:26:OPS",
+    "accounts": [
+      "VEND:1204",
+      "EMP:26:013",
+      "EXT:00527"
+    ],
+    "corrupted_existing": false,
+    "start_day": 225,
+    "end_day": 370.7,
+    "n_txns": 9
+  },
+  {
+    "id": "INVO-0182",
+    "typology": "invoice_kickback",
+    "victim": "CO:07:OPS",
+    "accounts": [
+      "VEND:1205",
+      "EMP:07:020",
+      "EXT:00528"
+    ],
+    "corrupted_existing": false,
+    "start_day": 190,
+    "end_day": 366.3,
+    "n_txns": 9
+  },
+  {
+    "id": "INVO-0183",
+    "typology": "invoice_kickback",
+    "victim": "CO:37:OPS",
+    "accounts": [
+      "VEND:1206",
+      "EMP:37:011",
+      "EXT:00529"
+    ],
+    "corrupted_existing": false,
+    "start_day": 35,
+    "end_day": 230.6,
+    "n_txns": 15
+  },
+  {
+    "id": "INVO-0184",
+    "typology": "invoice_kickback",
+    "victim": "CO:25:OPS",
+    "accounts": [
+      "VEND:0410",
+      "EMP:25:055",
+      "EXT:00530"
+    ],
+    "corrupted_existing": true,
+    "start_day": 44,
+    "end_day": 365.3,
+    "n_txns": 26
+  },
+  {
+    "id": "INVO-0185",
+    "typology": "invoice_kickback",
+    "victim": "CO:06:OPS",
+    "accounts": [
+      "VEND:1207",
+      "EMP:06:023",
+      "EXT:00531"
+    ],
+    "corrupted_existing": false,
+    "start_day": 113,
+    "end_day": 368.6,
+    "n_txns": 15
+  },
+  {
+    "id": "INVO-0186",
+    "typology": "invoice_kickback",
+    "victim": "CO:37:OPS",
+    "accounts": [
+      "VEND:0943",
+      "EMP:37:024",
+      "EXT:00532"
+    ],
+    "corrupted_existing": true,
+    "start_day": 161,
+    "end_day": 371.6,
+    "n_txns": 10
+  },
+  {
+    "id": "INVO-0187",
+    "typology": "invoice_kickback",
+    "victim": "CO:03:OPS",
+    "accounts": [
+      "VEND:1208",
+      "EMP:03:060",
+      "EXT:00533"
+    ],
+    "corrupted_existing": false,
+    "start_day": 277,
+    "end_day": 380.6,
+    "n_txns": 7
+  },
+  {
+    "id": "INVO-0188",
+    "typology": "invoice_kickback",
+    "victim": "CO:31:OPS",
+    "accounts": [
+      "VEND:1209",
+      "EMP:31:162",
+      "EXT:00534"
+    ],
+    "corrupted_existing": false,
+    "start_day": 320,
+    "end_day": 380.0,
+    "n_txns": 1
+  },
+  {
+    "id": "INVO-0189",
+    "typology": "invoice_kickback",
+    "victim": "CO:20:OPS",
+    "accounts": [
+      "VEND:1210",
+      "EMP:20:000",
+      "EXT:00535"
+    ],
+    "corrupted_existing": false,
+    "start_day": 20,
+    "end_day": 386.2,
+    "n_txns": 26
+  },
+  {
+    "id": "INVO-0190",
+    "typology": "invoice_kickback",
+    "victim": "CO:07:OPS",
+    "accounts": [
+      "VEND:0734",
+      "EMP:07:006",
+      "EXT:00536"
+    ],
+    "corrupted_existing": true,
+    "start_day": 51,
+    "end_day": 390.2,
+    "n_txns": 25
+  },
+  {
+    "id": "INVO-0191",
+    "typology": "invoice_kickback",
+    "victim": "CO:05:OPS",
+    "accounts": [
+      "VEND:0864",
+      "EMP:05:055",
+      "EXT:00537"
+    ],
+    "corrupted_existing": true,
+    "start_day": 176,
+    "end_day": 389.6,
+    "n_txns": 12
+  },
+  {
+    "id": "INVO-0192",
+    "typology": "invoice_kickback",
+    "victim": "CO:23:OPS",
+    "accounts": [
+      "VEND:0686",
+      "EMP:23:008",
+      "EXT:00538"
+    ],
+    "corrupted_existing": true,
+    "start_day": 123,
+    "end_day": 390.4,
+    "n_txns": 15
+  },
+  {
+    "id": "INVO-0193",
+    "typology": "invoice_kickback",
+    "victim": "CO:22:OPS",
+    "accounts": [
+      "VEND:1172",
+      "EMP:22:006",
+      "EXT:00539"
+    ],
+    "corrupted_existing": true,
+    "start_day": 78,
+    "end_day": 374.8,
+    "n_txns": 22
+  },
+  {
+    "id": "INVO-0194",
+    "typology": "invoice_kickback",
+    "victim": "CO:33:OPS",
+    "accounts": [
+      "VEND:0988",
+      "EMP:33:153",
+      "EXT:00540"
+    ],
+    "corrupted_existing": true,
+    "start_day": 37,
+    "end_day": 296.0,
+    "n_txns": 18
+  },
+  {
+    "id": "INVO-0195",
+    "typology": "invoice_kickback",
+    "victim": "CO:05:OPS",
+    "accounts": [
+      "VEND:1164",
+      "EMP:05:084",
+      "EXT:00541"
+    ],
+    "corrupted_existing": true,
+    "start_day": 92,
+    "end_day": 328.6,
+    "n_txns": 16
+  },
+  {
+    "id": "INVO-0196",
+    "typology": "invoice_kickback",
+    "victim": "CO:03:OPS",
+    "accounts": [
+      "VEND:1211",
+      "EMP:03:047",
+      "EXT:00542"
+    ],
+    "corrupted_existing": false,
+    "start_day": 212,
+    "end_day": 374.6,
+    "n_txns": 7
+  },
+  {
+    "id": "INVO-0197",
+    "typology": "invoice_kickback",
+    "victim": "CO:03:OPS",
+    "accounts": [
+      "VEND:1212",
+      "EMP:03:084",
+      "EXT:00543"
+    ],
+    "corrupted_existing": false,
+    "start_day": 101,
+    "end_day": 385.6,
+    "n_txns": 17
+  },
+  {
+    "id": "INVO-0198",
+    "typology": "invoice_kickback",
+    "victim": "CO:08:OPS",
+    "accounts": [
+      "VEND:1150",
+      "EMP:08:019",
+      "EXT:00544"
+    ],
+    "corrupted_existing": true,
+    "start_day": 190,
+    "end_day": 370.8,
+    "n_txns": 8
+  },
+  {
+    "id": "INVO-0199",
+    "typology": "invoice_kickback",
+    "victim": "CO:09:OPS",
+    "accounts": [
+      "VEND:1213",
+      "EMP:09:035",
+      "EXT:00545"
+    ],
+    "corrupted_existing": false,
+    "start_day": 66,
+    "end_day": 377.9,
+    "n_txns": 20
+  },
+  {
+    "id": "INVO-0200",
+    "typology": "invoice_kickback",
+    "victim": "CO:22:OPS",
+    "accounts": [
+      "VEND:1214",
+      "EMP:22:026",
+      "EXT:00546"
+    ],
+    "corrupted_existing": false,
+    "start_day": 178,
+    "end_day": 372.4,
+    "n_txns": 13
+  },
+  {
+    "id": "INVO-0201",
+    "typology": "invoice_kickback",
+    "victim": "CO:23:OPS",
+    "accounts": [
+      "VEND:1215",
+      "EMP:23:166",
+      "EXT:00547"
+    ],
+    "corrupted_existing": false,
+    "start_day": 15,
+    "end_day": 398.7,
+    "n_txns": 23
+  },
+  {
+    "id": "INVO-0202",
+    "typology": "invoice_kickback",
+    "victim": "CO:24:OPS",
+    "accounts": [
+      "VEND:1133",
+      "EMP:24:120",
+      "EXT:00548"
+    ],
+    "corrupted_existing": true,
+    "start_day": 58,
+    "end_day": 283.5,
+    "n_txns": 20
+  },
+  {
+    "id": "INVO-0203",
+    "typology": "invoice_kickback",
+    "victim": "CO:33:OPS",
+    "accounts": [
+      "VEND:1046",
+      "EMP:33:097",
+      "EXT:00549"
+    ],
+    "corrupted_existing": true,
+    "start_day": 268,
+    "end_day": 370.9,
+    "n_txns": 6
+  },
+  {
+    "id": "INVO-0204",
+    "typology": "invoice_kickback",
+    "victim": "CO:38:OPS",
+    "accounts": [
+      "VEND:0228",
+      "EMP:38:034",
+      "EXT:00550"
+    ],
+    "corrupted_existing": true,
+    "start_day": 257,
+    "end_day": 384.4,
+    "n_txns": 6
+  },
+  {
+    "id": "INVO-0205",
+    "typology": "invoice_kickback",
+    "victim": "CO:38:OPS",
+    "accounts": [
+      "VEND:1002",
+      "EMP:38:001",
+      "EXT:00551"
+    ],
+    "corrupted_existing": true,
+    "start_day": 182,
+    "end_day": 368.3,
+    "n_txns": 9
+  },
+  {
+    "id": "INVO-0206",
+    "typology": "invoice_kickback",
+    "victim": "CO:35:OPS",
+    "accounts": [
+      "VEND:1216",
+      "EMP:35:032",
+      "EXT:00552"
+    ],
+    "corrupted_existing": false,
+    "start_day": 164,
+    "end_day": 371.8,
+    "n_txns": 15
+  },
+  {
+    "id": "INVO-0207",
+    "typology": "invoice_kickback",
+    "victim": "CO:19:OPS",
+    "accounts": [
+      "VEND:1162",
+      "EMP:19:016",
+      "EXT:00553"
+    ],
+    "corrupted_existing": true,
+    "start_day": 191,
+    "end_day": 369.8,
+    "n_txns": 12
+  },
+  {
+    "id": "INVO-0208",
+    "typology": "invoice_kickback",
+    "victim": "CO:27:OPS",
+    "accounts": [
+      "VEND:1217",
+      "EMP:27:016",
+      "EXT:00554"
+    ],
+    "corrupted_existing": false,
+    "start_day": 195,
+    "end_day": 393.5,
+    "n_txns": 12
+  },
+  {
+    "id": "INVO-0209",
+    "typology": "invoice_kickback",
+    "victim": "CO:04:OPS",
+    "accounts": [
+      "VEND:0965",
+      "EMP:04:019",
+      "EXT:00555"
+    ],
+    "corrupted_existing": true,
+    "start_day": 238,
+    "end_day": 371.8,
+    "n_txns": 6
+  },
+  {
+    "id": "INVO-0210",
+    "typology": "invoice_kickback",
+    "victim": "CO:33:OPS",
+    "accounts": [
+      "VEND:1218",
+      "EMP:33:099",
+      "EXT:00556"
+    ],
+    "corrupted_existing": false,
+    "start_day": 39,
+    "end_day": 282.8,
+    "n_txns": 20
+  },
+  {
+    "id": "INVO-0211",
+    "typology": "invoice_kickback",
+    "victim": "CO:19:OPS",
+    "accounts": [
+      "VEND:1219",
+      "EMP:19:012",
+      "EXT:00557"
+    ],
+    "corrupted_existing": false,
+    "start_day": 73,
+    "end_day": 385.5,
+    "n_txns": 21
+  },
+  {
+    "id": "INVO-0212",
+    "typology": "invoice_kickback",
+    "victim": "CO:33:OPS",
+    "accounts": [
+      "VEND:0218",
+      "EMP:33:136",
+      "EXT:00558"
+    ],
+    "corrupted_existing": true,
+    "start_day": 165,
+    "end_day": 363.0,
+    "n_txns": 14
+  },
+  {
+    "id": "INVO-0213",
+    "typology": "invoice_kickback",
+    "victim": "CO:28:OPS",
+    "accounts": [
+      "VEND:0647",
+      "EMP:28:039",
+      "EXT:00559"
+    ],
+    "corrupted_existing": true,
+    "start_day": 242,
+    "end_day": 401.9,
+    "n_txns": 8
+  },
+  {
+    "id": "INVO-0214",
+    "typology": "invoice_kickback",
+    "victim": "CO:02:OPS",
+    "accounts": [
+      "VEND:0932",
+      "EMP:02:098",
+      "EXT:00560"
+    ],
+    "corrupted_existing": true,
+    "start_day": 302,
+    "end_day": 379.8,
+    "n_txns": 3
+  },
+  {
+    "id": "LARC-0215",
+    "typology": "larceny",
+    "victim": "CO:02:OPS",
+    "accounts": [
+      "EMP:02:015"
+    ],
+    "own_account": true,
+    "start_day": 163,
+    "end_day": 282.2,
+    "n_txns": 6
+  },
+  {
+    "id": "LARC-0216",
+    "typology": "larceny",
+    "victim": "CO:05:OPS",
+    "accounts": [
+      "VEND:1220"
+    ],
+    "own_account": false,
+    "start_day": 194,
+    "end_day": 311.1,
+    "n_txns": 8
+  },
+  {
+    "id": "LARC-0217",
+    "typology": "larceny",
+    "victim": "CO:33:OPS",
+    "accounts": [
+      "VEND:1221"
+    ],
+    "own_account": false,
+    "start_day": 213,
+    "end_day": 300.0,
+    "n_txns": 5
+  },
+  {
+    "id": "LARC-0218",
+    "typology": "larceny",
+    "victim": "CO:24:OPS",
+    "accounts": [
+      "VEND:1222"
+    ],
+    "own_account": false,
+    "start_day": 169,
+    "end_day": 378.5,
+    "n_txns": 11
+  },
+  {
+    "id": "LARC-0219",
+    "typology": "larceny",
+    "victim": "CO:00:OPS",
+    "accounts": [
+      "VEND:1223"
+    ],
+    "own_account": false,
+    "start_day": 141,
+    "end_day": 373.3,
+    "n_txns": 12
+  },
+  {
+    "id": "LARC-0220",
+    "typology": "larceny",
+    "victim": "CO:12:OPS",
+    "accounts": [
+      "VEND:1224"
+    ],
+    "own_account": false,
+    "start_day": 317,
+    "end_day": 369.5,
+    "n_txns": 2
+  },
+  {
+    "id": "LARC-0221",
+    "typology": "larceny",
+    "victim": "CO:33:OPS",
+    "accounts": [
+      "VEND:1225"
+    ],
+    "own_account": false,
+    "start_day": 210,
+    "end_day": 388.8,
+    "n_txns": 8
+  },
+  {
+    "id": "LARC-0222",
+    "typology": "larceny",
+    "victim": "CO:30:OPS",
+    "accounts": [
+      "VEND:1226"
+    ],
+    "own_account": false,
+    "start_day": 42,
+    "end_day": 311.5,
+    "n_txns": 17
+  },
+  {
+    "id": "LARC-0223",
+    "typology": "larceny",
+    "victim": "CO:15:OPS",
+    "accounts": [
+      "VEND:1227"
+    ],
+    "own_account": false,
+    "start_day": 255,
+    "end_day": 372.5,
+    "n_txns": 7
+  },
+  {
+    "id": "LARC-0224",
+    "typology": "larceny",
+    "victim": "CO:12:OPS",
+    "accounts": [
+      "EMP:12:023"
+    ],
+    "own_account": true,
+    "start_day": 113,
+    "end_day": 223.2,
+    "n_txns": 6
+  },
+  {
+    "id": "LARC-0225",
+    "typology": "larceny",
+    "victim": "CO:39:OPS",
+    "accounts": [
+      "VEND:1228"
+    ],
+    "own_account": false,
+    "start_day": 39,
+    "end_day": 145.8,
+    "n_txns": 5
+  },
+  {
+    "id": "LARC-0226",
+    "typology": "larceny",
+    "victim": "CO:16:OPS",
+    "accounts": [
+      "VEND:1229"
+    ],
+    "own_account": false,
+    "start_day": 250,
+    "end_day": 377.3,
+    "n_txns": 10
+  },
+  {
+    "id": "LARC-0227",
+    "typology": "larceny",
+    "victim": "CO:29:OPS",
+    "accounts": [
+      "EMP:29:014"
+    ],
+    "own_account": true,
+    "start_day": 326,
+    "end_day": 374.5,
+    "n_txns": 2
+  },
+  {
+    "id": "LARC-0228",
+    "typology": "larceny",
+    "victim": "CO:05:OPS",
+    "accounts": [
+      "VEND:1230"
+    ],
+    "own_account": false,
+    "start_day": 231,
+    "end_day": 330.7,
+    "n_txns": 7
+  },
+  {
+    "id": "LARC-0229",
+    "typology": "larceny",
+    "victim": "CO:25:OPS",
+    "accounts": [
+      "EMP:25:112"
+    ],
+    "own_account": true,
+    "start_day": 193,
+    "end_day": 375.5,
+    "n_txns": 8
+  },
+  {
+    "id": "LARC-0230",
+    "typology": "larceny",
+    "victim": "CO:25:OPS",
+    "accounts": [
+      "VEND:1231"
+    ],
+    "own_account": false,
+    "start_day": 240,
+    "end_day": 368.5,
+    "n_txns": 6
+  },
+  {
+    "id": "LARC-0231",
+    "typology": "larceny",
+    "victim": "CO:13:OPS",
+    "accounts": [
+      "VEND:1232"
+    ],
+    "own_account": false,
+    "start_day": 247,
+    "end_day": 386.6,
+    "n_txns": 5
+  },
+  {
+    "id": "LARC-0232",
+    "typology": "larceny",
+    "victim": "CO:32:OPS",
+    "accounts": [
+      "VEND:1233"
+    ],
+    "own_account": false,
+    "start_day": 305,
+    "end_day": 368.5,
+    "n_txns": 3
+  },
+  {
+    "id": "LARC-0233",
+    "typology": "larceny",
+    "victim": "CO:06:OPS",
+    "accounts": [
+      "VEND:1234"
+    ],
+    "own_account": false,
+    "start_day": 309,
+    "end_day": 369.8,
+    "n_txns": 2
+  },
+  {
+    "id": "LARC-0234",
+    "typology": "larceny",
+    "victim": "CO:33:OPS",
+    "accounts": [
+      "EMP:33:077"
+    ],
+    "own_account": true,
+    "start_day": 119,
+    "end_day": 370.6,
+    "n_txns": 12
+  },
+  {
+    "id": "LARC-0235",
+    "typology": "larceny",
+    "victim": "CO:01:OPS",
+    "accounts": [
+      "EMP:01:022"
+    ],
+    "own_account": true,
+    "start_day": 165,
+    "end_day": 365.9,
+    "n_txns": 9
+  },
+  {
+    "id": "LARC-0236",
+    "typology": "larceny",
+    "victim": "CO:20:OPS",
+    "accounts": [
+      "VEND:1235"
+    ],
+    "own_account": false,
+    "start_day": 243,
+    "end_day": 386.1,
+    "n_txns": 9
+  },
+  {
+    "id": "LARC-0237",
+    "typology": "larceny",
+    "victim": "CO:01:OPS",
+    "accounts": [
+      "VEND:1236"
+    ],
+    "own_account": false,
+    "start_day": 270,
+    "end_day": 370.1,
+    "n_txns": 5
+  },
+  {
+    "id": "LARC-0238",
+    "typology": "larceny",
+    "victim": "CO:36:OPS",
+    "accounts": [
+      "VEND:1237"
+    ],
+    "own_account": false,
+    "start_day": 175,
+    "end_day": 329.5,
+    "n_txns": 10
+  },
+  {
+    "id": "LARC-0239",
+    "typology": "larceny",
+    "victim": "CO:21:OPS",
+    "accounts": [
+      "VEND:1238"
+    ],
+    "own_account": false,
+    "start_day": 33,
+    "end_day": 319.2,
+    "n_txns": 25
+  },
+  {
+    "id": "LARC-0240",
+    "typology": "larceny",
+    "victim": "CO:11:OPS",
+    "accounts": [
+      "VEND:1239"
+    ],
+    "own_account": false,
+    "start_day": 45,
+    "end_day": 228.9,
+    "n_txns": 17
+  },
+  {
+    "id": "LARC-0241",
+    "typology": "larceny",
+    "victim": "CO:02:OPS",
+    "accounts": [
+      "VEND:1240"
+    ],
+    "own_account": false,
+    "start_day": 59,
+    "end_day": 281.0,
+    "n_txns": 14
+  },
+  {
+    "id": "LARC-0242",
+    "typology": "larceny",
+    "victim": "CO:19:OPS",
+    "accounts": [
+      "VEND:1241"
+    ],
+    "own_account": false,
+    "start_day": 131,
+    "end_day": 345.5,
+    "n_txns": 13
+  },
+  {
+    "id": "LARC-0243",
+    "typology": "larceny",
+    "victim": "CO:03:OPS",
+    "accounts": [
+      "VEND:1242"
+    ],
+    "own_account": false,
+    "start_day": 255,
+    "end_day": 385.3,
+    "n_txns": 6
+  },
+  {
+    "id": "LARC-0244",
+    "typology": "larceny",
+    "victim": "CO:30:OPS",
+    "accounts": [
+      "VEND:1243"
+    ],
+    "own_account": false,
+    "start_day": 278,
+    "end_day": 389.2,
+    "n_txns": 4
+  },
+  {
+    "id": "LARC-0245",
+    "typology": "larceny",
+    "victim": "CO:03:OPS",
+    "accounts": [
+      "VEND:1244"
+    ],
+    "own_account": false,
+    "start_day": 81,
+    "end_day": 352.9,
+    "n_txns": 27
+  },
+  {
+    "id": "LARC-0246",
+    "typology": "larceny",
+    "victim": "CO:33:OPS",
+    "accounts": [
+      "EMP:33:121"
+    ],
+    "own_account": true,
+    "start_day": 325,
+    "end_day": 383.6,
+    "n_txns": 2
+  },
+  {
+    "id": "LARC-0247",
+    "typology": "larceny",
+    "victim": "CO:16:OPS",
+    "accounts": [
+      "EMP:16:052"
+    ],
+    "own_account": true,
+    "start_day": 30,
+    "end_day": 188.6,
+    "n_txns": 9
+  },
+  {
+    "id": "LARC-0248",
+    "typology": "larceny",
+    "victim": "CO:13:OPS",
+    "accounts": [
+      "VEND:1245"
+    ],
+    "own_account": false,
+    "start_day": 61,
+    "end_day": 253.0,
+    "n_txns": 12
+  },
+  {
+    "id": "LARC-0249",
+    "typology": "larceny",
+    "victim": "CO:15:OPS",
+    "accounts": [
+      "VEND:1246"
+    ],
+    "own_account": false,
+    "start_day": 313,
+    "end_day": 373.7,
+    "n_txns": 2
+  },
+  {
+    "id": "LARC-0250",
+    "typology": "larceny",
+    "victim": "CO:31:OPS",
+    "accounts": [
+      "VEND:1247"
+    ],
+    "own_account": false,
+    "start_day": 327,
+    "end_day": 373.3,
+    "n_txns": 2
+  },
+  {
+    "id": "LARC-0251",
+    "typology": "larceny",
+    "victim": "CO:08:OPS",
+    "accounts": [
+      "VEND:1248"
+    ],
+    "own_account": false,
+    "start_day": 138,
+    "end_day": 377.2,
+    "n_txns": 15
+  },
+  {
+    "id": "LARC-0252",
+    "typology": "larceny",
+    "victim": "CO:33:OPS",
+    "accounts": [
+      "EMP:33:227"
+    ],
+    "own_account": true,
+    "start_day": 148,
+    "end_day": 361.9,
+    "n_txns": 13
+  },
+  {
+    "id": "LARC-0253",
+    "typology": "larceny",
+    "victim": "CO:33:OPS",
+    "accounts": [
+      "VEND:1249"
+    ],
+    "own_account": false,
+    "start_day": 252,
+    "end_day": 373.9,
+    "n_txns": 4
+  },
+  {
+    "id": "LARC-0254",
+    "typology": "larceny",
+    "victim": "CO:33:OPS",
+    "accounts": [
+      "VEND:1250"
+    ],
+    "own_account": false,
+    "start_day": 262,
+    "end_day": 368.0,
+    "n_txns": 4
+  },
+  {
+    "id": "LARC-0255",
+    "typology": "larceny",
+    "victim": "CO:26:OPS",
+    "accounts": [
+      "VEND:1251"
+    ],
+    "own_account": false,
+    "start_day": 292,
+    "end_day": 368.2,
+    "n_txns": 6
+  },
+  {
+    "id": "LARC-0256",
+    "typology": "larceny",
+    "victim": "CO:15:OPS",
+    "accounts": [
+      "VEND:1252"
+    ],
+    "own_account": false,
+    "start_day": 155,
+    "end_day": 306.3,
+    "n_txns": 12
+  },
+  {
+    "id": "LARC-0257",
+    "typology": "larceny",
+    "victim": "CO:05:OPS",
+    "accounts": [
+      "VEND:1253"
+    ],
+    "own_account": false,
+    "start_day": 145,
+    "end_day": 296.8,
+    "n_txns": 11
+  },
+  {
+    "id": "LARC-0258",
+    "typology": "larceny",
+    "victim": "CO:24:OPS",
+    "accounts": [
+      "EMP:24:175"
+    ],
+    "own_account": true,
+    "start_day": 142,
+    "end_day": 372.1,
+    "n_txns": 13
+  },
+  {
+    "id": "LARC-0259",
+    "typology": "larceny",
+    "victim": "CO:32:OPS",
+    "accounts": [
+      "EMP:32:011"
+    ],
+    "own_account": true,
+    "start_day": 64,
+    "end_day": 334.6,
+    "n_txns": 12
+  },
+  {
+    "id": "LARC-0260",
+    "typology": "larceny",
+    "victim": "CO:21:OPS",
+    "accounts": [
+      "EMP:21:056"
+    ],
+    "own_account": true,
+    "start_day": 284,
+    "end_day": 372.3,
+    "n_txns": 5
+  },
+  {
+    "id": "LARC-0261",
+    "typology": "larceny",
+    "victim": "CO:23:OPS",
+    "accounts": [
+      "VEND:1254"
+    ],
+    "own_account": false,
+    "start_day": 73,
+    "end_day": 159.5,
+    "n_txns": 5
+  },
+  {
+    "id": "LARC-0262",
+    "typology": "larceny",
+    "victim": "CO:31:OPS",
+    "accounts": [
+      "VEND:1255"
+    ],
+    "own_account": false,
+    "start_day": 216,
+    "end_day": 371.0,
+    "n_txns": 10
+  },
+  {
+    "id": "LARC-0263",
+    "typology": "larceny",
+    "victim": "CO:13:OPS",
+    "accounts": [
+      "VEND:1256"
+    ],
+    "own_account": false,
+    "start_day": 39,
+    "end_day": 187.1,
+    "n_txns": 7
+  },
+  {
+    "id": "LARC-0264",
+    "typology": "larceny",
+    "victim": "CO:09:OPS",
+    "accounts": [
+      "VEND:1257"
+    ],
+    "own_account": false,
+    "start_day": 216,
+    "end_day": 304.8,
+    "n_txns": 6
+  },
+  {
+    "id": "LARC-0265",
+    "typology": "larceny",
+    "victim": "CO:24:OPS",
+    "accounts": [
+      "VEND:1258"
+    ],
+    "own_account": false,
+    "start_day": 113,
+    "end_day": 275.3,
+    "n_txns": 11
+  },
+  {
+    "id": "LARC-0266",
+    "typology": "larceny",
+    "victim": "CO:33:OPS",
+    "accounts": [
+      "VEND:1259"
+    ],
+    "own_account": false,
+    "start_day": 226,
+    "end_day": 368.5,
+    "n_txns": 8
+  },
+  {
+    "id": "LARC-0267",
+    "typology": "larceny",
+    "victim": "CO:14:OPS",
+    "accounts": [
+      "VEND:1260"
+    ],
+    "own_account": false,
+    "start_day": 335,
+    "end_day": 380.9,
+    "n_txns": 2
+  },
+  {
+    "id": "LARC-0268",
+    "typology": "larceny",
+    "victim": "CO:05:OPS",
+    "accounts": [
+      "VEND:1261"
+    ],
+    "own_account": false,
+    "start_day": 293,
+    "end_day": 380.7,
+    "n_txns": 3
+  }
+]

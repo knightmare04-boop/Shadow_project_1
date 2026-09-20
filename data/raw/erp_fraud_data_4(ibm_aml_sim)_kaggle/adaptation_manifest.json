@@ -1,0 +1,25 @@
+{
+  "source_file": "D:\\project 1\\project\\data\\raw\\erp_fraud_data_4(ibm_aml_sim)_kaggle_raw\\HI-Small_Trans.csv",
+  "source_sha256": "b19d39f515523373f991b689c07e11e7b0b95c17a2c27a87d91584ae16c5b040",
+  "output_file": "D:\\project 1\\project\\data\\raw\\erp_fraud_data_4(ibm_aml_sim)_kaggle\\transactions.csv",
+  "n_transactions": 5078345,
+  "n_fraud": 5177,
+  "fraud_rate": 0.001019,
+  "n_unique_senders": 496999,
+  "n_unique_receivers": 420640,
+  "n_unique_accounts": 515088,
+  "namespace_overlap": 0.7815,
+  "timestamp_span_seconds": 1527480,
+  "first_timestamp_utc": "2022-09-01 00:00:00",
+  "tx_type_distribution": {
+    "Cheque": 1864331,
+    "Credit Card": 1323324,
+    "ACH": 600797,
+    "Cash": 490891,
+    "Reinvestment": 481056,
+    "Wire": 171855,
+    "Bitcoin": 146091
+  },
+  "elapsed_seconds": 27.2,
+  "note": "Reproduction dataset from Kaggle ealtman2019 HI-Small_Trans.csv \u2014 NOT the same simulator instance behind the committed results/ibm_aml/ metrics. Registered as the separate 'ibm_aml_kaggle' dataset."
+}
