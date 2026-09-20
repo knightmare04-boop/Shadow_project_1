@@ -1,0 +1,21 @@
+{
+  "dataset": "synth_erp",
+  "kind": "transfer",
+  "n_transactions": 1148503,
+  "n_accounts": 39393,
+  "n_fraud": 5609,
+  "observed_fraud_rate": 0.004884,
+  "expected_fraud_rate": 0.0056,
+  "namespace_overlap": 0.941,
+  "timestamp_range": [
+    558,
+    31535866
+  ],
+  "alert_types": {
+    "mule_fanin": 2327,
+    "laundering_cycle": 1442,
+    "lapping": 760,
+    "invoice_kickback": 625,
+    "larceny": 455
+  }
+}

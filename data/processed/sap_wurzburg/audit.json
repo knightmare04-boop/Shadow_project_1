@@ -1,0 +1,56 @@
+{
+  "dataset": "sap_wurzburg",
+  "kind": "erp_ledger",
+  "graph_model": "document-account bipartite",
+  "n_transactions": 200629,
+  "n_accounts": 59883,
+  "n_documents": 59852,
+  "n_gl_accounts": 31,
+  "n_fraud": 248,
+  "observed_fraud_rate": 0.001236,
+  "expected_fraud_rate": 0.0012,
+  "namespace_overlap": 0.0,
+  "timestamp_range": [
+    34232,
+    4064527
+  ],
+  "n_runs": 5,
+  "per_run": {
+    "fraud_1": {
+      "n": 39430,
+      "fraud": 24
+    },
+    "fraud_2": {
+      "n": 36778,
+      "fraud": 50
+    },
+    "fraud_3": {
+      "n": 37407,
+      "fraud": 86
+    },
+    "normal_1": {
+      "n": 54677,
+      "fraud": 0
+    },
+    "normal_2": {
+      "n": 32337,
+      "fraud": 88
+    }
+  },
+  "alert_types": {
+    "Mass_Discount": 58,
+    "Larceny_III": 36,
+    "Invoice_Kickback_I": 30,
+    "Invoice_Kickback_II": 24,
+    "Individual_Discount": 24,
+    "Corporate Injury": 14,
+    "Larceny_II": 14,
+    "Corporate_Injury_I": 12,
+    "Larceny_IV": 10,
+    "Larceny_I": 10,
+    "Scrap": 6,
+    "Invoice Kickback 1": 4,
+    "Larceny 2": 4,
+    "Larceny 1": 2
+  }
+}

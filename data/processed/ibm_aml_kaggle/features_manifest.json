@@ -1,0 +1,58 @@
+{
+  "dataset": "ibm_aml_kaggle",
+  "n_rows": 5078345,
+  "n_fraud": 5177,
+  "keys": [
+    "transaction_id",
+    "timestamp"
+  ],
+  "label": "label",
+  "ordinary_cols": [
+    "log_amount",
+    "src_count_prior",
+    "src_amt_mean_prior",
+    "amount_zscore_src",
+    "time_since_prev_src",
+    "dest_count_prior",
+    "tx_type_ACH",
+    "tx_type_Bitcoin",
+    "tx_type_Cash",
+    "tx_type_Cheque",
+    "tx_type_Credit Card",
+    "tx_type_Reinvestment",
+    "tx_type_Wire"
+  ],
+  "topology_cols": [
+    "in_cycle",
+    "cycle_length",
+    "in_cycle_ge3",
+    "cycle_amount_ratio",
+    "cycle_time_span",
+    "fan_in",
+    "fan_out",
+    "dest_in_degree",
+    "src_out_degree",
+    "lap_in_recur",
+    "lap_in_payers",
+    "lap_out_recur",
+    "lap_out_payees"
+  ],
+  "topology_structure_cols": [
+    "in_cycle",
+    "cycle_length",
+    "in_cycle_ge3",
+    "cycle_time_span",
+    "fan_in",
+    "fan_out",
+    "dest_in_degree",
+    "src_out_degree"
+  ],
+  "topology_amount_cols": [
+    "cycle_amount_ratio",
+    "lap_in_recur",
+    "lap_in_payers",
+    "lap_out_recur",
+    "lap_out_payees"
+  ],
+  "output": "features_model.csv"
+}

@@ -1,0 +1,39 @@
+{
+  "dataset": "sap_wurzburg",
+  "params": {
+    "window": null,
+    "max_cycle_len": 6,
+    "search_budget": 4000,
+    "lap_memory": 25,
+    "lap_tol": 0.01,
+    "partition_col": "run_id"
+  },
+  "n_transactions": 200629,
+  "n_in_cycle": 0,
+  "n_in_cycle_ge3": 0,
+  "cycle_length_counts": {},
+  "cycle_amount_ratio_p50": null,
+  "cycle_amount_ratio_p90": null,
+  "fan_in_max": 11497,
+  "fan_in_p99": 9975.720000000001,
+  "lap_in_payers_max": 25,
+  "lapping_separation": {
+    "lap_in_recur": {
+      "fraud_mean": 0.5121,
+      "background_mean": 1.2816
+    },
+    "lap_in_payers": {
+      "fraud_mean": 0.4839,
+      "background_mean": 1.2513
+    },
+    "lap_out_recur": {
+      "fraud_mean": 0.5081,
+      "background_mean": 0.4692
+    },
+    "lap_out_payees": {
+      "fraud_mean": 0.5,
+      "background_mean": 0.458
+    }
+  },
+  "validation": null
+}

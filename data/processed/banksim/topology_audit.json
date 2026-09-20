@@ -1,0 +1,39 @@
+{
+  "dataset": "banksim",
+  "params": {
+    "window": 7,
+    "max_cycle_len": 6,
+    "search_budget": 4000,
+    "lap_memory": 25,
+    "lap_tol": 0.01,
+    "partition_col": null
+  },
+  "n_transactions": 594643,
+  "n_in_cycle": 0,
+  "n_in_cycle_ge3": 0,
+  "cycle_length_counts": {},
+  "cycle_amount_ratio_p50": null,
+  "cycle_amount_ratio_p90": null,
+  "fan_in_max": 3034,
+  "fan_in_p99": 3023.0,
+  "lap_in_payers_max": 5,
+  "lapping_separation": {
+    "lap_in_recur": {
+      "fraud_mean": 0.1414,
+      "background_mean": 0.1864
+    },
+    "lap_in_payers": {
+      "fraud_mean": 0.1414,
+      "background_mean": 0.1864
+    },
+    "lap_out_recur": {
+      "fraud_mean": 0.0539,
+      "background_mean": 0.1596
+    },
+    "lap_out_payees": {
+      "fraud_mean": 0.0529,
+      "background_mean": 0.1478
+    }
+  },
+  "validation": null
+}

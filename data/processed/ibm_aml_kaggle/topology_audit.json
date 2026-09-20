@@ -1,0 +1,46 @@
+{
+  "dataset": "ibm_aml_kaggle",
+  "params": {
+    "window": 604800,
+    "max_cycle_len": 6,
+    "search_budget": 4000,
+    "lap_memory": 25,
+    "lap_tol": 0.01,
+    "partition_col": null
+  },
+  "n_transactions": 5078345,
+  "n_in_cycle": 596018,
+  "n_in_cycle_ge3": 347,
+  "cycle_length_counts": {
+    "1": 591212,
+    "2": 4459,
+    "3": 59,
+    "4": 40,
+    "5": 119,
+    "6": 129
+  },
+  "cycle_amount_ratio_p50": 0.3213,
+  "cycle_amount_ratio_p90": 0.8626,
+  "fan_in_max": 544,
+  "fan_in_p99": 9.0,
+  "lap_in_payers_max": 4,
+  "lapping_separation": {
+    "lap_in_recur": {
+      "fraud_mean": 0.4232,
+      "background_mean": 2.6454
+    },
+    "lap_in_payers": {
+      "fraud_mean": 0.125,
+      "background_mean": 0.6859
+    },
+    "lap_out_recur": {
+      "fraud_mean": 0.0373,
+      "background_mean": 1.8414
+    },
+    "lap_out_payees": {
+      "fraud_mean": 0.0274,
+      "background_mean": 0.6069
+    }
+  },
+  "validation": null
+}
