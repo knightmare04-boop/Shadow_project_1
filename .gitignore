@@ -1,3 +1,20 @@
 # Only credential-bearing env files remain ignored pending explicit confirmation.
 .env
 .env.local
+*_backup.pptx
+
+# Large raw & processed datasets (chunked under large_file_parts/)
+.venv/Lib/site-packages/llvmlite/binding/llvmlite.dll
+.venv/Lib/site-packages/torch/lib/torch_cpu.dll
+data/processed/banksim/features_tgn.parquet
+data/processed/ibm_aml_kaggle/edges_transactions.csv
+data/processed/ibm_aml_kaggle/features_model.csv
+data/processed/ibm_aml_kaggle/features_tgn.parquet
+data/processed/ibm_aml_kaggle/features_topology.csv
+data/processed/synth_erp/features_model.csv
+data/processed/synth_erp/features_tgn.parquet
+data/raw/erp_fraud_data_1(wurzburg)/erp_fraud_data.zip
+data/raw/erp_fraud_data_4(ibm_aml_sim)_kaggle/transactions.csv
+data/raw/erp_fraud_data_4(ibm_aml_sim)_kaggle_raw/HI-Small_Trans.csv
+__pycache__/
+*.pyc

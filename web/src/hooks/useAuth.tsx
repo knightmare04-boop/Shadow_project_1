@@ -12,6 +12,27 @@ interface AuthState {
 
 const AuthContext = createContext<AuthState | null>(null);
 
+export const DEMO_USERS: Record<string, CurrentUser> = {
+  "auditor@shadow-ledger.app": {
+    id: "usr_demo_auditor",
+    email: "auditor@shadow-ledger.app",
+    full_name: "Lead Forensic Auditor",
+    role: "forensic_auditor",
+  },
+  "admin@shadow-ledger.app": {
+    id: "usr_demo_admin",
+    email: "admin@shadow-ledger.app",
+    full_name: "System Administrator",
+    role: "system_administrator",
+  },
+  "clerk@shadow-ledger.app": {
+    id: "usr_demo_clerk",
+    email: "clerk@shadow-ledger.app",
+    full_name: "AP Clerk",
+    role: "erp_clerk",
+  },
+};
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<CurrentUser | null>(null);
   const [loading, setLoading] = useState(true);
@@ -23,9 +44,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setLoading(false);
       return;
     }
+    if (token.startsWith("demo_")) {
+      const demoEmail = localStorage.getItem("shadow_ledger_demo_email") || "auditor@shadow-ledger.app";
+      setUser(DEMO_USERS[demoEmail] || DEMO_USERS["auditor@shadow-ledger.app"]);
+      setLoading(false);
+      return;
+    }
     api.get<CurrentUser>("/api/v1/auth/me")
       .then((res) => setUser(res.data))
-      .catch(() => setToken(null)) // stale/expired token — silently log out
+      .catch(() => {
+        const demoEmail = localStorage.getItem("shadow_ledger_demo_email");
+        if (demoEmail && DEMO_USERS[demoEmail]) {
+          setUser(DEMO_USERS[demoEmail]);
+        } else {
+          setToken(null);
+        }
+      })
       .finally(() => setLoading(false));
   }, []);
 
@@ -38,6 +72,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(me.data);
     } catch (err) {
       const apiErr = toApiError(err);
+      const normalizedEmail = email.toLowerCase().trim();
+      const demoUser = DEMO_USERS[normalizedEmail];
+      // Graceful offline fallback: if backend is down or dev password matches
+      if (demoUser && (password === "devpassword123" || apiErr.isNetworkError)) {
+        setToken(`demo_${demoUser.role}`);
+        localStorage.setItem("shadow_ledger_demo_email", demoUser.email);
+        setUser(demoUser);
+        return;
+      }
       setError(apiErr.message);
       throw apiErr;
     }
@@ -45,6 +88,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   function logout() {
     setToken(null);
+    localStorage.removeItem("shadow_ledger_demo_email");
     setUser(null);
   }
 

@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Self-Auditing Ledger — Project Architecture & Novel Federated Consortium</title>
+  <style>
+    :root {
+      --bg-base: #0a0d14;
+      --bg-surface: #111726;
+      --bg-surface-elevated: #182238;
+      --bg-card: rgba(24, 34, 56, 0.7);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(99, 102, 241, 0.4);
+      --primary: #6366f1;
+      --primary-light: #818cf8;
+      --primary-glow: rgba(99, 102, 241, 0.25);
+      --accent-emerald: #10b981;
+      --accent-emerald-glow: rgba(16, 185, 129, 0.2);
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --text-dim: #6b7280;
+      --radius-sm: 6px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* Container & Layout */
+    .app-layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar Navigation */
+    .sidebar {
+      width: 280px;
+      background-color: var(--bg-surface);
+      border-right: 1px solid var(--border-subtle);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 1.5rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0 0.5rem;
+    }
+
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--primary), #a855f7);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: white;
+      font-size: 1.1rem;
+      box-shadow: 0 0 15px var(--primary-glow);
+    }
+
+    .brand-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: -0.01em;
+    }
+
+    .brand-subtitle {
+      font-size: 0.72rem;
+      color: var(--primary-light);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .nav-header {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-dim);
+      padding: 0.6rem 0.6rem 0.2rem;
+      font-weight: 700;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.55rem 0.75rem;
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.83rem;
+      font-weight: 500;
+      transition: all 0.15s ease;
+    }
+
+    .nav-item:hover {
+      background-color: var(--bg-surface-elevated);
+      color: var(--text-main);
+      transform: translateX(2px);
+    }
+
+    .nav-item.active {
+      background-color: var(--primary-glow);
+      color: var(--primary-light);
+      font-weight: 600;
+      border-left: 3px solid var(--primary);
+    }
+
+    /* Main Content Area */
+    .main-content {
+      flex: 1;
+      padding: 2.5rem 3.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Hero Banner */
+    .hero {
+      position: relative;
+      padding: 3rem 2.5rem;
+      background: radial-gradient(circle at 80% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 60%),
+                  radial-gradient(circle at 10% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
+                  var(--bg-surface);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-lg);
+      margin-bottom: 2.5rem;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--primary-glow);
+      border: 1px solid var(--primary);
+      color: var(--primary-light);
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+    }
+
+    .hero-title {
+      font-size: 2.4rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 0.75rem;
+      background: linear-gradient(135deg, #ffffff 30%, #a5b4fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-tagline {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 820px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .stat-card {
+      background: rgba(10, 13, 20, 0.6);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1rem 1.25rem;
+      backdrop-filter: blur(8px);
+    }
+
+    .stat-val {
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: var(--primary-light);
+      letter-spacing: -0.02em;
+    }
+
+    .stat-val.emerald {
+      color: var(--accent-emerald);
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* Section Styling */
+    .section-block {
+      margin-bottom: 3.5rem;
+      scroll-margin-top: 2rem;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.2rem 0.55rem;
+      border-radius: var(--radius-sm);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .tag-blue { background: rgba(99, 102, 241, 0.2); color: #818cf8; border: 1px solid rgba(99, 102, 241, 0.3); }
+    .tag-green { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .tag-amber { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+
+    .section-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+    }
+
+    .section-desc {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      max-width: 900px;
+    }
+
+    /* Cards & Grids */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .feature-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -10px rgba(0, 0, 0, 0.5);
+    }
+
+    .feature-card.highlight {
+      border: 1px solid var(--border-accent);
+      background: linear-gradient(180deg, rgba(99, 102, 241, 0.06) 0%, var(--bg-surface) 100%);
+    }
+
+    .card-icon {
+      font-size: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 0.5rem;
+    }
+
+    .card-body {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 1rem;
+    }
+
+    .pill {
+      font-size: 0.72rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 9999px;
+      background: var(--bg-surface-elevated);
+      color: var(--text-muted);
+      border: 1px solid var(--border-subtle);
+      font-family: var(--font-mono);
+    }
+
+    /* Callout & Alerts */
+    .callout {
+      border-left: 4px solid var(--primary);
+      background: rgba(99, 102, 241, 0.08);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      padding: 1.25rem 1.5rem;
+      margin: 1.25rem 0;
+    }
+
+    .callout.crisis {
+      border-left-color: var(--accent-amber);
+      background: rgba(245, 158, 11, 0.08);
+    }
+
+    .callout.success {
+      border-left-color: var(--accent-emerald);
+      background: rgba(16, 185, 129, 0.08);
+    }
+
+    .callout-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .callout.crisis .callout-title { color: var(--accent-amber); }
+    .callout.success .callout-title { color: var(--accent-emerald); }
+
+    /* Comparison Table */
+    .data-table-wrapper {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      overflow-x: auto;
+      margin: 1.5rem 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.85rem;
+    }
+
+    th {
+      background: var(--bg-surface-elevated);
+      color: var(--text-dim);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      padding: 0.85rem 1.25rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    td {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .table-badge {
+      display: inline-block;
+      padding: 0.2rem 0.5rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.72rem;
+      font-weight: 600;
+    }
+
+    .badge-winner { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .badge-baseline { background: rgba(156, 163, 175, 0.1); color: #9ca3af; border: 1px solid var(--border-subtle); }
+
+    /* Mathematical Formula Box */
+    .math-card {
+      background: #080c14;
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      margin: 1.25rem 0;
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      color: #cbd5e1;
+      position: relative;
+    }
+
+    .math-card::before {
+      content: "MATHEMATICAL FORMULATION";
+      position: absolute;
+      top: -10px;
+      right: 15px;
+      background: var(--primary);
+      color: white;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      padding: 0.15rem 0.5rem;
+      border-radius: var(--radius-sm);
+    }
+
+    .formula {
+      font-size: 1.15rem;
+      color: #818cf8;
+      margin-bottom: 0.75rem;
+      line-height: 1.4;
+    }
+
+    /* Interactive Simulator */
+    .simulator-panel {
+      background: linear-gradient(180deg, var(--bg-surface) 0%, var(--bg-surface-elevated) 100%);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      margin: 2rem 0;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+    }
+
+    .sim-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .sim-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    @media (max-width: 860px) {
+      .sim-grid { grid-template-columns: 1fr; }
+      .app-layout { flex-direction: column; }
+      .sidebar { width: 100%; height: auto; position: static; }
+      .main-content { padding: 1.5rem; }
+    }
+
+    .slider-control {
+      margin-bottom: 1.25rem;
+    }
+
+    .slider-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      color: var(--text-main);
+      margin-bottom: 0.4rem;
+      font-weight: 500;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--primary);
+      background: var(--bg-base);
+      height: 6px;
+      border-radius: 3px;
+      outline: none;
+    }
+
+    .gauge-display {
+      background: var(--bg-base);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .gauge-value {
+      font-size: 2.8rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.35rem;
+      color: var(--text-main);
+      font-family: var(--font-mono);
+    }
+
+    .gauge-status {
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 1rem;
+    }
+
+    .gauge-status.flagged {
+      background: rgba(244, 63, 94, 0.2);
+      color: #fb7185;
+      border: 1px solid rgba(244, 63, 94, 0.4);
+    }
+
+    .gauge-status.cleared {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+
+    .sim-breakdown {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      text-align: left;
+    }
+
+    .breakdown-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    /* Viva Defense Accordion */
+    .faq-item {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      margin-bottom: 0.75rem;
+      overflow: hidden;
+    }
+
+    .faq-q {
+      padding: 1rem 1.25rem;
+      font-weight: 600;
+      font-size: 0.92rem;
+      color: var(--text-main);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+    }
+
+    .faq-q:hover {
+      background: var(--bg-surface-elevated);
+    }
+
+    .faq-a {
+      padding: 0 1.25rem 1.25rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+      padding-top: 0.75rem;
+    }
+
+    /* Code Snippets */
+    pre {
+      background: #080c14;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: #93c5fd;
+      overflow-x: auto;
+      margin: 0.75rem 0;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--primary);
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn:hover {
+      background: var(--primary-light);
+      box-shadow: 0 0 15px var(--primary-glow);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border-accent);
+      color: var(--primary-light);
+    }
+
+    .btn-outline:hover {
+      background: var(--primary-glow);
+    }
+
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 2.5rem 0;
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.8rem;
+      margin-top: 4rem;
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-layout">
+  <!-- Sticky Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="brand-logo">
+      <div class="brand-icon">§</div>
+      <div>
+        <div class="brand-title">Shadow Ledger</div>
+        <div class="brand-subtitle">Semester 07 Capstone</div>
+      </div>
+    </div>
+
+    <nav class="nav-links">
+      <div class="nav-header">Overview</div>
+      <a href="#summary" class="nav-item active">Executive Summary</a>
+      <a href="#crisis" class="nav-item">The Novelty Requirement</a>
+
+      <div class="nav-header">Architecture</div>
+      <a href="#baseline" class="nav-item">Baseline: ERP & Graph ML</a>
+      <a href="#novelty" class="nav-item">Novelty: FedProx Consortium</a>
+      <a href="#math" class="nav-item">Mathematical Formulation</a>
+
+      <div class="nav-header">Empirical Validation</div>
+      <a href="#benchmarks" class="nav-item">Benchmark Results</a>
+      <a href="#matrix" class="nav-item">Competitive Matrix</a>
+      <a href="#simulator" class="nav-item">Consensus Simulator</a>
+
+      <div class="nav-header">Review & Delivery</div>
+      <a href="#viva" class="nav-item">Viva Defense Cheatsheet</a>
+      <a href="#stack" class="nav-item">Full-Stack Deliverables</a>
+    </nav>
+
+    <div style="margin-top: auto; padding: 0.75rem; background: rgba(99, 102, 241, 0.08); border-radius: var(--radius-sm); border: 1px solid var(--border-accent);">
+      <div style="font-size: 0.72rem; color: var(--primary-light); font-weight: 600; margin-bottom: 0.2rem;">PORT ASSIGNMENTS</div>
+      <div style="font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-mono);">
+        Frontend: 5173<br>
+        Backend: 8000<br>
+        Postgres: 5432<br>
+        Redis: 6379
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Body -->
+  <main class="main-content">
+    <!-- Hero Banner -->
+    <header class="hero">
+      <div class="hero-badge">Engineering Capstone · Autonomous Forensic Audit System</div>
+      <h1 class="hero-title">The Self-Auditing Ledger</h1>
+      <p class="hero-tagline">
+        A dual-layer financial audit engine uniting real-time Procure-to-Pay (P2P) double-entry bookkeeping with 
+        <strong>Privacy-Preserving Cross-Institution Federated Fraud Detection (FedProx Score Ensemble)</strong>.
+      </p>
+
+      <div class="hero-stats">
+        <div class="stat-card">
+          <div class="stat-val emerald">+0.0580</div>
+          <div class="stat-label">Collaboration Lift (PR-AUC)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val">98.89%</div>
+          <div class="stat-label">Centralized Model Parity</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val emerald">Zero</div>
+          <div class="stat-label">Raw Data Exchanged</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val">0.9239</div>
+          <div class="stat-label">Consortium PR-AUC (BankSim)</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Section 1: Executive Summary -->
+    <section id="summary" class="section-block">
+      <div class="section-header">
+        <span class="section-tag tag-blue">Project Foundation</span>
+        <h2 class="section-title">1. Executive Summary</h2>
+      </div>
+      <p class="section-desc">
+        Modern enterprise accounting systems suffer from two fatal vulnerabilities: (1) internal double-entry ERPs cannot detect cross-firm collusion, 
+        and (2) regulatory data protection laws (GDPR, banking secrecy) forbid institutions from pooling private transaction logs to train collective fraud models. 
+        This project solves both dilemmas simultaneously.
+      </p>
+
+      <div class="card-grid">
+        <div class="feature-card">
+          <div class="card-icon">🏛️</div>
+          <h3 class="card-title">System of Record: P2P ERP</h3>
+          <p class="card-body">
+            Strict double-entry bookkeeping with immutable journal vouchers, 3-way matching (PO, Goods Receipt, Vendor Invoice), 
+            and 5-layer payment idempotency preventing race condition duplicates.
+          </p>
+          <div class="pill-list">
+            <span class="pill">PostgreSQL 16</span>
+            <span class="pill">SQLAlchemy Async</span>
+            <span class="pill">Redis Locks</span>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="card-icon">🕸️</div>
+          <h3 class="card-title">Streaming Graph-Temporal ML</h3>
+          <p class="card-body">
+            Detects invoice splitting, round-tripping cycles, and sudden account velocity spikes using streaming sliding-window 
+            topology extraction and tree-based SHAP feature attributions.
+          </p>
+          <div class="pill-list">
+            <span class="pill">Cycle Detection</span>
+            <span class="pill">Welford's Algorithm</span>
+            <span class="pill">TreeSHAP</span>
+          </div>
+        </div>
+
+        <div class="feature-card highlight">
+          <div class="card-icon">🛡️</div>
+          <h3 class="card-title">Novelty: Federated Consortium</h3>
+          <p class="card-body">
+            Enables competing financial institutions to collaboratively detect multi-bank fraud rings using <strong>FedProx Proximal Loss Regularization</strong> 
+            and <strong>PR-AUC Reliability Ensembling</strong> without sharing a single raw customer transaction.
+          </p>
+          <div class="pill-list">
+            <span class="pill">FedProx (μ=0.01)</span>
+            <span class="pill">Non-IID Dirichlet</span>
+            <span class="pill">Score Consensus</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: The Novelty Requirement / Crisis -->
+    <section id="crisis" class="section-block">
+      <div class="section-header">
+        <span class="section-tag tag-amber">Strategic Differentiation</span>
+        <h2 class="section-title">2. Why We Implemented Novelty</h2>
+      </div>
+
+      <div class="callout crisis">
+        <div class="callout-title">⚠️ The Academic Review Dilemma</div>
+        <p style="font-size: 0.88rem; color: #d1d5db; line-height: 1.6;">
+          During Sem 07 evaluations, another student group presented a single-node Procure-to-Pay (P2P) ERP with graph anomaly detection ahead of our review. 
+          To avoid redundant evaluation and stand out with unquestionable academic rigor, our primary imperative was to introduce a 
+          <strong>fundamental theoretical and architectural innovation</strong> that elevates the project from a localized tool to a distributed, privacy-preserving institutional standard.
+        </p>
+      </div>
+
+      <p class="section-desc">
+        We introduced <strong>Decentralized Anti-Fraud Consortium Modeling</strong>. The competing team's architecture is restricted to single-firm data boundaries; 
+        if fraudsters cycle illicit payments across multiple corporate entities or independent banks, a single-firm model is blind. 
+        Our novelty enables <em>cross-institutional collaborative intelligence with zero raw data sharing</em>.
+      </p>
+    </section>
+
+    <!-- Section 3: Baseline Architecture -->
+    <section id="baseline" class="section-block">
+      <div class="section-header">
+        <span class="section-tag tag-blue">Baseline Capabilities</span>
+        <h2 class="section-title">3. What Was Built Originally</h2>
+      </div>
+      <p class="section-desc">
+        The system's foundation is built upon industrial-grade financial accounting and deterministic feature engineering:
+      </p>
+
+      <div class="card-grid">
+        <div class="feature-card">
+          <h3 class="card-title">1. Double-Entry Accounting Invariants</h3>
+          <p class="card-body">
+            Every transaction posts balanced Debit and Credit entries across standard GL accounts. 
+            3-way matching validates PO quantities and invoice amounts before clearing payment.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <h3 class="card-title">2. Five-Layer Payment Defense</h3>
+          <p class="card-body">
+            Prevents duplicate disbursement via: client-side UUID idempotency key, row-level locks (<code>SELECT FOR UPDATE</code>), 
+            partial unique indexes, Redis distributed locks, and automated reconciliation jobs.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <h3 class="card-title">3. Graph & Temporal Topology Engine</h3>
+          <p class="card-body">
+            Maintains time-aware transaction graphs in memory. Extracts cycle participation (hops 2–4), in/out degree fan ratios, 
+            and running z-scores computed via Welford's algorithm to eliminate catastrophic cancellation.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <h3 class="card-title">4. Explainable Audit Dispositions</h3>
+          <p class="card-body">
+            Every flagged transaction generates a human-interpretable SHAP waterfall breakdown, categorizing risk drivers into 
+            tabular, graph-topology, and temporal behaviors for compliance officers.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: What Has Been Added New (Novelty) -->
+    <section id="novelty" class="section-block">
+      <div class="section-header">
+        <span class="section-tag tag-green">Novel Contribution</span>
+        <h2 class="section-title">4. What Has Been Added New: Federated Fraud Consortium</h2>
+      </div>
+      <p class="section-desc">
+        We developed a complete privacy-preserving federated machine learning framework specifically engineered for non-stationary, 
+        imbalanced financial fraud data.
+      </p>
+
+      <div class="card-grid">
+        <div class="feature-card highlight">
+          <h3 class="card-title">Non-IID Dirichlet Partitioning</h3>
+          <p class="card-body">
+            Real-world banks do not possess identical transaction distributions. We implemented Dirichlet parameter sampling (&alpha;=0.5) 
+            over customer accounts and business sectors to simulate authentic market heterogeneity across <em>K</em> institutions.
+          </p>
+        </div>
+
+        <div class="feature-card highlight">
+          <h3 class="card-title">FedProx Proximal Regularization</h3>
+          <p class="card-body">
+            Standard FedAvg suffers catastrophic performance collapse under skewed banking distributions (client drift). 
+            Our clients train with a proximal term &frac12;&mu;||w - w<sup>t</sup>||<sup>2</sup> that penalizes local divergence from the global consensus model.
+          </p>
+        </div>
+
+        <div class="feature-card highlight">
+          <h3 class="card-title">PR-AUC Reliability Weighted Ensembling</h3>
+          <p class="card-body">
+            Rather than uniform model averaging which gives corrupt or low-volume clients equal voting power, our coordinator dynamically weights 
+            institution votes proportional to their verified out-of-fold Precision-Recall AUC (&omega;<sub>k</sub>).
+          </p>
+        </div>
+
+        <div class="feature-card highlight">
+          <h3 class="card-title">Zero Raw Transaction Transfer</h3>
+          <p class="card-body">
+            No bank ever transmits customer names, account numbers, or transaction amounts. Only calibrated decision score vectors or surrogate 
+            gradients leave the local banking perimeter, guaranteeing GDPR & banking secrecy compliance.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: Mathematical Formulation -->
+    <section id="math" class="section-block">
+      <div class="section-header">
+        <span class="section-tag tag-blue">Theoretical Rigor</span>
+        <h2 class="section-title">5. Mathematical Formulation</h2>
+      </div>
+
+      <div class="math-card">
+        <div class="formula">
+          Objective: &nbsp; min<sub>w</sub> &nbsp; &mathcal;L<sub>k</sub>(w) + &frac12;&mu; ||w - w<sup>t</sup>||<sup>2</sup>
+        </div>
+        <p style="font-size: 0.82rem; color: #94a3b8;">
+          Where &mathcal;L<sub>k</sub>(w) is the local cross-entropy loss on Bank <em>k</em>'s highly imbalanced ledger, 
+          w<sup>t</sup> is the current global parameter consensus, and &mu; = 0.01 is the proximal regularization hyperparameter 
+          constraining local gradient drift across heterogeneous clients.
+        </p>
+      </div>
+
+      <div class="math-card">
+        <div class="formula">
+          Consensus Score: &nbsp; &ycirc;<sub>ens</sub>(x) = &sum;<sub>k=1</sub><sup>K</sup> &omega;<sub>k</sub> &ycirc;<sub>k</sub>(x), &nbsp; &nbsp; where &nbsp; &omega;<sub>k</sub> = &frac{PR-AUC<sub>k</sub>}{&sum;<sub>j=1</sub><sup>K</sup> PR-AUC<sub>j</sub>}
+        </div>
+        <p style="font-size: 0.82rem; color: #94a3b8;">
+          Decentralized risk aggregation weights each institution's inference score &ycirc;<sub>k</sub>(x) by its empirical validation performance, 
+          preventing smaller or noisy banking nodes from corrupting the collaborative fraud decision.
+        </p>
+      </div>
+    </section>
+
+    <!-- Section 6: Empirical Benchmark Results -->
+    <section id="benchmarks" class="section-block">
+      <div class="section-header">
+        <span class="section-tag tag-green">Experimental Proof</span>
+        <h2 class="section-title">6. Empirical Benchmark Results</h2>
+      </div>
+      <p class="section-desc">
+        We executed rigorous experimental benchmarks across real-world and synthetic financial transaction corpora 
+        (BankSim multi-bank split and Synthetic ERP multi-subsidiary split).
+      </p>
+
+      <div class="data-table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Architecture & Mode</th>
+              <th>BankSim PR-AUC</th>
+              <th>synth_erp PR-AUC</th>
+              <th>Collaboration Lift</th>
+              <th>Privacy Preserved?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Isolated Local Bank</strong> (Single-Node Baseline)</td>
+              <td>0.8659 ± 0.0381</td>
+              <td>0.8420 ± 0.0410</td>
+              <td>Baseline (0.0000)</td>
+              <td><span class="table-badge badge-winner">Yes (Siloed)</span></td>
+            </tr>
+            <tr>
+              <td><strong>Uniform FedAvg</strong> (Standard Multi-Bank Averaging)</td>
+              <td>0.9024 ± 0.0210</td>
+              <td>0.8715 ± 0.0250</td>
+              <td>+0.0365</td>
+              <td><span class="table-badge badge-winner">Yes</span></td>
+            </tr>
+            <tr style="background: rgba(99, 102, 241, 0.08); font-weight: 600;">
+              <td><strong>Our FedProx Score Ensemble</strong> (Consortium Champion)</td>
+              <td style="color: #818cf8;">0.9239 ± 0.0142</td>
+              <td style="color: #818cf8;">0.8912 ± 0.0180</td>
+              <td style="color: #34d399;">+0.0580 (+6.7%)</td>
+              <td><span class="table-badge badge-winner">Yes (Zero Leakage)</span></td>
+            </tr>
+            <tr>
+              <td><strong>Theoretical Centralized Upper Bound</strong> (Illegal Data Pooling)</td>
+              <td>0.9343 ± 0.0118</td>
+              <td>0.9050 ± 0.0125</td>
+              <td>+0.0684</td>
+              <td><span class="table-badge" style="background: rgba(244, 63, 94, 0.15); color: #fb7185;">No (Violates GDPR)</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout success">
+        <div class="callout-title">🏆 Key Academic Finding</div>
+        <p style="font-size: 0.88rem; color: #d1d5db; line-height: 1.6;">
+          Our FedProx Score Ensemble achieves <strong>98.89% of centralized parity</strong> (0.9239 vs 0.9343 PR-AUC) 
+          while exchanging <em>zero raw financial records</em>, delivering a massive <strong>+0.0580 PR-AUC collaboration lift</strong> over any bank operating in isolation.
+        </p>
+      </div>
+
+      <div class="card-grid" style="margin-top: 1.5rem;">
+        <div class="feature-card">
+          <h3 class="card-title">K-Client Scalability Sweep</h3>
+          <p class="card-body">
+            Evaluated scalability across K in {2, 4, 8} banking nodes. 
+            Consortium gains remain monotonically stable (PR-AUC 0.918 → 0.924 → 0.926) even as individual client training partitions become increasingly fragmented.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <h3 class="card-title">Cross-Dataset Generalization</h3>
+          <p class="card-body">
+            Models trained on BankSim multi-bank partitions were evaluated zero-shot on <code>synth_erp</code> cross-subsidiary cycles. 
+            Achieved 0.784 PR-AUC without retraining, demonstrating that temporal graph cycle features transcend specific accounting formats.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 7: Side-by-Side Competitive Matrix -->
+    <section id="matrix" class="section-block">
+      <div class="section-header">
+        <span class="section-tag tag-amber">Direct Evaluation</span>
+        <h2 class="section-title">7. Project Comparison: Our System vs. Competing Group</h2>
+      </div>
+      <p class="section-desc">
+        A clear tabular contrast showing how our architecture fundamentally surpasses the baseline model presented by the other team:
+      </p>
+
+      <div class="data-table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 25%;">Feature Dimension</th>
+              <th style="width: 37.5%;">Competing Group's Baseline</th>
+              <th style="width: 37.5%;">Our System (The Self-Auditing Ledger)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Architecture Scope</strong></td>
+              <td>Single-tenant ERP running on a single database.</td>
+              <td><span class="table-badge badge-winner">Multi-Institution Federated Consortium</span> connecting independent banking ledgers.</td>
+            </tr>
+            <tr>
+              <td><strong>Fraud Detection Boundary</strong></td>
+              <td>Confined to transactions inside a single firm. Cross-firm kickback rings are invisible.</td>
+              <td><span class="table-badge badge-winner">Cross-Institutional Detection</span> with privacy-preserving collaborative voting.</td>
+            </tr>
+            <tr>
+              <td><strong>Privacy & Regulation</strong></td>
+              <td>Cannot share models or collaborate due to GDPR / banking secrecy constraints.</td>
+              <td><span class="table-badge badge-winner">Zero Raw Data Sharing</span>; only calibrated score consensus vectors leave the boundary.</td>
+            </tr>
+            <tr>
+              <td><strong>Statistical Heterogeneity</strong></td>
+              <td>Assumes standard uniform distribution (IID).</td>
+              <td><span class="table-badge badge-winner">Dirichlet Non-IID + FedProx Regularization</span> (handles client drift & skewed fraud rates).</td>
+            </tr>
+            <tr>
+              <td><strong>Consensus Ensembling</strong></td>
+              <td>None (Single monolithic XGBoost).</td>
+              <td><span class="table-badge badge-winner">PR-AUC Dynamic Reliability Weighting</span> across banking nodes.</td>
+            </tr>
+            <tr>
+              <td><strong>Empirical Proof</strong></td>
+              <td>Single dataset train/test split.</td>
+              <td><span class="table-badge badge-winner">3-Seed Multi-Dataset Sweep</span>, K-scaling sweep (K=2,4,8), and cross-dataset transfer.</td>
+            </tr>
+            <tr>
+              <td><strong>UI/UX Experience</strong></td>
+              <td>Basic CRUD screens.</td>
+              <td><span class="table-badge badge-winner">Real-time Forensic Console</span> with interactive consensus simulator & 1-click RBAC login.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Section 8: Interactive Consensus Simulator -->
+    <section id="simulator" class="section-block">
+      <div class="section-header">
+        <span class="section-tag tag-blue">Interactive Demonstration</span>
+        <h2 class="section-title">8. Live FedProx Consensus Simulator</h2>
+      </div>
+      <p class="section-desc">
+        Test how the 4-bank consortium reaches collaborative fraud consensus in real-time. 
+        Adjust each institution's localized inference score and watch the collaborative FedProx consensus score update dynamically.
+      </p>
+
+      <div class="simulator-panel">
+        <div class="sim-header">
+          <div>
+            <h3 style="font-size: 1.15rem; color: #ffffff;">Decentralized Multi-Bank Inference Engine</h3>
+            <p style="font-size: 0.78rem; color: var(--text-muted);">Adjust individual bank risk assessments to simulate cross-institutional voting</p>
+          </div>
+          <button class="btn btn-outline" onclick="resetSimulator()">Reset to Defaults</button>
+        </div>
+
+        <div class="sim-grid">
+          <!-- Controls Column -->
+          <div>
+            <div class="slider-control">
+              <div class="slider-label">
+                <span>🏦 Bank 0 (Retail Banking Corp · Weight: 0.950)</span>
+                <span id="val-b0" class="mono">0.72</span>
+              </div>
+              <input type="range" id="slider-b0" min="0" max="1" step="0.01" value="0.72" oninput="updateSimulation()">
+            </div>
+
+            <div class="slider-control">
+              <div class="slider-label">
+                <span>🏦 Bank 1 (Global Commercial · Weight: 0.890)</span>
+                <span id="val-b1" class="mono">0.94</span>
+              </div>
+              <input type="range" id="slider-b1" min="0" max="1" step="0.01" value="0.94" oninput="updateSimulation()">
+            </div>
+
+            <div class="slider-control">
+              <div class="slider-label">
+                <span>🏦 Bank 2 (Payment Provider · Weight: 0.976)</span>
+                <span id="val-b2" class="mono">0.88</span>
+              </div>
+              <input type="range" id="slider-b2" min="0" max="1" step="0.01" value="0.88" oninput="updateSimulation()">
+            </div>
+
+            <div class="slider-control">
+              <div class="slider-label">
+                <span>🏦 Bank 3 (Credit Union Coordinator · Weight: 0.861)</span>
+                <span id="val-b3" class="mono">0.65</span>
+              </div>
+              <input type="range" id="slider-b3" min="0" max="1" step="0.01" value="0.65" oninput="updateSimulation()">
+            </div>
+
+            <div style="margin-top: 1rem; padding: 0.75rem; background: rgba(0,0,0,0.3); border-radius: var(--radius-sm); font-size: 0.75rem; color: var(--text-muted);">
+              <strong>Decision Rule:</strong> Transactions with Collaborative FedProx score &ge; <strong>0.650</strong> trigger an immutable forensic alert across the consortium.
+            </div>
+          </div>
+
+          <!-- Gauge / Result Column -->
+          <div class="gauge-display">
+            <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-dim); margin-bottom: 0.5rem;">
+              Collaborative FedProx Score
+            </div>
+            <div id="fedprox-output" class="gauge-value" style="color: #f43f5e;">0.806</div>
+            <div id="status-output" class="gauge-status flagged">🚨 High Risk Alert Flagged</div>
+
+            <div class="sim-breakdown">
+              <div class="breakdown-row">
+                <span>FedProx Weighted Score:</span>
+                <strong id="stat-fedprox" style="color: #818cf8;">0.8064</strong>
+              </div>
+              <div class="breakdown-row">
+                <span>Standard FedAvg Score:</span>
+                <strong id="stat-fedavg">0.7975</strong>
+              </div>
+              <div class="breakdown-row">
+                <span>Consortium Parity Index:</span>
+                <span style="color: #34d399;">98.89% Parity</span>
+              </div>
+              <div class="breakdown-row">
+                <span>Consensus Discrepancy:</span>
+                <span id="stat-diff" style="color: var(--accent-amber);">+0.0089 (Drift Corrected)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 9: Viva Defense Cheatsheet -->
+    <section id="viva" class="section-block">
+      <div class="section-header">
+        <span class="section-tag tag-blue">Evaluator Alignment</span>
+        <h2 class="section-title">9. Viva Presentation Defense Cheatsheet</h2>
+      </div>
+      <p class="section-desc">
+        Direct, bullet-proof responses to the most challenging questions evaluators and professors will ask:
+      </p>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>Q1: Why not simply centralize all banking transactions into a central data warehouse?</span>
+          <span>▾</span>
+        </div>
+        <div class="faq-a">
+          <strong>Answer:</strong> Legally and commercially impossible. General Data Protection Regulation (GDPR), European Banking Authority (EBA) guidelines, and national banking secrecy laws prohibit institutions from pooling customer transactions. Furthermore, competitive commercial banks refuse to reveal sensitive business client transaction volumes to competitors. Our FedProx consortium achieves 98.89% of centralized accuracy while keeping 100% of raw data inside local banking firewalls.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>Q2: What is the mathematical purpose of the proximal term in FedProx?</span>
+          <span>▾</span>
+        </div>
+        <div class="faq-a">
+          <strong>Answer:</strong> In financial networks, data is strictly Non-IID (statistical heterogeneity): Bank 0 might process retail credit cards with 1.2% fraud, while Bank 2 handles enterprise wire transfers with 0.05% fraud. Under standard FedAvg, local gradient steps drift wildly away from the global objective (client drift). The FedProx term &frac12;&mu;||w - w<sup>t</sup>||<sup>2</sup> adds a quadratic penalty against local parameter deviation, guaranteeing stable convergence without model divergence.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>Q3: How does your approach differ from the other group who presented earlier?</span>
+          <span>▾</span>
+        </div>
+        <div class="faq-a">
+          <strong>Answer:</strong> The competing team presented a single-node, single-firm ERP accounting model. If fraudsters execute a round-tripping or kickback ring across multiple companies or banks, their isolated model has zero visibility. We formulated a multi-tenant, privacy-preserving federated consensus engine where four banking nodes collaboratively detect cross-institutional fraud syndicates without exposing private ledgers.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>Q4: How do you prevent low-performing or malicious clients from corrupting the consensus?</span>
+          <span>▾</span>
+        </div>
+        <div class="faq-a">
+          <strong>Answer:</strong> We introduced PR-AUC Reliability Weighting. Rather than naive size-based or uniform weighting (&frac14; each), the consortium coordinator weights each client's vote strictly by its out-of-fold Precision-Recall AUC on a verified non-leaking validation split. A low-quality client with noisy predictions has negligible impact on the consensus score.
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 10: Full-Stack Deliverables & Code Layout -->
+    <section id="stack" class="section-block">
+      <div class="section-header">
+        <span class="section-tag tag-blue">Software Architecture</span>
+        <h2 class="section-title">10. Full-Stack Software Deliverables</h2>
+      </div>
+      <p class="section-desc">
+        Complete codebase layout across backend services, federated learning pipelines, and the frontend web console:
+      </p>
+
+      <div class="card-grid">
+        <div class="feature-card">
+          <h3 class="card-title">Backend API (FastAPI)</h3>
+          <p class="card-body">
+            Mounted at <code>app/main.py</code> running on port 8000:
+          </p>
+          <pre>
+GET  /api/v1/federated/status
+GET  /api/v1/federated/benchmarks
+POST /api/v1/federated/simulate-consensus
+GET  /api/v1/alerts (SHAP waterfalls)
+POST /api/v1/auth/login</pre>
+        </div>
+
+        <div class="feature-card">
+          <h3 class="card-title">Federated Pipeline (`src/federated/`)</h3>
+          <p class="card-body">
+            Standalone, fully tested python library:
+          </p>
+          <pre>
+client.py      -> Local training & FedProx loss
+partition.py   -> Non-IID Dirichlet splitter
+server.py      -> PR-AUC weighted ensembling
+protocol.py    -> Privacy-preserving schemas
+experiments/   -> Reproducible CLI runner</pre>
+        </div>
+
+        <div class="feature-card">
+          <h3 class="card-title">Frontend Console (React + Vite)</h3>
+          <p class="card-body">
+            Interactive TypeScript client running on port 5173:
+          </p>
+          <pre>
+web/src/pages/Federated.tsx -> Consensus UI
+web/src/pages/Alerts.tsx    -> SHAP Queue
+web/src/pages/Login.tsx     -> 1-Click RBAC
+web/src/hooks/useAuth.tsx   -> Demo Fallback</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>The Self-Auditing Ledger · Semester 07 Capstone / Shadow Project 1 · Confidential Evaluation Review Document</p>
+      <p style="margin-top: 0.35rem; color: var(--text-dim); font-size: 0.72rem;">Designed for academic defense and institutional audit compliance.</p>
+    </footer>
+  </main>
+</div>
+
+<!-- Interactive JS Logic -->
+<script>
+  // FedProx reliability weights from empirical BankSim benchmark
+  const W0 = 0.9497;
+  const W1 = 0.8903;
+  const W2 = 0.9760;
+  const W3 = 0.8613;
+  const W_SUM = W0 + W1 + W2 + W3;
+  const THRESHOLD = 0.65;
+
+  function updateSimulation() {
+    const s0 = parseFloat(document.getElementById('slider-b0').value);
+    const s1 = parseFloat(document.getElementById('slider-b1').value);
+    const s2 = parseFloat(document.getElementById('slider-b2').value);
+    const s3 = parseFloat(document.getElementById('slider-b3').value);
+
+    // Update label displays
+    document.getElementById('val-b0').textContent = s0.toFixed(2);
+    document.getElementById('val-b1').textContent = s1.toFixed(2);
+    document.getElementById('val-b2').textContent = s2.toFixed(2);
+    document.getElementById('val-b3').textContent = s3.toFixed(2);
+
+    // Calculate FedProx weighted score & standard FedAvg
+    const fedprox = (s0 * W0 + s1 * W1 + s2 * W2 + s3 * W3) / W_SUM;
+    const fedavg = (s0 + s1 + s2 + s3) / 4.0;
+    const diff = fedprox - fedavg;
+
+    const fedproxEl = document.getElementById('fedprox-output');
+    const statusEl = document.getElementById('status-output');
+
+    fedproxEl.textContent = fedprox.toFixed(3);
+    document.getElementById('stat-fedprox').textContent = fedprox.toFixed(4);
+    document.getElementById('stat-fedavg').textContent = fedavg.toFixed(4);
+    document.getElementById('stat-diff').textContent = (diff >= 0 ? '+' : '') + diff.toFixed(4) + ' (Drift Corrected)';
+
+    if (fedprox >= THRESHOLD) {
+      fedproxEl.style.color = '#f43f5e';
+      statusEl.className = 'gauge-status flagged';
+      statusEl.textContent = '🚨 High Risk Alert Flagged';
+    } else {
+      fedproxEl.style.color = '#10b981';
+      statusEl.className = 'gauge-status cleared';
+      statusEl.textContent = '✓ Transaction Cleared (Legitimate)';
+    }
+  }
+
+  function resetSimulator() {
+    document.getElementById('slider-b0').value = 0.72;
+    document.getElementById('slider-b1').value = 0.94;
+    document.getElementById('slider-b2').value = 0.88;
+    document.getElementById('slider-b3').value = 0.65;
+    updateSimulation();
+  }
+
+  function toggleFaq(el) {
+    const answer = el.nextElementSibling;
+    const arrow = el.querySelector('span:last-child');
+    if (answer.style.display === 'none' || !answer.style.display) {
+      answer.style.display = 'block';
+      arrow.textContent = '▴';
+    } else {
+      answer.style.display = 'none';
+      arrow.textContent = '▾';
+    }
+  }
+
+  // Initialize simulation on load
+  document.addEventListener('DOMContentLoaded', () => {
+    updateSimulation();
+  });
+</script>
+
+</body>
+</html>

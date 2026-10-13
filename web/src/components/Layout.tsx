@@ -15,7 +15,10 @@ const NAV = [
   {
     section: "Forensic Console",
     roles: ["forensic_auditor", "system_administrator"],
-    links: [{ to: "/alerts", label: "Alert Queue" }],
+    links: [
+      { to: "/alerts", label: "Alert Queue" },
+      { to: "/federated", label: "Federated Network" },
+    ],
   },
 ];
 

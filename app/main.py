@@ -14,6 +14,7 @@ from app.api.invoices import router as invoices_router
 from app.api.payments import router as payments_router
 from app.api.system import router as system_router
 from app.api.vendors import router as vendors_router
+from app.api.federated import router as federated_router
 from app.core.config import get_settings
 from app.core.errors import register_error_handlers
 from app.core.idempotency_middleware import IdempotencyMiddleware
@@ -80,6 +81,7 @@ def create_app() -> FastAPI:
     app.include_router(invoices_router)
     app.include_router(payments_router)
     app.include_router(alerts_router)
+    app.include_router(federated_router)
 
     return app
 

@@ -7,6 +7,10 @@ src/etl/build.py
 src/features/__init__.py
 src/features/build.py
 src/features/load.py
+src/federated/__init__.py
+src/federated/client.py
+src/federated/partition.py
+src/federated/server.py
 src/graph/__init__.py
 src/graph/db.py
 src/graph/demo.py
@@ -42,6 +46,7 @@ src/topology/paths.py
 src/topology/window_graph.py
 tests/test_bundle_roundtrip.py
 tests/test_cycle_path.py
+tests/test_federated.py
 tests/test_hpo.py
 tests/test_matching_service.py
 tests/test_online_ordinary_parity.py

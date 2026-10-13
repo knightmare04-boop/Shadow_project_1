@@ -1,0 +1,271 @@
+{
+  "datasets": [
+    "banksim",
+    "synth_erp"
+  ],
+  "shared_features": [
+    "amount_zscore_src",
+    "cycle_amount_ratio",
+    "cycle_length",
+    "cycle_time_span",
+    "dest_count_prior",
+    "dest_in_degree",
+    "fan_in",
+    "fan_out",
+    "in_cycle",
+    "in_cycle_ge3",
+    "lap_in_payers",
+    "lap_in_recur",
+    "lap_out_payees",
+    "lap_out_recur",
+    "log_amount",
+    "src_amt_mean_prior",
+    "src_count_prior",
+    "src_out_degree",
+    "time_since_prev_src"
+  ],
+  "client_summaries": [
+    {
+      "client_id": 0,
+      "n_rows": 594643,
+      "pct_rows": 0.3411,
+      "n_fraud": 7200,
+      "fraud_rate": 0.012108,
+      "dataset_name": "banksim"
+    },
+    {
+      "client_id": 1,
+      "n_rows": 1148503,
+      "pct_rows": 0.6589,
+      "n_fraud": 5609,
+      "fraud_rate": 0.004884,
+      "dataset_name": "synth_erp"
+    }
+  ],
+  "seeds": [
+    42
+  ],
+  "summary_pr_auc": {
+    "centralized": {
+      "mean": 0.67542,
+      "std": 0.0
+    },
+    "federated_uniform": {
+      "mean": 0.29076,
+      "std": 0.0
+    },
+    "federated_fedprox": {
+      "mean": 0.28944,
+      "std": 0.0
+    },
+    "federated_size_weighted": {
+      "mean": 0.29296,
+      "std": 0.0
+    },
+    "local_only_global_test": {
+      "mean": 0.15773,
+      "std": 0.0
+    }
+  },
+  "per_seed_runs": [
+    {
+      "seed": 42,
+      "centralized": {
+        "pr_auc": 0.67542,
+        "roc_auc": 0.98469,
+        "threshold": 0.9614943265914917,
+        "precision": 0.7309,
+        "recall": 0.5815,
+        "f1": 0.6477,
+        "n_pos": 2373,
+        "n": 348630,
+        "precision@50": 1.0,
+        "recall@50": 0.0211,
+        "precision@100": 1.0,
+        "recall@100": 0.0421,
+        "precision@500": 0.992,
+        "recall@500": 0.209,
+        "precision@1000": 0.923,
+        "recall@1000": 0.389,
+        "scale_pos_weight": 139.5,
+        "train_rows": 1045886
+      },
+      "local_only": {
+        "avg_local_slice_pr_auc": 0.72995,
+        "avg_global_test_pr_auc": 0.15773,
+        "client_local_evals": [
+          {
+            "pr_auc": 0.86999,
+            "roc_auc": 0.99705,
+            "threshold": 0.9623399972915649,
+            "precision": 0.8152,
+            "recall": 0.7719,
+            "f1": 0.7929,
+            "n_pos": 1280,
+            "n": 118929,
+            "precision@50": 1.0,
+            "recall@50": 0.0391,
+            "precision@100": 1.0,
+            "recall@100": 0.0781,
+            "precision@500": 0.986,
+            "recall@500": 0.3852,
+            "precision@1000": 0.9,
+            "recall@1000": 0.7031,
+            "scale_pos_weight": 76.62946040034812,
+            "train_rows": 356785,
+            "train_frauds": 4596
+          },
+          {
+            "pr_auc": 0.58991,
+            "roc_auc": 0.97982,
+            "threshold": 0.9651915431022644,
+            "precision": 0.7126,
+            "recall": 0.4876,
+            "f1": 0.579,
+            "n_pos": 1093,
+            "n": 229701,
+            "precision@50": 1.0,
+            "recall@50": 0.0457,
+            "precision@100": 1.0,
+            "recall@100": 0.0915,
+            "precision@500": 0.872,
+            "recall@500": 0.3989,
+            "precision@1000": 0.58,
+            "recall@1000": 0.5306,
+            "scale_pos_weight": 240.95962078651687,
+            "train_rows": 689101,
+            "train_frauds": 2848
+          }
+        ],
+        "client_global_evals": [
+          {
+            "pr_auc": 0.0174,
+            "roc_auc": 0.82096,
+            "threshold": 0.9623399972915649,
+            "precision": 0.0242,
+            "recall": 0.8584,
+            "f1": 0.0471,
+            "n_pos": 2373,
+            "n": 348630,
+            "precision@50": 0.02,
+            "recall@50": 0.0004,
+            "precision@100": 0.01,
+            "recall@100": 0.0004,
+            "precision@500": 0.006,
+            "recall@500": 0.0013,
+            "precision@1000": 0.005,
+            "recall@1000": 0.0021,
+            "scale_pos_weight": 76.62946040034812,
+            "train_rows": 356785,
+            "train_frauds": 4596
+          },
+          {
+            "pr_auc": 0.29805,
+            "roc_auc": 0.88798,
+            "threshold": 0.9651915431022644,
+            "precision": 0.7126,
+            "recall": 0.2246,
+            "f1": 0.3416,
+            "n_pos": 2373,
+            "n": 348630,
+            "precision@50": 1.0,
+            "recall@50": 0.0211,
+            "precision@100": 1.0,
+            "recall@100": 0.0421,
+            "precision@500": 0.872,
+            "recall@500": 0.1837,
+            "precision@1000": 0.584,
+            "recall@1000": 0.2461,
+            "scale_pos_weight": 240.95962078651687,
+            "train_rows": 689101,
+            "train_frauds": 2848
+          }
+        ]
+      },
+      "federated_uniform": {
+        "pr_auc": 0.29076,
+        "roc_auc": 0.90491,
+        "threshold": 0.9717857837677002,
+        "precision": 0.5434,
+        "recall": 0.2478,
+        "f1": 0.3404,
+        "n_pos": 2373,
+        "n": 348630,
+        "precision@50": 1.0,
+        "recall@50": 0.0211,
+        "precision@100": 1.0,
+        "recall@100": 0.0421,
+        "precision@500": 0.856,
+        "recall@500": 0.1804,
+        "precision@1000": 0.574,
+        "recall@1000": 0.2419,
+        "aggregation_method": "uniform",
+        "k_clients": 2,
+        "client_val_pr_aucs": [
+          0.8775,
+          0.6258
+        ],
+        "client_sizes": [
+          356785,
+          689101
+        ]
+      },
+      "federated_fedprox": {
+        "pr_auc": 0.28944,
+        "roc_auc": 0.90359,
+        "threshold": 0.976413338180011,
+        "precision": 0.5456,
+        "recall": 0.2469,
+        "f1": 0.34,
+        "n_pos": 2373,
+        "n": 348630,
+        "precision@50": 1.0,
+        "recall@50": 0.0211,
+        "precision@100": 1.0,
+        "recall@100": 0.0421,
+        "precision@500": 0.854,
+        "recall@500": 0.1799,
+        "precision@1000": 0.572,
+        "recall@1000": 0.241,
+        "aggregation_method": "fedprox",
+        "k_clients": 2,
+        "client_val_pr_aucs": [
+          0.8775,
+          0.6258
+        ],
+        "client_sizes": [
+          356785,
+          689101
+        ]
+      },
+      "federated_size_weighted": {
+        "pr_auc": 0.29296,
+        "roc_auc": 0.90741,
+        "threshold": 0.9632602461425666,
+        "precision": 0.546,
+        "recall": 0.2478,
+        "f1": 0.3409,
+        "n_pos": 2373,
+        "n": 348630,
+        "precision@50": 1.0,
+        "recall@50": 0.0211,
+        "precision@100": 1.0,
+        "recall@100": 0.0421,
+        "precision@500": 0.86,
+        "recall@500": 0.1812,
+        "precision@1000": 0.575,
+        "recall@1000": 0.2423,
+        "aggregation_method": "size_weighted",
+        "k_clients": 2,
+        "client_val_pr_aucs": [
+          0.8775,
+          0.6258
+        ],
+        "client_sizes": [
+          356785,
+          689101
+        ]
+      }
+    }
+  ]
+}

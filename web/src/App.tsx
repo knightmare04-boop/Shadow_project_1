@@ -5,6 +5,7 @@ import Vendors from "./pages/Vendors";
 import Invoices from "./pages/Invoices";
 import Payments from "./pages/Payments";
 import Alerts from "./pages/Alerts";
+import Federated from "./pages/Federated";
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
         <Route path="/invoices" element={<Invoices />} />
         <Route path="/payments" element={<Payments />} />
         <Route path="/alerts" element={<Alerts />} />
+        <Route path="/federated" element={<Federated />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

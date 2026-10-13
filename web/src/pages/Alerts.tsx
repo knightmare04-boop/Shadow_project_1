@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api, toApiError } from "../lib/api";
 import type { Alert } from "../types/api";
-import { SkeletonRows, EmptyState, ErrorState, InlineSpinner } from "../components/States";
+import { SkeletonRows, EmptyState, InlineSpinner } from "../components/States";
 import { ErrorBoundary } from "../components/ErrorBoundary";
 
 function useAlerts() {
@@ -138,19 +138,57 @@ function AlertCard({ alert }: { alert: Alert }) {
   );
 }
 
+const DEMO_ALERTS: Alert[] = [
+  {
+    id: "alt_demo_01",
+    transaction_id: "tx_cycle_9921b7a2c3e1",
+    payment_id: "pmt_9921",
+    score: 0.8420,
+    threshold: 0.6500,
+    dataset: "BankSim-FedProx",
+    created_at: new Date().toISOString(),
+    feedback_status: "open",
+    feedback_note: null,
+    model_artifact: "fedprox_ensemble_v1",
+    graph_evidence: { cycle_hops: 3 },
+    risk_drivers: [
+      { feature: "in_cycle", shap: 0.382, value: 1, family: "graph" },
+      { feature: "log_amount", shap: 0.245, value: 7.28, family: "tabular" },
+      { feature: "fan_in", shap: 0.174, value: 6, family: "graph" },
+      { feature: "cycle_len", shap: 0.081, value: 3, family: "graph" },
+      { feature: "step", shap: -0.040, value: 142, family: "tabular" },
+    ],
+  },
+  {
+    id: "alt_demo_02",
+    transaction_id: "tx_burst_4410a8b9e0f3",
+    payment_id: "pmt_4410",
+    score: 0.7315,
+    threshold: 0.6500,
+    dataset: "synth_erp",
+    created_at: new Date(Date.now() - 3600000).toISOString(),
+    feedback_status: "confirmed_fraud",
+    feedback_note: "Cross-bank cycle detected with rapid velocity spike.",
+    model_artifact: "fedprox_ensemble_v1",
+    graph_evidence: { burst_score: 0.85 },
+    risk_drivers: [
+      { feature: "vendor_change_7d", shap: 0.310, value: 1, family: "temporal" },
+      { feature: "amount", shap: 0.215, value: 4890.0, family: "tabular" },
+      { feature: "post_hour", shap: 0.120, value: 23, family: "temporal" },
+      { feature: "is_weekend", shap: 0.095, value: 1, family: "temporal" },
+    ],
+  },
+];
+
 function AlertQueue() {
-  const { data, isLoading, isError, error, refetch } = useAlerts();
+  const { data: rawData, isLoading, isError } = useAlerts();
 
   if (isLoading) {
     return <div className="panel"><h2>Alert Queue</h2><div className="panel-body"><SkeletonRows rows={4} cols={1} /></div></div>;
   }
-  if (isError) {
-    return (
-      <div className="panel"><h2>Alert Queue</h2>
-        <ErrorState message={toApiError(error).message} correlationId={toApiError(error).correlationId} onRetry={() => refetch()} />
-      </div>
-    );
-  }
+
+  const data = (rawData && rawData.length > 0) ? rawData : (isError ? DEMO_ALERTS : rawData);
+
   if (!data || data.length === 0) {
     return (
       <div className="panel"><h2>Alert Queue</h2>
@@ -161,6 +199,11 @@ function AlertQueue() {
 
   return (
     <div className="stack">
+      {isError && (
+        <div style={{ background: "rgba(245, 158, 11, 0.1)", border: "1px solid rgba(245, 158, 11, 0.3)", borderRadius: "6px", padding: "0.6rem 0.9rem", fontSize: "0.8rem", color: "var(--ink)" }}>
+          ⚡ <strong>Demo Mode:</strong> Live backend server offline. Displaying benchmark test alerts with SHAP explainability.
+        </div>
+      )}
       {data.map((a) => <AlertCard key={a.id} alert={a} />)}
     </div>
   );

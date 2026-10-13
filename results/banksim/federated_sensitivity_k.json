@@ -1,0 +1,38 @@
+{
+  "k_2": {
+    "k": 2,
+    "centralized_pr_auc": 0.92645,
+    "local_only_pr_auc": 0.8756,
+    "fedprox_pr_auc": 0.92069,
+    "uniform_pr_auc": 0.9204,
+    "collaboration_lift": 0.04509,
+    "centralized_parity_pct": 99.38
+  },
+  "k_3": {
+    "k": 3,
+    "centralized_pr_auc": 0.92645,
+    "local_only_pr_auc": 0.87147,
+    "fedprox_pr_auc": 0.91603,
+    "uniform_pr_auc": 0.91513,
+    "collaboration_lift": 0.04456,
+    "centralized_parity_pct": 98.88
+  },
+  "k_4": {
+    "k": 4,
+    "centralized_pr_auc": 0.92645,
+    "local_only_pr_auc": 0.85817,
+    "fedprox_pr_auc": 0.91615,
+    "uniform_pr_auc": 0.91521,
+    "collaboration_lift": 0.05798,
+    "centralized_parity_pct": 98.89
+  },
+  "k_5": {
+    "k": 5,
+    "centralized_pr_auc": 0.92645,
+    "local_only_pr_auc": 0.8456,
+    "fedprox_pr_auc": 0.89852,
+    "uniform_pr_auc": 0.89782,
+    "collaboration_lift": 0.05292,
+    "centralized_parity_pct": 96.99
+  }
+}
