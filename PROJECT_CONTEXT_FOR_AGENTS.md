@@ -1,44 +1,90 @@
 # MASTER PROJECT CONTEXT: THE SELF-AUDITING LEDGER
 > **Target Audience**: AI Coding & Research Agents (Pair programmers, subagents, and automated evaluators)  
-> **Purpose**: Serves as the complete, authoritative, and unambiguous ground-truth context of the entire project repository, architecture, methodology, empirical findings, and operational invariants.
+> **Purpose**: The complete, authoritative, and exhaustive ground-truth context of the entire project repository, architecture, tech stack, code implementations, empirical findings, and operational invariants.
 
 ---
 
 ## 1. Executive Summary & Project Identity
 
 * **Project Title**: *The Self-Auditing Ledger: Leakage-Free Temporal Graph Topology for ERP Fraud Detection, with a Production Audit Console*
-* **Core Thesis**: Graph-based fraud detection methods frequently suffer from pervasive temporal look-ahead leakage and lack controlled same-architecture ablation against strong tabular baselines. This project provides a mathematically provable, leakage-free streaming temporal topology engine, subjects it to multi-dataset ablation, integrates continuous-time Temporal Graph Networks (TGN), implements privacy-preserving federated consensus (FedProx), and deploys an enterprise continuous auditing console backed by database-enforced double-entry ledger invariants.
-* **Primary Repositories**:
-  - `Shadow_project_1` (`https://github.com/knightmare04-boop/Shadow_project_1.git`): Primary active codebase, research papers, presentations, datasets, and web console.
+* **Core Scientific Claim**: Standard graph-based fraud detection suffers from pervasive temporal look-ahead leakage and weak tabular baselines. This project proves that streaming, leakage-free graph topology provides conditional predictive lift (+11.7% to +246.8% PR-AUC), while revealing critical negative results (cycle features carry near-zero importance; topology degrades relational accounting hubs). It combines this with exact tree-native explainability (TreeSHAP in margin space), cross-institutional privacy-preserving federated consensus (FedProx), and an enterprise continuous auditing Procure-to-Pay console backed by database-enforced financial invariants.
+* **Repositories**:
+  - `Shadow_project_1` (`https://github.com/knightmare04-boop/Shadow_project_1.git`): Primary active repository housing the full application, web console, research paper, presentations, and datasets.
   - `shadowGraphs` / `NodeWatch` (`https://github.com/Aarin062/NodeWatch.git`): Companion repository housing baseline algorithms and experimental scripts.
 * **Authors**: Aarin Bhatta, Himanshu Ray, and Mohammed Akif  
 * **Affiliation**: School of Computer Science and Engineering, Vellore Institute of Technology, Vellore, India  
-* **Target Publication**: IEEE Transactions on Dependable and Secure Computing (TDSC) / Project Review 2 (Academic Year 2026).
+* **Academic Venue**: Manuscript prepared for IEEE Transactions on Dependable and Secure Computing (TDSC) / Project Review 2 (Academic Year 2026).
 
 ---
 
-## 2. The Three Methodological Crises in Published Literature
+## 2. Complete Technology Stack & Tooling
 
-Systematic review of prior literature (GCN, GAT, EvolveGCN, GraphSAGE, tabular baselines) identified three critical methodological flaws that this project resolves:
+Every layer of the project uses production-grade, pinned technologies:
 
-1. **Pervasive Temporal Leakage**:
-   - *The Flaw*: Academic graph benchmarks routinely construct static graph representations over an entire dataset span prior to feature extraction. Consequently, topological features (degrees, PageRank, k-hop embeddings) for historical transactions incorporate edges from their own future.
-   - *The Consequence*: Laboratory performance collapses catastrophically upon deployment to streaming production pipelines.
-   - *Our Solution*: A strictly causal **Read-Then-Insert** streaming engine where a transaction at timestamp $t$ only ever sees the graph state $G_{<t}$.
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                           PRESENTATION & CLIENT                             │
+│   React 19.2  •  TypeScript 6.0  •  Vite 8.3  •  TanStack Query 5.102       │
+│   Recharts 3.10  •  Tailwind/Tokens CSS  •  Axios 1.20  •  Oxlint 1.81      │
+└──────────────────────────────────────┬──────────────────────────────────────┘
+                                       │ Async REST / SSE (JSON)
+┌──────────────────────────────────────▼──────────────────────────────────────┐
+│                           BACKEND & APPLICATION API                         │
+│   FastAPI 0.115  •  Uvicorn 0.30  •  Pydantic v2.8  •  Structlog 24.4       │
+│   Python-Jose (JWT)  •  Bcrypt 4.1  •  Tenacity 9.0  •  Prometheus 0.20     │
+└───────┬──────────────────────────────┬──────────────────────────────┬───────┘
+        │                              │                              │
+┌───────▼──────────────┐   ┌───────────▼──────────────┐   ┌───────────▼───────┐
+│  PERSISTENCE & RDBMS │   │  IN-MEMORY CACHE & LOCK  │   │ GRAPH VISUAL AUDIT│
+│  PostgreSQL 15       │   │  Redis 7.2               │   │ Neo4j 5.15        │
+│  SQLAlchemy 2.0 async│   │  redis-py 5.0            │   │ neo4j driver 5.0  │
+│  AsyncPG 0.29 (app)  │   │  Idempotency Locks       │   │ Cypher Subgraph   │
+│  Psycopg 3.2 (alembic│   │  Rate Limiting           │   │ Historical Paths  │
+│  Alembic 1.13        │   │                          │   │                   │
+└──────────────────────┘   └──────────────────────────┘   └───────────────────┘
+                                       ▲
+                                       │ Sub-2.5ms Feature Extraction & Scoring
+┌──────────────────────────────────────┴──────────────────────────────────────┐
+│                    ML RESEARCH & STREAMING TOPOLOGY ENGINE                  │
+│   Python 3.11  •  NumPy 1.24  •  Pandas 2.0  •  PyArrow 14.0 (Parquet)      │
+│   XGBoost 2.0.3 (Hist Head)  •  PyTorch 2.2 (CUDA/CPU)                      │
+│   PyTorch Geometric (TGN)    •  SHAP 0.45 (TreeSHAP in Margin Space)        │
+│   Scikit-Learn 1.3 (KMeans)  •  Optuna 3.5 (Hyperparameter Optimization)   │
+└──────────────────────────────────────┬──────────────────────────────────────┘
+                                       │
+┌──────────────────────────────────────▼──────────────────────────────────────┐
+│                         INFRASTRUCTURE & TEST HARNESS                       │
+│   Pytest 8.0  •  Pytest-Asyncio 0.24  •  HTTPX 0.27  •  Testcontainers 4.8  │
+│   tools.large_files (90MB SHA-256 chunker for GitHub 100MB limit bypass)    │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
 
-2. **Absent Ablation Discipline**:
-   - *The Flaw*: Novel graph neural net architectures are routinely compared against naive tabular models lacking domain-standard feature engineering (e.g., comparing against raw amount and categorical IDs without Welford z-scores, arrival deltas, or diurnal encodings).
-   - *The Consequence*: It is impossible to isolate whether observed performance gains stem from genuine topological structure or simply auxiliary tabular signals.
-   - *Our Solution*: Controlled, same-architecture 7-arm ablation isolating:
-     - Baseline Ordinary Tabular
-     - + Structure Only (Pure Graph, amounts zeroed out)
-     - + Handcrafted Topology (13 streaming features)
-     - + Learned Continuous TGN Embeddings
-     - Final Champion Hybrid Ensemble (Tabular + Handcrafted Topology + TGN).
+### 2.1 Technology Matrix by Component
 
-3. **Uninterpretable Black-Box Deployments**:
-   - *The Flaw*: Deep graph architectures lack exact, polynomial-time attribution methods. Under statutory regulations (Sarbanes-Oxley Act, Basel III, GDPR Article 22), auditors cannot legally act upon black-box risk scores without verifiable, reconstructable evidence trails.
-   - *Our Solution*: Exact, tree-native **TreeSHAP** computed in log-odds margin space, coupled with deterministic **Cypher subgraph extraction** to produce verifiable 2-layer forensic alert packets.
+| Domain / Layer | Library / Tool | Version | Specific Purpose / Role in Architecture |
+|---|---|---|---|
+| **Language Runtime** | Python | 3.11 / 3.12 | Core compute engine for both research and production backend |
+| **Tabular Modeling** | XGBoost | 2.0.3 | Histogram gradient-boosted tree classifier with custom objective |
+| **Deep Graph Models** | PyTorch / PyG | 2.2 / 2.4 | Continuous-time Temporal Graph Network (TGN) memory vectors |
+| **Explainability** | TreeSHAP | 0.45 / Native | Exact polynomial-time margin-space feature attributions via `pred_contribs` |
+| **Clustering & Preproc** | Scikit-Learn | 1.3 | KMeans account volume clustering for non-IID federated splits |
+| **Graph Compute Path** | Pure Python / deque | Custom | Streaming FIFO `WindowGraph` (leakage-free compute path) |
+| **Graph Visual Audit** | Neo4j Community | 5.15 | Forensic subgraph rendering & deterministic Cypher extraction |
+| **Web API Framework** | FastAPI | 0.115 | Asynchronous REST endpoints, real-time alert dispatch |
+| **ASGI Web Server** | Uvicorn | 0.30 | High-performance asynchronous HTTP/1.1 server |
+| **ORM & Database** | SQLAlchemy | 2.0.30 | Async declarative models for P2P ERP schema |
+| **Async DB Driver** | AsyncPG | 0.29 | Native PostgreSQL asynchronous connection driver |
+| **Sync DB Driver** | Psycopg 3 | 3.2 | Synchronous binary driver dedicated for Alembic migrations |
+| **Schema Migrations** | Alembic | 1.13 | Versioned DDL migrations & database trigger enforcement |
+| **Distributed Cache** | Redis | 7.2 | Distributed locks, idempotency keys, sliding-window rate limits |
+| **Structured Logging** | Structlog | 24.4 | JSON contextual logging with transaction tracing IDs |
+| **Telemetry & Metrics** | Prometheus Client | 0.20 | Latency histograms (`SCORING_LATENCY`) and error counters |
+| **Frontend Framework** | React | 19.2 | Component-based audit console UI |
+| **Frontend Tooling** | Vite / TypeScript | 8.3 / 6.0 | Modern bundler and strict type safety |
+| **Data Fetching** | TanStack Query | 5.102 | Declarative server state caching, background polling |
+| **Chart Visualizations**| Recharts | 3.10 | Precision-Recall curves, federated metric dashboards |
+| **Testing Framework** | Pytest / HTTPX | 8.0 / 0.27 | Parity tests, unit tests, async API integration tests |
+| **Artifact Packaging** | tools.large_files | Custom | 90MB file splitter/restorer bypassing GitHub 100MB limit |
 
 ---
 
@@ -48,23 +94,21 @@ The temporal engine enforces an unbending structural rule across all dynamic fea
 
 $$\text{Visible Graph State for Transaction } e_i(u, v, t, a) \equiv G_{<t} = \{e_j \mid t_j < t\} \setminus \text{AgedOutEdges}(t - W)$$
 
-### Execution Sequence:
-1. **Sort**: All transactions are sorted by the composite key `(timestamp, tx_id)` in strict non-decreasing order.
-2. **Read**:
-   - Query `WindowGraph` for source fan-out, destination fan-in, out-degree, and in-degree over trailing windows $W \in \{1\text{d}, 7\text{d}, 30\text{d}\}$.
-   - If $\text{src} \neq \text{dst}$, execute bounded DFS/cycle search for length-3 and length-4 directed loops.
-   - Query `LapMemory` for rolling recurrence of monetary amount $a$ against each counterparty's historical payment record.
-   - Compute Welford running mean and variance z-scores using past events only (never whole-dataset statistics).
-   - Compute inter-event arrival delta $\Delta t = t - t_{\text{prev}}(u)$.
-3. **Insert**:
-   - Only *after* all features for transaction $i$ have been evaluated does the engine invoke:
-     `WindowGraph.add(t, u, v, amount)` and `LapMemory.record(t, u, v, amount)`.
-4. **Inductive Guarantee**:
-   Edge $j$ is added only during iteration $j$. Therefore, the graph state visible to iteration $i$ is identically $\{j : j < i\}$ minus aged-out edges—never a superset, and never containing information from its own future.
+### 3.1 Mathematical Inductive Proof of Leakage-Freedom
+1. **Ordering**: The transaction stream is sorted by the composite key $(t_i, \text{tx\_id})$ in strict non-decreasing order.
+2. **Read Step**: When edge $e_i = (u_i, v_i, t_i, a_i)$ is evaluated at iteration $i$:
+   - All topological queries (degrees, fan-in/fan-out, cycle membership, lapping recurrence) query the graph state $G^{(i)}$.
+   - Since $e_i$ has *not yet been added*, $G^{(i)}$ contains only edges from iterations $\{1, 2, \dots, i-1\}$ that have not aged past $t_i - W$.
+3. **Insert Step**: Only *after* all features for transaction $i$ are extracted does the engine execute:
+   `WindowGraph.add(t_i, u_i, v_i, a_i)` and `LapMemory.record(t_i, u_i, v_i, a_i)`.
+4. **Induction**: At iteration 1, $G^{(1)} = \emptyset$. At iteration $k$, $G^{(k)} = \{e_j \mid j < k, t_j \ge t_k - W\}$. A transaction cannot observe itself, nor any transaction that occurs after it in the sequence.
+5. **No Whole-Dataset Normalization**: All scaling factors (running means, running standard deviations) use **Welford's algorithm** over past observations only:
+   $$\mu_k = \mu_{k-1} + \frac{x_k - \mu_{k-1}}{k}, \quad M_{2,k} = M_{2,k-1} + (x_k - \mu_{k-1})(x_k - \mu_k), \quad s_k^2 = \frac{M_{2,k}}{k-1}$$
+   Future statistics never contaminate historical feature rows.
 
 ---
 
-## 4. Benchmark Datasets
+## 4. Benchmark Datasets & Characteristics
 
 The project evaluates all models across four heterogeneous financial ecosystems:
 
@@ -77,193 +121,252 @@ The project evaluates all models across four heterogeneous financial ecosystems:
 
 ### Evaluation Splits:
 * **Chronological Split**: 60% Train ($t < T_1$), 20% Validation ($T_1 \le t < T_2$), 20% Held-Out Test ($t \ge T_2$).
-* **Strict Rule**: No row shuffling, no random k-fold cross-validation, and no bidirectional interpolation.
+* **Strict Rule**: No row shuffling, no random k-fold cross-validation, and no bidirectional temporal imputation.
 
 ---
 
-## 5. Feature Space Taxonomy
+## 5. Detailed Component Implementations
 
-Each transaction $e_i$ is mapped to a combined feature vector:
-$$\mathbf{x}_i = [\mathbf{x}_{\text{ord}},\, \mathbf{x}_{\text{topo}},\, \mathbf{z}_{\text{tgn}}] \in \mathbb{R}^{D}$$
+### 5.1 Streaming Topology Engine (`src/topology/window_graph.py` & `engine.py`)
 
-### 5.1 Ordinary Tabular Features ($\mathbf{x}_{\text{ord}}$)
-- $\log_{10}(a_i + 1)$: Log-scaled transaction monetary amount.
-- `amount_z_score`: Running Welford z-score updated sequentially:
-  $$\mu_k = \mu_{k-1} + \frac{a_k - \mu_{k-1}}{k}, \quad M_{2,k} = M_{2,k-1} + (a_k - \mu_{k-1})(a_k - \mu_k), \quad z_k = \frac{a_k - \mu_k}{\sqrt{M_{2,k}/(k-1)}}$$
-- Diurnal Periodic Encodings: $\sin\left(\frac{2\pi h_i}{24}\right), \cos\left(\frac{2\pi h_i}{24}\right)$ where $h_i$ is the hour of the day.
-- Inter-event arrival delta: $\Delta t = t_i - t_{\text{prev}}(u_i)$.
+#### `WindowGraph` Data Structure:
+```python
+class WindowGraph:
+    __slots__ = ("window", "_edges", "out", "in_", "indeg", "outdeg", "last")
 
-### 5.2 Handcrafted Streaming Topology ($\mathbf{x}_{\text{topo}}$) — 13 Features
-1. `src_out_degree_1d`: Out-degree of source over past 24 hours.
-2. `src_out_degree_7d`: Out-degree of source over past 7 days.
-3. `src_out_degree_30d`: Out-degree of source over past 30 days.
-4. `dst_in_degree_1d`: In-degree of destination over past 24 hours.
-5. `dst_in_degree_7d`: In-degree of destination over past 7 days.
-6. `dst_in_degree_30d`: In-degree of destination over past 30 days.
-7. `fan_in_ratio`: Destination in-degree relative to total active neighborhood.
-8. `fan_out_ratio`: Source out-degree relative to total active neighborhood.
-9. `counterparty_reciprocity`: Proportion of directed edges between $u$ and $v$ that are reciprocated ($v \to u$).
-10. `burstiness_velocity`: Ratio of short-term degree (1d) to medium-term degree (7d).
-11. `lap_recurrence`: Frequency of exact or near-identical amount recurrence from same counterparty (accounts-receivable lapping).
-12. `in_cycle_len3`: Boolean indicator / count of directed length-3 cycles completed by this edge ($u \to v \to w \to u$).
-13. `in_cycle_len4`: Boolean indicator / count of directed length-4 cycles completed by this edge.
+    def __init__(self, window: int | float | None):
+        self.window = window
+        self._edges: deque[tuple[int, int, int]] = deque()      # (ts, u, v) in FIFO time order
+        self.out: dict[int, dict[int, int]] = defaultdict(dict)  # out[u][v] = multiplicity
+        self.in_: dict[int, dict[int, int]] = defaultdict(dict)  # in_[v][u] = multiplicity
+        self.indeg: dict[int, int] = defaultdict(int)            # total in-edges (multiplicity)
+        self.outdeg: dict[int, int] = defaultdict(int)           # total out-edges (multiplicity)
+        self.last: dict[int, dict[int, tuple[float, int | float]]] = defaultdict(dict) # (amount, ts)
+```
+- **Eviction (`_evict_before(now)`)**: Pops expired edges from the front of the `deque` in $O(1)$ amortized time, decrementing `indeg`, `outdeg`, and removing dictionary keys when multiplicity reaches zero.
+- **Cycle Search (`find_cycle(u, v, max_len=4, budget=4000)`)**: Performs a bounded forward Breadth-First / Depth-First search starting at destination $v$ searching for paths back to source $u$. If a path $v \rightsquigarrow u$ exists of length $\le \text{max\_len}-1$, adding edge $u \to v$ completes a directed cycle of length $\le \text{max\_len}$.
+- **Tightness & Amount Conservation**: Traverses `self.last` along the detected cycle path to compute:
+  $$\text{cycle\_amount\_ratio} = \frac{\min_{e \in \mathcal{C}} a_e}{\max_{e \in \mathcal{C}} a_e}, \quad \text{cycle\_span} = \max_{e \in \mathcal{C}} t_e - \min_{e \in \mathcal{C}} t_e$$
 
-### 5.3 Continuous Dynamic Graph Embeddings ($\mathbf{z}_{\text{tgn}} \in \mathbb{R}^{16}$)
-- Extracted using a continuous-time **Temporal Graph Network (TGN)** implemented in PyTorch Geometric.
-- Maintains decaying memory states $\mathbf{s}_u(t)$ updated upon each interaction via an event-driven GRU cell:
-  $$\mathbf{m}_i = \text{MessageFunction}(\mathbf{s}_u(t^-), \mathbf{s}_v(t^-), \Delta t, \mathbf{e}_{uv}), \quad \mathbf{s}_u(t) = \text{MemoryUpdate}(\mathbf{s}_u(t^-), \mathbf{m}_i)$$
-- Enforces strict event-driven memory updates so no future message affects historical node states.
+#### `LapMemory`:
+Maintains a rolling ring-buffer of previous transactions per counterparty to identify **accounts-receivable lapping**:
+```python
+class LapMemory:
+    def __init__(self, capacity: int = 25):
+        self.capacity = capacity
+        self.history: dict[int, deque[float]] = defaultdict(lambda: deque(maxlen=capacity))
 
----
-
-## 6. Champion Model & Objective Formulation
-
-The finalized production model is the **Hybrid Streaming Topology + TGN Embeddings + Focal-Loss XGBoost Ensemble**:
-
-$$f^*(e_i) = \text{XGBoost}\Big([\mathbf{x}_{\text{ord}},\, \mathbf{x}_{\text{topo}},\, \mathbf{z}_{\text{tgn}}];\, \mathcal{L}_{\text{obj}}(\gamma^*),\, \Theta^*\Big)$$
-
-### Loss Formulation:
-- **$\alpha$-Free Focal Loss** (for BankSim, SAP Würzburg, Synth ERP):
-  $$\mathcal{L}_{\text{focal}}(p_t) = -(1 - p_t)^\gamma \log(p_t)$$
-  where $p_t = p$ if $y=1$ else $1-p$. The parameter $\gamma$ dynamically down-weights easy negatives without requiring arbitrary alpha balancing ($\gamma = 1.0$ for BankSim/Synth ERP, $\gamma = 2.0$ for SAP Würzburg).
-- **Scale Position Weighting** (for IBM AML):
-  $$\text{scale\_pos\_weight} = \frac{N_{\text{neg}}}{N_{\text{pos}}}$$
-
-### Validation Threshold Freezing (Rule 2):
-The operational classification threshold $\bar{\tau}$ is strictly tuned on the **validation split** to maximize $F_1$ or bounded $P@K$, and then frozen:
-$$\bar{\tau} = \arg\max_{\tau} F_1(\mathcal{D}_{\text{val}}, \tau)$$
-All reported test metrics use $\bar{\tau}$. Metrics are **never** reported at an arbitrary default $0.5$ threshold.
+    def check_and_record(self, account_id: int, amount: float) -> tuple[int, float]:
+        hist = self.history[account_id]
+        recurrence_count = sum(1 for prev_amt in hist if math.isclose(prev_amt, amount, rel_tol=0.01))
+        hist.append(amount)
+        return recurrence_count, len(hist)
+```
 
 ---
 
-## 7. Empirical Results & Within-Dataset Ablation
+### 5.2 Continuous Temporal Graph Network (`src/modeling/tgn.py`)
 
-### 7.1 Test-Split PR-AUC Across Model Progression Arms (3-Seed Mean $\pm$ Std)
-
-| Model Arm | BankSim PR-AUC | IBM AML PR-AUC | SAP Würzburg PR-AUC | Synth ERP PR-AUC |
-|---|---|---|---|---|
-| **Baseline (Ordinary Tabular)** | 0.7870 $\pm$ 0.0700 | 0.9920 $\pm$ 0.0026 | **0.1581 $\pm$ 0.0129** | 0.2483 $\pm$ 0.0602 |
-| **+ Structure Only (Pure Graph)** | 0.8924 $\pm$ 0.0035 | 0.9922 $\pm$ 0.0025 | 0.0734 $\pm$ 0.0081 | 0.4120 $\pm$ 0.1205 |
-| **+ All Topology (Handcrafted)** | 0.9319 $\pm$ 0.0017 | 1.0000 $\pm$ 0.0000 | 0.0717 $\pm$ 0.0095 | 0.4569 $\pm$ 0.1547 |
-| **+ TGN Embeddings (Learned)** | 0.9196 $\pm$ 0.0012 | 0.9872 $\pm$ 0.0101 | 0.0594 $\pm$ 0.0241 | 0.6972 $\pm$ 0.0004 |
-| **Final Champion (Topo+TGN+HPO)** | **0.9364 $\pm$ 0.0015** | **1.0000 $\pm$ 0.0000** | 0.1557 $\pm$ 0.0717 | **0.7784 $\pm$ 0.0053** |
-
-### 7.2 State-of-the-Art (SOTA) Comparison
-
-| Dataset | Method / Reference | Model Family | Test PR-AUC | Precision@100 |
-|---|---|---|---|---|
-| **BankSim** | Random Forest (Lopez-Rojas et al. 2016) | Tabular Ensemble | 0.7420 | 0.9100 |
-| | GraphSAGE (Weber et al. 2019) | Static Graph Neural Net | 0.8120 | 0.9400 |
-| | Standard XGBoost (No Topology) | Tabular Gradient Boosted | 0.7870 | 0.9633 |
-| | **FedProx Consensus (Ours, Privacy-Preserving)** | Federated Score Ensemble | **0.9140** | **1.0000** |
-| | **Proposed Champion (Ours)** | Hybrid Topology + TGN | **0.9364** | **1.0000** |
-| **IBM AML** | Random Forest Baseline | Tabular Ensemble | 0.8840 | 0.9600 |
-| | EvolveGCN (Pareja et al. 2020) | Dynamic Recurrent Graph | 0.9120 | 0.9800 |
-| | Standalone TGN (Rossi et al. 2020) | Continuous Graph Network | 0.9872 | 1.0000 |
-| | **Proposed Champion (Ours)** | Hybrid Topology + TGN | **1.0000** | **1.0000** |
-| **SAP Würzburg** | Autoencoder Anomaly (Schreyer et al. 2020) | Deep Unsupervised | 0.1240 | 0.0500 |
-| | Baseline XGBoost (Ordinary GL) | Tabular Gradient Boosted | **0.1581** | 0.0733 |
-| | **Proposed Champion (Ours)** | Hybrid Topology + TGN | 0.1557 | **0.1033** |
+Implements a lightweight, CPU-friendly continuous-time graph network (Rossi et al. 2020) operating strictly under Rule 4:
+- **Time2Vec Periodic Time Encoding**:
+  $$\Phi(\Delta t) = \cos(\mathbf{w} \cdot \log(1 + \Delta t) + \mathbf{b})$$
+  Implemented via PyTorch parameters `self.time_w = nn.Parameter(torch.randn(time_dim))` and `self.time_b = nn.Parameter(torch.zeros(time_dim))`.
+- **Memory Module**: Maintains a state vector $\mathbf{s}_u \in \mathbb{R}^{32}$ for every active node $u$.
+- **Message Function & Update**: When interaction $(u, v, t)$ occurs:
+  $$\mathbf{m}_u(t) = \text{MLP}([\mathbf{s}_u(t^-),\, \mathbf{s}_v(t^-),\, \Phi(\Delta t)]), \quad \mathbf{s}_u(t) = \text{GRUCell}(\mathbf{m}_u(t),\, \mathbf{s}_u(t^-))$$
+- **Label-Free Link Prediction Head**: Self-supervised objective trained strictly on the train period to predict real next edges versus random negative destinations:
+  $$\mathcal{L}_{\text{TGN}} = -\sum_{(u, v) \in \mathcal{E}} \log \sigma(\mathbf{z}_u^\top \mathbf{z}_v) - \sum_{(u, v_{\text{neg}}) \notin \mathcal{E}} \log \sigma(-\mathbf{z}_u^\top \mathbf{z}_{v_{\text{neg}}})$$
+- **Extracted Embeddings**: Once trained, weights are frozen. Processing the transaction stream produces a 16-dimensional continuous latent vector $\mathbf{z}_{\text{tgn}} = [\mathbf{s}_u, \mathbf{s}_v, \text{expectedness}]$ without using fraud labels or transaction amounts.
 
 ---
 
-## 8. Critical Scientific Discoveries & Null Results
+### 5.3 Custom Imbalance Objective: $\alpha$-Free Focal Loss (`src/modeling/objectives.py`)
 
-Agents working on this project must be aware of four empirical truths that contradict naive academic assumptions:
+To satisfy **Rule 1** (*One imbalance mechanism, not two*), the model avoids mixing SMOTE with class weights. Instead, it uses an unweighted, symmetric focal loss:
+
+$$\mathcal{L}_{\text{focal}}(p_t) = -(1 - p_t)^\gamma \log(p_t), \quad p_t = \begin{cases} p & \text{if } y = 1 \\ 1 - p & \text{if } y = 0 \end{cases}$$
+
+#### Closed-Form Gradient & Numerical Hessian:
+With margin $m \in \mathbb{R}$ and $p = \sigma(m)$:
+```python
+def _focal_grad(margin: np.ndarray, y: np.ndarray, gamma: float) -> np.ndarray:
+    p = np.clip(sigmoid(margin), 1e-12, 1.0 - 1e-12)
+    def g1(q):
+        return gamma * q * (1.0 - q) ** gamma * np.log(q) - (1.0 - q) ** (gamma + 1.0)
+    return np.where(y == 1, g1(p), -g1(1.0 - p))
+
+def focal_objective(gamma: float = 2.0):
+    def obj(y_true: np.ndarray, margin: np.ndarray):
+        y = np.asarray(y_true, dtype=np.float64)
+        m = np.asarray(margin, dtype=np.float64)
+        grad = _focal_grad(m, y, gamma)
+        hess = (_focal_grad(m + 1e-4, y, gamma) - _focal_grad(m - 1e-4, y, gamma)) / (2.0 * 1e-4)
+        hess = np.maximum(hess, 1e-16)  # XGBoost requires strictly positive hessians
+        return grad, hess
+    return obj
+```
+Because the objective is callable, XGBoost predicts raw log-odds margins $m$. Inference applies $\sigma(m)$ to obtain calibrated probabilities.
+
+---
+
+### 5.4 Exact TreeSHAP Explainability (`src/modeling/explain.py`)
+
+- **Native TreeSHAP**: Invokes XGBoost's C++ native tree traversal:
+  ```python
+  dmat = xgb.DMatrix(X[features], feature_names=features)
+  raw = booster.predict(dmat, pred_contribs=True)
+  contribs, bias = raw[:, :-1], raw[:, -1]
+  ```
+- **Mathematical Invariant**:
+  $$\sum_{j=1}^M \phi_j(x_i) + \phi_0 = f_{\text{margin}}(x_i) \equiv \log\left(\frac{p_i}{1 - p_i}\right)$$
+  Signed attributions are additive in log-odds space. A positive $\phi_j$ indicates that feature $j$ pushed the risk probability upward.
+- **Two-Layer Forensic Alert Synthesis**:
+  - **Layer 1 (Model Attribution)**: Returns top-3 driving features signed by risk direction (e.g., `+0.43 log_amount`, `+0.29 dest_in_degree`).
+  - **Layer 2 (Reconstructed Neo4j Subgraph)**: Executes a deterministic Cypher query fetching historical nodes and edges within trailing 30 days:
+    ```cypher
+    MATCH (u:Account {id: $src_id})-[e:TRANSFERRED*1..2]-(v:Account)
+    WHERE e.timestamp <= $tx_timestamp AND e.timestamp >= $tx_timestamp - 2592000
+    RETURN u, e, v LIMIT 50;
+    ```
+
+---
+
+### 5.5 Privacy-Preserving Federated Consensus (`src/federated/`)
+
+Designed to satisfy bank secrecy mandates (GDPR, GLBA):
+1. **Partitioning (`src/federated/partition.py`)**:
+   - `KMeans(n_clusters=4)` clusters accounts by log volume, creating realistic institutional skew:
+     - **Client 0 (Retail Core)**: 87.5% volume, 0.38% fraud rate.
+     - **Client 1 (High-Risk Gateway)**: 0.6% volume, 18.67% fraud rate.
+     - **Client 2 (Commercial B2B)**: 4.2% volume, 14.0% fraud rate.
+     - **Client 3 (Regional Branch)**: 7.7% volume, 2.3% fraud rate.
+2. **Client Autonomous Training (`src/federated/client.py`)**:
+   - Each `FederatedClient` trains strictly on its local partition using local focal loss and derives its local validation PR-AUC. No transaction rows or raw features leave the client node.
+3. **FedProx Validation Reliability Weighting (`src/federated/server.py`)**:
+   - Aggregates scores via normalized power weighting of validation PR-AUC:
+     $$w_k = \frac{(\text{PR-AUC}_{\text{val}, k})^\beta}{\sum_{j=1}^K (\text{PR-AUC}_{\text{val}, j})^\beta}, \quad \hat{p}_{\text{consensus}}(e_i) = \sum_{k=1}^K w_k \cdot f_k(e_i)$$
+   - Prevents fraud-starved institutions (Client 0) from corrupting global consensus.
+
+---
+
+### 5.6 Database-Enforced Financial Invariants (`alembic/versions/6192dae4f4a4_gl_invariants_triggers.py`)
+
+Financial integrity is enforced at the PostgreSQL database engine level:
+
+1. **Double-Entry Balance Trigger**:
+   ```sql
+   CREATE OR REPLACE FUNCTION check_journal_entry_balance() RETURNS TRIGGER AS $$
+   DECLARE total_debit NUMERIC(18,2); total_credit NUMERIC(18,2);
+   BEGIN
+       SELECT COALESCE(SUM(debit_amount), 0), COALESCE(SUM(credit_amount), 0)
+         INTO total_debit, total_credit
+         FROM journal_lines WHERE journal_entry_id = NEW.journal_entry_id;
+       IF total_debit <> total_credit THEN
+           RAISE EXCEPTION 'journal entry % is not balanced: debit=% credit=%',
+               NEW.journal_entry_id, total_debit, total_credit USING ERRCODE = 'check_violation';
+       END IF;
+       RETURN NULL;
+   END; $$ LANGUAGE plpgsql;
+
+   CREATE CONSTRAINT TRIGGER trg_journal_lines_balance
+   AFTER INSERT OR UPDATE OR DELETE ON journal_lines
+   DEFERRABLE INITIALLY DEFERRED
+   FOR EACH ROW EXECUTE FUNCTION check_journal_entry_balance();
+   ```
+   *Rationale*: Must be `DEFERRABLE INITIALLY DEFERRED` so it evaluates at transaction commit, allowing multi-line journal postings to be inserted sequentially.
+
+2. **Period Close Guard**:
+   ```sql
+   CREATE TRIGGER trg_journal_entries_period_open
+   BEFORE INSERT OR UPDATE ON journal_entries
+   FOR EACH ROW EXECUTE FUNCTION check_fiscal_period_open();
+   ```
+   Rejects postings where `fiscal_periods.status != 'open'`.
+
+3. **Immutable Audit Log**:
+   ```sql
+   CREATE TRIGGER trg_audit_log_immutable
+   BEFORE UPDATE OR DELETE ON audit_log
+   FOR EACH ROW EXECUTE FUNCTION reject_audit_log_mutation();
+   ```
+   Unconditionally rejects `UPDATE` and `DELETE` queries on `audit_log`, providing tamper-proof write-once compliance (SOX).
+
+4. **Duplicate-Payment & Concurrency Defense (`app/services/payment_service.py`)**:
+   Uses `SELECT ... FOR UPDATE` on invoice rows combined with Redis atomic idempotency locks (`SET key val NX EX 300`) to guarantee zero duplicate disbursements under high-concurrency race conditions.
+
+---
+
+### 5.7 Online Serving Architecture & Parity Testing
+
+- **Backend Scoring Service (`app/services/scoring_service.py`)**:
+  Instantiates `FraudScoringService` holding `OnlineTopologyState` and `OnlineOrdinaryState`.
+  - Computes features incrementally against in-memory sliding window.
+  - Predicts risk score via loaded `ScoringBundle`.
+  - Latency executes in **$< 2.5\text{ ms}$** per transaction (well within the $< 200\text{ ms}$ SLA).
+- **Parity Assertion (`tests/test_online_topology_parity.py`)**:
+  Replays 20,000 real transactions through both offline batch `extract_features` and online `OnlineTopologyState`, verifying exact float equality (`math.isclose(a, b, rel_tol=1e-9)`) across all 13 topology features with **zero mismatches**.
+
+---
+
+### 5.8 React 19 Frontend Web Audit Console (`web/`)
+
+- Built with React 19, TypeScript, and Vite.
+- **Pages**:
+  - `Alerts.tsx`: Interactive real-time risk alert triage, confidence badges, TreeSHAP waterfall graphs, and Cypher graph path inspection.
+  - `Federated.tsx`: Multi-bank consensus metrics, client drift monitoring, blind spot lift visualizations.
+  - `Invoices.tsx`: 3-way matching interface (PO vs Goods Receipt vs Invoice).
+  - `Payments.tsx`: Payment batch execution with live scoring integration.
+  - `Vendors.tsx`: Vendor directory and bank detail audit history.
+- **Styling**: Tailored design tokens (`web/src/styles/tokens.css` and `global.css`) providing a sleek dark/light corporate aesthetic with zero generic styling.
+
+---
+
+### 5.9 Large File Chunker (`tools/large_files.py`)
+
+Bypasses GitHub's 100MB per-file hard limit without requiring paid Git LFS quotas:
+- Files exceeding 95MB are split into ordered $\le 90\text{ MiB}$ chunks under `large_file_parts/<path>/part-NNNN`.
+- `large_file_parts/MANIFEST.json` records original file size and SHA-256 hash.
+- CLI commands:
+  ```bash
+  python -m tools.large_files split    # Split oversize files into chunks
+  python -m tools.large_files restore  # Rebuild original datasets from chunks
+  python -m tools.large_files verify   # Assert SHA-256 integrity
+  ```
+
+---
+
+## 6. Empirical Findings & Methodological Traps
 
 1. **The Cycle Null Result**:
-   - *Discovery*: Directed cycle features (`in_cycle_len3`, `in_cycle_len4`, `cycle_amount_ratio`) carry near-zero gain importance ($< 0.005$) on BankSim, IBM AML, and SAP Würzburg.
-   - *Reason*: In real financial systems, fraudsters rarely route funds in complete closed loops back to the originator. Instead, they structure transactions as fan-out layering chains into exit sinks (crypto gateways, cash mules). Degree bursts and monetary velocity dominate tree splits.
-
+   - Directed cycle features carry near-zero gain importance ($< 0.005$) in real data (BankSim, IBM AML, SAP Würzburg). Real-world fraudsters layer funds into exit sinks (cash mules, crypto gateways) rather than routing money back to the origin account.
 2. **The Relational ERP Negative Lift**:
-   - *Discovery*: On SAP Würzburg, introducing pure graph topology drops PR-AUC from 0.1581 to 0.0717 ($-54.6\%$).
-   - *Reason*: In double-entry accounting ledgers, high fan-in accounts represent legitimate clearing hubs (payroll clearing accounts, value-added tax liabilities, cash settlement). Pure topology flags these legitimate clearing hubs as anomalous sinks, generating false positives.
-
+   - Introducing pure graph topology on SAP Würzburg degrades PR-AUC from 0.1581 to 0.0717 ($-54.6\%$). In double-entry accounting ledgers, high fan-in accounts are legitimate clearing hubs (payroll, tax liabilities). Pure graph models generate false alerts on legitimate hubs.
 3. **The ROC-AUC Fallacy**:
-   - *Discovery*: On datasets with $<0.1\%$ fraud, ROC-AUC is artificially inflated by millions of true negatives. For example, on SAP Würzburg, a naive classifier achieves **0.991 ROC-AUC** while yielding a dismal **0.155 PR-AUC**.
-   - *Standard*: PR-AUC (Average Precision) and operational Precision@K ($K \in \{50, 100, 500, 1000\}$) are the only acceptable honesty metrics.
-
+   - Under extreme class imbalance ($< 0.1\%$ fraud), ROC-AUC is artificially inflated $> 0.99$ by true negatives. PR-AUC and operational Precision@100 are the only honest metrics.
 4. **Synthetic Data Augmentation Penalty**:
-   - *Discovery*: Naively training on mixed real + synthetic data degraded real-world test PR-AUC. Hand-crafted topology on real data consistently beat synthetic augmentation unless models were strictly calibrated against the target economy's empirical degree distributions.
+   - Naively mixing synthetic data into real datasets harms test performance unless calibrated against empirical degree distributions.
 
 ---
 
-## 9. Privacy-Preserving Federated Consensus (FedProx)
-
-To address bank secrecy and cross-border data privacy regulations (GDPR, GLBA), the project establishes a **Score-Level Ensemble Consensus** architecture across $K=4$ heterogeneous non-IID banking institutions.
-
-### Institutional Clients Partitioning (BankSim):
-- **Client 0 (Retail Core)**: 87.5% transaction volume, 0.38% fraud rate.
-- **Client 1 (High-Risk Gateway)**: 0.6% volume, 18.67% fraud rate (specialized target).
-- **Client 2 (Commercial B2B)**: 4.2% volume, 14.0% fraud rate.
-- **Client 3 (Regional Branch)**: 7.7% volume, 2.3% fraud rate.
-
-### Empirical Validation Reliability Weighting:
-Rather than uniform score averaging (which allows fraud-starved institutions to dilute consensus), the global consensus weights each client $k$ by its empirical validation PR-AUC:
-
-$$w_k = \frac{\text{PR-AUC}_{\text{val}, k}^\beta}{\sum_{j=1}^K \text{PR-AUC}_{\text{val}, j}^\beta}, \quad \hat{p}_{\text{consensus}}(e_i) = \sum_{k=1}^K w_k \cdot f_k(e_i)$$
-
-### Performance Results:
-- **Centralized Upper Bound**: 0.9241 PR-AUC (100% parity, violates privacy).
-- **Isolated Local-Only**: 0.8547 PR-AUC (92.49% parity).
-- **Federated FedProx Consensus**: **0.9140 PR-AUC** (recovers **98.91%** of centralized bound with zero raw data sharing).
-- **Client 1 Blind Spot**: Client 1 achieves 0.8338 PR-AUC locally but drops to **0.7479 PR-AUC** (-8.6% penalty) when exposed to global streams. FedProx resolves this blind spot completely, achieving 0.9140.
-
----
-
-## 10. Explainability & Two-Layer Forensic Alert Packets
-
-Forensic auditors under SOX and Basel III require mathematical proof of why an alert was triggered.
-
-### Layer 1: Exact TreeSHAP in Log-Odds Margin Space
-Attributions are calculated via XGBoost's native `pred_contribs` algorithm:
-$$\sum_{j=1}^M \phi_j(x_i) + \phi_0 = f_{\text{margin}}(x_i)$$
-This runs the exact TreeSHAP recursion as a pure tree traversal. It is exact (not sampled) and additive in log-odds space.
-
-### Layer 2: Reconstructed Neo4j Cypher Subgraph Evidence
-When an anomaly exceeds $\bar{\tau}$, the console executes a deterministic Cypher query to pull the surrounding 2-hop transaction subgraph from Neo4j:
-```cypher
-MATCH (u:Account {id: $src_id})-[e1:TRANSFERRED*1..2]-(v:Account)
-WHERE e1.timestamp <= $tx_timestamp AND e1.timestamp >= $tx_timestamp - 2592000
-RETURN u, e1, v LIMIT 50;
-```
-The resulting alert packet bundles:
-- `transaction_id`, `amount`, `timestamp`
-- Top 3 driving features with signed contributions (e.g., `+0.43 log_amount`, `+0.29 dest_in_degree`)
-- Reconstructed graph nodes and edges for visual rendering in the audit console.
-
----
-
-## 11. Production Architecture & Enterprise Invariants
-
-The production platform comprises an asynchronous FastAPI scoring backend, a PostgreSQL financial ledger, a Redis cache/distributed lock, Neo4j graph storage, and a React 18 TypeScript console.
-
-### Database-Enforced Financial Invariants (PostgreSQL Triggers):
-Ledger integrity is guaranteed at the database engine level, not in application code:
-1. **Double-Entry Balance Trigger**:
-   A deferred constraint trigger on `journal_lines` asserts $\sum \text{Debits} = \sum \text{Credits}$ across each transaction at commit time. Postings with unbalanced debits/credits raise an immediate SQL exception.
-2. **Period Close Guard**:
-   A `BEFORE INSERT` trigger rejects ledger entries posted to closed fiscal accounting periods.
-3. **Immutable Audit Trail**:
-   Triggers unconditionally reject `UPDATE` and `DELETE` commands on the `audit_log` table.
-4. **Duplicate-Payment Defense**:
-   Idempotency middleware paired with `SELECT ... FOR UPDATE` locks on invoice records prevents duplicate disbursements under concurrent asynchronous race conditions.
-
-### Serving Parity & Latency:
-- `tests/test_online_topology_parity.py` replays 20,000 real transactions through both batch and streaming engines, asserting **zero column mismatches** across all 13 topology features.
-- Online scoring latency executes in **$< 2.5\text{ ms}$** per transaction.
-
----
-
-## 12. Complete Codebase Directory Map
+## 7. Complete Codebase Directory Map
 
 ```text
 Shadow_project_1/
 ├── app/                               # Enterprise FastAPI Application
 │   ├── api/                           # REST endpoints (alerts, ledger, federated)
-│   ├── core/                          # Config, security, DB connections
+│   ├── core/                          # Config, security, DB connections, middleware
+│   │   ├── idempotency_middleware.py  # Redis SETNX idempotency protection
+│   │   └── security.py                # JWT & bcrypt authentication
 │   ├── db/                            # PostgreSQL session & SQLAlchemy models
-│   ├── services/                      # Scoring service & federated consensus service
+│   │   ├── session.py                 # Async engine & sessionmaker
+│   │   └── redis_client.py            # Async Redis connection pool
+│   ├── models/                        # Declarative DB models (audit, gl, invoice, payment)
+│   ├── schemas/                       # Pydantic v2 validation schemas
+│   ├── services/                      # Application business logic
+│   │   ├── scoring_service.py         # Sub-2.5ms live FraudScoringService
+│   │   ├── online_topology.py         # Real-time streaming topology state
+│   │   ├── payment_service.py         # Concurrent payment execution with row locks
+│   │   └── federated_service.py       # Federated score aggregation
 │   └── main.py                        # FastAPI application entrypoint
 ├── data/                              # Data directories (raw, processed)
 │   ├── processed/                     # Leakage-free feature tables (parquet, csv)
@@ -287,102 +390,96 @@ Shadow_project_1/
 │   ├── Self_Auditing_Ledger_Overleaf_Package.zip # 1-click Overleaf bundle
 │   └── The_Self_Auditing_Ledger_Paper.docx       # Fully styled Word manuscript
 ├── results/                           # JSON experiment outputs & markdown tables
-│   ├── banksim/                       # BankSim evaluation logs & metrics
-│   ├── ibm_aml/                       # IBM AML evaluation logs & metrics
-│   └── federated_table.md             # Consolidated cross-institutional metrics
 ├── src/                               # Core Python Modules
 │   ├── features/                      # Deterministic ingestion & preprocessing
 │   ├── federated/                     # Client, Server, and Partition implementations
+│   │   ├── client.py                  # FederatedClient autonomous learner
+│   │   ├── partition.py               # KMeans non-IID account volume clustering
+│   │   └── server.py                  # FedProx validation reliability weighting
 │   ├── graph/                         # Neo4j connector & Cypher query builder
-│   ├── modeling/                      # XGBoost, focal loss, TreeSHAP, TGN wrappers
+│   ├── modeling/                      # ML models & evaluation
+│   │   ├── objectives.py              # Custom focal loss & gradient/hessian calculations
+│   │   ├── explain.py                 # Margin-space TreeSHAP & alert drivers
+│   │   ├── tgn.py                     # Continuous Temporal Graph Network (PyG)
+│   │   └── harness.py                 # Chronological validation & training harness
 │   └── topology/                      # Streaming leakage-free WindowGraph engine
+│       ├── window_graph.py            # FIFO WindowGraph data structure & cycle search
+│       └── engine.py                  # Read-then-insert feature extraction coordinator
 ├── tests/                             # Comprehensive automated test suite
-│   ├── test_online_topology_parity.py # Streaming vs batch parity assertion
-│   ├── test_federated.py              # Federated aggregation & reliability tests
+│   ├── test_online_topology_parity.py # 20,000 transaction parity assertion test
+│   ├── test_federated.py              # Federated consensus tests
 │   └── test_cycle_path.py             # Bounded cycle search test
 ├── tools/                             # Repository tooling
 │   └── large_files.py                 # Split/restore/verify engine for large files
-├── web/                               # React 18 / TypeScript Audit Console
+├── web/                               # React 19 / TypeScript Audit Console
 │   ├── src/pages/Alerts.tsx           # Real-time forensic alert review
 │   ├── src/pages/Federated.tsx        # Multi-bank federated consensus monitoring
+│   ├── src/pages/Invoices.tsx         # P2P invoice approval workflow
 │   └── src/App.tsx                    # Frontend router & navigation
 ├── CLAUDE.md                          # Source of truth rules & invariants
-├── MODELS_AND_TECHNIQUES.md           # Master technical guide (root copy)
 ├── pyproject.toml                     # Dependencies & build configuration
 └── HOW_TO_RUN.md                      # Operational CLI runbook
 ```
 
 ---
 
-## 13. Operational CLI Runbook
+## 8. CLI Runbook & Operational Commands
 
-### Environment Setup:
+### 8.1 Setup & Large Files:
 ```bash
-# Initialize Python virtual environment
+# Setup environment
 python -m venv .venv
-source .venv/bin/activate  # Or on Windows: .venv\Scripts\activate
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
+pip install -e ".[explain,test,app]"
 
-# Install package in editable mode with dependencies
-pip install -e .
-```
-
-### Large File Management (Overcoming GitHub 100MB Limit):
-```bash
-# Rebuild large datasets after git clone
+# Restore datasets from chunks
 python -m tools.large_files restore
-
-# Verify integrity against MANIFEST.json
 python -m tools.large_files verify
-
-# Split updated datasets into 90MB chunks before git commit
-python -m tools.large_files split
 ```
 
-### Running Key Experiments & Benchmarks:
+### 8.2 Research Experiments:
 ```bash
-# 1. Run Leakage-Free Feature Extraction on BankSim
+# Feature extraction (Leakage-free streaming topology)
 python experiments/run_dataset.py --dataset banksim
 
-# 2. Run the 7-Arm Within-Dataset Ablation
+# 7-Arm within-dataset ablation
 python experiments/ablation.py --dataset banksim
 
-# 3. Run Federated Learning Simulation (K=4, FedProx)
+# Federated simulation (FedProx reliability weighting, K=4)
 python experiments/federated.py --dataset banksim --clients 4 --strategy fedprox
 
-# 4. Run Modern TGN Embedding Probe
-python experiments/modern.py --dataset banksim
+# Modern TGN embedding extraction
+python -m modeling.tgn banksim
 ```
 
-### Running Test Suite:
+### 8.3 Quality Assurance & Parity Testing:
 ```bash
-# Run streaming-to-batch parity assertion (20,000 transactions)
+# Run online-to-batch feature parity test (20,000 real transactions)
 pytest tests/test_online_topology_parity.py -v
 
-# Run federated consensus test
+# Run federated simulation test suite
 pytest tests/test_federated.py -v
 ```
 
-### Launching the Production Audit Console:
+### 8.4 Running the Production System:
 ```bash
-# 1. Start FastAPI backend (Port 8000)
+# Run database migrations
+alembic upgrade head
+
+# Start FastAPI backend (Port 8000)
 uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
-# 2. Start React Web Console (Port 5173)
-cd web
-npm install
-npm run dev
+# Start React audit console (Port 5173)
+cd web && npm install && npm run dev
 ```
 
 ---
 
-## 14. Invariants & Strict Rules for AI Agents
+## 9. Non-Negotiable Invariants for AI Agents
 
-Any AI agent interacting with or extending this codebase **must** adhere to these principles:
-
-1. **Never Violate Read-Then-Insert**: Under no circumstances should feature extraction code compute global statistics over future timestamps or look ahead in the transaction stream.
-2. **Never Use Whole-Dataset Normalization**: All scaling, z-scores, and mean aggregations must be computed via running/expanding estimators (e.g., Welford algorithm) over past observations only.
-3. **Never Randomly Shuffle Folds**: Cross-validation must strictly partition data chronologically (e.g., $t < T_1$ train, $T_1 \le t < T_2$ val, $t \ge T_2$ test).
-4. **Never Commit Unchunked Files $> 90\text{ MB}$**: Always run `python -m tools.large_files split` and ensure large raw data files are ignored by git.
-5. **Preserve One Imbalance Mechanism**: Do not mix SMOTE oversampling with class weighting. Prefer $\alpha$-free focal loss or scale-position weights.
-6. **Freeze Thresholds on Validation**: Do not report test metrics at an uncalibrated default threshold of 0.5.
-7. **Report PR-AUC and Precision@K**: Never declare success using ROC-AUC on imbalanced fraud datasets.
+1. **Rule 1 (Single Imbalance Mechanism)**: Never mix SMOTE oversampling with class weights. Use custom $\alpha$-free focal loss or `scale_pos_weight`.
+2. **Rule 2 (Threshold Freezing)**: Always tune decision thresholds $\bar{\tau}$ on validation data and freeze them for test evaluation. Never report at arbitrary default 0.5.
+3. **Rule 3 (Strict Chronological Splits)**: Train on past ($t < T_1$), validate on intermediate ($T_1 \le t < T_2$), test on future ($t \ge T_2$). No random shuffling.
+4. **Rule 4 (Read-Then-Insert)**: A transaction's features must depend *only* on graph state $G_{<t}$. Never insert an edge before reading its features. No whole-dataset statistics.
+5. **Rule 5 (Honest Evaluation Metrics)**: Evaluate with PR-AUC / Average Precision and Precision@K. Never rely on ROC-AUC on imbalanced datasets.
+6. **Rule 6 (GitHub 100MB Rule)**: Never commit raw data files $> 90\text{ MB}$. Always run `python -m tools.large_files split` and ensure raw data is in `.gitignore`.
