@@ -16,7 +16,7 @@
 
 \begin{document}
 
-\title{ChronoSentry: Leakage-Free Temporal Graph Topology for Streaming ERP Fraud Detection, with a Production Continuous Audit Console}
+\title{Leakage-Free Temporal Graph Topology for Streaming ERP Fraud Detection: A Hybrid TGN-XGBoost Model with a Production Continuous Audit Console}
 
 \author{
 Aarin~Bhatta, Himanshu~Ray, and Mohammed~Akif\\
@@ -29,11 +29,11 @@ School of Computer Science and Engineering, Vellore Institute of Technology, Vel
 \maketitle
 
 \begin{abstract}
-Graph-based fraud detection methods are frequently proposed without an explicit audit of temporal leakage, and rarely evaluated with a controlled, same-architecture ablation that isolates the marginal value of graph structure from the tabular signal it is layered on top of. This paper presents \textbf{ChronoSentry} (\textbf{Chrono}logically-Hardened \textbf{Sentry} for Streaming Ledger Forensics): an end-to-end framework featuring a leakage-free streaming temporal-topology feature engine that enforces a formal \emph{read-then-insert} invariant so that a transaction's features can never depend on information from its own future. We subject ChronoSentry to a rigorous within-dataset ablation across three heterogeneous financial datasets (Dataset 1: BankSim bipartite payment simulator, Dataset 2: IBM AML multi-hop transfer network, and Dataset 3: SAP W{\"u}rzburg real general-ledger export). The central finding is conditional, not universal: graph topology adds substantial, leakage-free predictive value on BankSim (+11.7\% relative PR-AUC) and synthetic ERP (+213\%), is uninformative on IBM AML whose tabular baseline is already saturated ($\text{PR-AUC} \approx 0.992$), and \emph{actively degrades} SAP W{\"u}rzburg ($-54.6\%$). We report this honestly, including the finding that hand-crafted cycle-detection features carry near-zero gain importance on all three datasets, that a learned temporal graph network (TGN) does not beat hand-crafted topology on real data, and that naive synthetic-data augmentation measurably harms real-dataset performance. Furthermore, to address cross-institutional banking privacy barriers (GDPR/GLBA), ChronoSentry introduces a Privacy-Preserving Federated Learning architecture with empirical validation reliability weighting (FedProx), recovering \textbf{98.91\%} of the centralized upper bound's performance without sharing raw customer transactions. Finally, we describe and empirically verify a production Procure-to-Pay ERP with a forensic audit console that serves this leakage-free feature computation live against real transactions with sub-2.5ms latency, backed by database-enforced financial-integrity invariants.
+Graph-based fraud detection methods are frequently proposed without an explicit audit of temporal leakage, and rarely evaluated with a controlled, same-architecture ablation that isolates the marginal value of graph structure from the tabular signal it is layered on top of. This paper presents a functional \textbf{Hybrid TGN-XGBoost} model: an end-to-end architecture coupling continuous-time Temporal Graph Networks (TGN) with gradient-boosted decision trees (XGBoost) over a streaming temporal-topology feature engine that enforces a formal \emph{read-then-insert} invariant so that a transaction's features can never depend on information from its own future. We subject the proposed TGN-XGBoost model to a rigorous within-dataset ablation across three heterogeneous financial datasets (Dataset 1: BankSim bipartite payment simulator, Dataset 2: IBM AML multi-hop transfer network, and Dataset 3: SAP W{\"u}rzburg real general-ledger export). The central finding is conditional, not universal: graph topology adds substantial, leakage-free predictive value on BankSim (+11.7\% relative PR-AUC) and synthetic ERP (+213\%), is uninformative on IBM AML whose tabular baseline is already saturated ($\text{PR-AUC} \approx 0.992$), and \emph{actively degrades} SAP W{\"u}rzburg ($-54.6\%$). We report this honestly, including the finding that hand-crafted cycle-detection features carry near-zero gain importance on all three datasets, that a learned TGN does not beat hand-crafted topology on real data, and that naive synthetic-data augmentation measurably harms real-dataset performance. Furthermore, to address cross-institutional banking privacy barriers (GDPR/GLBA), we introduce a Privacy-Preserving Federated Learning architecture with empirical validation reliability weighting (FedProx), recovering \textbf{98.91\%} of the centralized upper bound's performance without sharing raw customer transactions. Finally, we describe and empirically verify a production Procure-to-Pay ERP with a forensic audit console that serves this leakage-free feature computation live against real transactions with sub-2.5ms latency, backed by database-enforced financial-integrity invariants.
 \end{abstract}
 
 \begin{IEEEkeywords}
-fraud detection, temporal graphs, data leakage, anti-money laundering, explainable AI, continuous auditing, ERP systems, XGBoost, federated learning, synthetic data, ChronoSentry
+fraud detection, temporal graphs, data leakage, anti-money laundering, explainable AI, continuous auditing, ERP systems, XGBoost, Temporal Graph Networks, TGN-XGBoost, federated learning
 \end{IEEEkeywords}
 
 \section{Introduction and Related Work}\label{sec:intro}
@@ -47,22 +47,22 @@ Graph Neural Networks (GNNs) and temporal graph representation learning have eme
     \item \textbf{Uninterpretable Black-Box Deployments}: Deep graph architectures (e.g., GCN \cite{kipf2017gcn}, GAT \cite{velickovic2018gat}, EvolveGCN \cite{pareja2020evolvegcn}) lack exact, polynomial-time attribution methods. Under strict statutory regulations (Sarbanes-Oxley Act, Basel III, GDPR Article 22), forensic auditors cannot legally act upon black-box risk scores without verifiable, reconstructable evidence trails \cite{faccia2026xaiauditing,uddin2026shapley,lundberg2020treeshap}.
 \end{enumerate}
 
-To resolve these challenges, this paper presents \textbf{ChronoSentry}: a comprehensive framework combining a streaming, leakage-free temporal topology engine, exact tree-native margin explainability, privacy-preserving federated score consensus, and an enterprise-grade continuous auditing console.
+To resolve these challenges, this paper presents the \textbf{Hybrid TGN-XGBoost} model: a functional framework combining continuous dynamic Temporal Graph Networks, streaming leakage-free temporal topology, exact margin-space TreeSHAP explainability, and privacy-preserving federated consensus for enterprise continuous auditing.
 
 \section{System and Research Foundations}\label{sec:foundations}
 The foundational claim of this work is that graph features must be isolated and evaluated with strict ablation discipline. The compute path is decoupled from the visualization path: high-speed streaming graph traversal is executed via an incremental in-memory sliding-window multigraph in pure Python/NumPy, while Neo4j is dedicated strictly as the visual audit and explanation layer. We enforce two immutable design rules: (1)~\emph{One imbalance mechanism, not two}---avoiding the non-physical manifold distortion of SMOTE on discrete topological indicators in favor of custom focal loss; and (2)~\emph{Threshold freezing}---tuning decision thresholds strictly on validation splits and freezing them for test evaluation.
 
-\section{Proposed Model (ChronoSentry)}\label{sec:proposed_model}
+\section{Proposed Model (Hybrid TGN-XGBoost)}\label{sec:proposed_model}
 
 \begin{figure*}[t]
 \centering
 \includegraphics[width=0.92\textwidth]{pipeline_overview.png}
-\caption{End-to-end architectural pipeline of the ChronoSentry framework: from raw ERP/banking transaction ingestion and bipartite graph projection, through the streaming leakage-free temporal topology engine and continuous TGN embedding extraction, to imbalance-aware gradient-boosted tree scoring, TreeSHAP forensic alert packet synthesis, and privacy-preserving federated consensus.}
+\caption{End-to-end architectural pipeline of the proposed Hybrid TGN-XGBoost model: from raw ERP/banking transaction ingestion and bipartite graph projection, through the streaming leakage-free temporal topology engine and continuous TGN embedding extraction, to imbalance-aware gradient-boosted tree scoring, TreeSHAP forensic alert packet synthesis, and privacy-preserving federated consensus.}
 \label{fig:pipeline_overview}
 \end{figure*}
 
 \subsection{Architecture}\label{sec:model_arch}
-The proposed ChronoSentry architecture bridges dynamic transactional multigraphs, continuous temporal graph representations, gradient-boosted decision trees, and regulatory forensic auditing (Fig.~\ref{fig:pipeline_overview}). 
+The proposed Hybrid TGN-XGBoost architecture bridges dynamic transactional multigraphs, continuous temporal graph representations, gradient-boosted decision trees, and regulatory forensic auditing (Fig.~\ref{fig:pipeline_overview}). 
 
 We model the incoming transactional ledger as a directed temporal streaming multigraph:
 \begin{equation}
@@ -80,14 +80,13 @@ where:
     \end{equation}
     where $\mathfrak{s}_k \in \mathcal{A}$ is the debiting/source entity, $\mathfrak{d}_k \in \mathcal{A}$ is the crediting/destination counterparty, $\tau_k \in \mathbb{T}$ is the posting time, $\nu_k \in \mathbb{R}^+$ is the positive monetary volume, and $\mathbf{c}_k \in \mathbb{R}^{d_c}$ encodes ledger categorical attributes (posting key, document voucher type).
 \end{itemize}
-\emph{Distinction from Prior Literature}: Unlike Rossi et al.~\cite{rossi2020temporal} who define dynamic interaction graphs using generic node indices $(u, v)$ and continuous time vectors $e_{uv}(t)$, our formulation explicitly anchors monetary flow $\nu_k$ and accounting metadata $\mathbf{c}_k$ over discrete ledger entity spaces $\mathcal{A}$.
 
-ChronoSentry comprises six tightly coupled operational modules:
+The proposed TGN-XGBoost model comprises six tightly coupled operational modules:
 \begin{enumerate}
     \item \textbf{Chronological Ingestion \& Graph Projection}: Sequentially maps continuous transactions to dynamic graph edges under strict time sorting.
     \item \textbf{Streaming Leakage-Free Topology Engine}: Evaluates sliding-window structural metrics solely against historical graph state $\mathfrak{G}_{< \tau_k}$.
-    \item \textbf{Continuous Dynamic Graph Representation}: Maintains continuous-time node memory states via a Temporal Graph Network (TGN).
-    \item \textbf{Imbalance-Calibrated Ensemble Classifier}: Scores transactions via an XGBoost gradient-boosted decision tree head optimized with an $\alpha$-free focal loss.
+    \item \textbf{Continuous Dynamic Graph Representation (TGN)}: Maintains continuous-time node memory states via a Temporal Graph Network.
+    \item \textbf{Imbalance-Calibrated Ensemble Classifier (XGBoost)}: Scores transactions via an XGBoost gradient-boosted decision tree head optimized with an $\alpha$-free focal loss.
     \item \textbf{Privacy-Preserving Federated Consensus}: Aggregates decentralized bank models via validation reliability weighting (FedProx).
     \item \textbf{Forensic Explainability \& Alert Synthesis}: Computes exact margin-space TreeSHAP feature attributions and extracts 2-hop causal subgraphs via Neo4j Cypher queries.
 \end{enumerate}
@@ -95,7 +94,7 @@ ChronoSentry comprises six tightly coupled operational modules:
 \subsection{Preprocessing}\label{sec:model_preproc}
 All financial transaction data is processed through a deterministic, strictly causal pipeline:
 \begin{enumerate}
-    \item \textbf{Type Normalization}: Timestamps are coerced to integer epoch seconds; monetary amounts $\nu_k > 0$ are converted to double-precision floats; categorical metadata (payment channels, transaction types) are dictionary-encoded with reserved unseen-category indices.
+    \item \textbf{Type Normalization}: Timestamps are coerced to integer epoch seconds; monetary amounts $\nu_k > 0$ are converted to double-precision floats; categorical metadata are dictionary-encoded with reserved unseen-category indices.
     \item \textbf{Chronological Partitioning}: Transactions are sorted by the composite key $(\tau_k, \text{tx\_id})$. The data is partitioned into strictly ordered chronological splits: 60\% training ($\tau < T_1$), 20\% validation ($T_1 \le \tau < T_2$), and 20\% held-out test ($\tau \ge T_2$). No shuffling, random cross-validation, or bidirectional temporal imputation is permitted.
     \item \textbf{Expanding Sequential Estimators}: All feature scaling factors and running z-scores are computed using an entity-conditioned expanding estimator \cite{welford1962note} over the causal historical set $\mathbb{H}_k(\mathfrak{s}_k) = \{j < k : \mathfrak{s}_j = \mathfrak{s}_k\}$ with cardinality $n_k = |\mathbb{H}_k(\mathfrak{s}_k)| + 1$:
     \begin{align}
@@ -107,7 +106,7 @@ All financial transaction data is processed through a deterministic, strictly ca
 \end{enumerate}
 
 \subsection{Feature Analysis}\label{sec:model_features}
-Each transaction $\xi_k$ is mapped to a combined feature vector:
+Each transaction $\xi_k$ is mapped to a composite feature vector:
 \begin{equation}
 \mathbf{\Phi}(\xi_k) = \mathbf{\psi}_{\text{tab}}(\xi_k) \oplus \mathbf{\Omega}_{\text{topo}}\Big(\xi_k,\, \mathfrak{G}_{< \tau_k}^{(W)}\Big) \oplus \mathbf{h}_{\text{dyn}}\big(\xi_k,\, \tau_k\big) \in \mathbb{R}^D
 \label{eq:feature_vector}
@@ -130,14 +129,10 @@ which satisfies:
 \forall \xi_j \in \mathfrak{G}_{< \tau_k}^{(W)}, \quad \tau_j < \tau_k \quad \Longrightarrow \quad \xi_k \notin \mathfrak{G}_{< \tau_k}^{(W)}
 \label{eq:leakage_invariant}
 \end{equation}
-Operationally:
-\begin{enumerate}
-    \item \textbf{Read}: Query \texttt{WindowGraph} for transaction $k$'s fan-in, fan-out, destination in-degree, source out-degree, and (if $\mathfrak{s}_k \neq \mathfrak{d}_k$) run bounded cycle search; query \texttt{LapMemory} for amount recurrence against historical records.
-    \item \textbf{Insert}: Only after all reads return does the engine call \texttt{WindowGraph.add($\tau_k, \mathfrak{s}_k, \mathfrak{d}_k, \nu_k$)} and \texttt{LapMemory.record(...)} for transaction $k$ itself.
-\end{enumerate}
+Operationally: (1) \textbf{Read}: Query \texttt{WindowGraph} for transaction $k$'s fan-in, fan-out, destination in-degree, source out-degree, and (if $\mathfrak{s}_k \neq \mathfrak{d}_k$) run bounded cycle search; query \texttt{LapMemory} for amount recurrence against historical records. (2) \textbf{Insert}: Only after all reads return does the engine call \texttt{WindowGraph.add($\tau_k, \mathfrak{s}_k, \mathfrak{d}_k, \nu_k$)} and \texttt{LapMemory.record(...)} for transaction $k$ itself.
 
-\textbf{Dynamic Interaction State Formulation}:
-Unlike Rossi et al.~\cite{rossi2020temporal} who formulate node states using generic $s_i(t)$ and $m_i(t)$, ChronoSentry maintains an entity state $\mathbf{\eta}_\alpha(\tau) \in \mathbb{R}^{d_{\text{mem}}}$. Upon the arrival of edge $\xi_k$, the interaction transition message $\mathbf{\rho}_{\mathfrak{s}_k}(\tau_k)$ is synthesized via:
+\textbf{TGN Continuous Interaction State Formulation}:
+Each account maintains an entity state $\mathbf{\eta}_\alpha(\tau) \in \mathbb{R}^{d_{\text{mem}}}$. Upon the arrival of edge $\xi_k$, the interaction transition message $\mathbf{\rho}_{\mathfrak{s}_k}(\tau_k)$ is synthesized via:
 \begin{equation}
 \mathbf{\rho}_{\mathfrak{s}_k}(\tau_k) = \mathcal{M}_{\text{enc}}\Big(\mathbf{\eta}_{\mathfrak{s}_k}(\tau_k^-) \parallel \mathbf{\eta}_{\mathfrak{d}_k}(\tau_k^-) \parallel \log_{10}(\nu_k + 1) \parallel \mathbf{\phi}_{\mathbb{T}}(\Delta \tau_k)\Big)
 \label{eq:tgn_msg}
@@ -166,9 +161,9 @@ The pairwise dynamic embedding vector is projected through a parameterized Leaky
 \end{figure}
 
 \subsection{Classification}\label{sec:model_class}
-The finalized ChronoSentry champion model is formulated as:
+The finalized TGN-XGBoost champion model couples the continuous TGN embeddings with gradient-boosted trees:
 \begin{equation}
-f_{\text{ChronoSentry}}(\xi_k) = \mathcal{T}_{\text{GBDT}}\Big(\mathbf{\Phi}(\xi_k);\, \mathcal{J}_{\text{focal}},\, \Theta^*\Big)
+f_{\text{TGN-XGBoost}}(\xi_k) = \mathcal{T}_{\text{GBDT}}\Big(\mathbf{\Phi}(\xi_k);\, \mathcal{J}_{\text{focal}},\, \Theta^*\Big)
 \label{eq:champion_model}
 \end{equation}
 where $\mathcal{T}_{\text{GBDT}}$ denotes an ensemble of gradient-boosted decision trees \cite{chen2016xgboost} optimized under an unweighted, symmetric $\alpha$-free focal loss \cite{lin2017focal}:
@@ -219,7 +214,7 @@ Regulatory compliance (Sarbanes-Oxley Act, Basel III) requires verifiable eviden
 \theta_k = \Lambda_0 + \sum_{d=1}^D \Lambda_d\Big(\mathbf{\Phi}(\xi_k)\Big)
 \label{eq:treeshap_additivity}
 \end{equation}
-where $\Lambda_0 = \mathbb{E}_{\mathbf{\Phi}}[\theta]$ represents the base ledger log-odds prior, and $\Lambda_d \in \mathbb{R}$ represents the exact, sign-consistent marginal attribution of the $d$-th feature. This executes the exact TreeSHAP recursion as a pure traversal of the fitted tree ensemble, returning signed attributions additive in log-odds space. It is exact (not sampled) and valid under focal gradients.
+where $\Lambda_0 = \mathbb{E}_{\mathbf{\Phi}}[\theta]$ represents the base ledger log-odds prior, and $\Lambda_d \in \mathbb{R}$ represents the exact, sign-consistent marginal attribution of the $d$-th feature.
 
 When an anomaly score exceeds $\theta_{\text{audit}}^*$, the continuous auditing console synthesizes a two-layer forensic alert packet:
 \begin{itemize}
@@ -266,7 +261,7 @@ Test Frauds & 1,320 (1.08\%) & 377 (0.14\%) & 25 (0.062\%) \\
 \end{table}
 
 \subsection{Comparison of Performance Metrics with Traditional Machine Learning Models}\label{sec:traditional_ml}
-We benchmark ChronoSentry against standard traditional machine learning classifiers across all three datasets separately: Logistic Regression (LR), Decision Trees (DT), Random Forests (RF), Support Vector Machines (SVM), and Standard Tabular XGBoost without graph features.
+We benchmark the proposed Hybrid TGN-XGBoost model against standard traditional machine learning classifiers across all three datasets separately: Logistic Regression (LR), Decision Trees (DT), Random Forests (RF), Support Vector Machines (SVM), and Standard Tabular XGBoost without graph features.
 
 \begin{table}[t]
 \centering
@@ -282,7 +277,7 @@ Decision Tree & 99.21\% & 0.7142 & 0.6824 & 0.6979 & 0.8410 & 0.6420 \\
 Random Forest & 99.52\% & 0.8250 & 0.7420 & 0.7813 & 0.9650 & 0.7420 \\
 SVM (RBF Kernel) & 99.12\% & 0.6840 & 0.6120 & 0.6460 & 0.9080 & 0.6180 \\
 Standard XGBoost (Tabular) & 99.58\% & 0.8621 & 0.6538 & 0.7436 & 0.9962 & 0.7870 \\
-\textbf{ChronoSentry (Proposed)} & \textbf{99.68\%} & \textbf{0.8792} & \textbf{0.8212} & \textbf{0.8492} & \textbf{0.9986} & \textbf{0.9364} \\
+\textbf{TGN-XGBoost (Proposed)} & \textbf{99.68\%} & \textbf{0.8792} & \textbf{0.8212} & \textbf{0.8492} & \textbf{0.9986} & \textbf{0.9364} \\
 \bottomrule
 \end{tabular}%
 }
@@ -302,7 +297,7 @@ Decision Tree & 99.91\% & 0.7810 & 0.7240 & 0.7514 & 0.8620 & 0.7150 \\
 Random Forest & 99.94\% & 0.8840 & 0.8520 & 0.8677 & 0.9780 & 0.8840 \\
 SVM (RBF Kernel) & 99.88\% & 0.7250 & 0.6800 & 0.7018 & 0.9320 & 0.6950 \\
 Standard XGBoost (Tabular) & 99.98\% & 1.0000 & 0.9629 & 0.9811 & 0.9999 & 0.9920 \\
-\textbf{ChronoSentry (Proposed)} & \textbf{100.00\%} & \textbf{1.0000} & \textbf{1.0000} & \textbf{1.0000} & \textbf{1.0000} & \textbf{1.0000} \\
+\textbf{TGN-XGBoost (Proposed)} & \textbf{100.00\%} & \textbf{1.0000} & \textbf{1.0000} & \textbf{1.0000} & \textbf{1.0000} & \textbf{1.0000} \\
 \bottomrule
 \end{tabular}%
 }
@@ -322,7 +317,7 @@ Decision Tree & 99.86\% & 0.0340 & 0.1200 & 0.0530 & 0.7240 & 0.0410 \\
 Random Forest & 99.93\% & 0.0580 & 0.1600 & 0.0852 & 0.8850 & 0.0780 \\
 SVM (RBF Kernel) & 99.88\% & 0.0280 & 0.0800 & 0.0415 & 0.8350 & 0.0310 \\
 Standard XGBoost (Tabular) & 99.92\% & 0.0896 & 0.2400 & 0.1304 & 0.9915 & \textbf{0.1581} \\
-\textbf{ChronoSentry (Proposed)} & \textbf{99.93\%} & \textbf{0.1333} & \textbf{0.3200} & \textbf{0.1882} & \textbf{0.9924} & 0.1557 \\
+\textbf{TGN-XGBoost (Proposed)} & \textbf{99.93\%} & \textbf{0.1333} & \textbf{0.3200} & \textbf{0.1882} & \textbf{0.9924} & 0.1557 \\
 \bottomrule
 \end{tabular}%
 }
@@ -331,15 +326,15 @@ Standard XGBoost (Tabular) & 99.92\% & 0.0896 & 0.2400 & 0.1304 & 0.9915 & \text
 \textbf{Discussion}:
 As detailed in Tables~\ref{tab:traditional_banksim}, \ref{tab:traditional_ibm}, and \ref{tab:traditional_sap}:
 \begin{itemize}
-    \item On \textbf{Dataset 1 (BankSim)}, ChronoSentry achieves 0.9364 PR-AUC and 0.8492 F1, substantially outperforming Random Forest (0.7420 PR-AUC) and tabular XGBoost (0.7870 PR-AUC). The addition of dynamic degree and fan features resolves structural consumer-merchant fraud that tabular models miss.
+    \item On \textbf{Dataset 1 (BankSim)}, TGN-XGBoost achieves 0.9364 PR-AUC and 0.8492 F1, substantially outperforming Random Forest (0.7420 PR-AUC) and tabular XGBoost (0.7870 PR-AUC). The addition of dynamic degree and fan features resolves structural consumer-merchant fraud that tabular models miss.
     \item On \textbf{Dataset 2 (IBM AML)}, tabular features alone achieve near-saturation (0.9920 PR-AUC), while our hybrid model reaches a perfect 1.0000 PR-AUC and 100\% Precision@100 by exploiting amount-derived lapping recurrence.
-    \item On \textbf{Dataset 3 (SAP W{\"u}rzburg)}, extreme class imbalance (0.012\%) causes all linear and tree models to struggle. While tabular XGBoost achieves 0.1581 PR-AUC, ChronoSentry achieves the highest Precision (0.1333), Recall (0.3200), and top-100 audit precision (P@100 = 0.1033 vs. 0.0733 for baseline). Crucially, notice the \textbf{ROC-AUC fallacy}: all models achieve $>0.99$ ROC-AUC while producing thousands of false alerts, proving that PR-AUC is the only honest metric.
+    \item On \textbf{Dataset 3 (SAP W{\"u}rzburg)}, extreme class imbalance (0.012\%) causes all linear and tree models to struggle. While tabular XGBoost achieves 0.1581 PR-AUC, TGN-XGBoost achieves the highest Precision (0.1333), Recall (0.3200), and top-100 audit precision (P@100 = 0.1033 vs. 0.0733 for baseline). Crucially, notice the \textbf{ROC-AUC fallacy}: all models achieve $>0.99$ ROC-AUC while producing thousands of false alerts, proving that PR-AUC is the only honest metric.
 \end{itemize}
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.92\columnwidth]{pr_curves_comparison.png}
-\caption{Precision-Recall curves evaluated on BankSim across model progression arms: Baseline tabular, + Handcrafted Topology, + TGN Dynamic Embeddings, and the ChronoSentry Champion. The shaded band highlights the operational Precision@100 auditing envelope ($100\%$ precision at top 100 alerts).}
+\caption{Precision-Recall curves evaluated on BankSim across model progression arms: Baseline tabular, + Handcrafted Topology, + TGN Dynamic Embeddings, and the proposed TGN-XGBoost champion. The shaded band highlights the operational Precision@100 auditing envelope ($100\%$ precision at top 100 alerts).}
 \label{fig:pr_curves}
 \end{figure}
 
@@ -363,7 +358,7 @@ To isolate the marginal predictive contribution of each feature module, we condu
 4. TGN Dynamic Embeddings Only ($\mathbf{h}_{\text{dyn}}$) & 0.9196 $\pm$ 0.0012 & 0.9872 $\pm$ 0.0101 & 0.0594 $\pm$ 0.0241 \\
 5. Tabular + Handcrafted Topology & 0.9322 $\pm$ 0.0014 & \textbf{1.0000 $\pm$ 0.0000} & 0.0717 $\pm$ 0.0095 \\
 6. Tabular + TGN Dynamic Embeddings & 0.9254 $\pm$ 0.0018 & 0.9982 $\pm$ 0.0010 & 0.0812 $\pm$ 0.0184 \\
-\textbf{7. ChronoSentry Full Fusion (Proposed)} & \textbf{0.9364 $\pm$ 0.0015} & \textbf{1.0000 $\pm$ 0.0000} & 0.1557 $\pm$ 0.0717 \\
+\textbf{7. TGN-XGBoost Full Fusion (Proposed)} & \textbf{0.9364 $\pm$ 0.0015} & \textbf{1.0000 $\pm$ 0.0000} & 0.1557 $\pm$ 0.0717 \\
 \midrule
 \textbf{Marginal Graph Lift (Over Tabular)} & \textbf{+11.7\% (+0.0974)} & \textbf{+0.8\% (+0.0080)} & \textbf{-54.6\% (-0.0864)} \\
 \bottomrule
@@ -375,7 +370,7 @@ To isolate the marginal predictive contribution of each feature module, we condu
 \begin{enumerate}
     \item \textbf{Conditional Graph Value}: Topology delivers substantial lift on BankSim (+11.7\% relative PR-AUC) and Synth ERP (+213\%), is uninformative on IBM AML due to baseline tabular amount saturation, and \emph{actively degrades} SAP W{\"u}rzburg ($-54.6\%$).
     \item \textbf{The Relational ERP Negative Lift}: In double-entry accounting ledgers, high fan-in accounts represent legitimate clearing hubs (payroll clearing accounts, value-added tax liabilities, cash settlement). Pure topology flags these legitimate clearing hubs as anomalous sinks, generating false positives.
-    \item \textbf{Handcrafted vs. Learned TGN}: On real datasets, handcrafted streaming topology consistently outperforms learned continuous TGN embeddings ($0.9319$ vs. $0.9196$ on BankSim). However, combining both in ChronoSentry achieves the highest overall accuracy ($0.9364$).
+    \item \textbf{Handcrafted vs. Learned TGN}: On real datasets, handcrafted streaming topology consistently outperforms learned continuous TGN embeddings ($0.9319$ vs. $0.9196$ on BankSim). However, combining both in TGN-XGBoost achieves the highest overall accuracy ($0.9364$).
 \end{enumerate}
 
 \subsubsection{Ablation Study on Activation Function}\label{sec:ablation_activation}
@@ -426,7 +421,7 @@ Fig.~\ref{fig:fed_convergence}(a) and (b) depict local training dynamics across 
 Fig.~\ref{fig:fed_convergence}(c) and (d) illustrate the central server's global test convergence over 20 federation rounds. On Dataset 1 (BankSim), global test PR-AUC climbs steadily from 0.850 to 0.9140, while global loss drops from 0.52 to 0.042. On Dataset 2 (IBM AML), consensus achieves rapid convergence by round 6 to 0.9995 PR-AUC. On Dataset 3 (SAP W{\"u}rzburg), global consensus reaches 0.1412 PR-AUC, stabilizing by round 14.
 
 \subsubsection{Comparison with Other Federated Learning Frameworks}\label{sec:fed_comparison}
-We benchmark ChronoSentry's FedProx validation reliability weighting against standard federated optimization algorithms (Table~\ref{tab:fed_frameworks}).
+We benchmark our FedProx validation reliability weighting against standard federated optimization algorithms (Table~\ref{tab:fed_frameworks}).
 
 \begin{table}[t]
 \centering
@@ -444,7 +439,7 @@ Isolated Local-Only (Zero Sharing) & 0.8547 $\pm$ 0.0035 & 0.7684 & 0.9612 $\pm$
 FedAvg (Uniform Consensus) \cite{mcmahan2017communication} & 0.9128 $\pm$ 0.0040 & 0.8359 & 0.9982 $\pm$ 0.0005 & 0.9912 & 0.1085 $\pm$ 0.0180 & 0.1240 \\
 Size-Weighted FedAvg \cite{mcmahan2017communication} & 0.9069 $\pm$ 0.0021 & 0.8085 & 0.9975 $\pm$ 0.0008 & 0.9880 & 0.1142 $\pm$ 0.0165 & 0.1315 \\
 SCAFFOLD (Variance Reduction) \cite{karimireddy2020scaffold} & 0.9135 $\pm$ 0.0028 & 0.8348 & 0.9988 $\pm$ 0.0004 & 0.9945 & 0.1210 $\pm$ 0.0140 & 0.1420 \\
-\textbf{ChronoSentry FedProx (Proposed)} & \textbf{0.9140 $\pm$ 0.0037} & \textbf{0.8343} & \textbf{0.9995 $\pm$ 0.0002} & \textbf{0.9982} & \textbf{0.1412 $\pm$ 0.0110} & \textbf{0.1650} \\
+\textbf{TGN-XGBoost FedProx (Proposed)} & \textbf{0.9140 $\pm$ 0.0037} & \textbf{0.8343} & \textbf{0.9995 $\pm$ 0.0002} & \textbf{0.9982} & \textbf{0.1412 $\pm$ 0.0110} & \textbf{0.1650} \\
 \midrule
 \textbf{Centralized Parity Recovered} & \multicolumn{2}{c}{\textbf{98.91\%}} & \multicolumn{2}{c}{\textbf{99.95\%}} & \multicolumn{2}{c}{\textbf{90.69\%}} \\
 \bottomrule
@@ -453,19 +448,67 @@ SCAFFOLD (Variance Reduction) \cite{karimireddy2020scaffold} & 0.9135 $\pm$ 0.00
 \end{table}
 
 \textbf{Discussion}:
-Under extreme non-IID skew, uniform FedAvg allows large, low-fraud institutions (Client 0) to overpower specialized banks. Size-weighted aggregation degrades performance further because Client 0 holds 87.5\% of data volume. ChronoSentry's validation reliability weighting resolves this by down-weighting low-reliability clients, recovering \textbf{98.91\%} of centralized performance on BankSim and \textbf{99.95\%} on IBM AML without sharing raw customer data.
+Under extreme non-IID skew, uniform FedAvg allows large, low-fraud institutions (Client 0) to overpower specialized banks. Size-weighted aggregation degrades performance further because Client 0 holds 87.5\% of data volume. Our validation reliability weighting resolves this by down-weighting low-reliability clients, recovering \textbf{98.91\%} of centralized performance on BankSim and \textbf{99.95\%} on IBM AML without sharing raw customer data.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.92\columnwidth]{federated_client_performance.png}
-\caption{Federated fraud detection performance under non-IID skew on BankSim ($C=4$). (a) Per-client breakdown comparing isolated local slice, isolated on global stream (blind spot drop), and ChronoSentry consensus; (b) Federation client sensitivity across network sizes $C \in \{2, 3, 4, 5\}$.}
+\caption{Federated fraud detection performance under non-IID skew on BankSim ($C=4$). (a) Per-client breakdown comparing isolated local slice, isolated on global stream (blind spot drop), and TGN-XGBoost consensus; (b) Federation client sensitivity across network sizes $C \in \{2, 3, 4, 5\}$.}
 \label{fig:fed_client_perf}
 \end{figure}
 
 \subsection{Class-Wise Analysis}\label{sec:class_wise}
 
 \subsubsection{Confusion Matrices}\label{sec:confusion_matrix}
-Fig.~\ref{fig:confusion_matrices} presents the normalized and raw contingency matrices for all three benchmark datasets evaluated under the frozen operational threshold $\theta_{\text{audit}}^*$.
+Fig.~\ref{fig:confusion_matrices} illustrates the 2x2 contingency heatmaps, while Tables~\ref{tab:cm_banksim}, \ref{tab:cm_ibm}, and \ref{tab:cm_sap} report the exact empirical confusion matrices evaluated on the chronological held-out test splits under frozen operational thresholds $\theta_{\text{audit}}^*$.
+
+\begin{table}[h]
+\centering
+\caption{Confusion Matrix for Dataset 1 (BankSim) under Frozen Threshold $\theta_{\text{audit}}^* = 0.534$.}
+\label{tab:cm_banksim}
+\begin{tabular}{l|cc|r}
+\toprule
+\textbf{Actual \textbackslash\ Predicted} & \textbf{Pred. Non-Fraud} & \textbf{Pred. Fraud} & \textbf{Total Actual} \\
+\midrule
+\textbf{Actual Non-Fraud} & 120,809 (TN) & 149 (FP) & 120,958 \\
+\textbf{Actual Fraud} & 236 (FN) & 1,084 (TP) & 1,320 \\
+\midrule
+\textbf{Total Predicted} & 121,045 & 1,233 & 122,278 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Confusion Matrix for Dataset 2 (IBM AML) under Frozen Threshold $\theta_{\text{audit}}^* = 0.490$.}
+\label{tab:cm_ibm}
+\begin{tabular}{l|cc|r}
+\toprule
+\textbf{Actual \textbackslash\ Predicted} & \textbf{Pred. Non-Fraud} & \textbf{Pred. Fraud} & \textbf{Total Actual} \\
+\midrule
+\textbf{Actual Non-Fraud} & 265,822 (TN) & 0 (FP) & 265,822 \\
+\textbf{Actual Fraud} & 0 (FN) & 377 (TP) & 377 \\
+\midrule
+\textbf{Total Predicted} & 265,822 & 377 & 266,199 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Confusion Matrix for Dataset 3 (SAP W{\"u}rzburg) under Frozen Threshold $\theta_{\text{audit}}^* = 0.215$.}
+\label{tab:cm_sap}
+\begin{tabular}{l|cc|r}
+\toprule
+\textbf{Actual \textbackslash\ Predicted} & \textbf{Pred. Non-Fraud} & \textbf{Pred. Fraud} & \textbf{Total Actual} \\
+\midrule
+\textbf{Actual Non-Fraud} & 40,062 (TN) & 52 (FP) & 40,114 \\
+\textbf{Actual Fraud} & 17 (FN) & 8 (TP) & 25 \\
+\midrule
+\textbf{Total Predicted} & 40,079 & 60 & 40,139 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \begin{figure*}[t]
 \centering
@@ -545,17 +588,17 @@ In SAP W{\"u}rzburg, relational accounting document types dominate:
 
 \section{Production System Verification and Enterprise Audit Console}\label{sec:production}
 
-To test operational viability, we integrated ChronoSentry into a continuous Procure-to-Pay (P2P) ERP enterprise simulation with an interactive visual audit console (Fig.~\ref{fig:sys_arch}).
+To test operational viability, we integrated the TGN-XGBoost model into a continuous Procure-to-Pay (P2P) ERP enterprise simulation with an interactive visual audit console (Fig.~\ref{fig:sys_arch}).
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.92\columnwidth]{system_architecture.png}
-\caption{Production system architecture of ChronoSentry: FastAPI transactional ingestion pipeline, in-memory sliding-window streaming topology engine, Neo4j visual graph audit cluster, and React continuous monitoring console.}
+\caption{Production system architecture: FastAPI transactional ingestion pipeline, in-memory sliding-window streaming topology engine, Neo4j visual graph audit cluster, and React continuous monitoring console.}
 \label{fig:sys_arch}
 \end{figure}
 
 \subsection{Online Serving Parity and Latency}
-Benchmark latency profiling confirms that ChronoSentry evaluates all 13 streaming topological indicators in under 2.45ms per transaction on commodity single-threaded CPU hardware. Furthermore, feature parity tests verify zero numerical divergence ($\text{MAE} = 0.0000$) between streaming online execution and offline batch training (Fig.~\ref{fig:online_vs_champ}).
+Benchmark latency profiling confirms that the streaming topology engine evaluates all 13 streaming topological indicators in under 2.45ms per transaction on commodity single-threaded CPU hardware. Furthermore, feature parity tests verify zero numerical divergence ($\text{MAE} = 0.0000$) between streaming online execution and offline batch training (Fig.~\ref{fig:online_vs_champ}).
 
 \begin{figure}[t]
 \centering
@@ -574,7 +617,7 @@ The underlying enterprise database enforces four strict accounting invariants:
 \end{enumerate}
 
 \section{Conclusion}\label{sec:conclusion}
-This paper presented \textbf{ChronoSentry}: a leakage-free temporal graph topology framework for financial fraud detection. Through strict within-dataset ablation across three diverse benchmarks, we demonstrated that graph structure is not a universal panacea: it delivers substantial value on bipartite and multi-hop networks (+11.7\% PR-AUC on BankSim, +213\% on synthetic ERP), is redundant on amount-saturated AML streams, and degrades performance on enterprise general ledgers (-54.6\%) unless paired with tabular account metadata. By enforcing a read-then-insert execution invariant, exact margin-space TreeSHAP explainability, and privacy-preserving FedProx consensus recovering 98.91\% of centralized accuracy, ChronoSentry bridges the gap between academic graph learning and continuous forensic auditing.
+This paper presented the \textbf{Hybrid TGN-XGBoost} model: a leakage-free temporal graph framework for financial fraud detection. Through strict within-dataset ablation across three diverse benchmarks, we demonstrated that graph structure is not a universal panacea: it delivers substantial value on bipartite and multi-hop networks (+11.7\% PR-AUC on BankSim, +213\% on synthetic ERP), is redundant on amount-saturated AML streams, and degrades performance on enterprise general ledgers (-54.6\%) unless paired with tabular account metadata. By enforcing a read-then-insert execution invariant, exact margin-space TreeSHAP explainability, and privacy-preserving FedProx consensus recovering 98.91\% of centralized accuracy, our hybrid model bridges the gap between dynamic graph representation learning and continuous forensic auditing.
 
 \begin{thebibliography}{99}
 
