@@ -389,60 +389,19 @@ Under extreme non-IID skew, uniform FedAvg allows large, low-fraud institutions 
 \subsection{Class-Wise Analysis}\label{sec:class_wise}
 
 \subsubsection{Confusion Matrices}\label{sec:confusion_matrix}
-Here we explicitly report the empirical 2x2 confusion contingency matrices evaluated on the held-out test splits under frozen operational decision thresholds $\theta_{\text{audit}}^*$ (Tables~\ref{tab:cm_banksim}, \ref{tab:cm_ibm}, and \ref{tab:cm_sap}), along with the corresponding multi-dataset heatmap visualizations (Fig.~\ref{fig:confusion_matrices}).
+To provide full empirical forensic transparency into classification error distributions without reliance on text tabular abstractions, Fig.~\ref{fig:confusion_matrices} illustrates the visual $2\times 2$ confusion matrices for the proposed \mbox{TGN-XGBoost} model evaluated across all three benchmark datasets on the chronologically held-out test splits under frozen operational decision thresholds $\theta_{\text{audit}}^*$.
 
-\begin{table}[h]
-\centering
-\caption{Confusion Matrix for Dataset 1 (BankSim) under Frozen Operational Threshold $\theta_{\text{audit}}^* = 0.534$.}
-\label{tab:cm_banksim}
-\begin{tabular}{l|cc|r}
-\toprule
-\textbf{Actual \textbackslash\ Predicted} & \textbf{Pred. Non-Fraud} & \textbf{Pred. Fraud} & \textbf{Total Actual} \\
-\midrule
-\textbf{Actual Non-Fraud} & 120,809 (TN) & 149 (FP) & 120,958 \\
-\textbf{Actual Fraud} & 236 (FN) & 1,084 (TP) & 1,320 \\
-\midrule
-\textbf{Total Predicted} & 121,045 & 1,233 & 122,278 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{table}[h]
-\centering
-\caption{Confusion Matrix for Dataset 2 (IBM AML) under Frozen Operational Threshold $\theta_{\text{audit}}^* = 0.490$.}
-\label{tab:cm_ibm}
-\begin{tabular}{l|cc|r}
-\toprule
-\textbf{Actual \textbackslash\ Predicted} & \textbf{Pred. Non-Fraud} & \textbf{Pred. Fraud} & \textbf{Total Actual} \\
-\midrule
-\textbf{Actual Non-Fraud} & 265,822 (TN) & 0 (FP) & 265,822 \\
-\textbf{Actual Fraud} & 0 (FN) & 377 (TP) & 377 \\
-\midrule
-\textbf{Total Predicted} & 265,822 & 377 & 266,199 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{table}[h]
-\centering
-\caption{Confusion Matrix for Dataset 3 (SAP W{\"u}rzburg) under Frozen Operational Threshold $\theta_{\text{audit}}^* = 0.215$.}
-\label{tab:cm_sap}
-\begin{tabular}{l|cc|r}
-\toprule
-\textbf{Actual \textbackslash\ Predicted} & \textbf{Pred. Non-Fraud} & \textbf{Pred. Fraud} & \textbf{Total Actual} \\
-\midrule
-\textbf{Actual Non-Fraud} & 40,062 (TN) & 52 (FP) & 40,114 \\
-\textbf{Actual Fraud} & 17 (FN) & 8 (TP) & 25 \\
-\midrule
-\textbf{Total Predicted} & 40,079 & 60 & 40,139 \\
-\bottomrule
-\end{tabular}
-\end{table}
+Each matrix cell visually reports the canonical classification quadrant (True Negative [TN], False Positive [FP], False Negative [FN], and True Positive [TP]), the exact sample counts, and the relative percentage of the total test partition:
+\begin{itemize}
+    \item \textbf{Dataset 1 (BankSim)}: Evaluated at $\theta_{\text{audit}}^* = 0.534$ on $N = 122,278$ transactions. The model achieves 120,809 True Negatives (98.80\% of all instances) and 1,084 True Positives (0.89\%), maintaining an ultra-low False Positive rate with only 149 legitimate payments flagged (0.12\%) against 236 False Negatives (0.19\%), yielding an operational Precision of 87.92\% and Recall of 82.12\% ($F_1 = 0.8492$, PR-AUC = 0.9364).
+    \item \textbf{Dataset 2 (IBM AML)}: Evaluated at $\theta_{\text{audit}}^* = 0.490$ on $N = 266,199$ multi-hop transactions. The structural amount-derived recurrence allows \mbox{TGN-XGBoost} to cleanly isolate laundering topologies, yielding 265,822 True Negatives (99.86\%) and 377 True Positives (0.14\%) with zero False Positives (0.00\%) and zero False Negatives (0.00\%), achieving perfect discrimination ($F_1 = 1.0000$, PR-AUC = 1.0000).
+    \item \textbf{Dataset 3 (SAP W{\"u}rzburg General Ledger)}: Evaluated at $\theta_{\text{audit}}^* = 0.215$ on $N = 40,139$ accounting postings under extreme class imbalance (only 25 true anomalous journal entries, or 0.062\% incidence). The model correctly captures 40,062 True Negatives (99.81\%) and identifies 8 high-risk True Positives (0.02\%) while restricting False Positives to 52 clearing hub postings (0.13\%) and 17 False Negatives (0.04\%), yielding Precision = 13.33\%, Recall = 32.00\%, and PR-AUC = 0.1557 (over $126\times$ random baseline).
+\end{itemize}
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=0.92\textwidth]{confusion_matrices_all_datasets.png}
-\caption{Class-wise 2x2 confusion matrices evaluated on held-out test splits under frozen operational thresholds for Dataset 1 (BankSim), Dataset 2 (IBM AML), and Dataset 3 (SAP W{\"u}rzburg).}
+\includegraphics[width=0.98\textwidth]{confusion_matrices_all_datasets.png}
+\caption{Visual $2\times 2$ confusion matrices for the proposed \mbox{TGN-XGBoost} model evaluated on held-out test splits under frozen operational decision thresholds $\theta_{\text{audit}}^*$ across: (left) Dataset 1 (BankSim), (middle) Dataset 2 (IBM AML), and (right) Dataset 3 (SAP W{\"u}rzburg General Ledger). Each cell displays the quadrant designation (TN, FP, FN, TP), exact instance count, and percentage share of the test split.}
 \label{fig:confusion_matrices}
 \end{figure*}
 
