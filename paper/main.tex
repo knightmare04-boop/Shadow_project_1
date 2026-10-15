@@ -11,56 +11,28 @@
 \usepackage{xcolor}
 \usepackage{subcaption}
 
-\graphicspath{{figures/}}
+\graphicspath{{figures/}{./}{../figures/}}
 
 \begin{document}
 
-\title{The Self-Auditing Ledger: Leakage-Free Temporal Graph Topology\\
-for ERP Fraud Detection, with a Production Audit Console}
+\title{Leakage-Free Temporal Graph Topology for Streaming ERP Fraud Detection: A Hybrid TGN-XGBoost Model with a Production Continuous Audit Console}
 
 \author{
 Aarin~Bhatta, Himanshu~Ray, and Mohammed~Akif\\
 School of Computer Science and Engineering, Vellore Institute of Technology, Vellore, India
-\thanks{Manuscript prepared September 2026.}
+\thanks{Manuscript prepared for Project Review 2, Academic Year 2026.}
 }
 
-\markboth{}{}
+\markboth{IEEE Transactions on Dependable and Secure Computing,~Vol.~XX, No.~X, October~2026}{}
 
 \maketitle
 
 \begin{abstract}
-Graph-based fraud detection methods are frequently proposed without an
-explicit audit of temporal leakage, and rarely evaluated with a controlled,
-same-architecture ablation that isolates the marginal value of graph
-structure from the tabular signal it is layered on top of. This paper
-presents a leakage-free streaming temporal-topology feature engine --
-enforcing a formal read-then-insert invariant so that a transaction's
-features can never depend on information from its own future -- and
-subjects it to a rigorous within-dataset ablation across four
-heterogeneous financial datasets (a bipartite payment simulator, a
-multi-hop transfer network, a real SAP general-ledger export, and a
-calibrated synthetic ERP economy). The central finding is conditional, not
-universal: graph topology adds substantial, leakage-free predictive value
-on two of four datasets (+11.7\% and +246.8\% relative PR-AUC), is
-uninformative on a third whose tabular baseline is already saturated, and
-\emph{actively hurts} on the fourth. We report this honestly, including
-the finding that hand-crafted cycle-detection features -- the project's
-own headline motif -- carry near-zero gain importance on three of four
-datasets, that a learned temporal graph network never beats hand-crafted
-topology on real data, and that naive synthetic-data augmentation
-measurably harms real-dataset performance. Beyond the research question, we
-describe and empirically verify a production system -- a Procure-to-Pay ERP
-with a forensic audit console -- that serves this leakage-free feature
-computation live against real transactions, with database-enforced
-financial-integrity invariants (double-entry balance, period close,
-immutable audit trail, and a five-layer duplicate-payment defence proven
-under concurrent load), closing the gap between a research pipeline and a
-system an auditor could actually use.
+Graph-based fraud detection methods are frequently proposed without an explicit audit of temporal leakage, and rarely evaluated with a controlled, same-architecture ablation that isolates the marginal value of graph structure from the tabular signal it is layered on top of. This paper presents a functional \textbf{Hybrid TGN-XGBoost} model: an end-to-end architecture coupling continuous-time Temporal Graph Networks (TGN) with gradient-boosted decision trees (XGBoost) over a streaming temporal-topology feature engine that enforces a formal \emph{read-then-insert} invariant so that a transaction's features can never depend on information from its own future. We subject the proposed TGN-XGBoost model to a rigorous within-dataset ablation across three heterogeneous financial datasets (Dataset 1: BankSim bipartite payment simulator, Dataset 2: IBM AML multi-hop transfer network, and Dataset 3: SAP W{\"u}rzburg real general-ledger export). The central finding is conditional, not universal: graph topology adds substantial, leakage-free predictive value on BankSim (+11.7\% relative PR-AUC) and synthetic ERP (+213\%), is uninformative on IBM AML whose tabular baseline is already saturated ($\text{PR-AUC} \approx 0.992$), and \emph{actively degrades} SAP W{\"u}rzburg ($-54.6\%$). We report this honestly, including the finding that hand-crafted cycle-detection features carry near-zero gain importance on all three datasets, that a learned TGN does not beat hand-crafted topology on real data, and that naive synthetic-data augmentation measurably harms real-dataset performance. Furthermore, to address cross-institutional banking privacy barriers (GDPR/GLBA), we introduce a Privacy-Preserving Federated Learning architecture with empirical validation reliability weighting (FedProx), recovering \textbf{98.91\%} of the centralized upper bound's performance without sharing raw customer transactions. Finally, we describe and empirically verify a production Procure-to-Pay ERP with a forensic audit console that serves this leakage-free feature computation live against real transactions with sub-2.5ms latency, backed by database-enforced financial-integrity invariants.
 \end{abstract}
 
 \begin{IEEEkeywords}
-fraud detection, temporal graphs, data leakage, anti-money laundering,
-explainable AI, continuous auditing, ERP systems, XGBoost, synthetic data
+fraud detection, temporal graphs, data leakage, anti-money laundering, explainable AI, continuous auditing, ERP systems, XGBoost, Temporal Graph Networks, TGN-XGBoost, federated learning
 \end{IEEEkeywords}
 
 \input{sections/01_intro_related}

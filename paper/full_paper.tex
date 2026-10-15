@@ -47,11 +47,10 @@ Graph Neural Networks (GNNs) and temporal graph representation learning have eme
     \item \textbf{Uninterpretable Black-Box Deployments}: Deep graph architectures (e.g., GCN \cite{kipf2017gcn}, GAT \cite{velickovic2018gat}, EvolveGCN \cite{pareja2020evolvegcn}) lack exact, polynomial-time attribution methods. Under strict statutory regulations (Sarbanes-Oxley Act, Basel III, GDPR Article 22), forensic auditors cannot legally act upon black-box risk scores without verifiable, reconstructable evidence trails \cite{faccia2026xaiauditing,uddin2026shapley,lundberg2020treeshap}.
 \end{enumerate}
 
-To resolve these challenges, this paper presents the \textbf{Hybrid TGN-XGBoost} model: a functional framework combining continuous dynamic Temporal Graph Networks, streaming leakage-free temporal topology, exact margin-space TreeSHAP explainability, and privacy-preserving federated consensus for enterprise continuous auditing.
+To resolve these challenges, this paper presents the \textbf{Hybrid TGN-XGBoost} model: an end-to-end architecture coupling continuous-time Temporal Graph Networks (TGN) with gradient-boosted decision trees (XGBoost) over a streaming temporal-topology feature engine that enforces a formal read-then-insert invariant.
 
 \section{System and Research Foundations}\label{sec:foundations}
 The foundational claim of this work is that graph features must be isolated and evaluated with strict ablation discipline. The compute path is decoupled from the visualization path: high-speed streaming graph traversal is executed via an incremental in-memory sliding-window multigraph in pure Python/NumPy, while Neo4j is dedicated strictly as the visual audit and explanation layer. We enforce two immutable design rules: (1)~\emph{One imbalance mechanism, not two}---avoiding the non-physical manifold distortion of SMOTE on discrete topological indicators in favor of custom focal loss; and (2)~\emph{Threshold freezing}---tuning decision thresholds strictly on validation splits and freezing them for test evaluation.
-
 \section{Proposed Model (Hybrid TGN-XGBoost)}\label{sec:proposed_model}
 
 \begin{figure*}[t]
@@ -62,26 +61,23 @@ The foundational claim of this work is that graph features must be isolated and 
 \end{figure*}
 
 \subsection{Architecture}\label{sec:model_arch}
-The proposed Hybrid TGN-XGBoost architecture bridges dynamic transactional multigraphs, continuous temporal graph representations, gradient-boosted decision trees, and regulatory forensic auditing (Fig.~\ref{fig:pipeline_overview}). 
+The proposed Hybrid TGN-XGBoost model couples dynamic transactional multigraphs, continuous temporal graph representations, and gradient-boosted decision trees (Fig.~\ref{fig:pipeline_overview}). 
 
 We model the incoming transactional ledger as a directed temporal streaming multigraph:
 \begin{equation}
 \mathfrak{G} = \left(\mathcal{A},\, \mathcal{X},\, \mathbb{T}\right)
 \label{eq:multigraph}
 \end{equation}
-where:
-\begin{itemize}
-    \item $\mathcal{A} = \{\alpha_1, \alpha_2, \dots, \alpha_{|\mathcal{A}|}\}$ denotes the discrete universe of financial ledger accounts, counterparties, or general ledger entities.
-    \item $\mathbb{T} = \{\tau_1, \tau_2, \dots\} \subset \mathbb{N}$ represents strictly ordered epoch posting timestamps ($\tau_k \le \tau_{k+1}$).
-    \item Each transactional edge is represented as an ordered quintuple:
-    \begin{equation}
-    \xi_k = \left(\mathfrak{s}_k,\, \mathfrak{d}_k,\, \tau_k,\, \nu_k,\, \mathbf{c}_k\right) \in \mathcal{X}
-    \label{eq:edge_quintuple}
-    \end{equation}
-    where $\mathfrak{s}_k \in \mathcal{A}$ is the debiting/source entity, $\mathfrak{d}_k \in \mathcal{A}$ is the crediting/destination counterparty, $\tau_k \in \mathbb{T}$ is the posting time, $\nu_k \in \mathbb{R}^+$ is the positive monetary volume, and $\mathbf{c}_k \in \mathbb{R}^{d_c}$ encodes ledger categorical attributes (posting key, document voucher type).
-\end{itemize}
+where $\mathcal{A} = \{\alpha_1, \alpha_2, \dots, \alpha_{|\mathcal{A}|}\}$ denotes the discrete universe of financial ledger accounts or counterparties, and $\mathbb{T} = \{\tau_1, \tau_2, \dots\} \subset \mathbb{N}$ represents strictly ordered epoch posting timestamps ($\tau_k \le \tau_{k+1}$).
 
-The proposed TGN-XGBoost model comprises six tightly coupled operational modules:
+Each transactional edge is represented as an ordered quintuple:
+\begin{equation}
+\xi_k = \left(\mathfrak{s}_k,\, \mathfrak{d}_k,\, \tau_k,\, \nu_k,\, \mathbf{c}_k\right) \in \mathcal{X}
+\label{eq:edge_quintuple}
+\end{equation}
+where $\mathfrak{s}_k \in \mathcal{A}$ is the debiting source entity, $\mathfrak{d}_k \in \mathcal{A}$ is the crediting destination counterparty, $\tau_k \in \mathbb{T}$ is the posting time, $\nu_k \in \mathbb{R}^+$ is the positive monetary volume, and $\mathbf{c}_k \in \mathbb{R}^{d_c}$ encodes categorical voucher metadata.
+
+The architecture comprises six tightly coupled operational modules:
 \begin{enumerate}
     \item \textbf{Chronological Ingestion \& Graph Projection}: Sequentially maps continuous transactions to dynamic graph edges under strict time sorting.
     \item \textbf{Streaming Leakage-Free Topology Engine}: Evaluates sliding-window structural metrics solely against historical graph state $\mathfrak{G}_{< \tau_k}$.
@@ -95,63 +91,30 @@ The proposed TGN-XGBoost model comprises six tightly coupled operational modules
 All financial transaction data is processed through a deterministic, strictly causal pipeline:
 \begin{enumerate}
     \item \textbf{Type Normalization}: Timestamps are coerced to integer epoch seconds; monetary amounts $\nu_k > 0$ are converted to double-precision floats; categorical metadata are dictionary-encoded with reserved unseen-category indices.
-    \item \textbf{Chronological Partitioning}: Transactions are sorted by the composite key $(\tau_k, \text{tx\_id})$. The data is partitioned into strictly ordered chronological splits: 60\% training ($\tau < T_1$), 20\% validation ($T_1 \le \tau < T_2$), and 20\% held-out test ($\tau \ge T_2$). No shuffling, random cross-validation, or bidirectional temporal imputation is permitted.
-    \item \textbf{Expanding Sequential Estimators}: All feature scaling factors and running z-scores are computed using an entity-conditioned expanding estimator \cite{welford1962note} over the causal historical set $\mathbb{H}_k(\mathfrak{s}_k) = \{j < k : \mathfrak{s}_j = \mathfrak{s}_k\}$ with cardinality $n_k = |\mathbb{H}_k(\mathfrak{s}_k)| + 1$:
-    \begin{align}
-        \bar{\nu}_k &= \bar{\nu}_{k-1} + \frac{\nu_k - \bar{\nu}_{k-1}}{n_k} \label{eq:welford_mean} \\
-        \mathcal{Q}_k &= \mathcal{Q}_{k-1} + (\nu_k - \bar{\nu}_{k-1})(\nu_k - \bar{\nu}_k) \label{eq:welford_m2} \\
-        \zeta_k &= \frac{\nu_k - \bar{\nu}_k}{\sqrt{\frac{\mathcal{Q}_k}{\max(1, n_k - 1)} + \varepsilon_{\text{reg}}}} \label{eq:welford_z}
-    \end{align}
-    where $\zeta_k$ is the running historical z-score and $\varepsilon_{\text{reg}} = 10^{-6}$ guarantees numerical stability under zero-variance initialization. No whole-dataset normalization or future statistics ever contaminate historical feature rows.
+    \item \textbf{Chronological Partitioning}: Transactions are sorted by the composite key $(\tau_k, \text{tx\_id})$. The data is partitioned into strictly ordered chronological splits: 60\% training ($\tau < T_1$), 20\% validation ($T_1 \le \tau < T_2$), and 20\% held-out test ($\tau \ge T_2$). No shuffling or random cross-validation is permitted.
+    \item \textbf{Expanding Sequential Estimators}: All feature scaling factors and running z-scores are computed using Welford's algorithm \cite{welford1962note} over the causal historical set $\mathbb{H}_k(\mathfrak{s}_k) = \{j < k : \mathfrak{s}_j = \mathfrak{s}_k\}$ only, preventing lookahead contamination.
 \end{enumerate}
 
 \subsection{Feature Analysis}\label{sec:model_features}
-Each transaction $\xi_k$ is mapped to a composite feature vector:
+Each transaction $\xi_k$ is mapped to a composite feature representation combining tabular indicators, streaming graph topology, and continuous TGN interaction embeddings:
 \begin{equation}
-\mathbf{\Phi}(\xi_k) = \mathbf{\psi}_{\text{tab}}(\xi_k) \oplus \mathbf{\Omega}_{\text{topo}}\Big(\xi_k,\, \mathfrak{G}_{< \tau_k}^{(W)}\Big) \oplus \mathbf{h}_{\text{dyn}}\big(\xi_k,\, \tau_k\big) \in \mathbb{R}^D
+\mathbf{\Phi}(\xi_k) = \mathbf{\psi}_{\text{tab}}(\xi_k) \oplus \mathbf{\Omega}_{\text{topo}}\Big(\xi_k,\, \mathfrak{G}_{< \tau_k}^{(W)}\Big) \oplus \mathbf{h}_{\text{dyn}}^{\text{TGN}}\big(\xi_k,\, \tau_k\big) \in \mathbb{R}^D
 \label{eq:feature_vector}
 \end{equation}
-across three distinct taxonomic families:
+where:
 \begin{itemize}
-    \item \textbf{Ordinary Tabular Features ($\mathbf{\psi}_{\text{tab}}(\xi_k)$)}: $\log_{10}(\nu_k + 1)$, running causal z-scores $\zeta_k$, diurnal periodic encodings $(\sin(2\pi \hbar_k / 24), \cos(2\pi \hbar_k / 24))$ where $\hbar_k$ is posting hour, and inter-event arrival deltas $\Delta \tau_k = \tau_k - \tau_{\text{last}}(\mathfrak{s}_k)$.
-    \item \textbf{Handcrafted Streaming Topology ($\mathbf{\Omega}_{\text{topo}}$)}: Thirteen structural and behavioral features extracted dynamically by the streaming engine over trailing windows $W \in \{1\text{d}, 7\text{d}, 30\text{d}\}$: source out-degree, destination in-degree, fan-in ratio, fan-out ratio, counterparty reciprocity, burstiness velocity ($\text{deg}_{1d}/\text{deg}_{7d}$), amount recurrence count (\texttt{LapMemory}), and directed length-3 and length-4 cycle counts.
-    \item \textbf{Continuous Dynamic Graph Embeddings ($\mathbf{h}_{\text{dyn}}$)}: 16-dimensional continuous-time latent representations produced by a Temporal Graph Network (TGN) \cite{rossi2020temporal}, encoding sequential memory states and interaction dynamics between counterparties.
+    \item $\mathbf{\psi}_{\text{tab}}(\xi_k)$: Tabular features including $\log_{10}(\nu_k + 1)$, running historical z-score, diurnal periodic harmonics $(\sin(2\pi \hbar_k / 24), \cos(2\pi \hbar_k / 24))$, and inter-event arrival delta $\Delta \tau_k$.
+    \item $\mathbf{\Omega}_{\text{topo}}$: Thirteen structural features extracted over trailing windows $W \in \{1\text{d}, 7\text{d}, 30\text{d}\}$: source out-degree, destination in-degree, fan-in ratio, fan-out ratio, counterparty reciprocity, burstiness velocity, amount recurrence count (\texttt{LapMemory}), and directed cycle counts.
+    \item $\mathbf{h}_{\text{dyn}}^{\text{TGN}}$: 16-dimensional continuous-time latent representations produced by a Temporal Graph Network \cite{rossi2020temporal}, encoding dynamic counterparty velocity shifts.
 \end{itemize}
 
 \textbf{The Read-Then-Insert Execution Invariant}:
-To guarantee zero lookahead leakage, the engine enforces a strict structural invariant over the trailing causal subgraph:
-\begin{equation}
-\mathfrak{G}_{< \tau_k}^{(W)} = \left\{ \xi_j \in \mathcal{X} : \tau_k - W \le \tau_j < \tau_k \right\}
-\label{eq:causal_window}
-\end{equation}
-which satisfies:
+To guarantee zero lookahead leakage, the engine evaluates topology strictly against the trailing causal subgraph $\mathfrak{G}_{< \tau_k}^{(W)} = \{ \xi_j \in \mathcal{X} : \tau_k - W \le \tau_j < \tau_k \}$, enforcing:
 \begin{equation}
 \forall \xi_j \in \mathfrak{G}_{< \tau_k}^{(W)}, \quad \tau_j < \tau_k \quad \Longrightarrow \quad \xi_k \notin \mathfrak{G}_{< \tau_k}^{(W)}
 \label{eq:leakage_invariant}
 \end{equation}
-Operationally: (1) \textbf{Read}: Query \texttt{WindowGraph} for transaction $k$'s fan-in, fan-out, destination in-degree, source out-degree, and (if $\mathfrak{s}_k \neq \mathfrak{d}_k$) run bounded cycle search; query \texttt{LapMemory} for amount recurrence against historical records. (2) \textbf{Insert}: Only after all reads return does the engine call \texttt{WindowGraph.add($\tau_k, \mathfrak{s}_k, \mathfrak{d}_k, \nu_k$)} and \texttt{LapMemory.record(...)} for transaction $k$ itself.
-
-\textbf{TGN Continuous Interaction State Formulation}:
-Each account maintains an entity state $\mathbf{\eta}_\alpha(\tau) \in \mathbb{R}^{d_{\text{mem}}}$. Upon the arrival of edge $\xi_k$, the interaction transition message $\mathbf{\rho}_{\mathfrak{s}_k}(\tau_k)$ is synthesized via:
-\begin{equation}
-\mathbf{\rho}_{\mathfrak{s}_k}(\tau_k) = \mathcal{M}_{\text{enc}}\Big(\mathbf{\eta}_{\mathfrak{s}_k}(\tau_k^-) \parallel \mathbf{\eta}_{\mathfrak{d}_k}(\tau_k^-) \parallel \log_{10}(\nu_k + 1) \parallel \mathbf{\phi}_{\mathbb{T}}(\Delta \tau_k)\Big)
-\label{eq:tgn_msg}
-\end{equation}
-where $\parallel$ denotes tensor concatenation, $\tau_k^-$ denotes the instant immediately preceding $\tau_k$, and $\mathbf{\phi}_{\mathbb{T}}(\cdot)$ is a Bochner cosine-frequency time encoding:
-\begin{equation}
-\mathbf{\phi}_{\mathbb{T}}(\Delta \tau_k) = \left[ \cos\left(\omega_1 \Delta \tau_k + \beta_1\right),\, \dots,\, \cos\left(\omega_K \Delta \tau_k + \beta_K\right) \right]^\top
-\label{eq:time_kernel}
-\end{equation}
-The entity memory is updated via a Gated Recurrent Unit transition:
-\begin{equation}
-\mathbf{\eta}_{\mathfrak{s}_k}(\tau_k) = \operatorname{GRU}\Big(\mathbf{\rho}_{\mathfrak{s}_k}(\tau_k),\, \mathbf{\eta}_{\mathfrak{s}_k}(\tau_k^-)\Big)
-\label{eq:tgn_gru}
-\end{equation}
-The pairwise dynamic embedding vector is projected through a parameterized LeakyReLU layer ($\alpha = 0.1$):
-\begin{equation}
-\mathbf{h}_{\text{dyn}}(\xi_k, \tau_k) = \max\Big(0.1 \cdot \mathbf{\Gamma}_k,\, \mathbf{\Gamma}_k\Big), \quad \mathbf{\Gamma}_k = \mathbf{W}_{\text{proj}}\left[\mathbf{\eta}_{\mathfrak{s}_k}(\tau_k) \parallel \mathbf{\eta}_{\mathfrak{d}_k}(\tau_k)\right] + \mathbf{b}_{\text{proj}}
-\label{eq:tgn_proj}
-\end{equation}
+Graph queries read historical state before edge $\xi_k$ is added to the graph.
 
 \begin{figure}[t]
 \centering
@@ -161,67 +124,33 @@ The pairwise dynamic embedding vector is projected through a parameterized Leaky
 \end{figure}
 
 \subsection{Classification}\label{sec:model_class}
-The finalized TGN-XGBoost champion model couples the continuous TGN embeddings with gradient-boosted trees:
+The proposed TGN-XGBoost champion model couples the composite representation with gradient-boosted decision trees \cite{chen2016xgboost}:
 \begin{equation}
 f_{\text{TGN-XGBoost}}(\xi_k) = \mathcal{T}_{\text{GBDT}}\Big(\mathbf{\Phi}(\xi_k);\, \mathcal{J}_{\text{focal}},\, \Theta^*\Big)
 \label{eq:champion_model}
 \end{equation}
-where $\mathcal{T}_{\text{GBDT}}$ denotes an ensemble of gradient-boosted decision trees \cite{chen2016xgboost} optimized under an unweighted, symmetric $\alpha$-free focal loss \cite{lin2017focal}:
+optimized under an unweighted, symmetric $\alpha$-free focal loss \cite{lin2017focal}:
 \begin{equation}
 \mathcal{J}_{\text{focal}}(\hat{\pi}_k, y_k) = - y_k \left(1 - \hat{\pi}_k\right)^\gamma \ln\left(\hat{\pi}_k\right) - (1 - y_k) \hat{\pi}_k^\gamma \ln\left(1 - \hat{\pi}_k\right)
 \label{eq:focal_objective}
 \end{equation}
-where $\hat{\pi}_k = \sigma(\theta_k) = (1 + e^{-\theta_k})^{-1}$ is the sigmoid posterior of predicted log-odds margin $\theta_k \in \mathbb{R}$, $y_k \in \{0, 1\}$ is the ground-truth forensic label, and $\gamma \in \mathbb{R}^+$ is the focusing factor ($\gamma = 1.0$ for BankSim, $\gamma = 2.0$ for SAP W{\"u}rzburg).
-
-The closed-form directional first-order gradient $g_k = \frac{\partial \mathcal{J}_{\text{focal}}}{\partial \theta_k}$ is:
-\begin{equation}
-g_k = \begin{cases}
-\gamma \hat{\pi}_k \left(1 - \hat{\pi}_k\right)^\gamma \ln\left(\hat{\pi}_k\right) - \left(1 - \hat{\pi}_k\right)^{\gamma + 1}, & \text{if } y_k = 1 \\
-\hat{\pi}_k^{\gamma + 1} - \gamma \left(1 - \hat{\pi}_k\right) \hat{\pi}_k^\gamma \ln\left(1 - \hat{\pi}_k\right), & \text{if } y_k = 0
-\end{cases}
-\label{eq:gradient}
-\end{equation}
-The second-order curvature hessian $H_k = \frac{\partial^2 \mathcal{J}_{\text{focal}}}{\partial \theta_k^2}$ is evaluated via central difference perturbation with step $\delta_\epsilon = 10^{-4}$:
-\begin{equation}
-H_k \approx \frac{g_k\left(\theta_k + \delta_\epsilon\right) - g_k\left(\theta_k - \delta_\epsilon\right)}{2\delta_\epsilon}
-\label{eq:hessian}
-\end{equation}
-The operational decision threshold is tuned strictly on validation set $\mathcal{D}_{\text{val}}$ and frozen:
-\begin{equation}
-\theta_{\text{audit}}^* = \arg\max_{\theta \in \Theta_{\text{sweep}}} \mathcal{F}_1\Big(\mathcal{D}_{\text{val}},\, \theta\Big), \quad \hat{y}_k = \mathbb{I}\left(\hat{\pi}_k \ge \theta_{\text{audit}}^*\right)
-\label{eq:threshold_freezing}
-\end{equation}
-and frozen for test evaluation. Test metrics are never evaluated at an uncalibrated default 0.5 threshold.
+where $\hat{\pi}_k = \sigma(\theta_k)$ is the sigmoid posterior of predicted log-odds margin $\theta_k \in \mathbb{R}$, $y_k \in \{0, 1\}$ is the forensic label, and $\gamma \in \mathbb{R}^+$ is the focusing factor ($\gamma = 1.0$ for BankSim, $\gamma = 2.0$ for SAP W{\"u}rzburg). Decision thresholds $\theta_{\text{audit}}^*$ are tuned strictly on validation splits and frozen for test evaluation.
 
 \subsection{Federated Learning Architecture}\label{sec:model_federated}
-To overcome cross-institutional banking secrecy barriers (GDPR, GLBA), we deploy a Score-Level Ensemble Consensus architecture across $C=4$ heterogeneous institutional clients partitioned via k-means clustering on transaction volume. 
-
-Rather than naive uniform averaging (FedAvg) \cite{mcmahan2017communication}, which allows fraud-starved institutions to dilute the consensus, our server implements empirical validation reliability weighting (FedProx) \cite{li2020federated}. Across $C$ decentralized clients $c \in \{1, \dots, C\}$ with private validation precision-recall area $\mathcal{P}_{\text{val}}^{(c)} = \text{PR-AUC}(\mathcal{D}_{\text{val}}^{(c)})$, the central aggregator computes institutional reliability coefficients:
+To overcome cross-institutional banking privacy barriers (GDPR, GLBA), we deploy a Score-Level Ensemble Consensus architecture across $C=4$ heterogeneous institutional clients. Rather than uniform averaging (FedAvg) \cite{mcmahan2017communication}, our server implements empirical validation reliability weighting (FedProx) \cite{li2020federated}:
 \begin{equation}
-\varpi_c = \frac{\left(\mathcal{P}_{\text{val}}^{(c)}\right)^\kappa}{\sum_{m=1}^C \left(\mathcal{P}_{\text{val}}^{(m)}\right)^\kappa}
-\label{eq:fed_weights}
-\end{equation}
-where $\kappa \ge 1.0$ is the empirical confidence sharpening exponent. The global federated consensus prediction is:
-\begin{equation}
-\hat{\Pi}_{\text{consensus}}(\xi_k) = \sum_{c=1}^C \varpi_c \cdot \mathcal{M}^{(c)}\left(\mathbf{\Phi}(\xi_k)\right)
+\varpi_c = \frac{\left(\mathcal{P}_{\text{val}}^{(c)}\right)^\kappa}{\sum_{m=1}^C \left(\mathcal{P}_{\text{val}}^{(m)}\right)^\kappa}, \quad \hat{\Pi}_{\text{consensus}}(\xi_k) = \sum_{c=1}^C \varpi_c \cdot \mathcal{M}^{(c)}\left(\mathbf{\Phi}(\xi_k)\right)
 \label{eq:fed_consensus}
 \end{equation}
-Each client trains autonomously on its private transaction partition, early-stops on local validation data, and communicates only prediction scores and validation confidence metrics to the central aggregator.
+where $\mathcal{P}_{\text{val}}^{(c)} = \text{PR-AUC}(\mathcal{D}_{\text{val}}^{(c)})$ and $\kappa \ge 1.0$.
 
 \subsection{Explainable AI and Forensic Synthesis}\label{sec:model_xai}
-Regulatory compliance (Sarbanes-Oxley Act, Basel III) requires verifiable evidence trails \cite{faccia2026xaiauditing,uddin2026shapley}. Every reported feature attribution is computed via TreeSHAP \cite{lundberg2020treeshap} in unconstrained log-odds margin space $\theta_k = \ln\left(\frac{\hat{\pi}_k}{1 - \hat{\pi}_k}\right)$:
+Regulatory compliance requires verifiable evidence trails \cite{faccia2026xaiauditing,uddin2026shapley}. Feature attributions are computed via exact TreeSHAP \cite{lundberg2020treeshap} in log-odds margin space:
 \begin{equation}
-\theta_k = \Lambda_0 + \sum_{d=1}^D \Lambda_d\Big(\mathbf{\Phi}(\xi_k)\Big)
+\theta_k = \ln\left(\frac{\hat{\pi}_k}{1 - \hat{\pi}_k}\right) = \Lambda_0 + \sum_{d=1}^D \Lambda_d\Big(\mathbf{\Phi}(\xi_k)\Big)
 \label{eq:treeshap_additivity}
 \end{equation}
-where $\Lambda_0 = \mathbb{E}_{\mathbf{\Phi}}[\theta]$ represents the base ledger log-odds prior, and $\Lambda_d \in \mathbb{R}$ represents the exact, sign-consistent marginal attribution of the $d$-th feature.
-
-When an anomaly score exceeds $\theta_{\text{audit}}^*$, the continuous auditing console synthesizes a two-layer forensic alert packet:
-\begin{itemize}
-    \item \textbf{Layer 1 (Model Attribution)}: Top 3 signed driving features in log-odds space (e.g., $+0.43\,\text{log\_amount}$, $+0.29\,\text{dest\_in\_degree}$).
-    \item \textbf{Layer 2 (Reconstructed Graph Evidence)}: A deterministic Cypher query executing against Neo4j that extracts the historical subgraph surrounding the flagged transaction, confirming counterparty identities and payment paths for forensic review.
-\end{itemize}
-
+When a score exceeds $\theta_{\text{audit}}^*$, the system synthesizes a two-layer forensic alert packet containing the top-3 margin-space drivers and a deterministic Neo4j 2-hop causal subgraph.
 \section{Result and Analysis}\label{sec:results}
 
 \subsection{Dataset Description}\label{sec:dataset_desc}
@@ -261,7 +190,7 @@ Test Frauds & 1,320 (1.08\%) & 377 (0.14\%) & 25 (0.062\%) \\
 \end{table}
 
 \subsection{Comparison of Performance Metrics with Traditional Machine Learning Models}\label{sec:traditional_ml}
-We benchmark the proposed Hybrid TGN-XGBoost model against standard traditional machine learning classifiers across all three datasets separately: Logistic Regression (LR), Decision Trees (DT), Random Forests (RF), Support Vector Machines (SVM), and Standard Tabular XGBoost without graph features.
+We benchmark the proposed TGN-XGBoost champion against standard traditional machine learning classifiers across all three datasets separately: Logistic Regression (LR), Decision Trees (DT), Random Forests (RF), Support Vector Machines (SVM), and Standard Tabular XGBoost without graph features.
 
 \begin{table}[t]
 \centering
@@ -460,11 +389,11 @@ Under extreme non-IID skew, uniform FedAvg allows large, low-fraud institutions 
 \subsection{Class-Wise Analysis}\label{sec:class_wise}
 
 \subsubsection{Confusion Matrices}\label{sec:confusion_matrix}
-Fig.~\ref{fig:confusion_matrices} illustrates the 2x2 contingency heatmaps, while Tables~\ref{tab:cm_banksim}, \ref{tab:cm_ibm}, and \ref{tab:cm_sap} report the exact empirical confusion matrices evaluated on the chronological held-out test splits under frozen operational thresholds $\theta_{\text{audit}}^*$.
+Here we explicitly report the empirical 2x2 confusion contingency matrices evaluated on the held-out test splits under frozen operational decision thresholds $\theta_{\text{audit}}^*$ (Tables~\ref{tab:cm_banksim}, \ref{tab:cm_ibm}, and \ref{tab:cm_sap}), along with the corresponding multi-dataset heatmap visualizations (Fig.~\ref{fig:confusion_matrices}).
 
 \begin{table}[h]
 \centering
-\caption{Confusion Matrix for Dataset 1 (BankSim) under Frozen Threshold $\theta_{\text{audit}}^* = 0.534$.}
+\caption{Confusion Matrix for Dataset 1 (BankSim) under Frozen Operational Threshold $\theta_{\text{audit}}^* = 0.534$.}
 \label{tab:cm_banksim}
 \begin{tabular}{l|cc|r}
 \toprule
@@ -480,7 +409,7 @@ Fig.~\ref{fig:confusion_matrices} illustrates the 2x2 contingency heatmaps, whil
 
 \begin{table}[h]
 \centering
-\caption{Confusion Matrix for Dataset 2 (IBM AML) under Frozen Threshold $\theta_{\text{audit}}^* = 0.490$.}
+\caption{Confusion Matrix for Dataset 2 (IBM AML) under Frozen Operational Threshold $\theta_{\text{audit}}^* = 0.490$.}
 \label{tab:cm_ibm}
 \begin{tabular}{l|cc|r}
 \toprule
@@ -496,7 +425,7 @@ Fig.~\ref{fig:confusion_matrices} illustrates the 2x2 contingency heatmaps, whil
 
 \begin{table}[h]
 \centering
-\caption{Confusion Matrix for Dataset 3 (SAP W{\"u}rzburg) under Frozen Threshold $\theta_{\text{audit}}^* = 0.215$.}
+\caption{Confusion Matrix for Dataset 3 (SAP W{\"u}rzburg) under Frozen Operational Threshold $\theta_{\text{audit}}^* = 0.215$.}
 \label{tab:cm_sap}
 \begin{tabular}{l|cc|r}
 \toprule
@@ -585,7 +514,6 @@ In SAP W{\"u}rzburg, relational accounting document types dominate:
     \item `account_type_D` (SHAP +0.48): Customer/vendor balance line classifications.
     \item `fan_in` (SHAP +0.30): Clearing accounts receiving mass payroll allocations.
 \end{enumerate}
-
 \section{Production System Verification and Enterprise Audit Console}\label{sec:production}
 
 To test operational viability, we integrated the TGN-XGBoost model into a continuous Procure-to-Pay (P2P) ERP enterprise simulation with an interactive visual audit console (Fig.~\ref{fig:sys_arch}).
