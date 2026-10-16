@@ -63,24 +63,12 @@ The foundational claim of this work is that graph features must be isolated and 
 \subsection{Architecture}\label{sec:model_arch}
 The proposed Hybrid TGN-XGBoost model couples dynamic transactional multigraphs, continuous temporal graph representations, and gradient-boosted decision trees (Fig.~\ref{fig:pipeline_overview}). 
 
-We model the incoming transactional ledger as a directed temporal streaming multigraph:
-\begin{equation}
-\mathfrak{G} = \left(\mathcal{A},\, \mathcal{X},\, \mathbb{T}\right)
-\label{eq:multigraph}
-\end{equation}
-where $\mathcal{A} = \{\alpha_1, \alpha_2, \dots, \alpha_{|\mathcal{A}|}\}$ denotes the discrete universe of financial ledger accounts or counterparties, and $\mathbb{T} = \{\tau_1, \tau_2, \dots\} \subset \mathbb{N}$ represents strictly ordered epoch posting timestamps ($\tau_k \le \tau_{k+1}$).
-
-Each transactional edge is represented as an ordered quintuple:
-\begin{equation}
-\xi_k = \left(\mathfrak{s}_k,\, \mathfrak{d}_k,\, \tau_k,\, \nu_k,\, \mathbf{c}_k\right) \in \mathcal{X}
-\label{eq:edge_quintuple}
-\end{equation}
-where $\mathfrak{s}_k \in \mathcal{A}$ is the debiting source entity, $\mathfrak{d}_k \in \mathcal{A}$ is the crediting destination counterparty, $\tau_k \in \mathbb{T}$ is the posting time, $\nu_k \in \mathbb{R}^+$ is the positive monetary volume, and $\mathbf{c}_k \in \mathbb{R}^{d_c}$ encodes categorical voucher metadata.
+We model the incoming transactional ledger as a directed temporal streaming multigraph $G = (V, E, T)$, where $V = \{v_1, v_2, \dots, v_{|V|}\}$ denotes the discrete universe of financial ledger accounts or counterparties, and $T = \{t_1, t_2, \dots\} \subset \mathbb{N}$ represents strictly ordered epoch posting timestamps ($t_k \le t_{k+1}$). Each transactional edge is represented as an ordered quintuple $e_k = (u_k, v_k, t_k, a_k, c_k) \in E$, where $u_k \in V$ is the debiting source entity, $v_k \in V$ is the crediting destination counterparty, $t_k \in T$ is the posting time, $a_k \in \mathbb{R}^+$ is the positive monetary volume, and $c_k \in \mathbb{R}^{d_c}$ encodes categorical voucher metadata.
 
 The architecture comprises six tightly coupled operational modules:
 \begin{enumerate}
     \item \textbf{Chronological Ingestion \& Graph Projection}: Sequentially maps continuous transactions to dynamic graph edges under strict time sorting.
-    \item \textbf{Streaming Leakage-Free Topology Engine}: Evaluates sliding-window structural metrics solely against historical graph state $\mathfrak{G}_{< \tau_k}$.
+    \item \textbf{Streaming Leakage-Free Topology Engine}: Evaluates sliding-window structural metrics solely against historical graph state $G_{< t_k}$.
     \item \textbf{Continuous Dynamic Graph Representation (TGN)}: Maintains continuous-time node memory states via a Temporal Graph Network.
     \item \textbf{Imbalance-Calibrated Ensemble Classifier (XGBoost)}: Scores transactions via an XGBoost gradient-boosted decision tree head optimized with an $\alpha$-free focal loss.
     \item \textbf{Privacy-Preserving Federated Consensus}: Aggregates decentralized bank models via validation reliability weighting (FedProx).
@@ -90,31 +78,26 @@ The architecture comprises six tightly coupled operational modules:
 \subsection{Preprocessing}\label{sec:model_preproc}
 All financial transaction data is processed through a deterministic, strictly causal pipeline:
 \begin{enumerate}
-    \item \textbf{Type Normalization}: Timestamps are coerced to integer epoch seconds; monetary amounts $\nu_k > 0$ are converted to double-precision floats; categorical metadata are dictionary-encoded with reserved unseen-category indices.
-    \item \textbf{Chronological Partitioning}: Transactions are sorted by the composite key $(\tau_k, \text{tx\_id})$. The data is partitioned into strictly ordered chronological splits: 60\% training ($\tau < T_1$), 20\% validation ($T_1 \le \tau < T_2$), and 20\% held-out test ($\tau \ge T_2$). No shuffling or random cross-validation is permitted.
-    \item \textbf{Expanding Sequential Estimators}: All feature scaling factors and running z-scores are computed using Welford's algorithm \cite{welford1962note} over the causal historical set $\mathbb{H}_k(\mathfrak{s}_k) = \{j < k : \mathfrak{s}_j = \mathfrak{s}_k\}$ only, preventing lookahead contamination.
+    \item \textbf{Type Normalization}: Timestamps are coerced to integer epoch seconds; monetary amounts $a_k > 0$ are converted to double-precision floats; categorical metadata are dictionary-encoded with reserved unseen-category indices.
+    \item \textbf{Chronological Partitioning}: Transactions are sorted by the composite key $(t_k, \text{tx\_id})$. The data is partitioned into strictly ordered chronological splits: 60\% training ($t < T_1$), 20\% validation ($T_1 \le t < T_2$), and 20\% held-out test ($t \ge T_2$). No shuffling or random cross-validation is permitted.
+    \item \textbf{Expanding Sequential Estimators}: All feature scaling factors and running z-scores are computed using Welford's algorithm \cite{welford1962note} over the causal historical set $H_k(u_k) = \{j < k : u_j = u_k\}$ only, preventing lookahead contamination.
 \end{enumerate}
 
 \subsection{Feature Analysis}\label{sec:model_features}
-Each transaction $\xi_k$ is mapped to a composite feature representation combining tabular indicators, streaming graph topology, and continuous TGN interaction embeddings:
+Each transaction $e_k$ is mapped to a composite feature representation combining tabular indicators, streaming graph topology, and continuous TGN interaction embeddings:
 \begin{equation}
-\mathbf{\Phi}(\xi_k) = \mathbf{\psi}_{\text{tab}}(\xi_k) \oplus \mathbf{\Omega}_{\text{topo}}\Big(\xi_k,\, \mathfrak{G}_{< \tau_k}^{(W)}\Big) \oplus \mathbf{h}_{\text{dyn}}^{\text{TGN}}\big(\xi_k,\, \tau_k\big) \in \mathbb{R}^D
+z_k = x_{\text{tab}}(e_k) \oplus g_{\text{topo}}\Big(e_k,\, \mathcal{H}_k^{(W)}\Big) \oplus h_{\text{dyn}}\big(e_k,\, t_k\big) \in \mathbb{R}^D
 \label{eq:feature_vector}
 \end{equation}
 where:
 \begin{itemize}
-    \item $\mathbf{\psi}_{\text{tab}}(\xi_k)$: Tabular features including $\log_{10}(\nu_k + 1)$, running historical z-score, diurnal periodic harmonics $(\sin(2\pi \hbar_k / 24), \cos(2\pi \hbar_k / 24))$, and inter-event arrival delta $\Delta \tau_k$.
-    \item $\mathbf{\Omega}_{\text{topo}}$: Thirteen structural features extracted over trailing windows $W \in \{1\text{d}, 7\text{d}, 30\text{d}\}$: source out-degree, destination in-degree, fan-in ratio, fan-out ratio, counterparty reciprocity, burstiness velocity, amount recurrence count (\texttt{LapMemory}), and directed cycle counts.
-    \item $\mathbf{h}_{\text{dyn}}^{\text{TGN}}$: 16-dimensional continuous-time latent representations produced by a Temporal Graph Network \cite{rossi2020temporal}, encoding dynamic counterparty velocity shifts.
+    \item $x_{\text{tab}}(e_k)$: Tabular features including $\log_{10}(a_k + 1)$, running historical z-score, diurnal periodic harmonics $(\sin(2\pi h_k / 24), \cos(2\pi h_k / 24))$ where $h_k$ is the hour of the day, and inter-event arrival delta $\Delta t_k$.
+    \item $g_{\text{topo}}$: Thirteen structural features extracted over trailing windows $W \in \{1\text{d}, 7\text{d}, 30\text{d}\}$: source out-degree, destination in-degree, fan-in ratio, fan-out ratio, counterparty reciprocity, burstiness velocity, amount recurrence count (\texttt{LapMemory}), and directed cycle counts.
+    \item $h_{\text{dyn}}$: 16-dimensional continuous-time latent representations produced by a Temporal Graph Network \cite{rossi2020temporal}, encoding dynamic counterparty velocity shifts.
 \end{itemize}
 
 \textbf{The Read-Then-Insert Execution Invariant}:
-To guarantee zero lookahead leakage, the engine evaluates topology strictly against the trailing causal subgraph $\mathfrak{G}_{< \tau_k}^{(W)} = \{ \xi_j \in \mathcal{X} : \tau_k - W \le \tau_j < \tau_k \}$, enforcing:
-\begin{equation}
-\forall \xi_j \in \mathfrak{G}_{< \tau_k}^{(W)}, \quad \tau_j < \tau_k \quad \Longrightarrow \quad \xi_k \notin \mathfrak{G}_{< \tau_k}^{(W)}
-\label{eq:leakage_invariant}
-\end{equation}
-Graph queries read historical state before edge $\xi_k$ is added to the graph.
+To guarantee zero lookahead leakage, the engine evaluates topology strictly against the trailing causal subgraph $\mathcal{H}_k^{(W)} = \{ e_j \in E : t_k - W \le t_j < t_k \}$, enforcing the invariant that $\forall e_j \in \mathcal{H}_k^{(W)}, \; t_j < t_k \implies e_k \notin \mathcal{H}_k^{(W)}$. Graph queries read historical state before edge $e_k$ is added to the graph.
 
 \begin{figure}[t]
 \centering
@@ -124,33 +107,30 @@ Graph queries read historical state before edge $\xi_k$ is added to the graph.
 \end{figure}
 
 \subsection{Classification}\label{sec:model_class}
-The proposed TGN-XGBoost champion model couples the composite representation with gradient-boosted decision trees \cite{chen2016xgboost}:
+The proposed TGN-XGBoost champion model couples the composite representation $z_k$ with gradient-boosted decision trees \cite{chen2016xgboost}, producing a forensic margin score $s_k \in \mathbb{R}$ mapped to predicted fraud posterior probability $p_k = \sigma(s_k) \in (0, 1)$. The tree ensemble is optimized under an unweighted, symmetric $\alpha$-free focal loss \cite{lin2017focal}:
 \begin{equation}
-f_{\text{TGN-XGBoost}}(\xi_k) = \mathcal{T}_{\text{GBDT}}\Big(\mathbf{\Phi}(\xi_k);\, \mathcal{J}_{\text{focal}},\, \Theta^*\Big)
-\label{eq:champion_model}
-\end{equation}
-optimized under an unweighted, symmetric $\alpha$-free focal loss \cite{lin2017focal}:
-\begin{equation}
-\mathcal{J}_{\text{focal}}(\hat{\pi}_k, y_k) = - y_k \left(1 - \hat{\pi}_k\right)^\gamma \ln\left(\hat{\pi}_k\right) - (1 - y_k) \hat{\pi}_k^\gamma \ln\left(1 - \hat{\pi}_k\right)
+\ell_{\text{focal}}(p_k, y_k) = - y_k \left(1 - p_k\right)^\gamma \ln\left(p_k\right) - (1 - y_k) p_k^\gamma \ln\left(1 - p_k\right)
 \label{eq:focal_objective}
 \end{equation}
-where $\hat{\pi}_k = \sigma(\theta_k)$ is the sigmoid posterior of predicted log-odds margin $\theta_k \in \mathbb{R}$, $y_k \in \{0, 1\}$ is the forensic label, and $\gamma \in \mathbb{R}^+$ is the focusing factor ($\gamma = 1.0$ for BankSim, $\gamma = 2.0$ for SAP W{\"u}rzburg). Decision thresholds $\theta_{\text{audit}}^*$ are tuned strictly on validation splits and frozen for test evaluation.
+where $y_k \in \{0, 1\}$ is the forensic label and $\gamma > 0$ is the focusing factor ($\gamma = 1.0$ for BankSim, $\gamma = 2.0$ for SAP W{\"u}rzburg). Decision thresholds $\theta_{\text{audit}}^*$ are tuned strictly on validation splits and frozen for test evaluation.
 
 \subsection{Federated Learning Architecture}\label{sec:model_federated}
 To overcome cross-institutional banking privacy barriers (GDPR, GLBA), we deploy a Score-Level Ensemble Consensus architecture across $C=4$ heterogeneous institutional clients. Rather than uniform averaging (FedAvg) \cite{mcmahan2017communication}, our server implements empirical validation reliability weighting (FedProx) \cite{li2020federated}:
 \begin{equation}
-\varpi_c = \frac{\left(\mathcal{P}_{\text{val}}^{(c)}\right)^\kappa}{\sum_{m=1}^C \left(\mathcal{P}_{\text{val}}^{(m)}\right)^\kappa}, \quad \hat{\Pi}_{\text{consensus}}(\xi_k) = \sum_{c=1}^C \varpi_c \cdot \mathcal{M}^{(c)}\left(\mathbf{\Phi}(\xi_k)\right)
+\omega_c = \frac{R_c^\beta}{\sum_{m=1}^C R_m^\beta}, \qquad S_{\text{ens}}(z_k) = \sum_{c=1}^C \omega_c \cdot M_c\left(z_k\right)
 \label{eq:fed_consensus}
 \end{equation}
-where $\mathcal{P}_{\text{val}}^{(c)} = \text{PR-AUC}(\mathcal{D}_{\text{val}}^{(c)})$ and $\kappa \ge 1.0$.
+where $R_c = \text{PR-AUC}(\mathcal{D}_{\text{val}}^{(c)})$ is the validation PR-AUC reliability of institution $c$, $\beta \ge 1.0$ is the sharpness parameter, and $M_c(z_k)$ is the prediction from client model $c$.
 
 \subsection{Explainable AI and Forensic Synthesis}\label{sec:model_xai}
 Regulatory compliance requires verifiable evidence trails \cite{faccia2026xaiauditing,uddin2026shapley}. Feature attributions are computed via exact TreeSHAP \cite{lundberg2020treeshap} in log-odds margin space:
 \begin{equation}
-\theta_k = \ln\left(\frac{\hat{\pi}_k}{1 - \hat{\pi}_k}\right) = \Lambda_0 + \sum_{d=1}^D \Lambda_d\Big(\mathbf{\Phi}(\xi_k)\Big)
+s_k = \ln\left(\frac{p_k}{1 - p_k}\right) = \phi_0 + \sum_{j=1}^D \phi_j\left(z_k\right)
 \label{eq:treeshap_additivity}
 \end{equation}
-When a score exceeds $\theta_{\text{audit}}^*$, the system synthesizes a two-layer forensic alert packet containing the top-3 margin-space drivers and a deterministic Neo4j 2-hop causal subgraph.
+where $\phi_0 = \mathbb{E}[s]$ represents the expected baseline ledger risk and $\phi_j(z_k)$ is the exact additive attribution of feature $j \in \{1, \dots, D\}$. When a score exceeds $\theta_{\text{audit}}^*$, the system synthesizes a two-layer forensic alert packet containing the top-3 margin-space drivers and a deterministic Neo4j 2-hop causal subgraph.
+
+
 \section{Result and Analysis}\label{sec:results}
 
 \subsection{Dataset Description}\label{sec:dataset_desc}
@@ -281,9 +261,9 @@ To isolate the marginal predictive contribution of each feature module, we condu
 \toprule
 \textbf{Feature Module Configuration} & \textbf{Dataset 1 (BankSim)} & \textbf{Dataset 2 (IBM AML)} & \textbf{Dataset 3 (SAP W{\"u}rzburg)} \\
 \midrule
-1. Baseline Tabular ($\mathbf{\psi}_{\text{tab}}$) & 0.7870 $\pm$ 0.0700 & 0.9920 $\pm$ 0.0026 & \textbf{0.1581 $\pm$ 0.0129} \\
+1. Baseline Tabular ($x_{\text{tab}}$) & 0.7870 $\pm$ 0.0700 & 0.9920 $\pm$ 0.0026 & \textbf{0.1581 $\pm$ 0.0129} \\
 2. Structure Only (Pure Graph, Amount-Blind) & 0.8924 $\pm$ 0.0035 & 0.9922 $\pm$ 0.0025 & 0.0734 $\pm$ 0.0081 \\
-3. Handcrafted Topology Only ($\mathbf{\Omega}_{\text{topo}}$) & 0.9319 $\pm$ 0.0017 & \textbf{1.0000 $\pm$ 0.0000} & 0.0717 $\pm$ 0.0095 \\
+3. Handcrafted Topology Only ($g_{\text{topo}}$) & 0.9319 $\pm$ 0.0017 & \textbf{1.0000 $\pm$ 0.0000} & 0.0717 $\pm$ 0.0095 \\
 4. TGN Dynamic Embeddings Only ($\mathbf{h}_{\text{dyn}}$) & 0.9196 $\pm$ 0.0012 & 0.9872 $\pm$ 0.0101 & 0.0594 $\pm$ 0.0241 \\
 5. Tabular + Handcrafted Topology & 0.9322 $\pm$ 0.0014 & \textbf{1.0000 $\pm$ 0.0000} & 0.0717 $\pm$ 0.0095 \\
 6. Tabular + TGN Dynamic Embeddings & 0.9254 $\pm$ 0.0018 & 0.9982 $\pm$ 0.0010 & 0.0812 $\pm$ 0.0184 \\

@@ -128,9 +128,9 @@ To isolate the marginal predictive contribution of each feature module, we condu
 \toprule
 \textbf{Feature Module Configuration} & \textbf{Dataset 1 (BankSim)} & \textbf{Dataset 2 (IBM AML)} & \textbf{Dataset 3 (SAP W\"urzburg)} \\
 \midrule
-1. Baseline Tabular ($\mathbf{\psi}_{\text{tab}}$) & 0.7870 $\pm$ 0.0700 & 0.9920 $\pm$ 0.0026 & \textbf{0.1581 $\pm$ 0.0129} \\
+1. Baseline Tabular ($x_{\text{tab}}$) & 0.7870 $\pm$ 0.0700 & 0.9920 $\pm$ 0.0026 & \textbf{0.1581 $\pm$ 0.0129} \\
 2. Structure Only (Pure Graph, Amount-Blind) & 0.8924 $\pm$ 0.0035 & 0.9922 $\pm$ 0.0025 & 0.0734 $\pm$ 0.0081 \\
-3. Handcrafted Topology Only ($\mathbf{\Omega}_{\text{topo}}$) & 0.9319 $\pm$ 0.0017 & \textbf{1.0000 $\pm$ 0.0000} & 0.0717 $\pm$ 0.0095 \\
+3. Handcrafted Topology Only ($g_{\text{topo}}$) & 0.9319 $\pm$ 0.0017 & \textbf{1.0000 $\pm$ 0.0000} & 0.0717 $\pm$ 0.0095 \\
 4. TGN Dynamic Embeddings Only ($\mathbf{h}_{\text{dyn}}$) & 0.9196 $\pm$ 0.0012 & 0.9872 $\pm$ 0.0101 & 0.0594 $\pm$ 0.0241 \\
 5. Tabular + Handcrafted Topology & 0.9322 $\pm$ 0.0014 & \textbf{1.0000 $\pm$ 0.0000} & 0.0717 $\pm$ 0.0095 \\
 6. Tabular + TGN Dynamic Embeddings & 0.9254 $\pm$ 0.0018 & 0.9982 $\pm$ 0.0010 & 0.0812 $\pm$ 0.0184 \\
