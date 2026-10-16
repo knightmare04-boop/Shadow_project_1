@@ -1,25 +1,29 @@
 \section{Proposed Model (Hybrid TGN-XGBoost)}\label{sec:proposed_model}
 
+\subsection{Architecture}\label{sec:model_arch}
+Rather than treating fraud detection as a generic black-box pipeline, the proposed \mbox{Hybrid TGN-XGBoost} model couples continuous-time temporal graph representations, streaming causal topological metrics, and gradient-boosted decision trees into a unified multi-phase architecture (Fig.~\ref{fig:model_architecture}). 
+
 \begin{figure*}[t]
 \centering
-\includegraphics[width=0.92\textwidth]{pipeline_overview.png}
-\caption{End-to-end architectural pipeline of the proposed Hybrid TGN-XGBoost model: from raw ERP/banking transaction ingestion and bipartite graph projection, through the streaming leakage-free temporal topology engine and continuous TGN embedding extraction, to imbalance-aware gradient-boosted tree scoring, TreeSHAP forensic alert packet synthesis, and privacy-preserving federated consensus.}
-\label{fig:pipeline_overview}
+\includegraphics[width=0.98\textwidth]{proposed_model_architecture.png}
+\caption{Operational architecture of the proposed Hybrid TGN-XGBoost model: detailing the five sequential and parallel algorithmic phases from input transaction quintuple $e_k = (u_k, v_k, t_k, a_k, c_k)$ and causal trailing windowing $\mathcal{H}_k^{(W)}$, through tri-branch tabular, streaming topology, and continuous TGN dynamic memory extraction, to hybrid direct-sum fusion $z_k$, imbalance-calibrated XGBoost scoring via margin focal loss $\ell_{\text{focal}}$, and operational threshold decision gating.}
+\label{fig:model_architecture}
 \end{figure*}
-
-\subsection{Architecture}\label{sec:model_arch}
-The proposed Hybrid TGN-XGBoost model couples dynamic transactional multigraphs, continuous temporal graph representations, and gradient-boosted decision trees (Fig.~\ref{fig:pipeline_overview}). 
 
 We model the incoming transactional ledger as a directed temporal streaming multigraph $G = (V, E, T)$, where $V = \{v_1, v_2, \dots, v_{|V|}\}$ denotes the discrete universe of financial ledger accounts or counterparties, and $T = \{t_1, t_2, \dots\} \subset \mathbb{N}$ represents strictly ordered epoch posting timestamps ($t_k \le t_{k+1}$). Each transactional edge is represented as an ordered quintuple $e_k = (u_k, v_k, t_k, a_k, c_k) \in E$, where $u_k \in V$ is the debiting source entity, $v_k \in V$ is the crediting destination counterparty, $t_k \in T$ is the posting time, $a_k \in \mathbb{R}^+$ is the positive monetary volume, and $c_k \in \mathbb{R}^{d_c}$ encodes categorical voucher metadata.
 
-The architecture comprises six tightly coupled operational modules:
+The proposed model architecture operates across five tightly integrated algorithmic phases:
 \begin{enumerate}
-    \item \textbf{Chronological Ingestion \& Graph Projection}: Sequentially maps continuous transactions to dynamic graph edges under strict time sorting.
-    \item \textbf{Streaming Leakage-Free Topology Engine}: Evaluates sliding-window structural metrics solely against historical graph state $G_{< t_k}$.
-    \item \textbf{Continuous Dynamic Graph Representation (TGN)}: Maintains continuous-time node memory states via a Temporal Graph Network.
-    \item \textbf{Imbalance-Calibrated Ensemble Classifier (XGBoost)}: Scores transactions via an XGBoost gradient-boosted decision tree head optimized with an $\alpha$-free focal loss.
-    \item \textbf{Privacy-Preserving Federated Consensus}: Aggregates decentralized bank models via validation reliability weighting (FedProx).
-    \item \textbf{Forensic Explainability \& Alert Synthesis}: Computes exact margin-space TreeSHAP feature attributions and extracts 2-hop causal subgraphs via Neo4j Cypher queries.
+    \item \textbf{Phase 1: Chronological Ingestion \& Causal History Windowing}: Ingests continuous financial transactions $e_k = (u_k, v_k, t_k, a_k, c_k)$ under strict chronological time sorting. The engine maintains a trailing causal historical subgraph $\mathcal{H}_k^{(W)} = \{ e_j \in E : t_k - W \le t_j < t_k \}$ over multi-scale sliding windows $W \in \{1\text{d}, 7\text{d}, 30\text{d}\}$. To guarantee zero lookahead contamination, the architecture enforces the formal read-then-insert execution invariant ($\forall e_j \in \mathcal{H}_k^{(W)}, \; t_j < t_k \implies e_k \notin \mathcal{H}_k^{(W)}$), ensuring all topological metrics are evaluated strictly against historical graph state prior to edge insertion.
+    \item \textbf{Phase 2: Tri-Branch Multi-Taxonomic Feature Extraction}: Decomposes the transaction into three parallel, complementary feature extraction pipelines:
+    \begin{itemize}
+        \item \textit{Branch A (Tabular Domain $x_{\text{tab}}$)}: Computes non-linear amount scaling $\log_{10}(a_k + 1)$, running historical z-scores via Welford's algorithm over past entity postings $H_k(u_k) = \{j < k : u_j = u_k\}$, diurnal periodic harmonics $(\sin(2\pi h_k / 24), \cos(2\pi h_k / 24))$ where $h_k$ is the posting hour of the day, inter-event arrival intervals $\Delta t_k = t_k - t_{\text{last}}(u_k)$, and dictionary-encoded voucher categorical embeddings.
+        \item \textit{Branch B (Streaming Topology Domain $g_{\text{topo}}$)}: Traverses the in-memory causal multigraph $\mathcal{H}_k^{(W)}$ to extract thirteen structural indicators: source out-degree, destination in-degree, fan-in ratio, fan-out ratio, counterparty reciprocity, burstiness velocity, rolling amount recurrence count (\texttt{LapMemory}), and depth-bounded directed cycle motifs.
+        \item \textit{Branch C (Continuous Dynamic Graph Memory $h_{\text{dyn}}$)}: Executes continuous-time representation learning via a Temporal Graph Network (TGN) \cite{rossi2020temporal}. For each interaction, interaction messages are generated, updated through dual asymmetric GRU node memory states ($s_u(t), s_v(t)$), encoded with Time2Vec temporal harmonic features, and aggregated via multi-head dynamic graph attention into a 16-dimensional continuous latent embedding $h_{\text{dyn}}(e_k, t_k)$.
+    \end{itemize}
+    \item \textbf{Phase 3: Hybrid Multi-Modal Feature Fusion}: Unifies the three disparate feature representations via the direct-sum concatenation operator (Eq.~\ref{eq:feature_vector}), yielding a unified $D$-dimensional structural-temporal representation $z_k \in \mathbb{R}^D$ that captures immediate transaction attributes, local relational network topology, and dynamic counterparty interaction trajectories.
+    \item \textbf{Phase 4: Imbalance-Calibrated XGBoost Classification Head}: Routes the fused composite vector $z_k$ into an ensemble of gradient-boosted decision trees $\mathcal{T}_{\text{GBDT}}$ \cite{chen2016xgboost}, mapping $z_k \to s_k \in \mathbb{R}$ (log-odds forensic margin score). The trees are trained under custom margin-space $\alpha$-free focal loss $\ell_{\text{focal}}$ (Eq.~\ref{eq:focal_objective}), which suppresses gradient overwhelm from the overwhelming 99.9\% non-fraud majority via the dynamic modulating factor $(1 - p_k)^\gamma$.
+    \item \textbf{Phase 5: Operational Decision Gating \& Risk Inference}: Converts the margin score $s_k$ via sigmoid activation into calibrated posterior fraud probability $p_k = \sigma(s_k) \in (0, 1)$. The score is gated against a validation-frozen operational decision threshold $\theta_{\text{audit}}^*$ ($\hat{y}_k = \mathbb{I}(p_k \ge \theta_{\text{audit}}^*)$) to generate deterministic, triage-ready fraud alerts.
 \end{enumerate}
 
 \subsection{Preprocessing}\label{sec:model_preproc}
